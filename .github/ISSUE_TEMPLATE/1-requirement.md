@@ -1,7 +1,7 @@
 ---
-name: "1. Requirement"
+name: "Requirement Issue Template"
 about: "Capture a high-level user / business requirement that spawns feature & task sub-issues"
-title: "Requirement: (fill in)"
+title: "R(fill in)"
 type: Requirement
 Project: gsm Roadmap
 ---

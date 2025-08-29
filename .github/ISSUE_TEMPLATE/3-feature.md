@@ -1,7 +1,7 @@
 ---
-name: "3. Feature"
+name: "Feature Issue Template"
 about: "Propose and develop new user-facing functionality"
-title: "Feature: (fill in)"
+title: "(fill in)"
 type: Feature
 Project: gsm Roadmap
 ---

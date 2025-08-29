@@ -1,7 +1,7 @@
 ---
-name: "5. Documentation Task"
+name: "Documentation Task Issue Template"
 about: "Improve or extend documentation (function docs, README, vignettes, guides)"
-title: "Docs: (fill in)"
+title: "(fill in)"
 type: Documentation Task
 Project: gsm Roadmap
 ---
