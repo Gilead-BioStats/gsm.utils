@@ -26,4 +26,3 @@ In addition to standard QC (e.g., code reviews, automated checks) the following 
 [ ] Unit Tests
 [ ] User Tests (e.g. visual comparison)
 
-(Add details if needed)
