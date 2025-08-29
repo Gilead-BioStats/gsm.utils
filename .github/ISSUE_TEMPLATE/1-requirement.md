@@ -3,7 +3,7 @@ name: "Requirement Issue Template"
 about: "Capture a high-level user / business requirement that spawns feature & task sub-issues"
 title: "R(fill in)"
 type: Requirement
-Project: gsm Roadmap
+Project: Gilead-BioStats/41
 ---
 <!-- Link/assign related Feature, Bug, Technical, and Documentation sub-issues to this Requirement. -->
 
