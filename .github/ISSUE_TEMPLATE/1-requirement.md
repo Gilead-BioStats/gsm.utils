@@ -1,7 +1,7 @@
 ---
 name: "Requirement Issue Template"
 about: "Capture a high-level user / business requirement that spawns feature & task sub-issues"
-title: "R(fill in)"
+title: "(fill in)"
 type: Requirement
 Project: Gilead-BioStats/41
 ---
