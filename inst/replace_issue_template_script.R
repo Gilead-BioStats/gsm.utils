@@ -2,6 +2,7 @@
 library(gh)
 library(jsonlite)
 library(dplyr)
+library(glue)
 
 # Authenticate with GitHub (must have a PAT with repo scope in GITHUB_PAT env var)
 # Sys.setenv(GITHUB_PAT = "your_token_here")
