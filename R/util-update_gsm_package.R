@@ -12,7 +12,7 @@ update_gsm_package <- function(strPackageDir = ".") {
     add_gsm_issue_templates(strPackageDir = strPackageDir)
 
     ##add github actions
-    add_gsm_issue_templates(strPackageDir = strPackageDir)
+    add_gsm_actions(strPackageDir = strPackageDir)
 }
 
 #' Add GSM issue templates to package
