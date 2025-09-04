@@ -2,6 +2,7 @@
 
 export(add_gsm_actions)
 export(add_gsm_issue_templates)
+export(init_gsm_package)
 export(update_gsm_package)
 import(dplyr)
 import(log4r)

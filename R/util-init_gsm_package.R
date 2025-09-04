@@ -4,6 +4,7 @@
 #' @param lDescriptionFields `list` of description fields, passed to [usethis::create_package()]. Default is `list()`.
 #' @param bIncludeWorkflowDir `boolean` argument declaring whether or not to include the `inst/workflow` directory in the root of the package. Default is `TRUE`.
 #'
+#' @export
 init_gsm_package <- function(strPackageDir,
                              lDescriptionFields = list(),
                              bIncludeWorkflowDir = TRUE) {

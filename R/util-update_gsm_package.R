@@ -25,16 +25,12 @@ add_gsm_issue_templates <- function(strPackageDir = ".",
                                     overwrite = TRUE) {
     if (!dir.exists(paste0(strPackageDir, "/.github/ISSUE_TEMPLATE"))) {
         dir.create(paste0(strPackageDir, "/.github/ISSUE_TEMPLATE"),
-                   recursive = TRUE
+                   recursive = TRUE,
+                   overwrite = overwrite
         )
     } else if (!overwrite) {
         stop("The .github/ISSUE_TEMPLATE directory already exists. Set overwrite = TRUE to overwrite it.")
     }
-
-              paste0(strPackageDir, "/.github/ISSUE_TEMPLATE"),
-              recursive = T,
-              overwrite = overwrite
-    )
 }
 
 #' Add GSM GitHub Actions to package
@@ -47,14 +43,10 @@ add_gsm_actions <- function(strPackageDir = ".",
                                overwrite = TRUE) {
     if (!dir.exists(paste0(strPackageDir, "/.github/workflows"))) {
         dir.create(paste0(strPackageDir, "/.github/workflows"),
-                   recursive = TRUE
+                   recursive = TRUE,
+                   overwrite = overwrite
         )
     } else if (!overwrite) {
         stop("The .github/workflows directory already exists. Set overwrite = TRUE to overwrite it.")
     }
-
-              paste0(strPackageDir, "/.github/workflows"),
-              recursive = T,
-              overwrite = overwrite
-    )
 }
