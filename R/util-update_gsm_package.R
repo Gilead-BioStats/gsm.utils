@@ -10,7 +10,7 @@ update_gsm_package <- function(strPackageDir = ".") {
     }
     ##add issue templates
     add_gsm_issue_templates(strPackageDir = strPackageDir)
-    
+
     ##add github actions
     add_gsm_issue_templates(strPackageDir = strPackageDir)
 }
@@ -30,8 +30,8 @@ add_gsm_issue_templates <- function(strPackageDir = ".",
     } else if (!overwrite) {
         stop("The .github/ISSUE_TEMPLATE directory already exists. Set overwrite = TRUE to overwrite it.")
     }
-    
-    file.copy(system.file(".github/ISSUE_TEMPLATE", package = "gsm.utils"),
+
+    file.copy(system.file("gha_templates/ISSUE_TEMPLATE", package = "gsm.utils"),
               ".github/ISSUE_TEMPLATE",
               recursive = T,
               overwrite = overwrite
@@ -53,7 +53,7 @@ add_gsm_actions <- function(strPackageDir = ".",
     } else if (!overwrite) {
         stop("The .github/workflows directory already exists. Set overwrite = TRUE to overwrite it.")
     }
-    
+
     file.copy(system.file(".github/workflows", package = "gsm.utils"),
               ".github/workflows",
               recursive = T,
