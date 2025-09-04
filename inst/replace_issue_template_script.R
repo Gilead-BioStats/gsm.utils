@@ -56,7 +56,7 @@ for(issue_template in vIssueTemplates) {
     # create or update the file in the branch one by one
     gh("PUT /repos/{owner}/{repo}/contents/{path}",
         owner = owner, repo = repo, path = new_file_path,
-        message = glue::glue("Update {issue_template} issue template"),
+        message = glue::glue("Update {basename(issue_template)} issue template"),
         content = content_b64,
         branch = branch)
     rm(new_file_path)
