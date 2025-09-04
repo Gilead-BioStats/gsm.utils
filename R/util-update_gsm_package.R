@@ -5,7 +5,7 @@
 #' @returns NULL
 #' @export
 update_gsm_package <- function(strPackageDir = ".") {
-    if (!dir.exists(package_dir)) {
+    if (!dir.exists(strPackageDir)) {
         stop("The specified package directory does not exist.")
     }
     ##add issue templates
