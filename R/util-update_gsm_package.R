@@ -31,8 +31,7 @@ add_gsm_issue_templates <- function(strPackageDir = ".",
         stop("The .github/ISSUE_TEMPLATE directory already exists. Set overwrite = TRUE to overwrite it.")
     }
 
-    file.copy(system.file("gha_templates/ISSUE_TEMPLATE", package = "gsm.utils"),
-              ".github/ISSUE_TEMPLATE",
+              paste0(strPackageDir, "/.github/ISSUE_TEMPLATE"),
               recursive = T,
               overwrite = overwrite
     )
