@@ -7,15 +7,15 @@
 init_gsm_package <- function(strPackageDir,
                              lDescriptionFields = list(),
                              bIncludeWorkflowDir = TRUE) {
-    if (!dir.exists(package_dir)) {
-        dir.create(package_dir)
+    if (!dir.exists(strPackageDir)) {
+        dir.create(strPackageDir)
         init_git <- TRUE
     }
-    usethis::create_package(package_dir,
+    usethis::create_package(strPackageDir,
                             open = F,
-                            fields = description_fields
+                            fields = lDescriptionFields
     )
-    withr::with_dir(package_dir, {
+    withr::with_dir(strPackageDir, {
         usethis::use_pkgdown_github_pages()
         usethis::use_testthat()
         usethis::use_github_action("check-standard")
@@ -26,7 +26,7 @@ init_gsm_package <- function(strPackageDir,
                   ".github",
                   recursive = T
         )
-        if (include_workflow_dir) {
+        if (bIncludeWorkflowDir) {
             dir.create("inst/workflow")
             dir.create("inst/workflow/1_mappings")
             dir.create("inst/workflow/2_metrics")
