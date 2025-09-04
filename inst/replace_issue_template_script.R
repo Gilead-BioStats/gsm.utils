@@ -10,7 +10,7 @@ library(glue)
 owner <- "Gilead-BioStats"
 repo  <- "gsm.core"
 branch <- "update-issue-templates"
-base_branch <- "main"
+base_branch <- "dev"
 
 # Step 1: Get the default branch reference (sha of latest commit)
 ref <- gh("GET /repos/{owner}/{repo}/git/ref/heads/{branch}",
