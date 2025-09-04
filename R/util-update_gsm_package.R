@@ -53,8 +53,7 @@ add_gsm_actions <- function(strPackageDir = ".",
         stop("The .github/workflows directory already exists. Set overwrite = TRUE to overwrite it.")
     }
 
-    file.copy(system.file(".github/workflows", package = "gsm.utils"),
-              ".github/workflows",
+              paste0(strPackageDir, "/.github/workflows"),
               recursive = T,
               overwrite = overwrite
     )
