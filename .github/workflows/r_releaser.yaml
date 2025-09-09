@@ -1,12 +1,18 @@
 name: R Release
 
 on:
+
   workflow_call:
     inputs:
       tag:
         description: Tag to release
         required: true
         type: string
+  workflow_dispatch:
+  inputs:
+    tag:
+      description: Tag to release
+      required: true
 
 jobs:
   release:
