@@ -9,10 +9,10 @@ on:
         required: true
         type: string
   workflow_dispatch:
-  inputs:
-    tag:
-      description: Tag to release
-      required: true
+    inputs:
+      tag:
+        description: Tag to release
+        required: true
 
 jobs:
   release:
