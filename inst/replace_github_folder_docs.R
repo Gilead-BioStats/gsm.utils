@@ -8,12 +8,12 @@ library(gsm.utils)
 #
 # make sure you have set up auth with github, i.e. Sys.setenv(GITHUB_PAT = "your_token_here")
 
-repos <- c("gsm.kri", "gsm.mapping", "gsm.reporting", "gsm.app", "gsm.datasim", "gsm.app", "grail", "grail.ado", "gsm.qtl",
+repos <- c("gsm.kri", "gsm.mapping", "gsm.reporting", "gsm.app", "gsm.datasim", "grail", "gsm.qtl",
           "gsm.endpoints", "gsm.rrm", "gsm.template", "gsm.qc", "gsm.ae")
-owners <- c(rep("Gilead-BioStats", length(repo) - 1), "OpenRBQM")
+owners <- c(rep("Gilead-BioStats", length(repos) - 1), "OpenRBQM")
 
 
-for(i in seq_along(repos)) {
+for(i in seq_along(repos)[-c(1:6)]) {
   repo <- repos[i]
   owner <- owners[i]
   branch <- "update-github-folder"
@@ -72,7 +72,7 @@ for(i in seq_along(repos)) {
 
   # add CONTRIBUTING.md
   new_file_path <- ".github/CONTRIBUTING.md"
-  new_content <- readLines(system.file("gha_templates/CONTRIBUTING.md", package = "gsm.utils"), full.names = TRUE) %>% paste(collapse = "\n")
+  new_content <- readLines(system.file("gha_templates/CONTRIBUTING.md", package = "gsm.utils")) %>% paste(collapse = "\n")
 
   content_b64 <- jsonlite::base64_enc(charToRaw(new_content))
 
@@ -87,7 +87,7 @@ for(i in seq_along(repos)) {
 
   # add r-releaser.yaml
   new_file_path <- ".github/workflows/r-releaser.yaml"
-  new_content <- readLines(system.file("gha_templates/workflows/r-releaser.yaml", package = "gsm.utils"), full.names = TRUE) %>% paste(collapse = "\n")
+  new_content <- readLines(system.file("gha_templates/workflows/r-releaser.yaml", package = "gsm.utils")) %>% paste(collapse = "\n")
 
   content_b64 <- jsonlite::base64_enc(charToRaw(new_content))
 
@@ -97,13 +97,15 @@ for(i in seq_along(repos)) {
      message = glue::glue("Update workflows/r-releaser.yaml"),
      content = content_b64,
      branch = branch)
+  rm(new_file_path)
+  rm(new_content)
 
   # create a pull request
   gh("POST /repos/{owner}/{repo}/pulls",
      owner = owner, repo = repo,
-     title = "Update .github issue templates using github API",
+     title = "Update .github folder templates using github API",
      head = branch,
      base = base_branch,
-     body = "This PR updates the `.github/ISSUE_TEMPLATE` directory to match those in `gsm.utils` as well as the `.github/CONTRIBUTING.md` .")
+     body = "This PR updates the `.github/ISSUE_TEMPLATE` directory to match those in `gsm.utils` as well as the `.github/CONTRIBUTING.md` and adds `.github/worflows/r-releaser.yaml` to align with gsm.utils templates.  Please ensure any existing `Contributing Guidelines` vignettes are removed from the vignettes folder and the pkgdown site.")
 
 }
