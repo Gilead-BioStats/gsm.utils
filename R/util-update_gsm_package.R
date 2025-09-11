@@ -31,6 +31,10 @@ add_gsm_issue_templates <- function(strPackageDir = ".",
     } else if (!overwrite) {
         stop("The .github/ISSUE_TEMPLATE directory already exists. Set overwrite = TRUE to overwrite it.")
     }
+  file.copy(system.file("gha_templates/ISSUE_TEMPLATE", package = "gsm.utils"),
+            paste0(strPackageDir, "/.github/ISSUE_TEMPLATE"),
+            recursive = T
+  )
 }
 
 #' Add GSM GitHub Actions to package
@@ -49,4 +53,31 @@ add_gsm_actions <- function(strPackageDir = ".",
     } else if (!overwrite) {
         stop("The .github/workflows directory already exists. Set overwrite = TRUE to overwrite it.")
     }
+
+    file.copy(system.file("gha_templates/workflows", package = "gsm.utils"),
+            paste0(strPackageDir, "/.github/workflows"),
+            recursive = T
+  )
+
+}
+
+#' Add GSM Contributor Guidelines markdown to package
+#'
+#' @param strPackageDir path to package directory
+#' @param overwrite `boolean` argument declaring whether or not to overwrite existing files. Default is `TRUE`.
+#'
+#' @export
+add_contributor_guidelines <- function(strPackageDir = ".",
+                            overwrite = TRUE) {
+  if (!dir.exists(paste0(strPackageDir, "/.github"))) {
+    dir.create(paste0(strPackageDir, "/.github"),
+               recursive = TRUE
+    )
+  } else if (!overwrite) {
+    stop("The .github/CONTRIBUTING.md directory already exists. Set overwrite = TRUE to overwrite it.")
+  }
+  file.copy(system.file("gha_templates/CONTRIBUTING.md", package = "gsm.utils"),
+            paste0(strPackageDir, "/.github/CONTRIBUTING.md"),
+            recursive = T
+  )
 }

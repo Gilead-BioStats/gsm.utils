@@ -22,7 +22,7 @@ init_gsm_package <- function(strPackageDir,
         usethis::use_github_action("check-standard")
         dir.create("inst")
 
-        # add gsm-specific GHA and issue template content
+        # add gsm-specific GHA and issue template content to .github from `inst/gha_templates`
         file.copy(system.file("gha_templates", package = "gsm.utils"),
                   ".github",
                   recursive = T
