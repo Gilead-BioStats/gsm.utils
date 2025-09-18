@@ -1,0 +1,111 @@
+## use github API to edit the folder, make a commit, push to a new branch, and create a PR
+library(gh)
+library(jsonlite)
+library(dplyr)
+library(glue)
+library(gsm.utils)
+
+#
+# make sure you have set up auth with github, i.e. Sys.setenv(GITHUB_PAT = "your_token_here")
+
+repos <- c("gsm.kri", "gsm.mapping", "gsm.reporting", "gsm.app", "gsm.datasim", "grail", "gsm.qtl",
+          "gsm.endpoints", "gsm.rrm", "gsm.template", "gsm.qc", "gsm.ae")
+owners <- c(rep("Gilead-BioStats", length(repos) - 1), "OpenRBQM")
+
+
+for(i in seq_along(repos)[-c(1:6)]) {
+  repo <- repos[i]
+  owner <- owners[i]
+  branch <- "update-github-folder"
+  base_branch <- "dev"
+
+  # get the default branch reference (sha of latest commit)
+  ref <- gh("GET /repos/{owner}/{repo}/git/ref/heads/{branch}",
+            owner = owner, repo = repo, branch = base_branch)
+
+  base_sha <- ref$object$sha
+
+  # create a new branch pointing to same commit
+  gh("POST /repos/{owner}/{repo}/git/refs",
+     owner = owner, repo = repo,
+     ref = paste0("refs/heads/", branch),
+     sha = base_sha)
+
+  ## first grab existing issue templates so we can remove them
+  files <- tryCatch(
+    gh("GET /repos/{owner}/{repo}/contents/{path}?ref={branch}",
+       owner = owner, repo = repo, path = ".github/ISSUE_TEMPLATE", branch = base_branch),
+    error = function(e) list()
+  )
+
+  # delete each existing file
+  if (length(files) > 0) {
+    for (f in files) {
+      gh("DELETE /repos/{owner}/{repo}/contents/{path}",
+         owner = owner, repo = repo,
+         path = f$path,
+         message = paste0("Remove old issue template: ", f$name),
+         sha = f$sha,
+         branch = branch)
+    }
+  }
+
+  # get list of issue templates in gsm.utils
+  vIssueTemplates <- list.files(system.file("gha_templates/ISSUE_TEMPLATE/", package = "gsm.utils"), full.names = TRUE)
+
+  # prepare new issue templates one by one (must be base64 encoded)
+  for(issue_template in vIssueTemplates) {
+    new_file_path <- paste0(".github/ISSUE_TEMPLATE/", basename(issue_template))
+    new_content <- readLines(issue_template) %>% paste(collapse = "\n")
+
+    content_b64 <- jsonlite::base64_enc(charToRaw(new_content))
+
+    # create or update the file in the branch one by one
+    gh("PUT /repos/{owner}/{repo}/contents/{path}",
+       owner = owner, repo = repo, path = new_file_path,
+       message = glue::glue("Update {basename(issue_template)} issue template"),
+       content = content_b64,
+       branch = branch)
+    rm(new_file_path)
+    rm(new_content)
+  }
+
+  # add CONTRIBUTING.md
+  new_file_path <- ".github/CONTRIBUTING.md"
+  new_content <- readLines(system.file("gha_templates/CONTRIBUTING.md", package = "gsm.utils")) %>% paste(collapse = "\n")
+
+  content_b64 <- jsonlite::base64_enc(charToRaw(new_content))
+
+  # create or update the file in the branch one by one
+  gh("PUT /repos/{owner}/{repo}/contents/{path}",
+     owner = owner, repo = repo, path = new_file_path,
+     message = glue::glue("Update CONTRIBUTING.md"),
+     content = content_b64,
+     branch = branch)
+  rm(new_file_path)
+  rm(new_content)
+
+  # add r-releaser.yaml
+  new_file_path <- ".github/workflows/r-releaser.yaml"
+  new_content <- readLines(system.file("gha_templates/workflows/r-releaser.yaml", package = "gsm.utils")) %>% paste(collapse = "\n")
+
+  content_b64 <- jsonlite::base64_enc(charToRaw(new_content))
+
+  # create or update the file in the branch one by one
+  gh("PUT /repos/{owner}/{repo}/contents/{path}",
+     owner = owner, repo = repo, path = new_file_path,
+     message = glue::glue("Update workflows/r-releaser.yaml"),
+     content = content_b64,
+     branch = branch)
+  rm(new_file_path)
+  rm(new_content)
+
+  # create a pull request
+  gh("POST /repos/{owner}/{repo}/pulls",
+     owner = owner, repo = repo,
+     title = "Update .github folder templates using github API",
+     head = branch,
+     base = base_branch,
+     body = "This PR updates the `.github/ISSUE_TEMPLATE` directory to match those in `gsm.utils` as well as the `.github/CONTRIBUTING.md` and adds `.github/worflows/r-releaser.yaml` to align with gsm.utils templates.  Please ensure any existing `Contributing Guidelines` vignettes are removed from the vignettes folder and the pkgdown site.")
+
+}
