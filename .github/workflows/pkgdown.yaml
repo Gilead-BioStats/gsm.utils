@@ -44,7 +44,7 @@ jobs:
             menu_items <- lapply(html_files, function(html_file) {
               list(
                 text = tools::toTitleCase(gsub("_", " ", tools::file_path_sans_ext(html_file))),
-                href = file.path("pkgdown", "assets", "examples", html_file)
+                href = file.path("examples", html_file)
               )
             })
             
