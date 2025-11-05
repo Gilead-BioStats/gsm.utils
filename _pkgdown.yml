@@ -10,6 +10,7 @@ navbar:
   components:
     github:
       icon: fab fa-github
+      aria-label: GitHub
       href: https://github.com/Gilead-BioStats/gsm.utils
 
 reference:
