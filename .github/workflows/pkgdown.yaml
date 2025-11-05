@@ -39,33 +39,7 @@ jobs:
       - name: Generate examples menu
         shell: Rscript {0}
         run: |
-          html_files <- list.files("inst/pkgdown/assets/examples", pattern = "\\.html$", full.names = FALSE)
-          if (length(html_files) > 0) {
-            menu_items <- lapply(html_files, function(html_file) {
-              list(
-                text = tools::toTitleCase(gsub("_", " ", tools::file_path_sans_ext(html_file))),
-                href = file.path("examples", html_file)
-              )
-            })
-            
-            # Read _pkgdown.yml
-            pkgdown_yaml <- yaml::read_yaml("_pkgdown.yml")
-            
-            # Update examples menu
-            pkgdown_yaml$navbar$components$examples <- list(
-              text = "Examples",
-              menu = menu_items
-            )
-            
-            # Write updated _pkgdown.yml
-            yaml::write_yaml(pkgdown_yaml, file = "_pkgdown.yml")
-          } else {
-            # If no examples, remove examples from navbar
-            pkgdown_yaml <- yaml::read_yaml("_pkgdown.yml")
-            pkgdown_yaml$navbar$components$examples <- NULL
-            pkgdown_yaml$navbar$structure$left <- setdiff(pkgdown_yaml$navbar$structure$left, "examples")
-            yaml::write_yaml(pkgdown_yaml, file = "_pkgdown.yml")
-          }
+          gsm.utils::AddPkgdownExamples(pkgdown_yml = "_pkgdown.yml")
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)

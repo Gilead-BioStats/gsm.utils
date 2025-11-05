@@ -1,0 +1,5 @@
+examples:
+  text: Examples
+  menu:
+  - text: Example Helloworld
+    href: examples/example_helloworld.html
