@@ -31,6 +31,10 @@ jobs:
         with:
           use-public-rspm: true
 
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          needs: website
+
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
         shell: Rscript {0}
@@ -49,7 +53,7 @@ jobs:
       - name: Give PR site URL 🌐
         if: github.event_name == 'pull_request'
         run: |
-          echo "🌐 URL: https://gilead-biostats.github.io/${{ github.event.repository.name }}/pr/${{ github.event.number }}/dev"
+          echo "🌐 URL: https://gilead-biostats.github.io/gsm.core/pr/${{ github.event.number }}/dev"
 
       - name: Deploy pkgdown 📃
         if: github.event_name != 'pull_request'
