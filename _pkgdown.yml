@@ -21,4 +21,5 @@ reference:
     contents:
       - add_gsm_actions
       - add_gsm_issue_templates
+      - add_contributor_guidelines
 
