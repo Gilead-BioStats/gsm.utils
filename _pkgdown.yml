@@ -12,7 +12,7 @@ navbar:
       text: Examples
       menu:
         - text: Example Helloworld
-          href: pkgdown/assets/examples/example_helloworld.html
+          href: examples/example_helloworld.html
     github:
       icon: fab fa-github
       aria-label: GitHub
