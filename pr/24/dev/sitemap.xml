@@ -1,8 +1,8 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/LICENSE-text.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/authors.html</loc></url>
+<url><loc>https://gilead-biostats.github.io/gsm.utils/dev/examples/example_goodbyeworld.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/examples/example_helloworld.html</loc></url>
-<url><loc>https://gilead-biostats.github.io/gsm.utils/dev/examples/index.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/index.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/add_contributor_guidelines.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/add_gsm_actions.html</loc></url>
