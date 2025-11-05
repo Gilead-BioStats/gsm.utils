@@ -39,7 +39,7 @@ jobs:
       - name: Generate examples menu
         shell: Rscript {0}
         run: |
-          gsm.utils::AddPkgdownExamples(pkgdown_yml = "_pkgdown.yml")
+          gsm.utils::add_pkgdown_examples(pkgdown_yml = "_pkgdown.yml")
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)

@@ -1,4 +1,4 @@
-#' Generate Examples Menu and Index for pkgdown
+#' Generate Examples menu in pkgdown
 #'
 #' Scans for HTML files in a directory (default is pkgdown/assets/examples) and updates 
 #' a standard _pkgdown.yml with a new sub-menu listing the html files.
@@ -12,7 +12,7 @@
 #' @export
 #' 
 
-AddPkgdownExamples <- function(examples_dir = "pkgdown/assets/examples", 
+add_pkgdown_examples <- function(examples_dir = "pkgdown/assets/examples", 
                                 pkgdown_yml = "_pkgdown.yml") {
   
   html_files <- list.files(examples_dir, pattern = "\\.html$", full.names = FALSE)
