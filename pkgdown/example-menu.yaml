@@ -1,0 +1,4 @@
+text: Examples
+menu:
+- text: Example Helloworld
+  href: pkgdown/assets/examples/example_helloworld.html

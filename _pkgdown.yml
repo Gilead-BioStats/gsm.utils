@@ -5,9 +5,14 @@ template:
 
 navbar:
   structure:
-    left: [reference]
+    left: [examples, reference]
     right: [search, github]
   components:
+    examples:
+      text: Examples
+      menu:
+        - text: Example Helloworld
+          href: pkgdown/assets/examples/example_helloworld.html
     github:
       icon: fab fa-github
       aria-label: GitHub
