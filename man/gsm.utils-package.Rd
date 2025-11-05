@@ -4,12 +4,32 @@
 \name{gsm.utils-package}
 \alias{gsm.utils}
 \alias{gsm.utils-package}
-\title{gsm.utils: What the Package Does (One Line, Title Case)}
+\title{gsm.utils: Utilities for {gsm} package developers}
 \description{
-What the package does (one paragraph).
+Provides utility functions and file templates to be used for the set-up and development of gsm packages.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://gilead-biostats.github.io/gsm.utils}
+  \item \url{https://github.com/Gilead-BioStats/gsm.utils}
+  \item Report bugs at \url{https://github.com/Gilead-BioStats/gsm.utils/issues}
+}
+
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com}
+\strong{Maintainer}: Jeremy Wildfire \email{jwildfire@gmail.com}
+
+Authors:
+\itemize{
+  \item Laura Maxwell \email{lkmaxwell23@gmail.com}
+  \item Natalia Andriychuk \email{natalia.andriychuk@gilead.com}
+}
+
+Other contributors:
+\itemize{
+  \item Gilead Sciences [copyright holder]
+}
 
 }
 \keyword{internal}
