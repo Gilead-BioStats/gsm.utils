@@ -56,10 +56,25 @@ jobs:
           # Deploy to a subdirectory named after the PR number
           target-folder: pr/${{ github.event.number }}
 
-      - name: Give PR site URL 🌐
+      - name: PR site URL 🌐
         if: github.event_name == 'pull_request'
         run: |
           echo "🌐 URL: https://gilead-biostats.github.io/${{ github.event.repository.name }}/pr/${{ github.event.number }}/dev"
+
+      - name: Comment with PR site URL 🌐
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const prSiteURL = `https://${context.repo.owner}.github.io/${context.repo.repo}/pr/${context.issue.number}/dev`
+            const comment = `🌐 PR pkdgown deployed: [${prSiteURL}](${prSiteURL})`;
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment,
+            });
 
       - name: Deploy pkgdown 📃
         if: github.event_name != 'pull_request'

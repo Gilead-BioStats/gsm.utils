@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_pkgdown_examples.R
 \name{add_pkgdown_examples}
 \alias{add_pkgdown_examples}
-\title{Generate Examples Menu and Index for pkgdown}
+\title{Generate Examples menu in pkgdown}
 \usage{
 add_pkgdown_examples(
   examples_dir = "pkgdown/assets/examples",

@@ -3,6 +3,8 @@ Title: Utilities for {gsm} package developers
 Version: 0.1.0
 Authors@R: c(
     person("Jeremy", "Wildfire", , "jwildfire@gmail.com", role = c("aut", "cre")),
+    person("Jon", "Harmon", , "jon.harmon@atorusresearch.com", role = "aut",
+           comment = c(ORCID = "0000-0003-4781-4346")),
     person("Laura", "Maxwell", , "lkmaxwell23@gmail.com", role = "aut"),
     person("Natalia", "Andriychuk", , "natalia.andriychuk@gilead.com", role = "aut"),
     person("Gilead Sciences", role = "cph")

@@ -32,20 +32,18 @@ vignettes/*.pdf
 *_cache/
 /cache/
 
-# Temporary files created by R markdown
+# Temporary files created by R markdown/pkgdown
 *.utf8.md
 *.knit.md
+docs
+inst/doc
 
 # R Environment Variables
 .Renviron
-
-# pkgdown site
-docs/
+.Rproj.user
 
 # translation temp files
 po/*~
 
 # RStudio Connect folder
 rsconnect/
-.Rproj.user
-docs

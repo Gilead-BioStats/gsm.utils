@@ -22,6 +22,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Jon Harmon \email{jon.harmon@atorusresearch.com} (\href{https://orcid.org/0000-0003-4781-4346}{ORCID})
   \item Laura Maxwell \email{lkmaxwell23@gmail.com}
   \item Natalia Andriychuk \email{natalia.andriychuk@gilead.com}
 }

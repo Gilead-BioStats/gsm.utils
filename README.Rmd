@@ -1,51 +1,49 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 
 # gsm.utils
 
 <!-- badges: start -->
-
-<div class="pkgdown-release">
-
+::: {.pkgdown-release}
 [![R-CMD-check](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/R-CMD-check.yaml)
-
-</div>
-
-<div class="pkgdown-devel">
-
+:::
+::: {.pkgdown-devel}
 [![R-CMD-check](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/R-CMD-check-dev.yaml/badge.svg)](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/R-CMD-check-dev.yaml)
-
-</div>
-
+:::
 <!-- badges: end -->
 
-Tools to make an `OpenRBQM` developer’s life easier.
+Tools to make an `OpenRBQM` developer's life easier.
 
 ## Installation
 
-You can install the latest release of gsm.utils from
-[GitHub](https://github.com/) with:
+You can install the latest release of gsm.utils from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("pak")
 pak::pak("Gilead-BioStats/gsm.utils@*release⁠")
 ```
 
-<div class="pkgdown-devel">
-
-You can install the development version of gsm.utils from
-[GitHub](https://github.com/) with:
+::: {.pkgdown-devel}
+You can install the development version of gsm.utils from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("pak")
 pak::pak("Gilead-BioStats/gsm.utils")
 ```
-
-</div>
+:::
 
 ## Code of Conduct
 
-Please note that the gsm.utils project is released with a [Contributor
-Code of
-Conduct](https://gilead-biostats.github.io/gsm.utils/CODE_OF_CONDUCT.html).
-By contributing to this project, you agree to abide by its terms.
+Please note that the gsm.utils project is released with a [Contributor Code of Conduct](https://gilead-biostats.github.io/gsm.utils/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
