@@ -2,7 +2,5 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-
-#' @import usethis
 ## usethis namespace: end
 NULL

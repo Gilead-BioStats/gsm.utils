@@ -4,7 +4,7 @@
 \name{gsm.utils-package}
 \alias{gsm.utils}
 \alias{gsm.utils-package}
-\title{gsm.utils: Utilities for {gsm} package developers}
+\title{gsm.utils: Utilities for gsm package developers}
 \description{
 Provides utility functions and file templates to be used for the set-up and development of gsm packages.
 }

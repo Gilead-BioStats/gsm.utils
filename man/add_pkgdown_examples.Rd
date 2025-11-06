@@ -10,16 +10,17 @@ add_pkgdown_examples(
 )
 }
 \arguments{
-\item{examples_dir}{Character. Path to directory containing example HTML files.
-Default is "pkgdown/assets/examples".}
+\item{examples_dir}{Character. Path to directory containing example HTML
+files. Default is \code{"pkgdown/assets/examples"}.}
 
-\item{pkgdown_yml}{Character. Path to _pkgdown.yml file to update with menu.
-Default is "_pkgdown.yml".}
+\item{pkgdown_yml}{Character. Path to \verb{_pkgdown.yml} file to update with menu.
+Default is \code{"_pkgdown.yml"}.}
 }
 \value{
-Invisibly returns NULL.
+\code{NULL} invisibly.
 }
 \description{
-Scans for HTML files in a directory (default is pkgdown/assets/examples) and updates
-a standard _pkgdown.yml with a new sub-menu listing the html files.
+Scans for HTML files in a directory (default is \code{pkgdown/assets/examples})
+and updates a standard \verb{_pkgdown.yml} with a new sub-menu listing the html
+files.
 }
