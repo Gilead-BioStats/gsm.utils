@@ -60,7 +60,7 @@
 
 
 <!-- badges: end -->
-<p>Tools to make an <code>OpenRBQM</code> developer’s life easier.</p>
+<p>Tools to make an <code>OpenRBQM</code> developer’s life easier including standard GitHub actions, issue and pull request templates and utility functions.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -74,6 +74,21 @@
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"Gilead-BioStats/gsm.utils"</span><span class="op">)</span></span></code></pre></div>
 </div>
+</div>
+<div class="section level2">
+<h2 id="github-actions-workflows">GitHub Actions Workflows<a class="anchor" aria-label="anchor" href="#github-actions-workflows"></a>
+</h2>
+<p>The <code>inst/gha_templates/workflows</code> directory contains standardized GitHub Actions workflow templates for GSM packages:</p>
+<ul>
+<li><p><strong><code>R-CMD-check.yaml</code></strong>: Runs comprehensive R package checks on PRs to <code>main</code> across multiple platforms (macOS, Windows, Ubuntu) and R versions to ensure package integrity before release.</p></li>
+<li><p><strong><code>R-CMD-check-dev.yaml</code></strong>: Lightweight R package check for PRs to <code>dev</code> branch, running on Ubuntu with current and minimum supported R versions for faster CI feedback during development.</p></li>
+<li><p><strong><code>test-coverage.yaml</code></strong>: Measures and reports code test coverage using <a href="https://covr.r-lib.org" class="external-link">covr</a>, uploads results to Codecov, and archives test outputs for debugging failures.</p></li>
+<li><p><strong><code>pkgdown-with-examples.yaml</code></strong>: Builds and deploys pkgdown documentation sites with automatic example indexing via <code><a href="reference/add_pkgdown_examples.html">add_pkgdown_examples()</a></code>. Creates PR preview sites at <code>/pr/{number}</code> and deploys production sites to gh-pages on push to <code>main</code> or <code>dev</code>.</p></li>
+<li><p><strong><code>pkgdown-cleanup.yaml</code></strong>: Automatically removes pkgdown PR preview directories from the gh-pages branch when pull requests are closed to keep the repository clean.</p></li>
+<li><p><strong><code>format-suggest.yaml</code></strong>: Uses Posit’s <code>air</code> formatter to automatically check code formatting on pull requests and suggests corrections via reviewdog comments, requiring elevated permissions for external contributors.</p></li>
+<li><p><strong><code>pr-commands.yaml</code></strong>: Enables maintainers to trigger actions via PR comments: <code>/document</code> runs <code>roxygen2::roxygenise()</code> to update documentation, and <code>/style</code> runs <code>styler::style_pkg()</code> to format code.</p></li>
+<li><p><strong><code>r_releaser.yaml</code></strong>: Reusable workflow for building and attaching R package source tarballs to GitHub releases, using the A2-ai/r-releaser action with configurable options for data compression and vignette building.</p></li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
@@ -139,7 +154,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
