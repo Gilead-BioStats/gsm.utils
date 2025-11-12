@@ -1,15 +1,34 @@
 Package: gsm.utils
-Title: Utilities for {gsm} package developers
+Title: Utilities for gsm package developers
 Version: 0.1.0
 Authors@R: c(
-     person("Jeremy", "Wildfire", , "jwildfire@gmail.com", role = c("aut", "cre")),
-     person("Laura", "Maxwell", , "lkmaxwell23@gmail.com", role = "aut"),
-     person("Natalia", "Andriychuk", , "natalia.andriychuk@gilead.com", role = "aut"),
-     person("Gilead Sciences", role = "cph")
-    )
-Description: Provides utility functions and file templates to be used for the set-up and development of gsm packages.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Jeremy", "Wildfire", , "jwildfire@gmail.com", role = c("aut", "cre")),
+    person("Jon", "Harmon", , "jon.harmon@atorusresearch.com", role = "aut",
+           comment = c(ORCID = "0000-0003-4781-4346")),
+    person("Laura", "Maxwell", , "lkmaxwell23@gmail.com", role = "aut"),
+    person("Natalia", "Andriychuk", , "natalia.andriychuk@gilead.com", role = "aut"),
+    person("Gilead Sciences", role = "cph")
+  )
+Description: Provides utility functions and file templates to be used for
+    the set-up and development of gsm packages.
+License: Apache License (>= 2)
+URL: https://gilead-biostats.github.io/gsm.utils,
+    https://github.com/Gilead-BioStats/gsm.utils
+BugReports: https://github.com/Gilead-BioStats/gsm.utils/issues
+Depends:
+    R (>= 4.1.0)
+Imports:
+    cli,
+    rlang
+Suggests:
+    pkgdown,
+    rmarkdown,
+    testthat (>= 3.0.0),
+    usethis,
+    withr,
+    yaml
+Config/Needs/website: pkgdown, rmarkdown
+Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3

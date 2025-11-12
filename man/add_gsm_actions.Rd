@@ -9,7 +9,8 @@ add_gsm_actions(strPackageDir = ".", overwrite = TRUE)
 \arguments{
 \item{strPackageDir}{path to package directory}
 
-\item{overwrite}{\code{boolean} argument declaring whether or not to overwrite existing files. Default is \code{TRUE}.}
+\item{overwrite}{\code{boolean} argument declaring whether or not to overwrite
+existing files. Default is \code{TRUE}.}
 }
 \description{
 Add GSM GitHub Actions to package
