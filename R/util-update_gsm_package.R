@@ -23,9 +23,9 @@ update_gsm_package <- function(strPackageDir = ".") {
 #'
 #' @export
 add_gsm_issue_templates <- function(strPackageDir = ".", overwrite = TRUE) {
-  strPath <- paste0(strPackageDir, "/.github/ISSUE_TEMPLATE")
-  if (!dir.exists(strPath)) {
-    dir.create(strPath, recursive = TRUE)
+  issuePath <- paste0(strPackageDir, "/.github/ISSUE_TEMPLATE")
+  if (!dir.exists(issuePath)) {
+    dir.create(issuePath, recursive = TRUE)
   } else if (!overwrite) {
     stop(
       "The .github/ISSUE_TEMPLATE directory already exists. Set overwrite = TRUE to overwrite it."
@@ -33,7 +33,7 @@ add_gsm_issue_templates <- function(strPackageDir = ".", overwrite = TRUE) {
   }
   file.copy(
     system.file("gha_templates/ISSUE_TEMPLATE", package = "gsm.utils"),
-    strPath,
+    paste0(strPackageDir, "/.github"),
     recursive = TRUE
   )
 }
@@ -46,9 +46,9 @@ add_gsm_issue_templates <- function(strPackageDir = ".", overwrite = TRUE) {
 #'
 #' @export
 add_gsm_actions <- function(strPackageDir = ".", overwrite = TRUE) {
-  strPath <- paste0(strPackageDir, "/.github/workflows")
-  if (!dir.exists(strPath)) {
-    dir.create(strPath, recursive = TRUE)
+  workflowsPath <- paste0(strPackageDir, "/.github/workflows")
+  if (!dir.exists(workflowsPath)) {
+    dir.create(workflowsPath, recursive = TRUE)
   } else if (!overwrite) {
     stop(
       "The .github/workflows directory already exists. Set overwrite = TRUE to overwrite it."
@@ -57,7 +57,7 @@ add_gsm_actions <- function(strPackageDir = ".", overwrite = TRUE) {
 
   file.copy(
     system.file("gha_templates/workflows", package = "gsm.utils"),
-    strPath,
+     paste0(strPackageDir, "/.github"),
     recursive = TRUE
   )
 }
