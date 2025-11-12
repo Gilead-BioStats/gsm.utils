@@ -84,7 +84,6 @@ add_pkgdown_examples_to_yaml <- function(pkgdown_yaml, html_files) {
 
 remove_pkgdown_examples <- function(pkgdown_yml, examples_dir) {
   cli::cli_inform("No HTML files found in {.path {examples_dir}}.")
-  
   if (!is.null(pkgdown_yml) && file.exists(pkgdown_yml)) {
     pkgdown_yaml <- yaml::read_yaml(pkgdown_yml)
     pkgdown_yaml$navbar$components$examples <- NULL
