@@ -76,6 +76,44 @@
 </div>
 </div>
 <div class="section level2">
+<h2 id="package-setup-utilities">Package Setup Utilities<a class="anchor" aria-label="anchor" href="#package-setup-utilities"></a>
+</h2>
+<p>The package provides two main functions to streamline package development:</p>
+<div class="section level3">
+<h3 id="init_gsm_package">
+<code>init_gsm_package()</code><a class="anchor" aria-label="anchor" href="#init_gsm_package"></a>
+</h3>
+<p>Initializes a new extension package with standardized structure and configuration:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/init_gsm_package.html">init_gsm_package</a></span><span class="op">(</span></span>
+<span>  strPackageDir <span class="op">=</span> <span class="st">"path/to/new/package"</span>,</span>
+<span>  lDescriptionFields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  bIncludeWorkflowDir <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<ul>
+<li>Creates package skeleton using <code><a href="https://usethis.r-lib.org/reference/create_package.html" class="external-link">usethis::create_package()</a></code>
+</li>
+<li>Sets up pkgdown documentation with GitHub Pages</li>
+<li>Configures testthat for unit testing</li>
+<li>Copies GitHub Actions workflows and issue templates from <code>inst/gha_templates</code>
+</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="update_gsm_package">
+<code>update_gsm_package()</code><a class="anchor" aria-label="anchor" href="#update_gsm_package"></a>
+</h3>
+<p>Updates an existing GSM package with the latest standardized templates:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/update_gsm_package.html">update_gsm_package</a></span><span class="op">(</span>strPackageDir <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div>
+<ul>
+<li>Refreshes <code>.github/ISSUE_TEMPLATE/</code> with current issue templates (Bug, Feature, Technical Task, Documentation Task)</li>
+<li>Updates <code>.github/workflows/</code> with latest GitHub Actions workflow definitions</li>
+</ul>
+<p>Use this function to keep your package’s CI/CD infrastructure synchronized with the latest conventions.</p>
+</div>
+</div>
+<div class="section level2">
 <h2 id="github-actions-workflows">GitHub Actions Workflows<a class="anchor" aria-label="anchor" href="#github-actions-workflows"></a>
 </h2>
 <p>The <code>inst/gha_templates/workflows</code> directory contains standardized GitHub Actions workflow templates for GSM packages:</p>
