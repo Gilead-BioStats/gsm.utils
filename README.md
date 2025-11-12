@@ -43,6 +43,40 @@ pak::pak("Gilead-BioStats/gsm.utils")
 
 </div>
 
+## Package Setup Utilities
+
+The package provides two main functions to streamline package development:
+
+### `init_gsm_package()`
+
+Initializes a new extension package with standardized structure and configuration:
+
+```r
+init_gsm_package(
+  strPackageDir = "path/to/new/package",
+  lDescriptionFields = list(),
+  bIncludeWorkflowDir = TRUE
+)
+```
+
+- Creates package skeleton using `usethis::create_package()`
+- Sets up pkgdown documentation with GitHub Pages
+- Configures testthat for unit testing
+- Copies GitHub Actions workflows and issue templates from `inst/gha_templates`
+
+### `update_gsm_package()`
+
+Updates an existing GSM package with the latest standardized templates:
+
+```r
+update_gsm_package(strPackageDir = ".")
+```
+
+- Refreshes `.github/ISSUE_TEMPLATE/` with current issue templates (Bug, Feature, Technical Task, Documentation Task)
+- Updates `.github/workflows/` with latest GitHub Actions workflow definitions
+
+Use this function to keep your package's CI/CD infrastructure synchronized with the latest conventions.
+
 ## GitHub Actions Workflows
 
 The `inst/gha_templates/workflows` directory contains standardized GitHub Actions workflow templates for GSM packages:
