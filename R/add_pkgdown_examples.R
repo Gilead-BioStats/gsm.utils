@@ -16,7 +16,9 @@ add_pkgdown_examples <- function(
   pkgdown_yml = "_pkgdown.yml"
 ) {
   rlang::check_installed("yaml", reason = "to manipulate _pkgdown.yml files.")
+
   html_files <- list_non_index_html(examples_dir)
+
   if (length(html_files)) {
     update_pkgdown_examples(pkgdown_yml, html_files)
   } else {
@@ -49,6 +51,17 @@ ensure_pkdgown_examples_section <- function(pkgdown_yaml) {
       menu = list()
     )
   }
+
+  # Ensure "examples" is in navbar$structure$left if structure exists
+  if (!is.null(pkgdown_yaml$navbar$structure$left)) {
+    if (!("examples" %in% pkgdown_yaml$navbar$structure$left)) {
+      pkgdown_yaml$navbar$structure$left <- c(
+        pkgdown_yaml$navbar$structure$left,
+        "examples"
+      )
+    }
+  }
+
   return(pkgdown_yaml)
 }
 
