@@ -13,4 +13,4 @@ The changes focus heavily on package developer experience, contributor onboardin
 * GitHub Actions workflows for example framework and building and attaching R package source tarballs to GitHub releases.
 * Updated README.
 * Initialized pkgdown website.
-* Refactored utility functions for package and template management: `init_gsm_package()``, update_gsm_package()`, `add_gsm_issue_templates()`, `add_gsm_actions()`, `add_contributor_guidelines()`, `add_pkgdown_examples()`.
+* Refactored utility functions for package and template management: `init_gsm_package()`, `update_gsm_package()`, `add_gsm_issue_templates()`, `add_gsm_actions()`, `add_contributor_guidelines()`, `add_pkgdown_examples()`.
