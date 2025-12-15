@@ -13,7 +13,7 @@ write_yaml(...)
 - ...:
 
   Arguments passed to
-  [`yaml::write_yaml()`](https://rdrr.io/pkg/yaml/man/write_yaml.html).
+  [`yaml::write_yaml()`](https://yaml.r-lib.org/reference/write_yaml.html).
 
 ## Value
 
