@@ -27,14 +27,5 @@ maintaining GSM suite of packages.
   [`add_gsm_actions()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_gsm_actions.md),
   [`add_contributor_guidelines()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_contributor_guidelines.md),
   [`add_pkgdown_examples()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_pkgdown_examples.md).
-- **Added versioning system for GitHub Actions templates**
+- Added versioning system for GitHub Actions templates\*\*
   ([\#36](https://github.com/Gilead-BioStats/gsm.utils/issues/36)):
-  - All workflow templates now include version headers for tracking
-  - Created `gha_version.json` manifest file to document available
-    workflows
-  - Added
-    [`check_gha_version()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/check_gha_version.md)
-    function to verify if workflows are up-to-date
-  - Enhanced
-    [`add_gsm_actions()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_gsm_actions.md)
-    to report installed version
