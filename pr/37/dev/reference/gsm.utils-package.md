@@ -26,6 +26,10 @@ Authors:
 
 - Natalia Andriychuk <natalia.andriychuk@gilead.com>
 
+- Anne Zheng <anne.zheng4@gilead.com>
+
+- Spencer Childress <Spencer.Childress@gilead.com>
+
 Other contributors:
 
 - Gilead Sciences \[copyright holder\]
