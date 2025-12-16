@@ -54,20 +54,20 @@ test_that("creates a valid GHA manifest JSON from workflows and issue templates"
     "https://github.com/Gilead-BioStats/gsm.utils"
   )
 
-  expect_length(manifest$workflows, 1)
-  expect_equal(manifest$workflows[[1]]$name, "R-CMD-check.yaml")
+  expect_length(manifest$workflows, 3)
+  expect_equal(manifest$workflows$name, "R-CMD-check.yaml")
   expect_equal(
-    manifest$workflows[[1]]$description,
+    manifest$workflows$description,
     "R CMD check for main branch PRs"
   )
   expect_equal(
-    manifest$workflows[[1]]$path,
+    manifest$workflows$path,
     "workflows/R-CMD-check.yaml"
   )
 
-  expect_length(manifest$issue_templates, 1)
-  expect_equal(manifest$issue_templates[[1]]$name, "Bug report")
-  expect_equal(manifest$issue_templates[[1]]$description, "bug")
+  expect_length(manifest$issue_templates, 2)
+  expect_equal(manifest$issue_templates$name, "bug.md")
+  expect_equal(manifest$issue_templates$description, "Bug report")
 })
 
 test_that("errors when workflows or issue template directories do not exist", {

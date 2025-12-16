@@ -4,9 +4,14 @@
   "repository": "https://github.com/Gilead-BioStats/gsm.utils",
   "workflows": [
     {
-      "name": "R-CMD-check.yaml",
-      "description": "R CMD check for main branch PRs",
-      "path": "workflows/R-CMD-check.yaml"
+      "name": "pkgdown-cleanup.yaml",
+      "description": "Removes the pkgdown preview directory when a PR is closed.",
+      "path": "workflows/pkgdown-cleanup.yaml"
+    },
+    {
+      "name": "pkgdown-with-examples.yaml",
+      "description": "Deploy pkgdown site with examples",
+      "path": "workflows/pkgdown-with-examples.yaml"
     },
     {
       "name": "R-CMD-check-dev.yaml",
@@ -14,14 +19,9 @@
       "path": "workflows/R-CMD-check-dev.yaml"
     },
     {
-      "name": "pkgdown-cleanup.yaml",
-      "description": "Clean up pkgdown preview when PR is closed",
-      "path": "workflows/pkgdown-cleanup.yaml"
-    },
-    {
-      "name": "pkgdown-with-examples.yaml",
-      "description": "Deploy pkgdown site with examples",
-      "path": "workflows/pkgdown-with-examples.yaml"
+      "name": "R-CMD-check.yaml",
+      "description": "R CMD check for main branch PRs",
+      "path": "workflows/R-CMD-check.yaml"
     },
     {
       "name": "r-releaser.yaml",
@@ -32,23 +32,23 @@
   "issue_templates": [
     {
       "name": "1-requirement.md",
-      "description": "Requirement issue template"
+      "description": "Requirement Issue Template"
     },
     {
       "name": "2-bug.md",
-      "description": "Bug report template"
+      "description": "Bugfix Issue Template"
     },
     {
       "name": "3-feature.md",
-      "description": "Feature request template"
+      "description": "Feature Issue Template"
     },
     {
       "name": "4-technical.md",
-      "description": "Technical issue template"
+      "description": "Technical Task Issue Template"
     },
     {
       "name": "5-documentation.md",
-      "description": "Documentation issue template"
+      "description": "Documentation Task Issue Template"
     }
   ]
 }

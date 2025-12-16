@@ -57,15 +57,12 @@ create_gha_manifest <- function(
 
   issue_templates <- lapply(issue_files, function(f) {
     list(
-      name = infer_from_yaml(
-        file.path(issue_templates_dir, f),
-        type = "name"
-      ),
+      name = f,
       description = infer_from_yaml(
         file.path(issue_templates_dir, f),
-        type = "type"
+        type = "name"
       )
-    )
+      )
   })
 
   # Build manifest
