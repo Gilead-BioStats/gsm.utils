@@ -101,5 +101,6 @@ infer_from_yaml <- function(path, type) {
     return(NA_character_)
   }
 
-  sub(paste0("^",type, "\\s*:\\s"), "", type_line[1])
+  output <- sub(paste0("^",type, "\\s*:\\s"), "", type_line[1])
+  gsub("\"","", output)
 }
