@@ -14,3 +14,4 @@ The changes focus heavily on package developer experience, contributor onboardin
 * Updated README.
 * Initialized pkgdown website.
 * Refactored utility functions for package and template management: `init_gsm_package()`, `update_gsm_package()`, `add_gsm_issue_templates()`, `add_gsm_actions()`, `add_contributor_guidelines()`, `add_pkgdown_examples()`.
+* Added versioning system for GitHub Actions templates** (#36):
