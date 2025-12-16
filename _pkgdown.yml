@@ -25,4 +25,5 @@ reference:
       - add_contributor_guidelines
       - add_pkgdown_examples
       - check_gha_version
+      - update_workflow_version
 
