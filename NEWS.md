@@ -14,8 +14,4 @@ The changes focus heavily on package developer experience, contributor onboardin
 * Updated README.
 * Initialized pkgdown website.
 * Refactored utility functions for package and template management: `init_gsm_package()`, `update_gsm_package()`, `add_gsm_issue_templates()`, `add_gsm_actions()`, `add_contributor_guidelines()`, `add_pkgdown_examples()`.
-* **Added versioning system for GitHub Actions templates** (#36):
-  - All workflow templates now include version headers for tracking
-  - Created `gha_version.json` manifest file to document available workflows
-  - Added `check_gha_version()` function to verify if workflows are up-to-date
-  - Enhanced `add_gsm_actions()` to report installed version
+* Added versioning system for GitHub Actions templates** (#36):
