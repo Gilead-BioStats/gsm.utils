@@ -92,6 +92,7 @@ create_gha_manifest <- function(
 #' @param path `string` path to the file
 #' @param type `string` type of value to extract, as appears in file (e.g., "name", "type", "# Description")
 #'
+#' @returns `string` extracted value or `NA_character_` if not found
 infer_from_yaml <- function(path, type) {
   lines <- readLines(path, warn = FALSE)
   type_line <- grep(paste0("^",type, "\\s*:"), lines, value = TRUE)
