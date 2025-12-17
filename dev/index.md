@@ -75,10 +75,6 @@ GitHub Actions workflow templates for GSM packages:
   `dev` branch, running on Ubuntu with current and minimum supported R
   versions for faster CI feedback during development.
 
-- **`test-coverage.yaml`**: Measures and reports code test coverage
-  using [covr](https://covr.r-lib.org), uploads results to Codecov, and
-  archives test outputs for debugging failures.
-
 - **`pkgdown-with-examples.yaml`**: Builds and deploys pkgdown
   documentation sites with automatic example indexing via
   [`add_pkgdown_examples()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_pkgdown_examples.md).
@@ -88,15 +84,6 @@ GitHub Actions workflow templates for GSM packages:
 - **`pkgdown-cleanup.yaml`**: Automatically removes pkgdown PR preview
   directories from the gh-pages branch when pull requests are closed to
   keep the repository clean.
-
-- **`format-suggest.yaml`**: Uses Posit’s `air` formatter to
-  automatically check code formatting on pull requests and suggests
-  corrections via reviewdog comments, requiring elevated permissions for
-  external contributors.
-
-- **`pr-commands.yaml`**: Enables maintainers to trigger actions via PR
-  comments: `/document` runs `roxygen2::roxygenise()` to update
-  documentation, and `/style` runs `styler::style_pkg()` to format code.
 
 - **`r_releaser.yaml`**: Reusable workflow for building and attaching R
   package source tarballs to GitHub releases, using the A2-ai/r-releaser
