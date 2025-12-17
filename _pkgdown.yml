@@ -18,10 +18,14 @@ reference:
     contents:
       - init_gsm_package
       - update_gsm_package
+      - update_workflow_version
+      - create_gha_manifest
+      - infer_from_yaml
   - title: GitHub tooling
     contents:
       - add_gsm_actions
       - add_gsm_issue_templates
       - add_contributor_guidelines
       - add_pkgdown_examples
+      - check_gha_version
 

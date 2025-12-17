@@ -25,6 +25,8 @@ Authors:
   \item Jon Harmon \email{jon.harmon@atorusresearch.com} (\href{https://orcid.org/0000-0003-4781-4346}{ORCID})
   \item Laura Maxwell \email{lkmaxwell23@gmail.com}
   \item Natalia Andriychuk \email{natalia.andriychuk@gilead.com}
+  \item Anne Zheng \email{anne.zheng4@gilead.com}
+  \item Spencer Childress \email{Spencer.Childress@gilead.com}
 }
 
 Other contributors:
