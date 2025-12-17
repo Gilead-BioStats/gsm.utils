@@ -13,9 +13,12 @@ init_gsm_package(
 \arguments{
 \item{strPackageDir}{path to package directory}
 
-\item{lDescriptionFields}{\code{list} of description fields, passed to \code{\link[usethis:create_package]{usethis::create_package()}}. Default is \code{list()}.}
+\item{lDescriptionFields}{\code{list} of description fields, passed to
+\code{\link[usethis:create_package]{usethis::create_package()}}. Default is \code{list()}.}
 
-\item{bIncludeWorkflowDir}{\code{boolean} argument declaring whether or not to include the \code{inst/workflow} directory in the root of the package. Default is \code{TRUE}.}
+\item{bIncludeWorkflowDir}{\code{boolean} argument declaring whether or not to
+include the \code{inst/workflow} directory in the root of the package. Default
+is \code{TRUE}.}
 }
 \description{
 Initialize gsm Extension package
