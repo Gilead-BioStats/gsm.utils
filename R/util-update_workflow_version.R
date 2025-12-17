@@ -9,11 +9,11 @@
 #' @export
 #'
 update_workflow_version <- function(
-    dir = "inst/gha_templates/workflows",
-    description_path = "DESCRIPTION",
-    label = "# gsm.utils GHA version",
-    recursive = TRUE,
-    add_if_missing = TRUE
+  dir = "inst/gha_templates/workflows",
+  description_path = "DESCRIPTION",
+  label = "# gsm.utils GHA version",
+  recursive = TRUE,
+  add_if_missing = TRUE
 ) {
   stopifnot(dir.exists(dir))
   stopifnot(file.exists(description_path))
@@ -58,7 +58,7 @@ update_workflow_version <- function(
     writeLines(lines, file)
 
     message(sprintf(
-      "%s: %s → %s",
+      "%s: %s -> %s",
       action,
       basename(file),
       version
