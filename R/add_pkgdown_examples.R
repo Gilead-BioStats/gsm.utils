@@ -35,7 +35,7 @@ list_non_index_html <- function(examples_dir) {
 update_pkgdown_examples <- function(pkgdown_yml, html_files) {
   if (!is.null(pkgdown_yml) && file.exists(pkgdown_yml)) {
     pkgdown_yaml <- yaml::read_yaml(pkgdown_yml)
-    pkgdown_yaml <- ensure_pkdgown_examples_section(pkgdown_yaml)
+    pkgdown_yaml <- ensure_pkgdown_examples_section(pkgdown_yaml)
     pkgdown_yaml <- add_pkgdown_examples_to_yaml(pkgdown_yaml, html_files)
     write_yaml(pkgdown_yaml, pkgdown_yml)
     cli::cli_inform(
@@ -44,7 +44,7 @@ update_pkgdown_examples <- function(pkgdown_yml, html_files) {
   }
 }
 
-ensure_pkdgown_examples_section <- function(pkgdown_yaml) {
+ensure_pkgdown_examples_section <- function(pkgdown_yaml) {
   if (is.null(pkgdown_yaml$navbar$components$examples)) {
     pkgdown_yaml$navbar$components$examples <- list(
       text = "Examples",

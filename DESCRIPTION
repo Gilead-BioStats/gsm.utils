@@ -1,12 +1,14 @@
 Package: gsm.utils
 Title: Utilities for gsm package developers
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: c(
     person("Jeremy", "Wildfire", , "jwildfire@gmail.com", role = c("aut", "cre")),
     person("Jon", "Harmon", , "jon.harmon@atorusresearch.com", role = "aut",
            comment = c(ORCID = "0000-0003-4781-4346")),
     person("Laura", "Maxwell", , "lkmaxwell23@gmail.com", role = "aut"),
     person("Natalia", "Andriychuk", , "natalia.andriychuk@gilead.com", role = "aut"),
+    person("Anne", "Zheng", , "anne.zheng4@gilead.com", role = "aut"),
+    person("Spencer", "Childress", , "Spencer.Childress@gilead.com", role = "aut"),
     person("Gilead Sciences", role = "cph")
   )
 Description: Provides utility functions and file templates to be used for
@@ -21,6 +23,7 @@ Imports:
     cli,
     gh,
     htmltools,
+    jsonlite,
     rlang
 Suggests:
     pkgdown,

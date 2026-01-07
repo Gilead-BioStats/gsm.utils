@@ -25,13 +25,18 @@ navbar:
       - text: Package Status Report
         href: examples/package_status_report.html
 reference:
-- title: Package setup
-  contents:
-  - init_gsm_package
-  - update_gsm_package
-- title: GitHub tooling
-  contents:
-  - add_gsm_actions
-  - add_gsm_issue_templates
-  - add_contributor_guidelines
-  - add_pkgdown_examples
+  - title: Package setup
+    contents:
+      - init_gsm_package
+      - update_gsm_package
+      - update_workflow_version
+      - create_gha_manifest
+      - infer_from_yaml
+  - title: GitHub tooling
+    contents:
+      - add_gsm_actions
+      - add_gsm_issue_templates
+      - add_contributor_guidelines
+      - add_pkgdown_examples
+      - check_gha_version
+
