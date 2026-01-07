@@ -1,0 +1,95 @@
+---
+title: "GSM Package Status Report"
+author: "gsm.utils"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output: html_document
+---
+
+This report summarizes the current release and milestone status for a selection
+of gsm extension packages hosted on GitHub. Set a `GITHUB_PAT` or
+`GITHUB_TOKEN` environment variable when rendering to avoid GitHub API rate
+limits.
+
+```{r setup, message=FALSE, echo=FALSE}
+library(gsm.utils)
+
+repos <- list_public_gsm_packages()
+if (!length(repos)) {
+  cli::cli_warn(
+    "No repositories returned by {.fn list_public_gsm_packages}. Using fallback list."
+  )
+  repos <- c(
+    "Gilead-BioStats/gsm.utils",
+    "Gilead-BioStats/gsm.core",
+    "Gilead-BioStats/gsm.kri",
+    "Gilead-BioStats/gsm.mapping"
+  )
+}
+
+status <- summarize_github_repos(repos)
+```
+
+```{r tailwind_css, echo=FALSE, results='asis'}
+cat('<script src="https://cdn.tailwindcss.com"></script>')
+```
+
+```{r status_table, echo=FALSE}
+render_status_table <- function(df) {
+  if (!nrow(df)) {
+    return(htmltools::div(
+      class = "mt-6 rounded-md border border-dashed border-slate-300 bg-slate-50 p-6 text-center text-sm text-slate-500",
+      "No repositories available."
+    ))
+  }
+
+  rows <- lapply(seq_len(nrow(df)), function(i) {
+    htmltools::tags$tr(
+      class = if (i %% 2L) "bg-white" else "bg-slate-50",
+      htmltools::tags$td(
+        class = "whitespace-nowrap px-5 py-4 text-base font-semibold text-slate-900",
+        df$repo[[i]]
+      ),
+      htmltools::tags$td(
+        class = "px-5 py-4 text-base text-slate-800",
+        htmltools::HTML(df$latest_release[[i]])
+      ),
+      htmltools::tags$td(
+        class = "px-5 py-4 text-base text-slate-800",
+        htmltools::HTML(df$upcoming_milestones[[i]])
+      )
+    )
+  })
+
+  htmltools::browsable(
+    htmltools::tags$table(
+      class = "mt-6 min-w-full overflow-hidden rounded-lg border border-slate-200 shadow-sm",
+      htmltools::tags$thead(
+        class = "bg-slate-100",
+        htmltools::tags$tr(
+          htmltools::tags$th(
+            scope = "col",
+            class = "px-5 py-3 text-left text-sm font-semibold uppercase tracking-wide text-slate-600",
+            "Repository"
+          ),
+          htmltools::tags$th(
+            scope = "col",
+            class = "px-5 py-3 text-left text-sm font-semibold uppercase tracking-wide text-slate-600",
+            "Latest release"
+          ),
+          htmltools::tags$th(
+            scope = "col",
+            class = "px-5 py-3 text-left text-sm font-semibold uppercase tracking-wide text-slate-600",
+            "Open milestones"
+          )
+        )
+      ),
+      htmltools::tags$tbody(
+        class = "divide-y divide-slate-200",
+        rows
+      )
+    )
+  )
+}
+
+render_status_table(status)
+```
