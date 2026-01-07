@@ -19,6 +19,8 @@ Depends:
     R (>= 4.1.0)
 Imports:
     cli,
+    gh,
+    htmltools,
     rlang
 Suggests:
     pkgdown,
