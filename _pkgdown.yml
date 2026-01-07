@@ -30,4 +30,8 @@ reference:
       - add_contributor_guidelines
       - add_pkgdown_examples
       - check_gha_version
+  - title: Reporting utilities
+    contents:
+      - list_public_gsm_packages
+      - summarize_github_repos
 
