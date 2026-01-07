@@ -15,15 +15,6 @@ navbar:
       icon: fab fa-github
       aria-label: GitHub
       href: https://github.com/Gilead-BioStats/gsm.utils
-    examples:
-      text: Examples
-      menu:
-      - text: Example Goodbyeworld
-        href: examples/example_goodbyeworld.html
-      - text: Example Helloworld
-        href: examples/example_helloworld.html
-      - text: Package Status Report
-        href: examples/package_status_report.html
 reference:
   - title: Package setup
     contents:
