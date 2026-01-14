@@ -4,7 +4,8 @@
 name: R Release
 
 on:
-
+  release:
+    types: [created]
   workflow_call:
     inputs:
       tag:
