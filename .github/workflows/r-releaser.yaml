@@ -3,7 +3,6 @@
 name: R Release
 
 on:
-
   workflow_call:
     inputs:
       tag:
