@@ -61,7 +61,7 @@ jobs:
                 dir.create(output_dir_abs, recursive = TRUE)
               }
               
-              # Render each Rmd file
+              # Render each Rmd file and add timestamp
               for (rmd_file in rmd_files) {
                 message("Rendering: ", rmd_file)
                 output_file <- file.path(
@@ -73,6 +73,30 @@ jobs:
                   output_file = output_file,
                   quiet = FALSE
                 )
+                
+                # Add timestamp to the newly rendered file
+                if (file.exists(output_file)) {
+                  message("Adding timestamp to: ", output_file)
+                  html_content <- readLines(output_file)
+                  timestamp <- format(Sys.time(), "%Y-%m-%d %H:%M:%S UTC", tz = "UTC")
+                  timestamp_html <- c(
+                    paste0("<!-- Generated: ", timestamp, " -->"),
+                    '<div style="background-color: #f0f0f0; padding: 10px; margin-bottom: 20px; border-left: 4px solid #4CAF50;">',
+                    paste0('  <strong>Last generated:</strong> ', timestamp),
+                    '</div>'
+                  )
+                  
+                  # Find <body> tag and insert timestamp after it
+                  body_idx <- grep("<body>", html_content, fixed = TRUE)
+                  if (length(body_idx) > 0) {
+                    html_content <- c(
+                      html_content[1:body_idx[1]],
+                      timestamp_html,
+                      html_content[(body_idx[1] + 1):length(html_content)]
+                    )
+                    writeLines(html_content, output_file)
+                  }
+                }
               }
             } else {
               message("No .Rmd files found in ", examples_dir)
@@ -80,37 +104,6 @@ jobs:
           } else {
             message("Directory ", examples_dir, " does not exist")
           }
-
-      - name: Insert timestamps in example HTML files
-        run: |
-          # Insert timestamp at the top of each HTML file
-          output_dir="pkgdown/assets/examples"
-          
-          if [ -d "$output_dir" ]; then
-            timestamp=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
-            
-            for html_file in "$output_dir"/*.html; do
-              if [ -f "$html_file" ]; then
-                echo "Adding timestamp to: $html_file"
-                
-                # Insert after <body> tag using a temporary file to avoid escaping issues
-                temp_file=$(mktemp)
-                awk -v ts="$timestamp" '
-                  /<body>/ {
-                    print
-                    print "<!-- Generated: " ts " -->"
-                    print "<div style=\"background-color: #f0f0f0; padding: 10px; margin-bottom: 20px; border-left: 4px solid #4CAF50;\">"
-                    print "  <strong>Last generated:</strong> " ts
-                    print "</div>"
-                    next
-                  }
-                  {print}
-                ' "$html_file" > "$temp_file" && mv "$temp_file" "$html_file"
-              fi
-            done
-          else
-            echo "Directory $output_dir does not exist"
-          fi
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
