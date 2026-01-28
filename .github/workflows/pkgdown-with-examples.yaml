@@ -55,16 +55,17 @@ jobs:
             rmd_files <- list.files(examples_dir, pattern = "\\.Rmd$", full.names = TRUE)
             
             if (length(rmd_files) > 0) {
-              # Create output directory if it doesn't exist
-              if (!dir.exists(output_dir)) {
-                dir.create(output_dir, recursive = TRUE)
+              # Create output directory if it doesn't exist (use absolute path)
+              output_dir_abs <- file.path(getwd(), output_dir)
+              if (!dir.exists(output_dir_abs)) {
+                dir.create(output_dir_abs, recursive = TRUE)
               }
               
               # Render each Rmd file
               for (rmd_file in rmd_files) {
                 message("Rendering: ", rmd_file)
                 output_file <- file.path(
-                  output_dir,
+                  output_dir_abs,
                   gsub("\\.Rmd$", ".html", basename(rmd_file))
                 )
                 rmarkdown::render(
