@@ -44,12 +44,16 @@ jobs:
         run: |
           gsm.utils::add_pkgdown_examples(pkgdown_yml = "_pkgdown.yml")
 
+      - name: Build site
+        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
+        shell: Rscript {0}
+
       - name: Render examples
         shell: Rscript {0}
         run: |
           # Find and render all .Rmd files in inst/examples
           examples_dir <- "inst/examples"
-          output_dir <- "pkgdown/assets/examples"
+          output_dir <- "docs/examples"
           
           if (dir.exists(examples_dir)) {
             rmd_files <- list.files(examples_dir, pattern = "\\.Rmd$", full.names = TRUE)
@@ -83,7 +87,7 @@ jobs:
       - name: Insert timestamps in example HTML files
         run: |
           # Insert timestamp at the top of each HTML file
-          output_dir="pkgdown/assets/examples"
+          output_dir="docs/examples"
           
           if [ -d "$output_dir" ]; then
             timestamp=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
@@ -92,40 +96,24 @@ jobs:
               if [ -f "$html_file" ]; then
                 echo "Adding timestamp to: $html_file"
                 
-                # Create timestamp banner
-                timestamp_html="<!-- Generated: $timestamp -->\n<div style=\"background-color: #f0f0f0; padding: 10px; margin-bottom: 20px; border-left: 4px solid #4CAF50;\">\n  <strong>Last generated:</strong> $timestamp\n</div>\n"
-                
-                # Insert after <body> tag
-                sed -i "s|<body>|<body>\n$timestamp_html|" "$html_file"
+                # Insert after <body> tag using a temporary file to avoid escaping issues
+                temp_file=$(mktemp)
+                awk -v ts="$timestamp" '
+                  /<body>/ {
+                    print
+                    print "<!-- Generated: " ts " -->"
+                    print "<div style=\"background-color: #f0f0f0; padding: 10px; margin-bottom: 20px; border-left: 4px solid #4CAF50;\">"
+                    print "  <strong>Last generated:</strong> " ts
+                    print "</div>"
+                    next
+                  }
+                  {print}
+                ' "$html_file" > "$temp_file" && mv "$temp_file" "$html_file"
               fi
             done
           else
             echo "Directory $output_dir does not exist"
           fi
-
-      - name: Commit updated examples
-        if: github.event_name != 'pull_request'
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          
-          # Add the updated HTML files
-          git add pkgdown/assets/examples/*.html
-          
-          # Check if there are changes to commit
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            # Commit with [skip ci] to prevent triggering other workflows
-            git commit -m "chore: update examples [skip ci]"
-            
-            # Push changes
-            git push origin HEAD:${{ github.ref_name }}
-          fi
-
-      - name: Build site
-        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
-        shell: Rscript {0}
 
       - name: Deploy PR preview 🧪
         if: github.event_name == 'pull_request'
