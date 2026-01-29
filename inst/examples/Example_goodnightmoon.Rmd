@@ -1,0 +1,91 @@
+---
+title: "goodnightmoon"
+author: "[gsm.utils](https://gilead-biostats.github.io/gsm.utils) Example"
+description: "<<Fill in Example description here>>"
+index: 1.5
+date: "`r format(Sys.time(), '%B %d, %Y %H:%M:%S %Z')`"
+output: html_document
+---
+
+# Set Up
+
+Just a simple example initialized with the gsm.utils::MakeExample function.
+
+<details>
+<summary>Setup</summary>
+
+```{r}
+# Compute lunar phase offline (no external APIs)
+moon_phase <- function(date = Sys.Date()) {
+	year <- as.integer(format(date, "%Y"))
+	month <- as.integer(format(date, "%m"))
+	day <- as.integer(format(date, "%d"))
+
+	if (month < 3) {
+		year <- year - 1L
+		month <- month + 12L
+	}
+
+	month <- month + 1L
+	c_val <- 365.25 * year
+	e_val <- 30.6 * month
+	jd <- c_val + e_val + day - 694039.09
+	jd <- jd / 29.5305882
+	phase <- jd - floor(jd)
+	age <- phase * 29.5305882
+
+	phase_name <- if (age < 1.84566) {
+		"New Moon"
+	} else if (age < 5.53699) {
+		"Waxing Crescent"
+	} else if (age < 9.22831) {
+		"First Quarter"
+	} else if (age < 12.91963) {
+		"Waxing Gibbous"
+	} else if (age < 16.61096) {
+		"Full Moon"
+	} else if (age < 20.30228) {
+		"Waning Gibbous"
+	} else if (age < 23.99361) {
+		"Last Quarter"
+	} else if (age < 27.68493) {
+		"Waning Crescent"
+	} else {
+		"New Moon"
+	}
+
+	emoji <- switch(
+		phase_name,
+		"New Moon" = "🌑",
+		"Waxing Crescent" = "🌒",
+		"First Quarter" = "🌓",
+		"Waxing Gibbous" = "🌔",
+		"Full Moon" = "🌕",
+		"Waning Gibbous" = "🌖",
+		"Last Quarter" = "🌗",
+		"Waning Crescent" = "🌘",
+		"🌑"
+	)
+
+	list(age_days = age, phase = phase_name, emoji = emoji)
+}
+
+moon_info <- moon_phase(Sys.Date())
+```
+
+</details>
+
+# Report
+
+```{r}
+message(
+	"Goodnight, moon! In Durham, NC (offline estimate), today is a ",
+	moon_info$phase,
+	" ",
+	moon_info$emoji,
+	" (lunar age ~ ",
+	sprintf("%.1f", moon_info$age_days),
+	" days). Rendered on ",
+	Sys.time()
+)
+```

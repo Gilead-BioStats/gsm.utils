@@ -32,4 +32,5 @@ reference:
     contents:
       - render_examples
       - render_rmd
+      - make_example
 
