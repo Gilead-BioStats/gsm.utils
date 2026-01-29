@@ -139,4 +139,6 @@ By contributing to this project, you agree to abide by its terms.
   : Render example R Markdown files
 - [`render_rmd()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/render_rmd.md)
   : Custom Rmarkdown render function
+- [`make_example()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/make_example.md)
+  : Create an example R Markdown template
 

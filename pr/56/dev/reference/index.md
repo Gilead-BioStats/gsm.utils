@@ -40,3 +40,5 @@
   : Render example R Markdown files
 - [`render_rmd()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/render_rmd.md)
   : Custom Rmarkdown render function
+- [`make_example()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/make_example.md)
+  : Create an example R Markdown template
