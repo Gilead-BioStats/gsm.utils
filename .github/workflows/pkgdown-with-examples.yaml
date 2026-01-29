@@ -39,15 +39,15 @@ jobs:
           extra-packages: any::pkgdown, any::rmarkdown, local::., Gilead-BioStats/gsm.utils
           needs: website
 
-      - name: Generate examples menu
-        shell: Rscript {0}
-        run: |
-          gsm.utils::add_pkgdown_examples(pkgdown_yml = "_pkgdown.yml")
-
       - name: Render examples
         shell: Rscript {0}
         run: |
           gsm.utils::render_examples()
+
+      - name: Generate examples menu
+        shell: Rscript {0}
+        run: |
+          gsm.utils::add_pkgdown_examples(pkgdown_yml = "_pkgdown.yml")
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
