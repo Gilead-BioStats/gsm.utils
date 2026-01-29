@@ -14,7 +14,7 @@ test_that("render_examples informs when no Rmd files", {
   )
 })
 
-test_that("render_examples renders files and adds header", {
+test_that("render_examples renders files", {
   testthat::skip_if_not_installed("rmarkdown")
 
   tmp <- withr::local_tempdir()

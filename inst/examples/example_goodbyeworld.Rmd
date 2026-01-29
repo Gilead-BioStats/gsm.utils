@@ -1,6 +1,6 @@
 ---
-title: "Goodbye World Example"
-author: "gsm.utils developers"
+title: "Goodbye World"
+author: "[gsm.utils](https://gilead-biostats.github.io/gsm.utils) Example"
 description: "A 2nd example R Markdown document for the gsm.utils package."
 index: 2
 date: "`r format(Sys.time(), '%B %d, %Y %H:%M:%S %Z')`"
