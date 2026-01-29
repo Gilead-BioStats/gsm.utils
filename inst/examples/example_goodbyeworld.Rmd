@@ -14,8 +14,11 @@ This 2nd minimal R Markdown document demonstrates how to render output from the
 message("Goodbye, world! This document was rendered on ", Sys.time())
 ```
 
-## Session info
+<details>
+<summary>Session info</summary>
 
 ```{r}
 sessionInfo()
 ```
+
+</details>

@@ -1,6 +1,6 @@
 ---
-title: "Hello World Example"
-author: "gsm.utils authors"
+title: "Hello World"
+author: "[gsm.utils](https://gilead-biostats.github.io/gsm.utils) Example"
 description: "A minimal example R Markdown document for the gsm.utils package."
 index: 1
 date: "`r format(Sys.time(), '%B %d, %Y %H:%M:%S %Z')`"
@@ -14,8 +14,11 @@ This minimal R Markdown document demonstrates how to render output from the
 message("Hello, world! This document was rendered on ", Sys.time())
 ```
 
-## Session info
+<details>
+<summary>Session info</summary>
 
 ```{r}
 sessionInfo()
 ```
+
+</details>
