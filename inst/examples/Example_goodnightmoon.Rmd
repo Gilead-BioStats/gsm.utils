@@ -1,5 +1,5 @@
 ---
-title: "goodnightmoon"
+title: "🌖 Goodnight Moon 🌔"
 author: "[gsm.utils](https://gilead-biostats.github.io/gsm.utils) Example"
 description: "<<Fill in Example description here>>"
 index: 1.5
