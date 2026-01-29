@@ -79,10 +79,19 @@ render_examples <- function(
   invisible(output_files)
 }
 
+#' Normalize output directory
+#'
+#' @param output_dir Character. Path to output directory.
+#' @returns Absolute path to output directory.
+#' @keywords internal
 normalize_output_dir <- function(output_dir) {
   fs::path_abs(output_dir, start = getwd())
 }
 
+#' Ensure render_rmd is available
+#'
+#' @returns `TRUE` invisibly when `render_rmd` is available.
+#' @keywords internal
 ensure_render_rmd <- function() {
   if (exists("render_rmd", mode = "function", inherits = TRUE)) {
     return(invisible(TRUE))

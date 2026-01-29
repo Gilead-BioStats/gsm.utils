@@ -8,35 +8,55 @@
 #'   files. Default is `"pkgdown/assets/examples"`.
 #' @param pkgdown_yml Character. Path to `_pkgdown.yml` file to update with menu.
 #'   Default is `"_pkgdown.yml"`.
+#' @param rmd_dir Character. Path to directory containing example `\.Rmd` files
+#'   used to derive titles and order. Default is `"inst/examples"`.
 #'
 #' @returns `NULL` invisibly.
 #' @export
 add_pkgdown_examples <- function(
   examples_dir = "pkgdown/assets/examples",
-  pkgdown_yml = "_pkgdown.yml"
+  pkgdown_yml = "_pkgdown.yml",
+  rmd_dir = "inst/examples"
 ) {
   rlang::check_installed("yaml", reason = "to manipulate _pkgdown.yml files.")
 
   html_files <- list_non_index_html(examples_dir)
+  metadata <- list_example_metadata(rmd_dir)
 
   if (length(html_files)) {
-    update_pkgdown_examples(pkgdown_yml, html_files)
+    update_pkgdown_examples(pkgdown_yml, html_files, metadata)
   } else {
     remove_pkgdown_examples(pkgdown_yml, examples_dir)
   }
   invisible(NULL)
 }
 
+#' List HTML files excluding index.html
+#'
+#' @param examples_dir Character. Path to directory containing example HTML files.
+#' @returns Character vector of HTML file names.
+#' @keywords internal
 list_non_index_html <- function(examples_dir) {
   html_files <- list.files(examples_dir, pattern = "\\.html$")
   html_files[html_files != "index.html"]
 }
 
-update_pkgdown_examples <- function(pkgdown_yml, html_files) {
+#' Update pkgdown YAML with example menu entries
+#'
+#' @param pkgdown_yml Character. Path to `_pkgdown.yml`.
+#' @param html_files Character vector of example HTML files.
+#' @param metadata Data frame of example metadata.
+#' @returns `NULL` invisibly.
+#' @keywords internal
+update_pkgdown_examples <- function(pkgdown_yml, html_files, metadata) {
   if (!is.null(pkgdown_yml) && file.exists(pkgdown_yml)) {
     pkgdown_yaml <- yaml::read_yaml(pkgdown_yml)
     pkgdown_yaml <- ensure_pkgdown_examples_section(pkgdown_yaml)
-    pkgdown_yaml <- add_pkgdown_examples_to_yaml(pkgdown_yaml, html_files)
+    pkgdown_yaml <- add_pkgdown_examples_to_yaml(
+      pkgdown_yaml,
+      html_files,
+      metadata
+    )
     write_yaml(pkgdown_yaml, pkgdown_yml)
     cli::cli_inform(
       "Updated {.file {pkgdown_yml}} with {.val {length(html_files)}} example{?s}."
@@ -44,6 +64,11 @@ update_pkgdown_examples <- function(pkgdown_yml, html_files) {
   }
 }
 
+#' Ensure pkgdown examples menu exists
+#'
+#' @param pkgdown_yaml List representation of `_pkgdown.yml`.
+#' @returns Updated pkgdown YAML list.
+#' @keywords internal
 ensure_pkgdown_examples_section <- function(pkgdown_yaml) {
   if (is.null(pkgdown_yaml$navbar$components$examples)) {
     pkgdown_yaml$navbar$components$examples <- list(
@@ -65,23 +90,33 @@ ensure_pkgdown_examples_section <- function(pkgdown_yaml) {
   return(pkgdown_yaml)
 }
 
-add_pkgdown_examples_to_yaml <- function(pkgdown_yaml, html_files) {
+#' Add example menu items to pkgdown YAML
+#'
+#' @param pkgdown_yaml List representation of `_pkgdown.yml`.
+#' @param html_files Character vector of example HTML files.
+#' @param metadata Data frame of example metadata.
+#' @returns Updated pkgdown YAML list.
+#' @keywords internal
+add_pkgdown_examples_to_yaml <- function(pkgdown_yaml, html_files, metadata) {
+  menu_items <- build_examples_menu(html_files, metadata)
   pkgdown_yaml$navbar$components$examples$menu <- lapply(
-    html_files,
-    function(html_file) {
+    menu_items,
+    function(item) {
       list(
-        text = tools::toTitleCase(gsub(
-          "_",
-          " ",
-          tools::file_path_sans_ext(html_file)
-        )),
-        href = file.path("examples", html_file)
+        text = item$title,
+        href = file.path("examples", item$html)
       )
     }
   )
   return(pkgdown_yaml)
 }
 
+#' Remove examples menu from pkgdown YAML
+#'
+#' @param pkgdown_yml Character. Path to `_pkgdown.yml`.
+#' @param examples_dir Character. Path to examples directory.
+#' @returns `NULL` invisibly.
+#' @keywords internal
 remove_pkgdown_examples <- function(pkgdown_yml, examples_dir) {
   cli::cli_inform("No HTML files found in {.path {examples_dir}}.")
   if (!is.null(pkgdown_yml) && file.exists(pkgdown_yml)) {
@@ -96,6 +131,94 @@ remove_pkgdown_examples <- function(pkgdown_yml, examples_dir) {
     write_yaml(pkgdown_yaml, pkgdown_yml)
     cli::cli_inform("Removed examples menu from {.file {pkgdown_yml}}.")
   }
+}
+
+#' List example metadata from Rmd files
+#'
+#' @param rmd_dir Character. Path to directory containing example Rmd files.
+#' @returns Data frame with `html`, `title`, and `index` columns.
+#' @keywords internal
+list_example_metadata <- function(rmd_dir) {
+  if (is.null(rmd_dir) || !dir.exists(rmd_dir)) {
+    return(data.frame(html = character(), title = character(), index = numeric()))
+  }
+
+  rlang::check_installed(
+    "rmarkdown",
+    reason = "to read example metadata from Rmd files."
+  )
+
+  rmd_files <- list.files(rmd_dir, pattern = "\\.Rmd$", full.names = TRUE)
+  if (!length(rmd_files)) {
+    return(data.frame(html = character(), title = character(), index = numeric()))
+  }
+
+  metadata <- lapply(rmd_files, function(rmd_file) {
+    front_matter <- tryCatch(
+      rmarkdown::yaml_front_matter(rmd_file),
+      error = function(e) list()
+    )
+    title <- rlang::`%||%`(
+      front_matter$title,
+      tools::toTitleCase(gsub("_", " ", tools::file_path_sans_ext(basename(rmd_file))))
+    )
+    index <- suppressWarnings(as.numeric(front_matter$index))
+    if (is.na(index)) {
+      index <- Inf
+    }
+    data.frame(
+      html = paste0(tools::file_path_sans_ext(basename(rmd_file)), ".html"),
+      title = as.character(title),
+      index = index,
+      stringsAsFactors = FALSE
+    )
+  })
+
+  do.call(rbind, metadata)
+}
+
+#' Build ordered example menu
+#'
+#' @param html_files Character vector of example HTML files.
+#' @param metadata Data frame with `html`, `title`, and `index` columns.
+#' @returns List of menu entries with `html` and `title`.
+#' @keywords internal
+build_examples_menu <- function(html_files, metadata) {
+  html_files <- html_files[html_files != "index.html"]
+  if (!length(html_files)) {
+    return(list())
+  }
+
+  meta <- data.frame(
+    html = html_files,
+    title = tools::toTitleCase(gsub(
+      "_",
+      " ",
+      tools::file_path_sans_ext(html_files)
+    )),
+    index = Inf,
+    stringsAsFactors = FALSE
+  )
+
+  if (nrow(metadata)) {
+    meta <- merge(meta, metadata, by = "html", all.x = TRUE, suffixes = c(".default", ".rmd"))
+    meta$title <- ifelse(
+      nzchar(meta$title.rmd),
+      meta$title.rmd,
+      meta$title.default
+    )
+    meta$index <- ifelse(
+      is.finite(meta$index.rmd),
+      meta$index.rmd,
+      meta$index
+    )
+    meta <- meta[, c("html", "title", "index")]
+  }
+
+  meta <- meta[order(meta$index, meta$title), , drop = FALSE]
+  lapply(seq_len(nrow(meta)), function(i) {
+    list(html = meta$html[i], title = meta$title[i])
+  })
 }
 
 #' Helper to wrap yaml::write_yaml for testing.
