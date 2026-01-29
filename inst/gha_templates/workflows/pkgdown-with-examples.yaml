@@ -96,8 +96,8 @@ jobs:
                     '</div>'
                   )
                   
-                  # Find <body> tag and insert timestamp after it
-                  body_idx <- grep("<body>", html_content, fixed = TRUE)
+                  # Find <body> tag (with or without attributes) and insert timestamp after it
+                  body_idx <- grep("<body[^>]*>", html_content)
                   if (length(body_idx) > 0) {
                     html_content <- c(
                       html_content[1:body_idx[1]],
