@@ -39,7 +39,14 @@ test_that("render_examples renders files", {
   output_dir <- file.path(tmp, "pkgdown", "assets", "examples")
 
   local_mocked_bindings(
-    render_rmd = function(input, output_file, quiet = FALSE, ...) {
+    render_rmd = function(
+      strInputPath,
+      strOutputFile,
+      strOutputDir,
+      lParams = NULL,
+      quiet = FALSE
+    ) {
+      output_path <- file.path(strOutputDir, strOutputFile)
       writeLines(
         c(
           "<html>",
@@ -48,9 +55,9 @@ test_that("render_examples renders files", {
           "</body>",
           "</html>"
         ),
-        output_file
+        output_path
       )
-      invisible(output_file)
+      invisible(output_path)
     }
   )
 

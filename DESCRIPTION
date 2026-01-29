@@ -1,6 +1,10 @@
 Package: gsm.utils
 Title: Utilities for gsm package developers
 Version: 0.2.0
+Author: Jeremy Wildfire [aut, cre], Jon Harmon [aut], Laura Maxwell [aut],
+    Natalia Andriychuk [aut], Anne Zheng [aut], Spencer Childress [aut],
+    Gilead Sciences [cph]
+Maintainer: Jeremy Wildfire <jwildfire@gmail.com>
 Authors@R: c(
     person("Jeremy", "Wildfire", , "jwildfire@gmail.com", role = c("aut", "cre")),
     person("Jon", "Harmon", , "jon.harmon@atorusresearch.com", role = "aut",
@@ -29,6 +33,7 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0),
     usethis,
+    waldo (>= 0.5.0),
     withr,
     yaml
 Config/Needs/website: pkgdown, rmarkdown
