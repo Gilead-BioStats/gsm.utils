@@ -19,7 +19,7 @@ render_examples <- function(
   recursive = FALSE,
   quiet = FALSE
 ) {
-  ensure_render_rmd()
+  render_fn <- ensure_render_rmd()
   rlang::check_installed(
     "rmarkdown",
     reason = "to render example Rmd files."
@@ -55,7 +55,7 @@ render_examples <- function(
 
     rendered <- tryCatch(
       {
-        render_rmd(
+        render_fn(
           strInputPath = rmd_file,
           strOutputFile = fs::path_file(output_file),
           strOutputDir = output_dir_abs,
@@ -90,21 +90,16 @@ normalize_output_dir <- function(output_dir) {
 
 #' Ensure render_rmd is available
 #'
-#' @returns `TRUE` invisibly when `render_rmd` is available.
+#' @returns A function that can be used to render Rmd files.
 #' @keywords internal
 ensure_render_rmd <- function() {
   if (exists("render_rmd", mode = "function", inherits = TRUE)) {
-    return(invisible(TRUE))
+    return(get("render_rmd", mode = "function", inherits = TRUE))
   }
 
   if (requireNamespace("gsm.utils", quietly = TRUE)) {
     if (exists("render_rmd", envir = asNamespace("gsm.utils"))) {
-      assign(
-        "render_rmd",
-        get("render_rmd", envir = asNamespace("gsm.utils")),
-        envir = globalenv()
-      )
-      return(invisible(TRUE))
+      return(get("render_rmd", envir = asNamespace("gsm.utils")))
     }
   }
 
@@ -117,7 +112,7 @@ ensure_render_rmd <- function() {
     cli::cli_abort("Could not find render_rmd().")
   }
 
-  invisible(TRUE)
+  get("render_rmd", mode = "function", inherits = TRUE)
 }
 
 #' Helper to wrap rmarkdown::yaml_front_matter for testing.
