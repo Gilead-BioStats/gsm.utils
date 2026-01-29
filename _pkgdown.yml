@@ -28,4 +28,8 @@ reference:
       - add_contributor_guidelines
       - add_pkgdown_examples
       - check_gha_version
+  - title: Example rendering
+    contents:
+      - render_examples
+      - render_rmd
 
