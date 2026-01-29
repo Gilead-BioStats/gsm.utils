@@ -1,14 +1,14 @@
 ---
 title: "Hello World Example"
-author: "gsm.utils"
-date: "`r format(Sys.Date(), '%B %d, %Y')`"
+author: "gsm.utils authors"
+description: "A minimal example R Markdown document for the gsm.utils package."
+index: 1
+date: "`r format(Sys.time(), '%B %d, %Y %H:%M:%S %Z')`"
 output: html_document
 ---
 
 This minimal R Markdown document demonstrates how to render output from the
 `gsm.utils` package example library.
-
-## Hello world
 
 ```{r}
 message("Hello, world! This document was rendered on ", Sys.time())

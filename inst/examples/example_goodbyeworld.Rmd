@@ -1,0 +1,21 @@
+---
+title: "Goodbye World Example"
+author: "gsm.utils developers"
+description: "A 2nd example R Markdown document for the gsm.utils package."
+index: 2
+date: "`r format(Sys.time(), '%B %d, %Y %H:%M:%S %Z')`"
+output: html_document
+---
+
+This 2nd minimal R Markdown document demonstrates how to render output from the
+`gsm.utils` package example library.
+
+```{r}
+message("Goodbye, world! This document was rendered on ", Sys.time())
+```
+
+## Session info
+
+```{r}
+sessionInfo()
+```
