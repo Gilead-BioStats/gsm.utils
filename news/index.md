@@ -1,5 +1,16 @@
 # Changelog
 
+## gsm.utils v0.3.0
+
+This update of the gsm.utils package introduces the following features:
+
+- Adds three new exported functions (`render_examples`, `render_rmd`,
+  `make_example`) for managing R Markdown example files
+- Updates `add_pkgdown_examples` to read metadata from source Rmd files
+  for proper ordering and titles
+- Reorganizes GitHub Actions workflows by splitting r-releaser into
+  reusable and caller components
+
 ## gsm.utils v0.2.0
 
 This is a major update of the gsm.utils package. It introduces:

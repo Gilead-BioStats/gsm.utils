@@ -77,7 +77,9 @@ GitHub Actions workflow templates for GSM packages:
 
 - **`pkgdown-with-examples.yaml`**: Builds and deploys pkgdown
   documentation sites with automatic example indexing via
-  [`add_pkgdown_examples()`](https://gilead-biostats.github.io/gsm.utils/reference/add_pkgdown_examples.md).
+  [`add_pkgdown_examples()`](https://gilead-biostats.github.io/gsm.utils/reference/add_pkgdown_examples.md)
+  and example rendering via
+  [`render_examples()`](https://gilead-biostats.github.io/gsm.utils/reference/render_examples.md).
   Creates PR preview sites at `/pr/{number}` and deploys production
   sites to gh-pages on push to `main` or `dev`.
 
@@ -132,4 +134,13 @@ By contributing to this project, you agree to abide by its terms.
   : Generate Examples menu in pkgdown
 - [`check_gha_version()`](https://gilead-biostats.github.io/gsm.utils/reference/check_gha_version.md)
   : Check GitHub Actions version in a package
+
+## Example rendering
+
+- [`render_examples()`](https://gilead-biostats.github.io/gsm.utils/reference/render_examples.md)
+  : Render example R Markdown files
+- [`render_rmd()`](https://gilead-biostats.github.io/gsm.utils/reference/render_rmd.md)
+  : Custom Rmarkdown render function
+- [`make_example()`](https://gilead-biostats.github.io/gsm.utils/reference/make_example.md)
+  : Create an example R Markdown template
 

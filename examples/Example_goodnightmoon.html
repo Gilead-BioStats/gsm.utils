@@ -12,7 +12,7 @@
 <meta name="author" content="gsm.utils Example" />
 
 
-<title>Goodbye World</title>
+<title>🌖 Goodnight Moon 🌔</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -349,7 +349,7 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Goodbye World</h1>
+<h1 class="title toc-ignore">🌖 Goodnight Moon 🌔</h1>
 <h4 class="author"><a href="https://gilead-biostats.github.io/gsm.utils">gsm.utils</a>
 Example</h4>
 <h4 class="date">January 30, 2026 20:13:32 UTC</h4>
@@ -357,44 +357,86 @@ Example</h4>
 </div>
 
 
-<p>This 2nd minimal R Markdown document demonstrates how to render
-output from the <code>gsm.utils</code> package example library.</p>
-<pre class="r"><code>message(&quot;Goodbye, world! This document was rendered on &quot;, Sys.time())</code></pre>
-<pre><code>## Goodbye, world! This document was rendered on 2026-01-30 20:13:32.316737</code></pre>
+<div id="set-up" class="section level1">
+<h1>Set Up</h1>
+<p>Just a simple example initialized with the gsm.utils::MakeExample
+function.</p>
 <details>
 <summary>
-Session info
+Setup
 </summary>
-<pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>## R version 4.5.2 (2025-10-31)
-## Platform: x86_64-pc-linux-gnu
-## Running under: Ubuntu 24.04.3 LTS
-## 
-## Matrix products: default
-## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
-## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0
-## 
-## locale:
-##  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
-##  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
-##  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
-## [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
-## 
-## time zone: UTC
-## tzcode source: system (glibc)
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## loaded via a namespace (and not attached):
-##  [1] digest_0.6.39   R6_2.6.1        fastmap_1.2.0   xfun_0.56      
-##  [5] magrittr_2.0.4  gsm.utils_0.3.0 cachem_1.1.0    glue_1.8.0     
-##  [9] tibble_3.3.1    knitr_1.51      pkgconfig_2.0.3 htmltools_0.5.9
-## [13] rmarkdown_2.30  lifecycle_1.0.5 cli_3.6.5       sass_0.4.10    
-## [17] vctrs_0.7.1     jquerylib_0.1.4 compiler_4.5.2  tools_4.5.2    
-## [21] bslib_0.10.0    evaluate_1.0.5  pillar_1.11.1   yaml_2.3.12    
-## [25] jsonlite_2.0.0  rlang_1.1.7     fs_1.6.6</code></pre>
+<pre class="r"><code># Compute lunar phase offline (no external APIs)
+moon_phase &lt;- function(date = Sys.Date()) {
+    year &lt;- as.integer(format(date, &quot;%Y&quot;))
+    month &lt;- as.integer(format(date, &quot;%m&quot;))
+    day &lt;- as.integer(format(date, &quot;%d&quot;))
+
+    if (month &lt; 3) {
+        year &lt;- year - 1L
+        month &lt;- month + 12L
+    }
+
+    month &lt;- month + 1L
+    c_val &lt;- 365.25 * year
+    e_val &lt;- 30.6 * month
+    jd &lt;- c_val + e_val + day - 694039.09
+    jd &lt;- jd / 29.5305882
+    phase &lt;- jd - floor(jd)
+    age &lt;- phase * 29.5305882
+
+    phase_name &lt;- if (age &lt; 1.84566) {
+        &quot;New Moon&quot;
+    } else if (age &lt; 5.53699) {
+        &quot;Waxing Crescent&quot;
+    } else if (age &lt; 9.22831) {
+        &quot;First Quarter&quot;
+    } else if (age &lt; 12.91963) {
+        &quot;Waxing Gibbous&quot;
+    } else if (age &lt; 16.61096) {
+        &quot;Full Moon&quot;
+    } else if (age &lt; 20.30228) {
+        &quot;Waning Gibbous&quot;
+    } else if (age &lt; 23.99361) {
+        &quot;Last Quarter&quot;
+    } else if (age &lt; 27.68493) {
+        &quot;Waning Crescent&quot;
+    } else {
+        &quot;New Moon&quot;
+    }
+
+    emoji &lt;- switch(
+        phase_name,
+        &quot;New Moon&quot; = &quot;🌑&quot;,
+        &quot;Waxing Crescent&quot; = &quot;🌒&quot;,
+        &quot;First Quarter&quot; = &quot;🌓&quot;,
+        &quot;Waxing Gibbous&quot; = &quot;🌔&quot;,
+        &quot;Full Moon&quot; = &quot;🌕&quot;,
+        &quot;Waning Gibbous&quot; = &quot;🌖&quot;,
+        &quot;Last Quarter&quot; = &quot;🌗&quot;,
+        &quot;Waning Crescent&quot; = &quot;🌘&quot;,
+        &quot;🌑&quot;
+    )
+
+    list(age_days = age, phase = phase_name, emoji = emoji)
+}
+
+moon_info &lt;- moon_phase(Sys.Date())</code></pre>
 </details>
+</div>
+<div id="report" class="section level1">
+<h1>Report</h1>
+<pre class="r"><code>message(
+    &quot;Goodnight, moon! In Durham, NC (offline estimate), today is a &quot;,
+    moon_info$phase,
+    &quot; &quot;,
+    moon_info$emoji,
+    &quot; (lunar age ~ &quot;,
+    sprintf(&quot;%.1f&quot;, moon_info$age_days),
+    &quot; days). Rendered on &quot;,
+    Sys.time()
+)</code></pre>
+<pre><code>## Goodnight, moon! In Durham, NC (offline estimate), today is a Waxing Gibbous 🌔 (lunar age ~ 12.4 days). Rendered on 2026-01-30 20:13:32.050321</code></pre>
+</div>
 
 
 

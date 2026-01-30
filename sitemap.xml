@@ -3,6 +3,7 @@
 <url><loc>https://gilead-biostats.github.io/gsm.utils/CONTRIBUTING.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/LICENSE.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/authors.html</loc></url>
+<url><loc>https://gilead-biostats.github.io/gsm.utils/examples/Example_goodnightmoon.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/examples/example_goodbyeworld.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/examples/example_helloworld.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/index.html</loc></url>
@@ -17,6 +18,9 @@
 <url><loc>https://gilead-biostats.github.io/gsm.utils/reference/index.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/reference/infer_from_yaml.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/reference/init_gsm_package.html</loc></url>
+<url><loc>https://gilead-biostats.github.io/gsm.utils/reference/make_example.html</loc></url>
+<url><loc>https://gilead-biostats.github.io/gsm.utils/reference/render_examples.html</loc></url>
+<url><loc>https://gilead-biostats.github.io/gsm.utils/reference/render_rmd.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/reference/update_gsm_package.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/reference/update_workflow_version.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/reference/write_yaml.html</loc></url>
