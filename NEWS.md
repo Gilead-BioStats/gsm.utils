@@ -1,4 +1,4 @@
-#gsm.utils v0.3.0
+# gsm.utils v0.3.0
 
 This update of the gsm.utils package introduces the following features:
 
