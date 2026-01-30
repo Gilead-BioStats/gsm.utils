@@ -33,3 +33,12 @@
   : Generate Examples menu in pkgdown
 - [`check_gha_version()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/check_gha_version.md)
   : Check GitHub Actions version in a package
+
+## Example rendering
+
+- [`render_examples()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/render_examples.md)
+  : Render example R Markdown files
+- [`render_rmd()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/render_rmd.md)
+  : Custom Rmarkdown render function
+- [`make_example()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/make_example.md)
+  : Create an example R Markdown template
