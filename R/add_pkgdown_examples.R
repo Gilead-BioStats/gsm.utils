@@ -158,12 +158,20 @@ list_example_metadata <- function(rmd_dir) {
       rmarkdown::yaml_front_matter(rmd_file),
       error = function(e) list()
     )
+    title_val <- front_matter$title
+    if (length(title_val) == 0) {
+      title_val <- NULL
+    }
     title <- rlang::`%||%`(
-      front_matter$title,
+      title_val,
       tools::toTitleCase(gsub("_", " ", tools::file_path_sans_ext(basename(rmd_file))))
     )
-    index <- suppressWarnings(as.numeric(front_matter$index))
-    if (is.na(index)) {
+    index_val <- front_matter$index
+    if (length(index_val) == 0) {
+      index_val <- NA_real_
+    }
+    index <- suppressWarnings(as.numeric(index_val))
+    if (length(index) == 0 || is.na(index)) {
       index <- Inf
     }
     data.frame(
