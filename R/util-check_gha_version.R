@@ -28,17 +28,17 @@
 check_gha_version <- function(strPackageDir = ".", bVerbose = TRUE) {
   # Get gsm.utils version from manifest
   manifest_path <- system.file("gha_templates/gha_version.json", package = "gsm.utils")
-  
+
   if (!file.exists(manifest_path)) {
     cli::cli_abort("Cannot find GHA version manifest in gsm.utils package.")
   }
-  
+
   manifest <- jsonlite::fromJSON(manifest_path, simplifyVector = TRUE)
   gsm_utils_version <- manifest$version
-  
+
   # Check if package .github/workflows directory exists
   workflows_dir <- file.path(strPackageDir, ".github", "workflows")
-  
+
   if (!dir.exists(workflows_dir)) {
     if (bVerbose) {
       cli::cli_alert_warning("No .github/workflows directory found in {.path {strPackageDir}}")
@@ -51,12 +51,12 @@ check_gha_version <- function(strPackageDir = ".", bVerbose = TRUE) {
       workflows_missing = manifest$workflows$name
     ))
   }
-  
+
   # Get list of expected workflow files
   expected_workflows <- manifest$workflows$name
   workflow_files <- list.files(workflows_dir, pattern = "\\.ya?ml$", full.names = TRUE)
   workflow_names <- basename(workflow_files)
-  
+
   # Extract version from first workflow file that has it
   package_version <- NA_character_
   for (wf in workflow_files) {
@@ -69,13 +69,13 @@ check_gha_version <- function(strPackageDir = ".", bVerbose = TRUE) {
       }
     }
   }
-  
+
   # Determine which workflows are present/missing
   workflows_found <- intersect(workflow_names, expected_workflows)
   workflows_missing <- setdiff(expected_workflows, workflow_names)
-  
+
   is_current <- !is.na(package_version) && package_version == gsm_utils_version
-  
+
   if (bVerbose) {
     if (is.na(package_version)) {
       cli::cli_alert_warning("No gsm.utils version found in workflow files")
@@ -88,18 +88,18 @@ check_gha_version <- function(strPackageDir = ".", bVerbose = TRUE) {
       )
       cli::cli_alert_info("Run {.code gsm.utils::update_gsm_package()} to update")
     }
-    
+
     if (length(workflows_found) > 0) {
       cli::cli_alert_info("Found {length(workflows_found)} workflow file{?s}: {.file {workflows_found}}")
     }
-    
+
     if (length(workflows_missing) > 0) {
       cli::cli_alert_warning(
         "Missing {length(workflows_missing)} expected workflow{?s}: {.file {workflows_missing}}"
       )
     }
   }
-  
+
   invisible(list(
     package_version = package_version,
     gsm_utils_version = gsm_utils_version,

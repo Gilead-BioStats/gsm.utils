@@ -6,7 +6,8 @@
 \usage{
 add_pkgdown_examples(
   examples_dir = "pkgdown/assets/examples",
-  pkgdown_yml = "_pkgdown.yml"
+  pkgdown_yml = "_pkgdown.yml",
+  rmd_dir = "inst/examples"
 )
 }
 \arguments{
@@ -15,6 +16,9 @@ files. Default is \code{"pkgdown/assets/examples"}.}
 
 \item{pkgdown_yml}{Character. Path to \verb{_pkgdown.yml} file to update with menu.
 Default is \code{"_pkgdown.yml"}.}
+
+\item{rmd_dir}{Character. Path to directory containing example \code{.Rmd} files
+used to derive titles and order. Default is \code{"inst/examples"}.}
 }
 \value{
 \code{NULL} invisibly.
