@@ -210,16 +210,12 @@ build_examples_menu <- function(html_files, metadata) {
 
   if (nrow(metadata)) {
     meta <- merge(meta, metadata, by = "html", all.x = TRUE, suffixes = c(".default", ".rmd"))
-    meta$title <- ifelse(
-      nzchar(meta$title.rmd),
-      meta$title.rmd,
-      meta$title.default
-    )
-    meta$index <- ifelse(
-      is.finite(meta$index.rmd),
-      meta$index.rmd,
-      meta$index
-    )
+    has_title <- !is.na(meta$title.rmd) & nzchar(meta$title.rmd)
+    meta$title <- meta$title.default
+    meta$title[has_title] <- meta$title.rmd[has_title]
+
+    has_index <- is.finite(meta$index.rmd)
+    meta$index[has_index] <- meta$index.rmd[has_index]
     meta <- meta[, c("html", "title", "index")]
   }
 
