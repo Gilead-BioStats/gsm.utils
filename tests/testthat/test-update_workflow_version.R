@@ -124,4 +124,3 @@ test_that("warns when no yaml files are found", {
     "No .yaml files found"
   )
 })
-

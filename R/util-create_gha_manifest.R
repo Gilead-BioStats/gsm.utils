@@ -10,11 +10,11 @@
 #' @export
 #'
 create_gha_manifest <- function(
-    workflows_dir = "inst/gha_templates/workflows",
-    issue_templates_dir = "inst/gha_templates/ISSUE_TEMPLATE",
-    repository = "https://github.com/Gilead-BioStats/gsm.utils",
-    description_path = "DESCRIPTION",
-    output_path = "inst/gha_templates/gha_version.json"
+  workflows_dir = "inst/gha_templates/workflows",
+  issue_templates_dir = "inst/gha_templates/ISSUE_TEMPLATE",
+  repository = "https://github.com/Gilead-BioStats/gsm.utils",
+  description_path = "DESCRIPTION",
+  output_path = "inst/gha_templates/gha_version.json"
 ) {
   stopifnot(file.exists(description_path))
   stopifnot(dir.exists(workflows_dir))
@@ -62,7 +62,7 @@ create_gha_manifest <- function(
         file.path(issue_templates_dir, f),
         type = "name"
       )
-      )
+    )
   })
 
   # Build manifest
@@ -92,12 +92,12 @@ create_gha_manifest <- function(
 #' @returns `string` extracted value or `NA_character_` if not found
 infer_from_yaml <- function(path, type) {
   lines <- readLines(path, warn = FALSE)
-  type_line <- grep(paste0("^",type, "\\s*:"), lines, value = TRUE)
+  type_line <- grep(paste0("^", type, "\\s*:"), lines, value = TRUE)
 
   if (length(type_line) == 0) {
     return(NA_character_)
   }
 
-  output <- sub(paste0("^",type, "\\s*:\\s"), "", type_line[1])
-  gsub("\"","", output)
+  output <- sub(paste0("^", type, "\\s*:\\s"), "", type_line[1])
+  gsub("\"", "", output)
 }
