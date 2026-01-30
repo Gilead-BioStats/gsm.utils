@@ -2,7 +2,7 @@
 
     Code
       test_result <- add_pkgdown_examples(test_path("fixtures", "pkgdown_examples"),
-      test_path("fixtures", "_pkgdown.yml"))
+      test_path("fixtures", "_pkgdown.yml"), rmd_dir = NULL)
     Message
       YAML written
       Updated 'fixtures/_pkgdown.yml' with 2 examples.
@@ -11,7 +11,7 @@
 
     Code
       test_result <- add_pkgdown_examples(test_path("fixtures", "pkgdown_examples"),
-      test_path("fixtures", "_pkgdown_no_examples.yml"))
+      test_path("fixtures", "_pkgdown_no_examples.yml"), rmd_dir = NULL)
     Message
       YAML written
       Updated 'fixtures/_pkgdown_no_examples.yml' with 2 examples.
@@ -20,7 +20,7 @@
 
     Code
       test_result <- add_pkgdown_examples(empty_dir, test_path("fixtures",
-        "_pkgdown.yml"))
+        "_pkgdown.yml"), rmd_dir = NULL)
     Message
       No HTML files found in <tempdir>
       YAML written

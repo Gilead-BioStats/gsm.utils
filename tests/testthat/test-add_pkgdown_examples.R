@@ -7,7 +7,8 @@ test_that("add_pkgdown_examples gives the expected message", {
   expect_snapshot({
     test_result <- add_pkgdown_examples(
       test_path("fixtures", "pkgdown_examples"),
-      test_path("fixtures", "_pkgdown.yml")
+      test_path("fixtures", "_pkgdown.yml"),
+      rmd_dir = NULL
     )
   })
   expect_null(test_result)
@@ -22,7 +23,8 @@ test_that("add_pkgdown_examples adds section if it doesn't exist", {
   expect_snapshot({
     test_result <- add_pkgdown_examples(
       test_path("fixtures", "pkgdown_examples"),
-      test_path("fixtures", "_pkgdown_no_examples.yml")
+      test_path("fixtures", "_pkgdown_no_examples.yml"),
+      rmd_dir = NULL
     )
   })
 })
@@ -38,7 +40,8 @@ test_that("add_pkgdown_examples removes examples section if no examples", {
     {
       test_result <- add_pkgdown_examples(
         empty_dir,
-        test_path("fixtures", "_pkgdown.yml")
+        test_path("fixtures", "_pkgdown.yml"),
+        rmd_dir = NULL
       )
     },
     transform = function(lines) {

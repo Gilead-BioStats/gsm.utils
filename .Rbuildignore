@@ -9,3 +9,9 @@
 ^CODE_OF_CONDUCT\.md$
 ^[.]?air[.]toml$
 ^\.vscode$
+^\.git$
+^\.gitignore$
+^\.github/\.gitignore$
+^\.DS_Store$
+^pkgdown/\.DS_Store$
+^\.\.Rcheck$

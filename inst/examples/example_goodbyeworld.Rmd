@@ -1,17 +1,17 @@
 ---
-title: "Hello World"
+title: "Goodbye World"
 author: "[gsm.utils](https://gilead-biostats.github.io/gsm.utils) Example"
-description: "A minimal example R Markdown document for the gsm.utils package."
-index: 1
+description: "A 2nd example R Markdown document for the gsm.utils package."
+index: 2
 date: "`r format(Sys.time(), '%B %d, %Y %H:%M:%S %Z')`"
 output: html_document
 ---
 
-This minimal R Markdown document demonstrates how to render output from the
+This 2nd minimal R Markdown document demonstrates how to render output from the
 `gsm.utils` package example library.
 
 ```{r}
-message("Hello, world! This document was rendered on ", Sys.time())
+message("Goodbye, world! This document was rendered on ", Sys.time())
 ```
 
 <details>
