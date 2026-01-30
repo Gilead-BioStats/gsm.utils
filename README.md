@@ -99,7 +99,8 @@ GitHub Actions workflow templates for GSM packages:
 
 - **`pkgdown-with-examples.yaml`**: Builds and deploys pkgdown
   documentation sites with automatic example indexing via
-  `render_examples()`. Creates PR preview sites at `/pr/{number}`
+  `add_pkgdown_examples()` and example rendering via `render_examples()`. 
+  Creates PR preview sites at `/pr/{number}`
   and deploys production sites to gh-pages on push to `main` or `dev`.
 
 - **`pkgdown-cleanup.yaml`**: Automatically removes pkgdown PR preview
