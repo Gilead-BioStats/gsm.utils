@@ -15,10 +15,8 @@
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/build_example_filename.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/build_example_template.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/build_examples_menu.html</loc></url>
-<url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/check_critical_workflow_content.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/check_gha_version.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/check_workflow_compliance.html</loc></url>
-<url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/check_workflow_headers.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/create_gha_manifest.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/ensure_pkgdown_examples_section.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/gsm.utils-package.html</loc></url>
@@ -33,7 +31,6 @@
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/remove_pkgdown_examples.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/render_examples.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/render_rmd.html</loc></url>
-<url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/report_compliance_results.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/update_gsm_package.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/update_pkgdown_examples.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/update_workflow_version.html</loc></url>
