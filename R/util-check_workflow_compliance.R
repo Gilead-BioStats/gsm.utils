@@ -158,26 +158,49 @@ check_critical_workflow_content <- function(workflows_dir, existing_workflows) {
   content_issues
 }
 
-#' @noRd
+#' Report Compliance Results
+#' 
+#' @description Internal function to report workflow compliance check results.
+#' 
+#' @param missing_workflows `character` vector of missing workflows
+#' @param extra_workflows `character` vector of extra workflows
+#' @param version_issues `character` vector of version issues
+#' @param content_issues `character` vector of content issues
+#' @param has_errors `logical` whether critical errors were found
+#' 
+#' @return NULL (prints results to console)
+#' @keywords internal
 report_compliance_results <- function(missing_workflows, extra_workflows, version_issues, content_issues, has_errors) {
+  # Report missing workflows
   if (length(missing_workflows) > 0) {
     cli::cli_alert_danger("Missing required workflow files:")
-    for (wf in missing_workflows) cli::cli_alert_danger("  - {wf}")
+    for (wf in missing_workflows) {
+      cli::cli_alert_danger("  - {wf}")
+    }
   }
   
+  # Report extra workflows
   if (length(extra_workflows) > 0) {
     cli::cli_alert_warning("Extra workflow files (not in gsm.utils templates):")
-    for (wf in extra_workflows) cli::cli_alert_warning("  - {wf}")
+    for (wf in extra_workflows) {
+      cli::cli_alert_warning("  - {wf}")
+    }
   }
   
+  # Report version issues
   if (length(version_issues) > 0) {
     cli::cli_alert_danger("Workflow version/header issues:")
-    for (issue in version_issues) cli::cli_alert_danger("  - {issue}")
+    for (issue in version_issues) {
+      cli::cli_alert_danger("  - {issue}")
+    }
   }
   
+  # Report content issues
   if (length(content_issues) > 0) {
     cli::cli_alert_warning("Workflow content differences (may be acceptable):")
-    for (issue in content_issues) cli::cli_alert_warning("  - {issue}")
+    for (issue in content_issues) {
+      cli::cli_alert_warning("  - {issue}")
+    }
   }
   
   # Summary
