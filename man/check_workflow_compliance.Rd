@@ -15,7 +15,7 @@ check_workflow_compliance(
 
 \item{bVerbose}{\code{logical} whether to print detailed information. Default is \code{TRUE}.}
 
-\item{bFailOnErrors}{\code{logical} whether to call quit() with error status if issues found. Default is \code{TRUE}.}
+\item{bFailOnErrors}{\code{logical} whether to error if critical issues are found. Default is \code{TRUE}.}
 }
 \value{
 A list with compliance check results:

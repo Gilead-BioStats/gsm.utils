@@ -6,7 +6,7 @@
 #'
 #' @param strPackageDir `character` path to package directory. Default is `"."`.
 #' @param bVerbose `logical` whether to print detailed information. Default is `TRUE`.
-#' @param bFailOnErrors `logical` whether to call quit() with error status if issues found. Default is `TRUE`.
+#' @param bFailOnErrors `logical` whether to error if critical issues are found. Default is `TRUE`.
 #'
 #' @return A list with compliance check results:
 #'   \item{is_compliant}{Logical indicating overall compliance}
@@ -28,11 +28,14 @@
 #' }
 check_workflow_compliance <- function(strPackageDir = ".", bVerbose = TRUE, bFailOnErrors = TRUE) {
   # Load required packages
-  if (!requireNamespace("jsonlite", quietly = TRUE)) {
-    stop("Package 'jsonlite' is required but not available.")
-  }
-  if (!requireNamespace("cli", quietly = TRUE)) {
-    stop("Package 'cli' is required but not available.")
+  if (!requireNamespace("jsonlite", quietly = TRUE)) stop("Package 'jsonlite' is required but not available.")
+  if (!requireNamespace("cli", quietly = TRUE)) stop("Package 'cli' is required but not available.")
+
+  abort_or_return <- function(message, result = NULL) {
+    if (isTRUE(bFailOnErrors)) {
+      cli::cli_abort(message)
+    }
+    result
   }
   
   # Get gsm.utils manifest
@@ -62,14 +65,16 @@ check_workflow_compliance <- function(strPackageDir = ".", bVerbose = TRUE, bFai
       cli::cli_alert_danger("No .github/workflows directory found!")
       cli::cli_alert_info("This package should have GitHub Actions workflows matching gsm.utils templates.")
     }
-    if (bFailOnErrors) quit(status = 1)
-    return(list(
+    return(abort_or_return(
+      "No {.path .github/workflows} directory found in {.path {strPackageDir}}.",
+      list(
       is_compliant = FALSE,
       missing_workflows = manifest$workflows$name,
       extra_workflows = character(0),
       version_issues = character(0),
       content_issues = character(0),
       gsm_utils_version = gsm_utils_version
+      )
     ))
   }
   
@@ -100,7 +105,7 @@ check_workflow_compliance <- function(strPackageDir = ".", bVerbose = TRUE, bFai
   
   # Exit with error if requested and issues found
   if (bFailOnErrors && has_errors) {
-    quit(status = 1)
+    cli::cli_abort("Workflow compliance issues found.")
   }
   
   return(list(
@@ -172,6 +177,12 @@ check_critical_workflow_content <- function(workflows_dir, existing_workflows) {
   for (wf in intersect(existing_workflows, critical_workflows)) {
     workflow_path <- file.path(workflows_dir, wf)
     template_path <- system.file("gha_templates/workflows", wf, package = "gsm.utils")
+
+    # Development fallback (only works when run from gsm.utils repo root)
+    if ((is.na(template_path) || template_path == "" || !file.exists(template_path)) &&
+        file.exists(file.path("inst", "gha_templates", "workflows", wf))) {
+      template_path <- file.path("inst", "gha_templates", "workflows", wf)
+    }
     
     if (file.exists(template_path)) {
       template_content <- readLines(template_path, warn = FALSE)
