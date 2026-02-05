@@ -28,6 +28,7 @@ reference:
       - add_contributor_guidelines
       - add_pkgdown_examples
       - check_gha_version
+      - check_workflow_compliance
   - title: Example rendering
     contents:
       - render_examples
