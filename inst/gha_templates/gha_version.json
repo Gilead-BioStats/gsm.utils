@@ -24,9 +24,14 @@
       "path": "workflows/R-CMD-check.yaml"
     },
     {
-      "name": "r-releaser.yaml",
+      "name": "r-releaser-caller.yaml",
       "description": "R package release workflow",
-      "path": "workflows/r-releaser.yaml"
+      "path": "workflows/r-releaser-caller.yaml"
+    },
+    {
+      "name": "workflow-template-check.yaml",
+      "description": "Check if GitHub Actions workflows match gsm.utils templates",
+      "path": "workflows/workflow-template-check.yaml"
     }
   ],
   "issue_templates": [
