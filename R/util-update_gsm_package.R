@@ -8,10 +8,10 @@ update_gsm_package <- function(strPackageDir = ".") {
   if (!dir.exists(strPackageDir)) {
     stop("The specified package directory does not exist.")
   }
-  ##add issue templates
+  ## add issue templates
   add_gsm_issue_templates(strPackageDir = strPackageDir)
 
-  ##add github actions
+  ## add github actions
   add_gsm_actions(strPackageDir = strPackageDir)
 }
 
@@ -53,7 +53,7 @@ add_gsm_actions <- function(strPackageDir = ".", overwrite = TRUE) {
     version <- manifest$version
     cli::cli_alert_info("Installing gsm.utils GitHub Actions v{version}")
   }
-  
+
   workflowsPath <- paste0(strPackageDir, "/.github/workflows")
   if (!dir.exists(workflowsPath)) {
     dir.create(workflowsPath, recursive = TRUE)
@@ -65,10 +65,10 @@ add_gsm_actions <- function(strPackageDir = ".", overwrite = TRUE) {
 
   result <- file.copy(
     system.file("gha_templates/workflows", package = "gsm.utils"),
-     paste0(strPackageDir, "/.github"),
+    paste0(strPackageDir, "/.github"),
     recursive = TRUE
   )
-  
+
   if (result) {
     workflow_files <- list.files(
       system.file("gha_templates/workflows", package = "gsm.utils"),
@@ -78,7 +78,7 @@ add_gsm_actions <- function(strPackageDir = ".", overwrite = TRUE) {
       "Installed {length(workflow_files)} workflow file{?s} to {.path {workflowsPath}}"
     )
   }
-  
+
   invisible(result)
 }
 
