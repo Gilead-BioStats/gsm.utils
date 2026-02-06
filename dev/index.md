@@ -77,7 +77,9 @@ GitHub Actions workflow templates for GSM packages:
 
 - **`pkgdown-with-examples.yaml`**: Builds and deploys pkgdown
   documentation sites with automatic example indexing via
-  [`add_pkgdown_examples()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_pkgdown_examples.md).
+  [`add_pkgdown_examples()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_pkgdown_examples.md)
+  and example rendering via
+  [`render_examples()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/render_examples.md).
   Creates PR preview sites at `/pr/{number}` and deploys production
   sites to gh-pages on push to `main` or `dev`.
 

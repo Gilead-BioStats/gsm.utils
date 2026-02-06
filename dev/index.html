@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">gsm.utils</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.0</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -121,7 +121,7 @@
 <ul>
 <li><p><strong><code>R-CMD-check.yaml</code></strong>: Runs comprehensive R package checks on PRs to <code>main</code> across multiple platforms (macOS, Windows, Ubuntu) and R versions to ensure package integrity before release.</p></li>
 <li><p><strong><code>R-CMD-check-dev.yaml</code></strong>: Lightweight R package check for PRs to <code>dev</code> branch, running on Ubuntu with current and minimum supported R versions for faster CI feedback during development.</p></li>
-<li><p><strong><code>pkgdown-with-examples.yaml</code></strong>: Builds and deploys pkgdown documentation sites with automatic example indexing via <code><a href="reference/add_pkgdown_examples.html">add_pkgdown_examples()</a></code>. Creates PR preview sites at <code>/pr/{number}</code> and deploys production sites to gh-pages on push to <code>main</code> or <code>dev</code>.</p></li>
+<li><p><strong><code>pkgdown-with-examples.yaml</code></strong>: Builds and deploys pkgdown documentation sites with automatic example indexing via <code><a href="reference/add_pkgdown_examples.html">add_pkgdown_examples()</a></code> and example rendering via <code><a href="reference/render_examples.html">render_examples()</a></code>. Creates PR preview sites at <code>/pr/{number}</code> and deploys production sites to gh-pages on push to <code>main</code> or <code>dev</code>.</p></li>
 <li><p><strong><code>pkgdown-cleanup.yaml</code></strong>: Automatically removes pkgdown PR preview directories from the gh-pages branch when pull requests are closed to keep the repository clean.</p></li>
 <li><p><strong><code>r_releaser.yaml</code></strong>: Reusable workflow for building and attaching R package source tarballs to GitHub releases, using the A2-ai/r-releaser action with configurable options for data compression and vignette building.</p></li>
 </ul>
