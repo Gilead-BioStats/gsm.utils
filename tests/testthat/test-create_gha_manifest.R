@@ -108,4 +108,3 @@ test_that("errors when DESCRIPTION lacks Package or Version", {
     "DESCRIPTION must contain Package and Version fields"
   )
 })
-
