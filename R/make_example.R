@@ -115,6 +115,7 @@ build_example_template <- function(strName, strType, strDetails, intIndex) {
 
 #' Helper for missing values
 #'
+#' @name or_pipe
 #' @param x Value to test.
 #' @param y Fallback value.
 #' @returns `x` if not `NULL`, otherwise `y`.
