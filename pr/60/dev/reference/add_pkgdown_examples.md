@@ -28,7 +28,7 @@ add_pkgdown_examples(
 
 - rmd_dir:
 
-  Character. Path to directory containing example `.Rmd` files used to
+  Character. Path to directory containing example `\.Rmd` files used to
   derive titles and order. Default is `"inst/examples"`.
 
 ## Value
