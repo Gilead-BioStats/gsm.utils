@@ -22,7 +22,7 @@ output will be saved.}
 
 \item{lParams}{\code{list} Parameters to pass to the template \code{Rmd} file.}
 
-\item{quiet}{Logical. Passed to \code{rmarkdown::render()}.}
+\item{quiet}{Logical. Passed to \code{\link[rmarkdown:render]{rmarkdown::render()}}.}
 }
 \value{
 Rendered Rmarkdown file path (invisibly).

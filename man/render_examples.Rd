@@ -27,7 +27,6 @@ recursively. Default is \code{FALSE}.}
 Character vector of rendered output files (invisibly).
 }
 \description{
-generation timestamp.
 Render all \code{.Rmd} files in an examples directory to HTML output files.
 Uses standard rmarkdown rendering without injecting custom headers.
 }

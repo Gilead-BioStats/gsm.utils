@@ -17,7 +17,7 @@ files. Default is \code{"pkgdown/assets/examples"}.}
 \item{pkgdown_yml}{Character. Path to \verb{_pkgdown.yml} file to update with menu.
 Default is \code{"_pkgdown.yml"}.}
 
-\item{rmd_dir}{Character. Path to directory containing example \code{.Rmd} files
+\item{rmd_dir}{Character. Path to directory containing example \verb{\\.Rmd} files
 used to derive titles and order. Default is \code{"inst/examples"}.}
 }
 \value{
