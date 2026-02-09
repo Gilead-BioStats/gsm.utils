@@ -89,7 +89,7 @@ create_gha_manifest <- function(
 #'
 #' @returns `string` extracted value or `NA_character_` if not found
 infer_from_yaml <- function(path, type) {
-  lines <- readr::read_lines(path)
+  lines <- readLines(path, warn = FALSE)
   type_line <- grep(paste0("^", type, "\\s*:"), lines, value = TRUE)
 
   if (length(type_line) == 0) {

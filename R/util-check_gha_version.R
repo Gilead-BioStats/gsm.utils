@@ -61,7 +61,7 @@ check_gha_version <- function(strPackageDir = ".", bVerbose = TRUE) {
   package_version <- NA_character_
   for (wf in workflow_files) {
     if (fs::file_exists(wf)) {
-      lines <- readr::read_lines(wf, n_max = 5)
+      lines <- readLines(wf, n = 5, warn = FALSE)
       version_line <- grep("^# gsm.utils GHA version:", lines, value = TRUE)
       if (length(version_line) > 0) {
         package_version <- sub("^# gsm.utils GHA version:\\s*", "", version_line[1])

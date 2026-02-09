@@ -63,11 +63,14 @@ add_gsm_actions <- function(strPackageDir = ".", overwrite = TRUE) {
     )
   }
 
-  result <- fs::dir_copy(
-    system.file("gha_templates/workflows", package = "gsm.utils"),
-    fs::path(strPackageDir, ".github"),
-    overwrite = overwrite
-  )
+  result <- tryCatch({
+    fs::dir_copy(
+      system.file("gha_templates/workflows", package = "gsm.utils"),
+      fs::path(strPackageDir, ".github"),
+      overwrite = overwrite
+    )
+    TRUE
+  }, error = function(e) FALSE)
 
   if (result) {
     workflow_files <- basename(fs::dir_ls(
