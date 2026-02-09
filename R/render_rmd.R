@@ -33,14 +33,27 @@ render_rmd <- function(
   }
 
   output_path <- fs::path(strOutputDir, strOutputFile)
-  rendered <- rmarkdown::render(
-    input = strInputPath,
-    output_file = output_path,
-    intermediates_dir = tempdir(),
-    params = lParams,
-    envir = new.env(parent = globalenv()),
-    quiet = quiet
-  )
+  
+  # Create a temporary directory with a safe path (no spaces)
+  # to avoid issues with Quarto when paths contain spaces
+  safe_temp_dir <- fs::path(tempdir(), "gsm_render_temp")
+  fs::dir_create(safe_temp_dir)
+  
+  rendered <- tryCatch({
+    rmarkdown::render(
+      input = strInputPath,
+      output_file = output_path,
+      intermediates_dir = safe_temp_dir,
+      params = lParams,
+      envir = new.env(parent = globalenv()),
+      quiet = quiet
+    )
+  }, finally = {
+    # Clean up the temporary directory
+    if (fs::dir_exists(safe_temp_dir)) {
+      unlink(safe_temp_dir, recursive = TRUE)
+    }
+  })
 
   invisible(rendered)
 }
