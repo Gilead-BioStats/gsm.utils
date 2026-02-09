@@ -37,7 +37,7 @@ add_pkgdown_examples <- function(
 #' @returns Character vector of HTML file names.
 #' @keywords internal
 list_non_index_html <- function(examples_dir) {
-  html_files <- list.files(examples_dir, pattern = "\\.html$")
+  html_files <- basename(fs::dir_ls(examples_dir, regexp = "\\.html$"))
   html_files[html_files != "index.html"]
 }
 
@@ -104,7 +104,7 @@ add_pkgdown_examples_to_yaml <- function(pkgdown_yaml, html_files, metadata) {
     function(item) {
       list(
         text = item$title,
-        href = file.path("examples", item$html)
+        href = fs::path("examples", item$html)
       )
     }
   )
@@ -119,7 +119,7 @@ add_pkgdown_examples_to_yaml <- function(pkgdown_yaml, html_files, metadata) {
 #' @keywords internal
 remove_pkgdown_examples <- function(pkgdown_yml, examples_dir) {
   cli::cli_inform("No HTML files found in {.path {examples_dir}}.")
-  if (!is.null(pkgdown_yml) && file.exists(pkgdown_yml)) {
+  if (!is.null(pkgdown_yml) && fs::file_exists(pkgdown_yml)) {
     pkgdown_yaml <- yaml::read_yaml(pkgdown_yml)
     pkgdown_yaml$navbar$components$examples <- NULL
     if (!is.null(pkgdown_yaml$navbar$structure$left)) {
@@ -139,7 +139,7 @@ remove_pkgdown_examples <- function(pkgdown_yml, examples_dir) {
 #' @returns Data frame with `html`, `title`, and `index` columns.
 #' @keywords internal
 list_example_metadata <- function(rmd_dir) {
-  if (is.null(rmd_dir) || !dir.exists(rmd_dir)) {
+  if (is.null(rmd_dir) || !fs::dir_exists(rmd_dir)) {
     return(data.frame(html = character(), title = character(), index = numeric()))
   }
 
@@ -148,7 +148,7 @@ list_example_metadata <- function(rmd_dir) {
     reason = "to read example metadata from Rmd files."
   )
 
-  rmd_files <- list.files(rmd_dir, pattern = "\\.Rmd$", full.names = TRUE)
+  rmd_files <- fs::dir_ls(rmd_dir, regexp = "\\.Rmd$")
   if (!length(rmd_files)) {
     return(data.frame(html = character(), title = character(), index = numeric()))
   }

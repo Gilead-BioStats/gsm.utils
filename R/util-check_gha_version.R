@@ -29,7 +29,7 @@ check_gha_version <- function(strPackageDir = ".", bVerbose = TRUE) {
   # Get gsm.utils version from manifest
   manifest_path <- system.file("gha_templates/gha_version.json", package = "gsm.utils")
 
-  if (!file.exists(manifest_path)) {
+  if (!fs::file_exists(manifest_path)) {
     cli::cli_abort("Cannot find GHA version manifest in gsm.utils package.")
   }
 
@@ -37,9 +37,9 @@ check_gha_version <- function(strPackageDir = ".", bVerbose = TRUE) {
   gsm_utils_version <- manifest$version
 
   # Check if package .github/workflows directory exists
-  workflows_dir <- file.path(strPackageDir, ".github", "workflows")
+  workflows_dir <- fs::path(strPackageDir, ".github", "workflows")
 
-  if (!dir.exists(workflows_dir)) {
+  if (!fs::dir_exists(workflows_dir)) {
     if (bVerbose) {
       cli::cli_alert_warning("No .github/workflows directory found in {.path {strPackageDir}}")
     }
@@ -54,14 +54,14 @@ check_gha_version <- function(strPackageDir = ".", bVerbose = TRUE) {
 
   # Get list of expected workflow files
   expected_workflows <- manifest$workflows$name
-  workflow_files <- list.files(workflows_dir, pattern = "\\.ya?ml$", full.names = TRUE)
+  workflow_files <- fs::dir_ls(workflows_dir, regexp = "\\.ya?ml$")
   workflow_names <- basename(workflow_files)
 
   # Extract version from first workflow file that has it
   package_version <- NA_character_
   for (wf in workflow_files) {
-    if (file.exists(wf)) {
-      lines <- readLines(wf, n = 5, warn = FALSE)
+    if (fs::file_exists(wf)) {
+      lines <- readr::read_lines(wf, n_max = 5)
       version_line <- grep("^# gsm.utils GHA version:", lines, value = TRUE)
       if (length(version_line) > 0) {
         package_version <- sub("^# gsm.utils GHA version:\\s*", "", version_line[1])

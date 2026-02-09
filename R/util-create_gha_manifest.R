@@ -16,9 +16,9 @@ create_gha_manifest <- function(
   description_path = "DESCRIPTION",
   output_path = "inst/gha_templates/gha_version.json"
 ) {
-  stopifnot(file.exists(description_path))
-  stopifnot(dir.exists(workflows_dir))
-  stopifnot(dir.exists(issue_templates_dir))
+  stopifnot(fs::file_exists(description_path))
+  stopifnot(fs::dir_exists(workflows_dir))
+  stopifnot(fs::dir_exists(issue_templates_dir))
   stopifnot(is.character(repository), length(repository) == 1)
 
   # Read DESCRIPTION
@@ -31,35 +31,33 @@ create_gha_manifest <- function(
   version <- desc[1, "Version"]
 
   # Discover workflows
-  workflow_files <- list.files(
+  workflow_files <- basename(fs::dir_ls(
     workflows_dir,
-    pattern = "\\.ya?ml$",
-    full.names = FALSE
-  )
+    regexp = "\\.ya?ml$"
+  ))
 
   workflows <- lapply(workflow_files, function(f) {
     list(
       name = f,
       description = infer_from_yaml(
-        file.path(workflows_dir, f),
+        fs::path(workflows_dir, f),
         type = "# Description"
       ),
-      path = file.path("workflows", f)
+      path = fs::path("workflows", f)
     )
   })
 
   # Discover issue templates
-  issue_files <- list.files(
+  issue_files <- basename(fs::dir_ls(
     issue_templates_dir,
-    pattern = "\\.md$",
-    full.names = FALSE
-  )
+    regexp = "\\.md$"
+  ))
 
   issue_templates <- lapply(issue_files, function(f) {
     list(
       name = f,
       description = infer_from_yaml(
-        file.path(issue_templates_dir, f),
+        fs::path(issue_templates_dir, f),
         type = "name"
       )
     )
@@ -91,7 +89,7 @@ create_gha_manifest <- function(
 #'
 #' @returns `string` extracted value or `NA_character_` if not found
 infer_from_yaml <- function(path, type) {
-  lines <- readLines(path, warn = FALSE)
+  lines <- readr::read_lines(path)
   type_line <- grep(paste0("^", type, "\\s*:"), lines, value = TRUE)
 
   if (length(type_line) == 0) {
