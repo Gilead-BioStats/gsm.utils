@@ -31,10 +31,14 @@ add_gsm_issue_templates <- function(strPackageDir = ".", overwrite = TRUE) {
       "The .github/ISSUE_TEMPLATE directory already exists. Set overwrite = TRUE to overwrite it."
     )
   }
+  # Copy all issue template files to the target directory  
+  source_files <- fs::dir_ls(
+    system.file("gha_templates/ISSUE_TEMPLATE", package = "gsm.utils")
+  )
   fs::file_copy(
-    system.file("gha_templates/ISSUE_TEMPLATE", package = "gsm.utils"),
-    fs::path(strPackageDir, ".github"),
-    overwrite = TRUE
+    source_files,
+    issuePath,
+    overwrite = overwrite
   )
 }
 
@@ -64,9 +68,14 @@ add_gsm_actions <- function(strPackageDir = ".", overwrite = TRUE) {
   }
 
   result <- tryCatch({
-    fs::dir_copy(
+    # Copy all workflow files to the target directory
+    source_files <- fs::dir_ls(
       system.file("gha_templates/workflows", package = "gsm.utils"),
-      fs::path(strPackageDir, ".github"),
+      regexp = "\\.ya?ml$"
+    )
+    fs::file_copy(
+      source_files,
+      workflowsPath,
       overwrite = overwrite
     )
     TRUE
