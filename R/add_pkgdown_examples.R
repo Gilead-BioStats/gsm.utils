@@ -49,7 +49,7 @@ list_non_index_html <- function(examples_dir) {
 #' @returns `NULL` invisibly.
 #' @keywords internal
 update_pkgdown_examples <- function(pkgdown_yml, html_files, metadata) {
-  if (!is.null(pkgdown_yml) && file.exists(pkgdown_yml)) {
+  if (!is.null(pkgdown_yml) && fs::file_exists(pkgdown_yml)) {
     pkgdown_yaml <- yaml::read_yaml(pkgdown_yml)
     pkgdown_yaml <- ensure_pkgdown_examples_section(pkgdown_yaml)
     pkgdown_yaml <- add_pkgdown_examples_to_yaml(
