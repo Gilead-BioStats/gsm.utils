@@ -28,10 +28,10 @@ init_gsm_package <- function(
     fs::dir_create("inst")
 
     # add gsm-specific GHA and issue template content to .github from `inst/gha_templates`
+    gha_templates_source <- system.file("gha_templates", package = "gsm.utils")
     fs::dir_copy(
-      system.file("gha_templates", package = "gsm.utils"),
-      ".github",
-      overwrite = TRUE
+      gha_templates_source,
+      ".github/gha_templates"
     )
     if (bIncludeWorkflowDir) {
       fs::dir_create("inst/workflow")
