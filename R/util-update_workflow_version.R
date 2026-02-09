@@ -15,8 +15,8 @@ update_workflow_version <- function(
   recursive = TRUE,
   add_if_missing = TRUE
 ) {
-  stopifnot(dir.exists(dir))
-  stopifnot(file.exists(description_path))
+  stopifnot(fs::dir_exists(dir))
+  stopifnot(fs::file_exists(description_path))
 
   # Read DESCRIPTION version
   desc <- read.dcf(description_path)
@@ -26,11 +26,10 @@ update_workflow_version <- function(
   version <- desc[1, "Version"]
 
   # Discover .yaml files
-  files <- list.files(
+  files <- fs::dir_ls(
     dir,
-    pattern = "\\.ya?ml$",
-    recursive = recursive,
-    full.names = TRUE
+    regexp = "\\.ya?ml$",
+    recurse = recursive
   )
 
   if (length(files) == 0) {
@@ -41,7 +40,7 @@ update_workflow_version <- function(
   pattern <- paste0(label, "\\s*:")
 
   for (file in files) {
-    lines <- readLines(file, warn = FALSE)
+    lines <- readr::read_lines(file)
 
     if (any(grepl(pattern, lines))) {
       # Replace existing line
@@ -55,7 +54,7 @@ update_workflow_version <- function(
       next
     }
 
-    writeLines(lines, file)
+    readr::write_lines(lines, file)
 
     message(sprintf(
       "%s: %s -> %s",
