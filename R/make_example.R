@@ -40,7 +40,7 @@ make_example <- function(
     intIndex = intIndex
   )
 
-  readr::write_lines(template, output_path)
+  writeLines(template, output_path)
   cli::cli_inform("Created example template at {.path {output_path}}.")
   invisible(output_path)
 }

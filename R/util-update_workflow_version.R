@@ -40,7 +40,7 @@ update_workflow_version <- function(
   pattern <- paste0(label, "\\s*:")
 
   for (file in files) {
-    lines <- readr::read_lines(file)
+    lines <- readLines(file, warn = FALSE)
 
     if (any(grepl(pattern, lines))) {
       # Replace existing line
@@ -54,7 +54,7 @@ update_workflow_version <- function(
       next
     }
 
-    readr::write_lines(lines, file)
+    writeLines(lines, file)
 
     message(sprintf(
       "%s: %s -> %s",

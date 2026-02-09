@@ -27,7 +27,6 @@ Imports:
     cli,
     fs,
     jsonlite,
-    readr,
     rlang
 Suggests:
     pkgdown,
