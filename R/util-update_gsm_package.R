@@ -117,6 +117,6 @@ add_contributor_guidelines <- function(strPackageDir = ".", overwrite = TRUE) {
   fs::file_copy(
     system.file("gha_templates/CONTRIBUTING.md", package = "gsm.utils"),
     strFilePath,
-    overwrite = TRUE
+    overwrite = overwrite
   )
 }
