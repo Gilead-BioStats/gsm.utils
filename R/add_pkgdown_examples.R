@@ -104,7 +104,7 @@ add_pkgdown_examples_to_yaml <- function(pkgdown_yaml, html_files, metadata) {
     function(item) {
       list(
         text = item$title,
-        href = fs::path("examples", item$html)
+        href = paste0("examples/", item$html)
       )
     }
   )
