@@ -16,8 +16,8 @@ init_gsm_package <- function(
   rlang::check_installed("usethis", reason = "to create the package.")
   rlang::check_installed("withr", reason = "to work in the package directory.")
 
-  if (!dir.exists(strPackageDir)) {
-    dir.create(strPackageDir)
+  if (!fs::dir_exists(strPackageDir)) {
+    fs::dir_create(strPackageDir)
     init_git <- TRUE
   }
   usethis::create_package(strPackageDir, open = F, fields = lDescriptionFields)
@@ -25,20 +25,20 @@ init_gsm_package <- function(
     usethis::use_pkgdown_github_pages()
     usethis::use_testthat()
     usethis::use_github_action("check-standard")
-    dir.create("inst")
+    fs::dir_create("inst")
 
     # add gsm-specific GHA and issue template content to .github from `inst/gha_templates`
-    file.copy(
-      system.file("gha_templates", package = "gsm.utils"),
-      ".github",
-      recursive = T
+    gha_templates_source <- system.file("gha_templates", package = "gsm.utils")
+    fs::dir_copy(
+      gha_templates_source,
+      ".github/gha_templates"
     )
     if (bIncludeWorkflowDir) {
-      dir.create("inst/workflow")
-      dir.create("inst/workflow/1_mappings")
-      dir.create("inst/workflow/2_metrics")
-      dir.create("inst/workflow/3_reporting")
-      dir.create("inst/workflow/4_modules")
+      fs::dir_create("inst/workflow")
+      fs::dir_create("inst/workflow/1_mappings")
+      fs::dir_create("inst/workflow/2_metrics")
+      fs::dir_create("inst/workflow/3_reporting")
+      fs::dir_create("inst/workflow/4_modules")
     }
   })
 }
