@@ -51,15 +51,21 @@ update_gsm_ai_docs <- function(strPackageDir = ".",
 
   src_files <- list.files(template_dir, recursive = TRUE, full.names = TRUE, all.files = TRUE)
   src_files <- src_files[file.info(src_files)$isdir == FALSE]
-  rel_files <- substring(src_files, nchar(template_dir) + 2)
-  rel_files <- if (isTRUE(ai_docs_to_root)) {
-    rel_files
-  } else {
-    file.path(ai_docs_dir, rel_files)
-  }
+  template_rel_files <- substring(src_files, nchar(template_dir) + 2)
+  rel_files <- vapply(template_rel_files, function(rel_path) {
+    if (isTRUE(ai_docs_to_root)) {
+      return(rel_path)
+    }
+
+    normalized <- gsub("\\\\", "/", rel_path)
+    if (startsWith(normalized, ".github/")) {
+      rel_path
+    } else {
+      file.path(ai_docs_dir, rel_path)
+    }
+  }, character(1))
 
   if (!is.null(include)) {
-    template_rel_files <- substring(src_files, nchar(template_dir) + 2)
     unknown <- setdiff(include, template_rel_files)
     if (length(unknown) > 0) {
       stop("Unknown template path(s) in include: ", paste(unknown, collapse = ", "), call. = FALSE)

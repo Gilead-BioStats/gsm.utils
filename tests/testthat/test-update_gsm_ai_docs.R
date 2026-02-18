@@ -73,3 +73,12 @@ test_that("update_gsm_ai_docs can skip issue templates", {
   expect_false(file.exists(file.path(tmp, ".github", "ISSUE_TEMPLATE", "6-CONTEXT_PACK.md")))
   expect_true(file.exists(file.path(tmp, ".github", "ai", "AGENTS.md")))
 })
+
+test_that("update_gsm_ai_docs keeps .github templates at repo root", {
+  tmp <- withr::local_tempdir()
+
+  update_gsm_ai_docs(strPackageDir = tmp)
+
+  expect_true(file.exists(file.path(tmp, ".github", "pull_request_template.md")))
+  expect_false(file.exists(file.path(tmp, ".github", "ai", ".github", "pull_request_template.md")))
+})
