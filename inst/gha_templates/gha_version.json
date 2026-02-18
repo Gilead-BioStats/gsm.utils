@@ -29,9 +29,9 @@
       "path": "workflows/ai-template-drift-check.yaml"
     },
     {
-      "name": "r-releaser.yaml",
+      "name": "r-releaser-caller.yaml",
       "description": "R package release workflow",
-      "path": "workflows/r-releaser.yaml"
+      "path": "workflows/r-releaser-caller.yaml"
     }
   ],
   "issue_templates": [

@@ -28,8 +28,14 @@ Use:
 ```r
 gsm.utils::update_gsm_ai_docs(strPackageDir = ".")
 
+# One-command standards sync (AI docs + issue templates + workflows)
+gsm.utils::sync_gsm_standards(strPackageDir = ".")
+
 # Check drift only (no writes)
 gsm.utils::update_gsm_ai_docs(strPackageDir = ".", mode = "check")
+
+# Check full standards drift (AI docs + workflows)
+gsm.utils::sync_gsm_standards(strPackageDir = ".", mode = "check")
 
 # Preview writes only
 gsm.utils::update_gsm_ai_docs(strPackageDir = ".", dry_run = TRUE, overwrite = TRUE)
