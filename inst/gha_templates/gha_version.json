@@ -24,6 +24,11 @@
       "path": "workflows/R-CMD-check.yaml"
     },
     {
+      "name": "ai-template-drift-check.yaml",
+      "description": "Check AI template drift against gsm.utils canonical templates",
+      "path": "workflows/ai-template-drift-check.yaml"
+    },
+    {
       "name": "r-releaser.yaml",
       "description": "R package release workflow",
       "path": "workflows/r-releaser.yaml"
