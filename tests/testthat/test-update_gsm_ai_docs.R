@@ -7,6 +7,7 @@ test_that("update_gsm_ai_docs writes templates to target repo", {
   expect_gt(length(paths), 0)
   expect_true(file.exists(file.path(tmp, "AGENTS.md")))
   expect_true(file.exists(file.path(tmp, "ai_manifest.json")))
+  expect_true(file.exists(file.path(tmp, ".github", "ISSUE_TEMPLATE", "6-CONTEXT_PACK.md")))
 })
 
 test_that("update_gsm_ai_docs check mode reports drift", {
@@ -59,4 +60,16 @@ test_that("update_gsm_ai_docs include errors on unknown template", {
     update_gsm_ai_docs(strPackageDir = tmp, include = "NOT_A_TEMPLATE.md"),
     "Unknown template path"
   )
+})
+
+test_that("update_gsm_ai_docs can skip issue templates", {
+  tmp <- withr::local_tempdir()
+
+  update_gsm_ai_docs(
+    strPackageDir = tmp,
+    include_issue_templates = FALSE
+  )
+
+  expect_false(file.exists(file.path(tmp, ".github", "ISSUE_TEMPLATE", "6-CONTEXT_PACK.md")))
+  expect_true(file.exists(file.path(tmp, "AGENTS.md")))
 })

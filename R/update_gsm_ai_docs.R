@@ -12,6 +12,8 @@
 #'   change without writing files.
 #' @param include Optional character vector of relative template paths to sync.
 #'   By default all templates are processed.
+#' @param include_issue_templates Logical; when `TRUE` (default), also sync
+#'   `.github/ISSUE_TEMPLATE/*` from `inst/gha_templates/ISSUE_TEMPLATE`.
 #' @param fail_on_drift Logical; when `TRUE`, error if any files are missing or
 #'   differ from templates.
 #'
@@ -24,6 +26,7 @@ update_gsm_ai_docs <- function(strPackageDir = ".",
                                mode = c("write", "check"),
                                dry_run = FALSE,
                                include = NULL,
+                               include_issue_templates = TRUE,
                                fail_on_drift = FALSE) {
   if (!dir.exists(strPackageDir)) {
     stop("strPackageDir does not exist: ", strPackageDir, call. = FALSE)
@@ -48,6 +51,32 @@ update_gsm_ai_docs <- function(strPackageDir = ".",
     keep <- rel_files %in% include
     src_files <- src_files[keep]
     rel_files <- rel_files[keep]
+  }
+
+  if (isTRUE(include_issue_templates)) {
+    issue_template_dir <- system.file("gha_templates/ISSUE_TEMPLATE", package = "gsm.utils")
+    if (identical(issue_template_dir, "")) {
+      stop(
+        "Could not find gsm.utils inst/gha_templates/ISSUE_TEMPLATE. Is gsm.utils installed?",
+        call. = FALSE
+      )
+    }
+
+    issue_src_files <- list.files(
+      issue_template_dir,
+      recursive = TRUE,
+      full.names = TRUE,
+      all.files = TRUE
+    )
+    issue_src_files <- issue_src_files[file.info(issue_src_files)$isdir == FALSE]
+    issue_rel_files <- file.path(
+      ".github",
+      "ISSUE_TEMPLATE",
+      substring(issue_src_files, nchar(issue_template_dir) + 2)
+    )
+
+    src_files <- c(src_files, issue_src_files)
+    rel_files <- c(rel_files, issue_rel_files)
   }
 
   dest_files <- file.path(strPackageDir, rel_files)

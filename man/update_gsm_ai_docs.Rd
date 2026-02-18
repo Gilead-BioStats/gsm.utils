@@ -10,6 +10,7 @@ update_gsm_ai_docs(
   mode = c("write", "check"),
   dry_run = FALSE,
   include = NULL,
+  include_issue_templates = TRUE,
   fail_on_drift = FALSE
 )
 }
@@ -23,6 +24,8 @@ update_gsm_ai_docs(
 \item{dry_run}{Logical; when \code{TRUE} and \code{mode = "write"}, report what would change without writing files.}
 
 \item{include}{Optional character vector of relative template paths to sync. By default all templates are processed.}
+
+\item{include_issue_templates}{Logical; when \code{TRUE} (default), also sync \code{.github/ISSUE_TEMPLATE/*} from \code{inst/gha_templates/ISSUE_TEMPLATE}.}
 
 \item{fail_on_drift}{Logical; when \code{TRUE}, error if any files are missing or differ from templates.}
 }
