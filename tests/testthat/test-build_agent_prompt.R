@@ -73,6 +73,22 @@ test_that("build_agent_prompt errors when context pack is incomplete", {
   )
 })
 
+test_that("build_agent_prompt accepts common Target Repo Branch header variants", {
+  cp <- paste(
+    "Goal: Fix qtl axis labels",
+    "Non-goals: No API changes",
+    "Target Repo/Branch: gsm.qtl / dev",
+    "Allowed-to-touch Files: R/plot_qtl_summary.R",
+    "Entry Points: plot_qtl_summary()",
+    "Tests to Run (Exact Commands): devtools::test(filter = 'plot_qtl_summary')",
+    "Definition of Done: tests pass",
+    "DAG Impact: none",
+    sep = "\n"
+  )
+
+  expect_no_error(build_agent_prompt("gsm.qtl#123", cp))
+})
+
 test_that("build_agent_prompt can disable core-doc lock instruction", {
   cp <- paste(
     "Goal: Fix qtl axis labels",

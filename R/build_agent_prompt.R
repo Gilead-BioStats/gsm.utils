@@ -48,20 +48,20 @@ build_agent_prompt <- function(issue,
   strPackageDir <- trimws(strPackageDir)
   ai_docs_dir <- trimws(ai_docs_dir)
 
-  required_fields <- c(
-    "Goal",
-    "Non-goals",
-    "Target Repo + Branch",
-    "Allowed-to-touch Files",
-    "Entry Points",
-    "Tests to Run",
-    "Definition of Done",
-    "DAG Impact"
+  required_fields <- list(
+    "Goal" = "\\bgoal\\b",
+    "Non-goals" = "\\bnon[[:space:]-]*goals?\\b",
+    "Target Repo + Branch" = "\\btarget[[:space:]-]*repo[[:space:]]*([+&/]|and)?[[:space:]-]*branch\\b",
+    "Allowed-to-touch Files" = "\\ballowed[[:space:]-]*to[[:space:]-]*touch[[:space:]-]*files?\\b",
+    "Entry Points" = "\\bentry[[:space:]-]*points?\\b",
+    "Tests to Run" = "\\btests?[[:space:]-]*to[[:space:]-]*run\\b",
+    "Definition of Done" = "\\bdefinition[[:space:]-]*of[[:space:]-]*done\\b",
+    "DAG Impact" = "\\bdag[[:space:]-]*impact\\b"
   )
 
-  missing_fields <- required_fields[!vapply(
+  missing_fields <- names(required_fields)[!vapply(
     required_fields,
-    function(x) grepl(x, context_pack, ignore.case = TRUE),
+    function(pattern) grepl(pattern, context_pack, ignore.case = TRUE, perl = TRUE),
     logical(1)
   )]
 
