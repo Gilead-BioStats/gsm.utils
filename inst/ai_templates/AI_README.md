@@ -42,6 +42,14 @@ gsm.utils::update_gsm_ai_docs(strPackageDir = ".", dry_run = TRUE, overwrite = T
 
 # Sync selected files
 gsm.utils::update_gsm_ai_docs(strPackageDir = ".", include = c("AGENTS.md", "ai_manifest.json"))
+
+# Build a ready-to-paste agent prompt from issue + Context Pack
+prompt <- gsm.utils::build_agent_prompt(
+	issue = "gsm.qtl#123",
+	context_pack = "<paste full context pack text>"
+)
+
+cat(prompt)
 ```
 
 ## Maintainer workflow
