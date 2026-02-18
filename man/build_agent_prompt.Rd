@@ -4,12 +4,14 @@
 \alias{build_agent_prompt}
 \title{Build an agent execution prompt from issue + Context Pack}
 \usage{
-build_agent_prompt(issue, context_pack)
+build_agent_prompt(issue, context_pack, lock_core_docs = TRUE)
 }
 \arguments{
 \item{issue}{\code{character} issue reference (e.g., \code{"gsm.qtl#123"} or URL).}
 
 \item{context_pack}{\code{character} full Context Pack text.}
+
+\item{lock_core_docs}{\code{logical} whether to include an explicit instruction that core docs are read-only unless explicitly listed in Allowed-to-touch Files. Default is \code{TRUE}.}
 }
 \value{
 A single \code{character} string containing the assembled prompt.

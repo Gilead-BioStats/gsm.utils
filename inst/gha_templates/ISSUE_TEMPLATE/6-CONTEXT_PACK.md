@@ -18,6 +18,10 @@ Project: Gilead-BioStats/41
 ## Allowed-to-touch Files
 <!-- Explicit list of file paths the implementer/agent may edit. -->
 
+## Core-doc Edit Permission (default: do not edit)
+<!-- If any core docs are allowed to be edited, list exact paths here. Otherwise write "none". -->
+<!-- Typical core docs: AGENTS.md, ECOSYSTEM.md, SKILLS.md, SECURITY.md, CONTRIBUTING.md -->
+
 ## Entry Points
 <!-- Exported functions/modules/classes involved in this change. -->
 

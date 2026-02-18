@@ -16,6 +16,18 @@ Every ticket MUST include:
 
 If any item is missing, STOP and request it.
 
+## Protected core docs (default no-edit)
+Agents should treat these as read-only unless they are explicitly included in
+Allowed-to-touch Files:
+
+- `AGENTS.md`
+- `ECOSYSTEM.md`
+- `SKILLS.md`
+- `SECURITY.md`
+- `CONTRIBUTING.md`
+
+Repo-local `ARCHITECTURE.md` is editable when required by the ticket scope.
+
 ### Context Pack template (copy/paste)
 ```
 Goal:

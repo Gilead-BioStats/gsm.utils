@@ -50,6 +50,24 @@ prompt <- gsm.utils::build_agent_prompt(
 )
 
 cat(prompt)
+
+# Build PR body text (copy/paste into GitHub UI)
+pr <- gsm.utils::build_pr_message(
+	overview = c("Fix qtl axis labels", "No API changes"),
+	test_notes = c("devtools::test(filter = 'plot_qtl_summary')"),
+	connected_issues = c("123")
+)
+
+cat(pr$body)
+
+# Optional: create PR via GitHub CLI
+gsm.utils::build_pr_message(
+	overview = c("Fix qtl axis labels"),
+	connected_issues = c("123"),
+	run_gh = TRUE,
+	pr_title = "Fix qtl axis labels",
+	base = "dev"
+)
 ```
 
 ## Maintainer workflow
