@@ -34,6 +34,7 @@ jobs:
           result <- gsm.utils::sync_gsm_standards(
             strPackageDir = ".",
             mode = "check",
+            ai_docs_dir = file.path(".github", "ai"),
             fail_on_drift = FALSE
           )
 
@@ -42,7 +43,7 @@ jobs:
           if (nrow(drift) > 0) {
             message("AI template drift detected:")
             print(drift)
-            message("Run gsm.utils::sync_gsm_standards(strPackageDir = '.') and commit changes.")
+            message("Run gsm.utils::sync_gsm_standards(strPackageDir = '.', ai_docs_dir = file.path('.github', 'ai')) and commit changes.")
             quit(status = 1)
           }
 
