@@ -74,4 +74,5 @@ Then commit the updated template files.
 ## Agent guardrails
 - Do not run from whole-repo context when a scoped Context Pack is available.
 - If Context Pack fields are missing, request them before making behavioral changes.
+- Context Pack required fields must not be empty; use explicit placeholders: `TBD`, `Unknown`, or `None`.
 - Keep mechanical/doc synchronization separate from behavior changes.

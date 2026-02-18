@@ -49,19 +49,25 @@ build_agent_prompt <- function(issue,
   ai_docs_dir <- trimws(ai_docs_dir)
 
   required_fields <- list(
-    "Goal" = "\\bgoal\\b",
-    "Non-goals" = "\\bnon[[:space:]-]*goals?\\b",
-    "Target Repo + Branch" = "\\btarget[[:space:]-]*repo[[:space:]]*([+&/]|and)?[[:space:]-]*branch\\b",
-    "Allowed-to-touch Files" = "\\ballowed[[:space:]-]*to[[:space:]-]*touch[[:space:]-]*files?\\b",
-    "Entry Points" = "\\bentry[[:space:]-]*points?\\b",
-    "Tests to Run" = "\\btests?[[:space:]-]*to[[:space:]-]*run\\b",
-    "Definition of Done" = "\\bdefinition[[:space:]-]*of[[:space:]-]*done\\b",
-    "DAG Impact" = "\\bdag[[:space:]-]*impact\\b"
+    "Goal" = "goal",
+    "Non-goals" = "non[[:space:]-]*goals?",
+    "Target Repo + Branch" = "target[[:space:]-]*repo(?:[[:space:]]*([+&/]|and)?[[:space:]-]*branch)?",
+    "Allowed-to-touch Files" = "allowed[[:space:]-]*to[[:space:]-]*touch[[:space:]-]*files?",
+    "Entry Points" = "entry[[:space:]-]*points?",
+    "Tests to Run" = "tests?[[:space:]-]*to[[:space:]-]*run",
+    "Definition of Done" = "definition[[:space:]-]*of[[:space:]-]*done",
+    "DAG Impact" = "dag[[:space:]-]*impact"
   )
 
   missing_fields <- names(required_fields)[!vapply(
     required_fields,
-    function(pattern) grepl(pattern, context_pack, ignore.case = TRUE, perl = TRUE),
+    function(pattern) grepl(paste0("\\b", pattern, "\\b"), context_pack, ignore.case = TRUE, perl = TRUE),
+    logical(1)
+  )]
+
+  empty_fields <- names(required_fields)[vapply(
+    required_fields,
+    function(pattern) .context_field_is_empty(context_pack, pattern),
     logical(1)
   )]
 
@@ -69,6 +75,15 @@ build_agent_prompt <- function(issue,
     stop(
       "Context Pack appears incomplete. Missing field(s): ",
       paste(missing_fields, collapse = ", "),
+      call. = FALSE
+    )
+  }
+
+  if (length(empty_fields) > 0) {
+    stop(
+      "Context Pack has empty required field(s): ",
+      paste(empty_fields, collapse = ", "),
+      ". Use explicit placeholders like TBD/Unknown/None instead of leaving fields empty.",
       call. = FALSE
     )
   }
@@ -184,6 +199,36 @@ build_agent_prompt <- function(issue,
   }
 
   body
+}
+
+
+.context_field_is_empty <- function(text, label_pattern) {
+  heading_pattern <- paste0("^\\s*#{1,6}\\s*", label_pattern, "\\s*$")
+  kv_empty_pattern <- paste0("^\\s*", label_pattern, "\\s*:\\s*$")
+
+  lines <- strsplit(text, "\\n", fixed = FALSE)[[1]]
+  heading_idx <- grep(heading_pattern, lines, ignore.case = TRUE, perl = TRUE)
+
+  if (length(heading_idx) > 0) {
+    for (idx in heading_idx) {
+      next_heading <- grep("^\\s*#{1,6}\\s+", lines, perl = TRUE)
+      next_heading <- next_heading[next_heading > idx]
+      end_idx <- if (length(next_heading) > 0) next_heading[1] - 1 else length(lines)
+
+      if (idx < end_idx) {
+        section_text <- paste(lines[(idx + 1):end_idx], collapse = "\n")
+      } else {
+        section_text <- ""
+      }
+
+      section_text <- gsub("(?s)<!--.*?-->", "", section_text, perl = TRUE)
+      if (!nzchar(trimws(section_text))) {
+        return(TRUE)
+      }
+    }
+  }
+
+  any(grepl(kv_empty_pattern, lines, ignore.case = TRUE, perl = TRUE))
 }
 
 

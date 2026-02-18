@@ -16,6 +16,11 @@ Every ticket MUST include:
 
 If any item is missing, STOP and request it.
 
+Required Context Pack fields must never be left empty. Use explicit placeholders:
+- `TBD` = not decided yet
+- `Unknown` = cannot determine yet
+- `None` = explicitly not applicable
+
 ## Protected core docs (default no-edit)
 Agents should treat these as read-only unless they are explicitly included in
 Allowed-to-touch Files:
@@ -39,6 +44,8 @@ Tests to run:
 Definition of done:
 DAG impact:
 ```
+
+Do not leave any field blank; use `TBD` / `Unknown` / `None` when needed.
 
 ## Dependency-aware orchestration (how it “knows what to do”)
 The suite DAG is defined in ECOSYSTEM.md and (mechanically) in DESCRIPTION Imports.
