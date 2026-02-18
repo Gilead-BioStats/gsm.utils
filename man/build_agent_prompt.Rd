@@ -6,7 +6,7 @@
 \usage{
 build_agent_prompt(
 	issue,
-	context_pack,
+	context_pack = NULL,
 	lock_core_docs = TRUE,
 	strPackageDir = ".",
 	ai_docs_dir = file.path(".github", "ai")
@@ -15,7 +15,8 @@ build_agent_prompt(
 \arguments{
 \item{issue}{\code{character} issue reference (e.g., \code{"gsm.qtl#123"} or URL).}
 
-\item{context_pack}{\code{character} full Context Pack text.}
+\item{context_pack}{Optional \code{character} full Context Pack text. If \code{NULL}
+(default), uses the GitHub issue body resolved from \code{issue}.}
 
 \item{lock_core_docs}{\code{logical} whether to include an explicit instruction that core docs are read-only unless explicitly listed in Allowed-to-touch Files. Default is \code{TRUE}.}
 

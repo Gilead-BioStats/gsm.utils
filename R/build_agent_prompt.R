@@ -4,7 +4,8 @@
 #' canonical issue reference and a filled Context Pack.
 #'
 #' @param issue `character` issue reference (e.g., `"gsm.qtl#123"` or URL).
-#' @param context_pack `character` full Context Pack text.
+#' @param context_pack Optional `character` full Context Pack text. If `NULL`
+#'   (default), uses the GitHub issue body resolved from `issue`.
 #' @param lock_core_docs `logical` whether to include an explicit instruction
 #'   that core docs are read-only unless explicitly listed in
 #'   Allowed-to-touch Files. Default is `TRUE`.
@@ -16,7 +17,7 @@
 #' @return A single `character` string containing the assembled prompt.
 #' @export
 build_agent_prompt <- function(issue,
-                               context_pack,
+                               context_pack = NULL,
                                lock_core_docs = TRUE,
                                strPackageDir = ".",
                                ai_docs_dir = file.path(".github", "ai")) {
@@ -24,8 +25,12 @@ build_agent_prompt <- function(issue,
     stop("`issue` must be a non-empty character scalar.", call. = FALSE)
   }
 
+  if (is.null(context_pack)) {
+    context_pack <- .context_pack_from_issue(issue)
+  }
+
   if (!is.character(context_pack) || length(context_pack) != 1 || !nzchar(trimws(context_pack))) {
-    stop("`context_pack` must be a non-empty character scalar.", call. = FALSE)
+    stop("`context_pack` must be a non-empty character scalar, or NULL to pull from GitHub issue body.", call. = FALSE)
   }
 
   if (!is.logical(lock_core_docs) || length(lock_core_docs) != 1 || is.na(lock_core_docs)) {
@@ -99,6 +104,86 @@ build_agent_prompt <- function(issue,
   }
 
   paste(lines, collapse = "\n\n")
+}
+
+
+.context_pack_from_issue <- function(issue) {
+  issue_parts <- .parse_issue_reference(issue)
+  .fetch_github_issue_body(issue_parts$owner, issue_parts$repo, issue_parts$number)
+}
+
+
+.parse_issue_reference <- function(issue) {
+  issue <- trimws(issue)
+
+  url_match <- regexec(
+    "^https?://github\\.com/([^/]+)/([^/]+)/issues/([0-9]+)(?:[/?#].*)?$",
+    issue,
+    perl = TRUE
+  )
+  url_parts <- regmatches(issue, url_match)[[1]]
+  if (length(url_parts) == 4) {
+    return(list(owner = url_parts[2], repo = url_parts[3], number = url_parts[4]))
+  }
+
+  owner_repo_match <- regexec("^([^/#\\s]+)/([^/#\\s]+)#([0-9]+)$", issue, perl = TRUE)
+  owner_repo_parts <- regmatches(issue, owner_repo_match)[[1]]
+  if (length(owner_repo_parts) == 4) {
+    return(list(owner = owner_repo_parts[2], repo = owner_repo_parts[3], number = owner_repo_parts[4]))
+  }
+
+  repo_match <- regexec("^([^/#\\s]+)#([0-9]+)$", issue, perl = TRUE)
+  repo_parts <- regmatches(issue, repo_match)[[1]]
+  if (length(repo_parts) == 3) {
+    return(list(
+      owner = getOption("gsm.utils.github_owner", "Gilead-BioStats"),
+      repo = repo_parts[2],
+      number = repo_parts[3]
+    ))
+  }
+
+  stop(
+    "`issue` must be a GitHub issue URL, `owner/repo#123`, or `repo#123` when `context_pack = NULL`.",
+    call. = FALSE
+  )
+}
+
+
+.fetch_github_issue_body <- function(owner, repo, number) {
+  api_url <- paste0("https://api.github.com/repos/", owner, "/", repo, "/issues/", number)
+
+  issue_json <- tryCatch(
+    jsonlite::fromJSON(api_url),
+    error = function(e) {
+      stop(
+        "Unable to fetch issue body from GitHub API for `",
+        owner,
+        "/",
+        repo,
+        "#",
+        number,
+        "`: ",
+        conditionMessage(e),
+        call. = FALSE
+      )
+    }
+  )
+
+  body <- issue_json$body
+  if (!is.character(body) || length(body) != 1 || !nzchar(trimws(body))) {
+    stop(
+      "GitHub issue body is empty for `",
+      owner,
+      "/",
+      repo,
+      "#",
+      number,
+      "`. Provide `context_pack` explicitly.",
+      call. = FALSE
+    )
+  }
+
+  body
 }
 
 

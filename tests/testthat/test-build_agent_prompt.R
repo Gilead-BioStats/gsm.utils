@@ -21,6 +21,42 @@ test_that("build_agent_prompt returns assembled instruction text", {
   expect_match(out, "Treat core docs as read-only")
 })
 
+test_that("build_agent_prompt uses issue body when context_pack is NULL", {
+  cp <- paste(
+    "Goal: Fix qtl axis labels",
+    "Non-goals: No API changes",
+    "Target Repo + Branch: gsm.qtl / dev",
+    "Allowed-to-touch Files: R/plot_qtl_summary.R",
+    "Entry Points: plot_qtl_summary()",
+    "Tests to Run (Exact Commands): devtools::test(filter = 'plot_qtl_summary')",
+    "Definition of Done: tests pass",
+    "DAG Impact: none",
+    sep = "\n"
+  )
+
+  local_mocked_bindings(
+    .fetch_github_issue_body = function(owner, repo, number) {
+      expect_identical(owner, "Gilead-BioStats")
+      expect_identical(repo, "gsm.qtl")
+      expect_identical(number, "123")
+      cp
+    },
+    .package = "gsm.utils"
+  )
+
+  out <- build_agent_prompt("gsm.qtl#123")
+
+  expect_match(out, "Issue reference: gsm.qtl#123")
+  expect_match(out, "Goal: Fix qtl axis labels")
+})
+
+test_that("build_agent_prompt errors for non-GitHub issue when context_pack is NULL", {
+  expect_error(
+    build_agent_prompt("not-a-github-issue"),
+    "GitHub issue URL"
+  )
+})
+
 test_that("build_agent_prompt errors when issue is invalid", {
   expect_error(
     build_agent_prompt("", "Goal: x\nNon-goals: y\nTarget Repo + Branch: z\nAllowed-to-touch Files: a\nEntry Points: b\nTests to Run: c\nDefinition of Done: d\nDAG Impact: e"),
