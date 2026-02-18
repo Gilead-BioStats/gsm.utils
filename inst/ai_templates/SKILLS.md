@@ -6,6 +6,7 @@ It is intentionally procedural and stable.
 Canonical policy references:
 - Orchestration + Context Packs: `AGENTS.md`
 - Suite DAG + contracts: `ECOSYSTEM.md`
+- PR summaries/review notes: `PR_SUMMARY_GUIDE.md`
 
 Before coding:
 1) Decide whether the change is: docs-only, mechanical refactor, or behavior/API change.
@@ -33,6 +34,8 @@ Before coding:
 - Tests run (exact commands)
 - Risks / rollback plan
 - Follow-ups / out-of-scope items
+
+Use `PR_SUMMARY_GUIDE.md` for formatting expectations.
 
 ## Safe refactor (no behavior change)
 - Confirm public surface is unchanged.

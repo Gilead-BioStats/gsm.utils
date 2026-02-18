@@ -82,6 +82,7 @@ Deprecation path (if applicable):
 - Shared templates/docs change → update gsm.utils first, then re-sync
 
 ## Required response format (agents)
+- Follow `PR_SUMMARY_GUIDE.md` for section quality and style.
 - Summary:
 - Files changed:
 - Patch/diff:

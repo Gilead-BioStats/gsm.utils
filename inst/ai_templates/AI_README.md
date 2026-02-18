@@ -14,6 +14,7 @@ Templates live in `inst/ai_templates/` and are copied into target repos.
 - `ECOSYSTEM.md` (suite DAG + cross-package contracts)
 - `ARCHITECTURE.md` (repo-local contract details and DAG position)
 - `SKILLS.md` (daily execution workflow)
+- `PR_SUMMARY_GUIDE.md` (standards for PR/review summaries)
 - `CONTRIBUTING.md`, `SECURITY.md`, `.github/pull_request_template.md`
 - `ai_manifest.json` (machine-readable template manifest + version)
 
@@ -50,24 +51,6 @@ prompt <- gsm.utils::build_agent_prompt(
 )
 
 cat(prompt)
-
-# Build PR body text (copy/paste into GitHub UI)
-pr <- gsm.utils::build_pr_message(
-	overview = c("Fix qtl axis labels", "No API changes"),
-	test_notes = c("devtools::test(filter = 'plot_qtl_summary')"),
-	connected_issues = c("123")
-)
-
-cat(pr$body)
-
-# Optional: create PR via GitHub CLI
-gsm.utils::build_pr_message(
-	overview = c("Fix qtl axis labels"),
-	connected_issues = c("123"),
-	run_gh = TRUE,
-	pr_title = "Fix qtl axis labels",
-	base = "dev"
-)
 ```
 
 ## Maintainer workflow
