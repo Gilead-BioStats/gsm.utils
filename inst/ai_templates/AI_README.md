@@ -83,7 +83,7 @@ This workflow fails PRs when synced templates drift from gsm.utils canonical tem
 When it fails, run:
 
 ```r
-gsm.utils::update_gsm_ai_docs(strPackageDir = ".", overwrite = TRUE)
+gsm.utils::sync_gsm_standards(strPackageDir = ".")
 ```
 
 Then commit the updated template files.
