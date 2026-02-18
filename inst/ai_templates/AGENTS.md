@@ -10,7 +10,7 @@ Every ticket MUST include:
 2) Target repo + branch (usually dev)
 3) Allowed-to-touch file list (explicit paths)
 4) Entry points (exports/functions involved)
-5) Tests to run (commands + relevant test files)
+5) Tests to run (additional targeted/downstream checks beyond baseline full-suite run)
 6) Definition of done
 7) DAG impact (which downstream packages are affected)
 
@@ -40,10 +40,15 @@ Non-goals:
 Target repo + branch:
 Allowed-to-touch files:
 Entry points:
-Tests to run:
+Tests to run (additional exact commands beyond full-suite baseline):
 Definition of done:
 DAG impact:
 ```
+
+For R packages, baseline protocol always includes full-suite `devtools::test()`.
+Use `Tests to run` to list additional exact commands (targeted tests, integration checks, downstream verifications).
+If no additional checks are needed, write `None (full-suite only)`.
+If function signatures, exported APIs, or roxygen docs change, include `devtools::document()` as well.
 
 Do not leave any field blank; use `TBD` / `Unknown` / `None` when needed.
 

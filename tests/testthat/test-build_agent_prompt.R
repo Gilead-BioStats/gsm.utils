@@ -5,7 +5,7 @@ test_that("build_agent_prompt returns assembled instruction text", {
     "Target Repo + Branch: gsm.qtl / dev",
     "Allowed-to-touch Files: R/plot_qtl_summary.R",
     "Entry Points: plot_qtl_summary()",
-    "Tests to Run (Exact Commands): devtools::test(filter = 'plot_qtl_summary')",
+    "Tests to Run (Exact Commands): devtools::test(); devtools::test(filter = 'plot_qtl_summary')",
     "Definition of Done: tests pass",
     "DAG Impact: none",
     sep = "\n"
@@ -19,6 +19,11 @@ test_that("build_agent_prompt returns assembled instruction text", {
   expect_match(out, "Context Pack:")
   expect_match(out, "Goal: Fix qtl axis labels")
   expect_match(out, "Treat core docs as read-only")
+  expect_match(out, "Always run the full repository testthat suite: devtools::test\\(\\)\\.")
+  expect_match(out, "Then run any additional exact checks listed in the Context Pack")
+  expect_match(out, "If you change function arguments, exported APIs, or roxygen docs, run devtools::document\\(\\)")
+  expect_match(out, "Before coding, read AI docs for context/refresher")
+  expect_match(out, "Return output sections \(exact\): Summary \\| Files changed \\| Patch/diff")
 })
 
 test_that("build_agent_prompt uses issue body when context_pack is NULL", {
@@ -28,7 +33,7 @@ test_that("build_agent_prompt uses issue body when context_pack is NULL", {
     "Target Repo + Branch: gsm.qtl / dev",
     "Allowed-to-touch Files: R/plot_qtl_summary.R",
     "Entry Points: plot_qtl_summary()",
-    "Tests to Run (Exact Commands): devtools::test(filter = 'plot_qtl_summary')",
+    "Tests to Run (Exact Commands): devtools::test(); devtools::test(filter = 'plot_qtl_summary')",
     "Definition of Done: tests pass",
     "DAG Impact: none",
     sep = "\n"
@@ -80,7 +85,7 @@ test_that("build_agent_prompt accepts common Target Repo Branch header variants"
     "Target Repo/Branch: gsm.qtl / dev",
     "Allowed-to-touch Files: R/plot_qtl_summary.R",
     "Entry Points: plot_qtl_summary()",
-    "Tests to Run (Exact Commands): devtools::test(filter = 'plot_qtl_summary')",
+    "Tests to Run (Exact Commands): devtools::test(); devtools::test(filter = 'plot_qtl_summary')",
     "Definition of Done: tests pass",
     "DAG Impact: none",
     sep = "\n"
@@ -106,6 +111,7 @@ test_that("build_agent_prompt errors when required markdown section is empty", {
     "plot_qtl_summary()",
     "",
     "## Tests to Run",
+    "devtools::test()",
     "devtools::test(filter = 'plot_qtl_summary')",
     "",
     "## Definition of Done",
@@ -129,7 +135,7 @@ test_that("build_agent_prompt errors when required key-value field is empty", {
     "Target Repo + Branch:",
     "Allowed-to-touch Files: R/plot_qtl_summary.R",
     "Entry Points: plot_qtl_summary()",
-    "Tests to Run (Exact Commands): devtools::test(filter = 'plot_qtl_summary')",
+    "Tests to Run (Exact Commands): devtools::test(); devtools::test(filter = 'plot_qtl_summary')",
     "Definition of Done: tests pass",
     "DAG Impact: none",
     sep = "\n"
@@ -148,7 +154,7 @@ test_that("build_agent_prompt can disable core-doc lock instruction", {
     "Target Repo + Branch: gsm.qtl / dev",
     "Allowed-to-touch Files: R/plot_qtl_summary.R",
     "Entry Points: plot_qtl_summary()",
-    "Tests to Run (Exact Commands): devtools::test(filter = 'plot_qtl_summary')",
+    "Tests to Run (Exact Commands): devtools::test(); devtools::test(filter = 'plot_qtl_summary')",
     "Definition of Done: tests pass",
     "DAG Impact: none",
     sep = "\n"
@@ -166,7 +172,7 @@ test_that("build_agent_prompt prefers contained ai docs path", {
     "Target Repo + Branch: gsm.qtl / dev",
     "Allowed-to-touch Files: R/plot_qtl_summary.R",
     "Entry Points: plot_qtl_summary()",
-    "Tests to Run (Exact Commands): devtools::test(filter = 'plot_qtl_summary')",
+    "Tests to Run (Exact Commands): devtools::test(); devtools::test(filter = 'plot_qtl_summary')",
     "Definition of Done: tests pass",
     "DAG Impact: none",
     sep = "\n"
@@ -184,7 +190,7 @@ test_that("build_agent_prompt falls back to root docs when present", {
     "Target Repo + Branch: gsm.qtl / dev",
     "Allowed-to-touch Files: R/plot_qtl_summary.R",
     "Entry Points: plot_qtl_summary()",
-    "Tests to Run (Exact Commands): devtools::test(filter = 'plot_qtl_summary')",
+    "Tests to Run (Exact Commands): devtools::test(); devtools::test(filter = 'plot_qtl_summary')",
     "Definition of Done: tests pass",
     "DAG Impact: none",
     sep = "\n"
@@ -206,7 +212,7 @@ test_that("build_agent_prompt errors on invalid lock_core_docs", {
     "Target Repo + Branch: gsm.qtl / dev",
     "Allowed-to-touch Files: R/plot_qtl_summary.R",
     "Entry Points: plot_qtl_summary()",
-    "Tests to Run (Exact Commands): devtools::test(filter = 'plot_qtl_summary')",
+    "Tests to Run (Exact Commands): devtools::test(); devtools::test(filter = 'plot_qtl_summary')",
     "Definition of Done: tests pass",
     "DAG Impact: none",
     sep = "\n"
@@ -216,4 +222,20 @@ test_that("build_agent_prompt errors on invalid lock_core_docs", {
     build_agent_prompt("gsm.qtl#123", cp, lock_core_docs = NA),
     "lock_core_docs"
   )
+})
+
+test_that("build_agent_prompt accepts explicit no-additional-checks marker", {
+  cp <- paste(
+    "Goal: Fix qtl axis labels",
+    "Non-goals: No API changes",
+    "Target Repo + Branch: gsm.qtl / dev",
+    "Allowed-to-touch Files: R/plot_qtl_summary.R",
+    "Entry Points: plot_qtl_summary()",
+    "Tests to Run (Exact Commands): None (full-suite only)",
+    "Definition of Done: tests pass",
+    "DAG Impact: none",
+    sep = "\n"
+  )
+
+  expect_no_error(build_agent_prompt("gsm.qtl#123", cp))
 })

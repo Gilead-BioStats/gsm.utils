@@ -26,7 +26,10 @@ Project: Gilead-BioStats/41
 <!-- Exported functions/modules/classes involved in this change. -->
 
 ## Tests to Run (Exact Commands)
-<!-- Include exact test commands and, if applicable, filtered test targets. -->
+<!-- Baseline protocol already runs full-suite `devtools::test()`. -->
+<!-- List ADDITIONAL exact commands only (e.g., `devtools::test(filter = 'foo')`, integration checks, downstream verification commands). -->
+<!-- If no additional checks are required, write: `None (full-suite only)`. -->
+<!-- If API/signature/roxygen changes are in scope, also include `devtools::document()`. -->
 
 ## Definition of Done
 <!-- Objective pass/fail criteria for this ticket. -->

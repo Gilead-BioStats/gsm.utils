@@ -88,13 +88,28 @@ build_agent_prompt <- function(issue,
     )
   }
 
+  refresher_docs <- .resolve_core_doc_paths(
+    strPackageDir = strPackageDir,
+    ai_docs_dir = ai_docs_dir,
+    core_docs = c("AGENTS.md", "ECOSYSTEM.md", "ARCHITECTURE.md", "SKILLS.md")
+  )
+
   lines <- c(
-    "Execute this ticket exactly as scoped below.",
-    "Do not edit files outside Allowed-to-touch Files.",
-    "If required fields are missing or ambiguous, stop and ask targeted clarifying questions before coding.",
-    "Run the exact tests listed in the Context Pack.",
-    "Return output sections: Summary, Files changed, Patch/diff, Tests run, Downstream verification, Risks/rollback, Follow-ups.",
+    "Agent Execution Prompt",
+    "",
+    "Execution protocol:",
+    "- Execute this ticket exactly as scoped below.",
+    "- Do not edit files outside Allowed-to-touch Files.",
+    "- If required fields are missing or ambiguous, stop and ask targeted clarifying questions before coding.",
+    "- Always run the full repository testthat suite: devtools::test().",
+    "- Then run any additional exact checks listed in the Context Pack (or treat `None (full-suite only)` as no extra checks).",
+    "- If you change function arguments, exported APIs, or roxygen docs, run devtools::document() and include generated man/NAMESPACE updates when applicable.",
+    paste0("- Before coding, read AI docs for context/refresher: ", paste(refresher_docs, collapse = ", "), "."),
+    "",
+    "Return output sections (exact): Summary | Files changed | Patch/diff | Tests run | Downstream verification | Risks/rollback | Follow-ups.",
+    "",
     paste0("Issue reference: ", trimws(issue)),
+    "",
     "Context Pack:",
     trimws(context_pack)
   )
@@ -118,7 +133,7 @@ build_agent_prompt <- function(issue,
     )
   }
 
-  paste(lines, collapse = "\n\n")
+  paste(lines, collapse = "\n")
 }
 
 

@@ -75,4 +75,7 @@ Then commit the updated template files.
 - Do not run from whole-repo context when a scoped Context Pack is available.
 - If Context Pack fields are missing, request them before making behavioral changes.
 - Context Pack required fields must not be empty; use explicit placeholders: `TBD`, `Unknown`, or `None`.
+- For R repos, baseline protocol always runs full-suite `devtools::test()`.
+- Use Context Pack `Tests to Run` for additional exact commands (targeted, integration, or downstream checks), or `None (full-suite only)`.
+- If function signatures, exported APIs, or roxygen docs change, run `devtools::document()` and include generated `man/` and `NAMESPACE` updates when applicable.
 - Keep mechanical/doc synchronization separate from behavior changes.
