@@ -8,7 +8,7 @@ This repository is the canonical source for AI-ready templates used across the G
 - Provide one sync utility to distribute template updates.
 
 ## Canonical files
-Templates live in `inst/ai_templates/` and are copied into target repos.
+Templates live in `inst/ai_templates/` and are copied into target repos under `.github/ai/` by default (or repo root when explicitly configured).
 
 - `AGENTS.md` (canonical orchestration + Context Pack policy)
 - `ECOSYSTEM.md` (suite DAG + cross-package contracts)

@@ -10,6 +10,7 @@ sync_gsm_standards(
   overwrite_ai_docs = FALSE,
   overwrite_actions = TRUE,
   dry_run = FALSE,
+  ai_docs_dir = file.path(".github", "ai"),
   fail_on_drift = FALSE
 )
 }
@@ -23,6 +24,8 @@ sync_gsm_standards(
 \item{overwrite_actions}{Logical; overwrite existing \code{.github/workflows} in \code{mode = "write"} (default: \code{TRUE}).}
 
 \item{dry_run}{Logical; in \code{mode = "write"}, preview AI docs changes without writing files (default: \code{FALSE}). Workflows are not updated when \code{dry_run = TRUE}.}
+
+\item{ai_docs_dir}{Relative directory under \code{strPackageDir} where AI docs are synced. Default is \code{.github/ai}. Use \code{"."} to sync at repo root.}
 
 \item{fail_on_drift}{Logical; in \code{mode = "check"}, error when AI docs drift or workflow drift is detected.}
 }

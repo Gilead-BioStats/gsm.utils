@@ -14,6 +14,8 @@
 #'   By default all templates are processed.
 #' @param include_issue_templates Logical; when `TRUE` (default), also sync
 #'   `.github/ISSUE_TEMPLATE/*` from `inst/gha_templates/ISSUE_TEMPLATE`.
+#' @param ai_docs_dir Relative directory under `strPackageDir` where AI docs
+#'   are synced. Default is `.github/ai`. Use `"."` to sync at repo root.
 #' @param fail_on_drift Logical; when `TRUE`, error if any files are missing or
 #'   differ from templates.
 #'
@@ -27,12 +29,20 @@ update_gsm_ai_docs <- function(strPackageDir = ".",
                                dry_run = FALSE,
                                include = NULL,
                                include_issue_templates = TRUE,
+                               ai_docs_dir = file.path(".github", "ai"),
                                fail_on_drift = FALSE) {
   if (!dir.exists(strPackageDir)) {
     stop("strPackageDir does not exist: ", strPackageDir, call. = FALSE)
   }
 
   mode <- match.arg(mode)
+
+  if (!is.character(ai_docs_dir) || length(ai_docs_dir) != 1 || !nzchar(trimws(ai_docs_dir))) {
+    stop("`ai_docs_dir` must be a non-empty character scalar.", call. = FALSE)
+  }
+
+  ai_docs_dir <- trimws(ai_docs_dir)
+  ai_docs_to_root <- identical(ai_docs_dir, ".") || identical(ai_docs_dir, "")
 
   template_dir <- system.file("ai_templates", package = "gsm.utils")
   if (identical(template_dir, "")) {
@@ -42,13 +52,19 @@ update_gsm_ai_docs <- function(strPackageDir = ".",
   src_files <- list.files(template_dir, recursive = TRUE, full.names = TRUE, all.files = TRUE)
   src_files <- src_files[file.info(src_files)$isdir == FALSE]
   rel_files <- substring(src_files, nchar(template_dir) + 2)
+  rel_files <- if (isTRUE(ai_docs_to_root)) {
+    rel_files
+  } else {
+    file.path(ai_docs_dir, rel_files)
+  }
 
   if (!is.null(include)) {
-    unknown <- setdiff(include, rel_files)
+    template_rel_files <- substring(src_files, nchar(template_dir) + 2)
+    unknown <- setdiff(include, template_rel_files)
     if (length(unknown) > 0) {
       stop("Unknown template path(s) in include: ", paste(unknown, collapse = ", "), call. = FALSE)
     }
-    keep <- rel_files %in% include
+    keep <- template_rel_files %in% include
     src_files <- src_files[keep]
     rel_files <- rel_files[keep]
   }

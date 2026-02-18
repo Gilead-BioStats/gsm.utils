@@ -11,6 +11,7 @@ update_gsm_ai_docs(
   dry_run = FALSE,
   include = NULL,
   include_issue_templates = TRUE,
+  ai_docs_dir = file.path(".github", "ai"),
   fail_on_drift = FALSE
 )
 }
@@ -26,6 +27,8 @@ update_gsm_ai_docs(
 \item{include}{Optional character vector of relative template paths to sync. By default all templates are processed.}
 
 \item{include_issue_templates}{Logical; when \code{TRUE} (default), also sync \code{.github/ISSUE_TEMPLATE/*} from \code{inst/gha_templates/ISSUE_TEMPLATE}.}
+
+\item{ai_docs_dir}{Relative directory under \code{strPackageDir} where AI docs are synced. Default is \code{.github/ai}. Use \code{"."} to sync at repo root.}
 
 \item{fail_on_drift}{Logical; when \code{TRUE}, error if any files are missing or differ from templates.}
 }

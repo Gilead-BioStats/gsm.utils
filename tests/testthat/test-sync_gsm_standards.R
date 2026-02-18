@@ -4,7 +4,7 @@ test_that("sync_gsm_standards write mode syncs docs, issues, and workflows", {
   result <- sync_gsm_standards(strPackageDir = tmp)
 
   expect_type(result, "list")
-  expect_true(file.exists(file.path(tmp, "AGENTS.md")))
+  expect_true(file.exists(file.path(tmp, ".github", "ai", "AGENTS.md")))
   expect_true(file.exists(file.path(tmp, ".github", "ISSUE_TEMPLATE", "6-CONTEXT_PACK.md")))
   expect_true(file.exists(file.path(tmp, ".github", "workflows", "R-CMD-check.yaml")))
 })
@@ -26,7 +26,7 @@ test_that("sync_gsm_standards check mode can fail on drift", {
   tmp <- withr::local_tempdir()
   sync_gsm_standards(strPackageDir = tmp)
 
-  writeLines("# changed", file.path(tmp, "AGENTS.md"))
+  writeLines("# changed", file.path(tmp, ".github", "ai", "AGENTS.md"))
 
   expect_error(
     sync_gsm_standards(

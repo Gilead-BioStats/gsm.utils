@@ -4,7 +4,13 @@
 \alias{build_agent_prompt}
 \title{Build an agent execution prompt from issue + Context Pack}
 \usage{
-build_agent_prompt(issue, context_pack, lock_core_docs = TRUE)
+build_agent_prompt(
+	issue,
+	context_pack,
+	lock_core_docs = TRUE,
+	strPackageDir = ".",
+	ai_docs_dir = file.path(".github", "ai")
+)
 }
 \arguments{
 \item{issue}{\code{character} issue reference (e.g., \code{"gsm.qtl#123"} or URL).}
@@ -12,6 +18,10 @@ build_agent_prompt(issue, context_pack, lock_core_docs = TRUE)
 \item{context_pack}{\code{character} full Context Pack text.}
 
 \item{lock_core_docs}{\code{logical} whether to include an explicit instruction that core docs are read-only unless explicitly listed in Allowed-to-touch Files. Default is \code{TRUE}.}
+
+\item{strPackageDir}{Path to target repo root used to resolve core docs. Default is \code{"."}.}
+
+\item{ai_docs_dir}{Relative directory where AI docs are expected. Default is \code{.github/ai}.}
 }
 \value{
 A single \code{character} string containing the assembled prompt.

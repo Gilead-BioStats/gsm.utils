@@ -20,7 +20,7 @@ Project: Gilead-BioStats/41
 
 ## Core-doc Edit Permission (default: do not edit)
 <!-- If any core docs are allowed to be edited, list exact paths here. Otherwise write "none". -->
-<!-- Typical core docs: AGENTS.md, ECOSYSTEM.md, SKILLS.md, SECURITY.md, CONTRIBUTING.md -->
+<!-- Typical core docs: .github/ai/AGENTS.md, .github/ai/ECOSYSTEM.md, .github/ai/SKILLS.md, .github/ai/SECURITY.md, .github/ai/CONTRIBUTING.md (legacy root paths may still exist) -->
 
 ## Entry Points
 <!-- Exported functions/modules/classes involved in this change. -->

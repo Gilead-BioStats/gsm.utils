@@ -14,6 +14,8 @@
 #' @param dry_run Logical; in `mode = "write"`, preview AI docs changes without
 #'   writing files (default: `FALSE`). Workflows are not updated when
 #'   `dry_run = TRUE`.
+#' @param ai_docs_dir Relative directory under `strPackageDir` where AI docs
+#'   are synced. Default is `.github/ai`. Use `"."` to sync at repo root.
 #' @param fail_on_drift Logical; in `mode = "check"`, error when AI docs drift
 #'   or workflow drift is detected.
 #'
@@ -26,6 +28,7 @@ sync_gsm_standards <- function(strPackageDir = ".",
                                overwrite_ai_docs = FALSE,
                                overwrite_actions = TRUE,
                                dry_run = FALSE,
+                               ai_docs_dir = file.path(".github", "ai"),
                                fail_on_drift = FALSE) {
   mode <- match.arg(mode)
 
@@ -34,11 +37,16 @@ sync_gsm_standards <- function(strPackageDir = ".",
   }
 
   if (identical(mode, "check")) {
-    ai_report <- update_gsm_ai_docs(
+    ai_args <- list(
       strPackageDir = strPackageDir,
       mode = "check",
       fail_on_drift = FALSE
     )
+    if ("ai_docs_dir" %in% names(formals(update_gsm_ai_docs))) {
+      ai_args$ai_docs_dir <- ai_docs_dir
+    }
+
+    ai_report <- do.call(update_gsm_ai_docs, ai_args)
 
     gha_report <- check_gha_version(
       strPackageDir = strPackageDir,
@@ -60,13 +68,18 @@ sync_gsm_standards <- function(strPackageDir = ".",
     return(invisible(list(ai_docs = ai_report, gha = gha_report)))
   }
 
-  ai_write <- update_gsm_ai_docs(
+  ai_args <- list(
     strPackageDir = strPackageDir,
     overwrite = overwrite_ai_docs,
     mode = "write",
     dry_run = dry_run,
     fail_on_drift = FALSE
   )
+  if ("ai_docs_dir" %in% names(formals(update_gsm_ai_docs))) {
+    ai_args$ai_docs_dir <- ai_docs_dir
+  }
+
+  ai_write <- do.call(update_gsm_ai_docs, ai_args)
 
   gha_write <- NA
   if (!isTRUE(dry_run)) {

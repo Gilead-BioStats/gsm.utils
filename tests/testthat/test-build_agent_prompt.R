@@ -55,6 +55,46 @@ test_that("build_agent_prompt can disable core-doc lock instruction", {
   expect_false(grepl("Treat core docs as read-only", out, fixed = TRUE))
 })
 
+test_that("build_agent_prompt prefers contained ai docs path", {
+  cp <- paste(
+    "Goal: Fix qtl axis labels",
+    "Non-goals: No API changes",
+    "Target Repo + Branch: gsm.qtl / dev",
+    "Allowed-to-touch Files: R/plot_qtl_summary.R",
+    "Entry Points: plot_qtl_summary()",
+    "Tests to Run (Exact Commands): devtools::test(filter = 'plot_qtl_summary')",
+    "Definition of Done: tests pass",
+    "DAG Impact: none",
+    sep = "\n"
+  )
+
+  out <- build_agent_prompt("gsm.qtl#123", cp)
+
+  expect_match(out, "\\.github/ai/AGENTS\\.md")
+})
+
+test_that("build_agent_prompt falls back to root docs when present", {
+  cp <- paste(
+    "Goal: Fix qtl axis labels",
+    "Non-goals: No API changes",
+    "Target Repo + Branch: gsm.qtl / dev",
+    "Allowed-to-touch Files: R/plot_qtl_summary.R",
+    "Entry Points: plot_qtl_summary()",
+    "Tests to Run (Exact Commands): devtools::test(filter = 'plot_qtl_summary')",
+    "Definition of Done: tests pass",
+    "DAG Impact: none",
+    sep = "\n"
+  )
+
+  tmp <- withr::local_tempdir()
+  writeLines("# AGENTS", file.path(tmp, "AGENTS.md"))
+
+  out <- build_agent_prompt("gsm.qtl#123", cp, strPackageDir = tmp)
+
+  expect_match(out, "Allowed-to-touch Files: AGENTS\\.md")
+  expect_false(grepl("\\.github/ai/AGENTS\\.md", out))
+})
+
 test_that("build_agent_prompt errors on invalid lock_core_docs", {
   cp <- paste(
     "Goal: Fix qtl axis labels",
