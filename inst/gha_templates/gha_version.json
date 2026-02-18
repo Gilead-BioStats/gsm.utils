@@ -54,6 +54,10 @@
     {
       "name": "5-documentation.md",
       "description": "Documentation Task Issue Template"
+    },
+    {
+      "name": "6-CONTEXT_PACK.md",
+      "description": "Context Pack Issue Template"
     }
   ]
 }
