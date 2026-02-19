@@ -20,6 +20,7 @@ test_that("sync_gsm_standards check mode returns ai and gha reports", {
   expect_true("gha" %in% names(report))
   expect_s3_class(report$ai_docs, "data.frame")
   expect_type(report$gha, "list")
+  expect_false(any(grepl("^\\.github/ISSUE_TEMPLATE/", gsub("\\\\", "/", report$ai_docs$relative_path))))
 })
 
 test_that("sync_gsm_standards check mode can fail on drift", {
@@ -35,5 +36,35 @@ test_that("sync_gsm_standards check mode can fail on drift", {
       fail_on_drift = TRUE
     ),
     "Detected standards drift"
+  )
+})
+
+test_that("sync_gsm_standards check mode allows ARCHITECTURE drift", {
+  tmp <- withr::local_tempdir()
+  sync_gsm_standards(strPackageDir = tmp)
+
+  writeLines("# repo-local architecture", file.path(tmp, ".github", "ai", "ARCHITECTURE.md"))
+
+  expect_no_error(
+    sync_gsm_standards(
+      strPackageDir = tmp,
+      mode = "check",
+      fail_on_drift = TRUE
+    )
+  )
+})
+
+test_that("sync_gsm_standards check mode ignores issue template drift", {
+  tmp <- withr::local_tempdir()
+  sync_gsm_standards(strPackageDir = tmp)
+
+  writeLines("# local issue template", file.path(tmp, ".github", "ISSUE_TEMPLATE", "6-CONTEXT_PACK.md"))
+
+  expect_no_error(
+    sync_gsm_standards(
+      strPackageDir = tmp,
+      mode = "check",
+      fail_on_drift = TRUE
+    )
   )
 })

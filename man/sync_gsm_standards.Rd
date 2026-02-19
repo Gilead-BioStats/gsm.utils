@@ -27,7 +27,7 @@ sync_gsm_standards(
 
 \item{ai_docs_dir}{Relative directory under \code{strPackageDir} where AI docs are synced. Default is \code{.github/ai}. Use \code{"."} to sync at repo root.}
 
-\item{fail_on_drift}{Logical; in \code{mode = "check"}, error when AI docs drift or workflow drift is detected.}
+\item{fail_on_drift}{Logical; in \code{mode = "check"}, error when AI docs drift (excluding \code{ARCHITECTURE.md} and issue templates) or workflow drift is detected.}
 }
 \value{
 Invisibly returns a list with components:
@@ -40,5 +40,6 @@ Invisibly returns a list with components:
 Provides a one-command sync/check entry point for repository standards.
 In \code{mode = "write"}, it syncs AI docs (and issue templates) plus GitHub
 Actions workflow templates. In \code{mode = "check"}, it reports drift for AI
-docs and workflow versions.
+docs and workflow versions. Drift checks intentionally ignore GitHub issue
+templates and allow \code{ARCHITECTURE.md} to vary by repository.
 }

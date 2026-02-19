@@ -79,7 +79,7 @@ cat(prompt)
 
 ## CI drift gate (recommended)
 If target repos use gsm.utils GitHub Actions templates, include `ai-template-drift-check.yaml`.
-This workflow fails PRs when synced templates drift from gsm.utils canonical templates.
+This workflow fails PRs when synced canonical templates drift from gsm.utils, while intentionally ignoring `.github/ISSUE_TEMPLATE/*` and repo-local `ARCHITECTURE.md` drift.
 
 When it fails, run:
 
