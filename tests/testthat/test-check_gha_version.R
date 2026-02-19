@@ -97,3 +97,18 @@ test_that("all workflow templates have version headers", {
     )
   }
 })
+
+test_that("gha manifest workflow names match template files", {
+  manifest_path <- system.file("gha_templates/gha_version.json", package = "gsm.utils")
+  workflows_dir <- system.file("gha_templates/workflows", package = "gsm.utils")
+
+  manifest <- jsonlite::fromJSON(manifest_path, simplifyVector = TRUE)
+  expected_workflows <- sort(manifest$workflows$name)
+  actual_workflows <- sort(list.files(workflows_dir, pattern = "\\.ya?ml$"))
+
+  expect_setequal(
+    expected_workflows,
+    actual_workflows,
+    info = "gha_version.json workflow entries must match files in inst/gha_templates/workflows"
+  )
+})

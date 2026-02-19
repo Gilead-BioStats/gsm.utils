@@ -24,9 +24,14 @@
       "path": "workflows/R-CMD-check.yaml"
     },
     {
-      "name": "r-releaser.yaml",
+      "name": "ai-template-drift-check.yaml",
+      "description": "Check AI template drift against gsm.utils canonical templates",
+      "path": "workflows/ai-template-drift-check.yaml"
+    },
+    {
+      "name": "r-releaser-caller.yaml",
       "description": "R package release workflow",
-      "path": "workflows/r-releaser.yaml"
+      "path": "workflows/r-releaser-caller.yaml"
     }
   ],
   "issue_templates": [
@@ -49,6 +54,10 @@
     {
       "name": "5-documentation.md",
       "description": "Documentation Task Issue Template"
+    },
+    {
+      "name": "6-CONTEXT_PACK.md",
+      "description": "Context Pack Issue Template"
     }
   ]
 }
