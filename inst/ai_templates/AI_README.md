@@ -70,6 +70,10 @@ prompt <- gsm.utils::build_agent_prompt(
 cat(prompt)
 ```
 
+Notes:
+- `sync_gsm_standards(mode = "write")` syncs canonical docs and templates, but preserves an existing repo-local `ARCHITECTURE.md`.
+- `sync_gsm_standards(mode = "check")` intentionally ignores drift in repo-local `ARCHITECTURE.md` and `.github/ISSUE_TEMPLATE/*`.
+
 ## Maintainer workflow
 1) Update templates in `gsm.utils` first.
 2) Sync templates into target repos.

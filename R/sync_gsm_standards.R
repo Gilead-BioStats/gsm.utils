@@ -2,14 +2,17 @@
 #'
 #' Provides a one-command sync/check entry point for repository standards.
 #' In `mode = "write"`, it syncs AI docs (and issue templates) plus GitHub
-#' Actions workflow templates. In `mode = "check"`, it reports drift for AI
-#' docs and workflow versions. Drift checks intentionally ignore GitHub issue
-#' templates and allow `ARCHITECTURE.md` to vary by repository.
+#' Actions workflow templates. Existing repo-local `ARCHITECTURE.md` is
+#' preserved (not overwritten), while missing `ARCHITECTURE.md` is still added
+#' from template. In `mode = "check"`, it reports drift for AI docs and
+#' workflow versions. Drift checks intentionally ignore GitHub issue templates
+#' and allow `ARCHITECTURE.md` to vary by repository.
 #'
 #' @param strPackageDir Path to the target package repo (default: ".").
 #' @param mode One of `"write"` or `"check"`.
 #' @param overwrite_ai_docs Logical; overwrite existing AI docs/templates in
-#'   `mode = "write"` (default: `FALSE`).
+#'   `mode = "write"` (default: `FALSE`). Existing `ARCHITECTURE.md` is always
+#'   preserved.
 #' @param overwrite_actions Logical; overwrite existing `.github/workflows` in
 #'   `mode = "write"` (default: `TRUE`).
 #' @param dry_run Logical; in `mode = "write"`, preview AI docs changes without
@@ -86,6 +89,35 @@ sync_gsm_standards <- function(strPackageDir = ".",
   )
   if ("ai_docs_dir" %in% names(formals(update_gsm_ai_docs))) {
     ai_args$ai_docs_dir <- ai_docs_dir
+  }
+
+  architecture_dest <- file.path(
+    strPackageDir,
+    if (identical(ai_docs_dir, ".") || identical(ai_docs_dir, "")) {
+      "ARCHITECTURE.md"
+    } else {
+      file.path(ai_docs_dir, "ARCHITECTURE.md")
+    }
+  )
+
+  if (file.exists(architecture_dest)) {
+    template_dir <- system.file("ai_templates", package = "gsm.utils")
+    if (identical(template_dir, "")) {
+      stop("Could not find gsm.utils inst/ai_templates. Is gsm.utils installed?", call. = FALSE)
+    }
+
+    template_rel_files <- list.files(
+      template_dir,
+      recursive = TRUE,
+      full.names = FALSE,
+      all.files = TRUE
+    )
+    template_rel_files <- template_rel_files[
+      file.info(file.path(template_dir, template_rel_files))$isdir == FALSE
+    ]
+    template_rel_files <- gsub("\\\\", "/", template_rel_files)
+
+    ai_args$include <- setdiff(template_rel_files, "ARCHITECTURE.md")
   }
 
   ai_write <- do.call(update_gsm_ai_docs, ai_args)

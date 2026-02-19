@@ -19,7 +19,7 @@ sync_gsm_standards(
 
 \item{mode}{One of \code{"write"} or \code{"check"}.}
 
-\item{overwrite_ai_docs}{Logical; overwrite existing AI docs/templates in \code{mode = "write"} (default: \code{FALSE}).}
+\item{overwrite_ai_docs}{Logical; overwrite existing AI docs/templates in \code{mode = "write"} (default: \code{FALSE}). Existing \code{ARCHITECTURE.md} is always preserved.}
 
 \item{overwrite_actions}{Logical; overwrite existing \code{.github/workflows} in \code{mode = "write"} (default: \code{TRUE}).}
 
@@ -39,7 +39,9 @@ Invisibly returns a list with components:
 \description{
 Provides a one-command sync/check entry point for repository standards.
 In \code{mode = "write"}, it syncs AI docs (and issue templates) plus GitHub
-Actions workflow templates. In \code{mode = "check"}, it reports drift for AI
-docs and workflow versions. Drift checks intentionally ignore GitHub issue
-templates and allow \code{ARCHITECTURE.md} to vary by repository.
+Actions workflow templates. Existing repo-local \code{ARCHITECTURE.md} is
+preserved (not overwritten), while missing \code{ARCHITECTURE.md} is still added
+from template. In \code{mode = "check"}, it reports drift for AI docs and
+workflow versions. Drift checks intentionally ignore GitHub issue templates
+and allow \code{ARCHITECTURE.md} to vary by repository.
 }

@@ -68,3 +68,19 @@ test_that("sync_gsm_standards check mode ignores issue template drift", {
     )
   )
 })
+
+test_that("sync_gsm_standards write mode preserves existing ARCHITECTURE.md", {
+  tmp <- withr::local_tempdir()
+  sync_gsm_standards(strPackageDir = tmp)
+
+  architecture_path <- file.path(tmp, ".github", "ai", "ARCHITECTURE.md")
+  writeLines("# repo-local architecture", architecture_path)
+
+  sync_gsm_standards(
+    strPackageDir = tmp,
+    overwrite_ai_docs = TRUE
+  )
+
+  expect_equal(readLines(architecture_path, warn = FALSE), "# repo-local architecture")
+  expect_true(file.exists(file.path(tmp, ".github", "ai", "AGENTS.md")))
+})
