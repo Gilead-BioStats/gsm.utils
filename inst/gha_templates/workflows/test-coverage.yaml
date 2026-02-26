@@ -1,0 +1,112 @@
+# Workflow: test-coverage
+# Computes code coverage via covr, produces coverage-summary.json artifact,
+# and attaches it as a release asset on release events.
+
+name: test-coverage
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+  release:
+    types: [published]
+  workflow_dispatch:
+
+concurrency:
+  group: test-coverage-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: release
+          use-public-rspm: true
+
+      - name: Install dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::covr, any::covr2gh
+          needs: coverage
+
+      - name: Compute coverage and write summary JSON
+        id: coverage
+        run: |
+          cov <- covr::package_coverage()
+          pct <- round(as.numeric(covr::percent_coverage(cov)), 2)
+
+          summary <- list(
+            repo            = "Gilead-BioStats/gsm.utils",
+            sha             = Sys.getenv("GITHUB_SHA"),
+            ref             = Sys.getenv("GITHUB_REF"),
+            coverage_percent = pct,
+            timestamp_utc   = format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"),
+            runner_os       = "ubuntu-latest",
+            r_version       = paste0(R.version$major, ".", R.version$minor)
+          )
+
+          jsonlite::write_json(summary, "coverage-summary.json", auto_unbox = TRUE, pretty = TRUE)
+          saveRDS(cov, "coverage.rds")
+
+          cat("coverage_pct=", pct, "\n", sep = "", file = Sys.getenv("GITHUB_OUTPUT"))
+          message("Coverage: ", pct, "%")
+        shell: Rscript {0}
+
+      - name: Post coverage report to PR
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cov <- readRDS("coverage.rds")
+          covr2gh::covr_report(cov)
+        shell: Rscript {0}
+
+      - name: Upload coverage-summary.json artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-summary
+          path: coverage-summary.json
+
+  # ── Separate job so only release runs escalate permissions ──────
+  upload-release-asset:
+    if: github.event_name == 'release'
+    needs: coverage
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download coverage artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-summary
+
+      - name: Attach coverage-summary.json to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Uploading coverage-summary.json to release ${{ github.event.release.tag_name }}"
+          gh release upload "${{ github.event.release.tag_name }}" \
+            coverage-summary.json \
+            --clobber || {
+            echo "::error::Failed to upload coverage-summary.json to release ${{ github.event.release.tag_name }}"
+            exit 1
+          }
