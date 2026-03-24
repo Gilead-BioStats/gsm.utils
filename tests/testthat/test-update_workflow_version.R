@@ -18,7 +18,8 @@ test_that("updates existing version line in YAML files", {
   update_workflow_version(
     dir = wf_dir,
     description_path = desc_path
-  )
+  ) |>
+    expect_message("UPDATED: test.yaml -> 1.2.3")
 
   result <- readLines(yaml_path)
   expect_equal(result[1], "# gsm.utils GHA version: 1.2.3")
@@ -40,7 +41,8 @@ test_that("adds version line to top when missing", {
     dir = wf_dir,
     description_path = desc_path,
     add_if_missing = TRUE
-  )
+  ) |>
+    expect_message("ADDED: no_version.yaml -> 2.0.0")
 
   result <- readLines(yaml_path)
   expect_equal(result[1], "# gsm.utils GHA version: 2.0.0")
@@ -83,7 +85,8 @@ test_that("recursively updates yaml files", {
     dir = file.path(tmp, "workflows"),
     description_path = desc_path,
     recursive = TRUE
-  )
+  ) |>
+    expect_message("UPDATED: nested.yaml -> 0.9.9")
 
   result <- readLines(yaml_path)
   expect_equal(result[1], "# gsm.utils GHA version: 0.9.9")
