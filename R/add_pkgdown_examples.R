@@ -37,7 +37,24 @@ add_pkgdown_examples <- function(
 #' @returns Character vector of HTML file names.
 #' @keywords internal
 list_non_index_html <- function(examples_dir) {
-  html_files <- fs::path_file(fs::dir_ls(examples_dir, glob = "*.html"))
+  if (is.null(examples_dir) || !fs::dir_exists(examples_dir)) {
+    cli::cli_warn("Examples directory {.path {examples_dir}} does not exist.")
+    return(character())
+  }
+  
+  html_files <- tryCatch(
+    fs::path_file(fs::dir_ls(examples_dir, glob = "*.html")),
+    error = function(e) {
+      cli::cli_warn("Error reading HTML files from {.path {examples_dir}}: {e$message}")
+      character()
+    }
+  )
+  
+  if (length(html_files) == 0) {
+    cli::cli_warn("No HTML files found in {.path {examples_dir}}.")
+    return(character())
+  }
+  
   html_files[html_files != "index.html"]
 }
 
