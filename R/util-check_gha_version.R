@@ -27,7 +27,7 @@
 #' }
 check_gha_version <- function(strPackageDir = ".", bVerbose = TRUE) {
   # Get gsm.utils version from manifest
-  manifest_path <- system.file("gha_templates/gha_version.json", package = "gsm.utils")
+  manifest_path <- fs::path_package("gsm.utils", "gha_templates", "gha_version.json")
 
   if (!fs::file_exists(manifest_path)) {
     cli::cli_abort("Cannot find GHA version manifest in gsm.utils package.")

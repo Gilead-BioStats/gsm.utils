@@ -33,7 +33,7 @@ add_gsm_issue_templates <- function(strPackageDir = ".", overwrite = TRUE) {
   }
   # Copy all issue template files to the target directory  
   source_files <- fs::dir_ls(
-    system.file("gha_templates/ISSUE_TEMPLATE", package = "gsm.utils")
+    fs::path_package("gsm.utils", "gha_templates", "ISSUE_TEMPLATE")
   )
   fs::file_copy(
     source_files,
@@ -51,7 +51,7 @@ add_gsm_issue_templates <- function(strPackageDir = ".", overwrite = TRUE) {
 #' @export
 add_gsm_actions <- function(strPackageDir = ".", overwrite = TRUE) {
   # Get version from manifest
-  manifest_path <- system.file("gha_templates/gha_version.json", package = "gsm.utils")
+  manifest_path <- fs::path_package("gsm.utils", "gha_templates", "gha_version.json")
   if (fs::file_exists(manifest_path)) {
     manifest <- jsonlite::fromJSON(manifest_path, simplifyVector = TRUE)
     version <- manifest$version
@@ -70,7 +70,7 @@ add_gsm_actions <- function(strPackageDir = ".", overwrite = TRUE) {
   result <- tryCatch({
     # Copy all workflow files to the target directory
     source_files <- fs::dir_ls(
-      system.file("gha_templates/workflows", package = "gsm.utils"),
+      fs::path_package("gsm.utils", "gha_templates", "workflows"),
       regexp = "\\.ya?ml$"
     )
     fs::file_copy(
@@ -83,7 +83,7 @@ add_gsm_actions <- function(strPackageDir = ".", overwrite = TRUE) {
 
   if (result) {
     workflow_files <- fs::path_file(fs::dir_ls(
-      system.file("gha_templates/workflows", package = "gsm.utils"),
+      fs::path_package("gsm.utils", "gha_templates", "workflows"),
       regexp = "\\.ya?ml$"
     ))
     cli::cli_alert_success(
@@ -113,7 +113,7 @@ add_contributor_guidelines <- function(strPackageDir = ".", overwrite = TRUE) {
   }
 
   fs::file_copy(
-    system.file("gha_templates/CONTRIBUTING.md", package = "gsm.utils"),
+    fs::path_package("gsm.utils", "gha_templates", "CONTRIBUTING.md"),
     strFilePath,
     overwrite = overwrite
   )
