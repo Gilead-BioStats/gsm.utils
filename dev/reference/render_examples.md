@@ -1,8 +1,7 @@
 # Render example R Markdown files
 
-generation timestamp. Render all `.Rmd` files in an examples directory
-to HTML output files. Uses standard rmarkdown rendering without
-injecting custom headers.
+Render all `.Rmd` files in an examples directory to HTML output files.
+Uses standard rmarkdown rendering without injecting custom headers.
 
 ## Usage
 
