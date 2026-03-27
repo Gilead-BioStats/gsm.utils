@@ -37,7 +37,7 @@ add_pkgdown_examples <- function(
 #' @returns Character vector of HTML file names.
 #' @keywords internal
 list_non_index_html <- function(examples_dir) {
-  html_files <- basename(fs::dir_ls(examples_dir, regexp = "\\.html$"))
+  html_files <- fs::file_path(fs::dir_ls(examples_dir, glob = "*.html"))
   html_files[html_files != "index.html"]
 }
 
@@ -104,7 +104,7 @@ add_pkgdown_examples_to_yaml <- function(pkgdown_yaml, html_files, metadata) {
     function(item) {
       list(
         text = item$title,
-        href = paste0("examples/", item$html)
+        href = fs::path("examples", item$html)
       )
     }
   )
@@ -148,7 +148,7 @@ list_example_metadata <- function(rmd_dir) {
     reason = "to read example metadata from Rmd files."
   )
 
-  rmd_files <- fs::dir_ls(rmd_dir, regexp = "\\.Rmd$")
+  rmd_files <- fs::dir_ls(rmd_dir, glob = "*.Rmd")
   if (!length(rmd_files)) {
     return(data.frame(html = character(), title = character(), index = numeric()))
   }

@@ -31,7 +31,7 @@ create_gha_manifest <- function(
   version <- desc[1, "Version"]
 
   # Discover workflows
-  workflow_files <- basename(fs::dir_ls(
+  workflow_files <- fs::path_file(fs::dir_ls(
     workflows_dir,
     regexp = "\\.ya?ml$"
   ))
@@ -48,9 +48,9 @@ create_gha_manifest <- function(
   })
 
   # Discover issue templates
-  issue_files <- basename(fs::dir_ls(
+  issue_files <- fs::path_file(fs::dir_ls(
     issue_templates_dir,
-    regexp = "\\.md$"
+    glob = "*.md"
   ))
 
   issue_templates <- lapply(issue_files, function(f) {

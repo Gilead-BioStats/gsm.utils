@@ -82,7 +82,7 @@ add_gsm_actions <- function(strPackageDir = ".", overwrite = TRUE) {
   }, error = function(e) FALSE)
 
   if (result) {
-    workflow_files <- basename(fs::dir_ls(
+    workflow_files <- fs::path_file(fs::dir_ls(
       system.file("gha_templates/workflows", package = "gsm.utils"),
       regexp = "\\.ya?ml$"
     ))
@@ -103,14 +103,12 @@ add_gsm_actions <- function(strPackageDir = ".", overwrite = TRUE) {
 #' @export
 add_contributor_guidelines <- function(strPackageDir = ".", overwrite = TRUE) {
   strDirPath <- fs::path(strPackageDir, ".github")
-  if (!fs::dir_exists(strDirPath)) {
-    fs::dir_create(strDirPath)
-  }
+  fs::dir_create(strDirPath)
 
   strFilePath <- fs::path(strDirPath, "CONTRIBUTING.md")
   if (fs::file_exists(strFilePath) && !overwrite) {
     stop(
-      "The .github/CONTRIBUTING.md directory already exists. Set overwrite = TRUE to overwrite it."
+      "The .github/CONTRIBUTING.md file already exists. Set overwrite = TRUE to overwrite it."
     )
   }
 
