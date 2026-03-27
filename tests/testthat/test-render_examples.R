@@ -61,10 +61,15 @@ test_that("render_examples renders files", {
     }
   )
 
-  outputs <- render_examples(
-    examples_dir = examples_dir,
-    output_dir = output_dir,
-    quiet = TRUE
+  expect_message(
+    {
+      outputs <- render_examples(
+        examples_dir = examples_dir,
+        output_dir = output_dir,
+        quiet = TRUE
+      )
+    },
+    "Rendering"
   )
 
   expect_length(outputs, 1)
