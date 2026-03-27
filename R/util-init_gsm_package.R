@@ -28,7 +28,7 @@ init_gsm_package <- function(
     fs::dir_create("inst")
 
     # add gsm-specific GHA and issue template content to .github from `inst/gha_templates`
-    gha_templates_source <- system.file("gha_templates", package = "gsm.utils")
+    gha_templates_source <- fs::path_package("gsm.utils", "gha_templates")
     fs::dir_copy(
       gha_templates_source,
       ".github/gha_templates"

@@ -68,9 +68,9 @@ test_that("check_gha_version detects outdated version", {
 })
 
 test_that("gha_version.json manifest exists and is valid", {
-  manifest_path <- system.file(
-    "gha_templates/gha_version.json",
-    package = "gsm.utils"
+  manifest_path <- fs::path_package(
+    "gsm.utils",
+    "gha_templates", "gha_version.json"
   )
 
   expect_true(file.exists(manifest_path))
@@ -86,7 +86,7 @@ test_that("gha_version.json manifest exists and is valid", {
 })
 
 test_that("all workflow templates have version headers", {
-  workflows_dir <- system.file("gha_templates/workflows", package = "gsm.utils")
+  workflows_dir <- fs::path_package("gsm.utils", "gha_templates", "workflows")
   workflow_files <- list.files(
     workflows_dir,
     pattern = "\\.ya?ml$",

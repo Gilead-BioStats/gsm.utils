@@ -51,7 +51,7 @@ for(i in seq_along(repos)[-c(1:6)]) {
   }
 
   # get list of issue templates in gsm.utils
-  vIssueTemplates <- list.files(system.file("gha_templates/ISSUE_TEMPLATE/", package = "gsm.utils"), full.names = TRUE)
+  vIssueTemplates <- list.files(fs::path_package("gsm.utils", "gha_templates", "ISSUE_TEMPLATE"), full.names = TRUE)
 
   # prepare new issue templates one by one (must be base64 encoded)
   for(issue_template in vIssueTemplates) {
@@ -72,7 +72,7 @@ for(i in seq_along(repos)[-c(1:6)]) {
 
   # add CONTRIBUTING.md
   new_file_path <- ".github/CONTRIBUTING.md"
-  new_content <- readLines(system.file("gha_templates/CONTRIBUTING.md", package = "gsm.utils")) %>% paste(collapse = "\n")
+  new_content <- readLines(fs::path_package("gsm.utils", "gha_templates", "CONTRIBUTING.md")) %>% paste(collapse = "\n")
 
   content_b64 <- jsonlite::base64_enc(charToRaw(new_content))
 
@@ -87,7 +87,7 @@ for(i in seq_along(repos)[-c(1:6)]) {
 
   # add r-releaser.yaml
   new_file_path <- ".github/workflows/r-releaser.yaml"
-  new_content <- readLines(system.file("gha_templates/workflows/r-releaser.yaml", package = "gsm.utils")) %>% paste(collapse = "\n")
+  new_content <- readLines(fs::path_package("gsm.utils", "gha_templates", "workflows", "r-releaser.yaml")) %>% paste(collapse = "\n")
 
   content_b64 <- jsonlite::base64_enc(charToRaw(new_content))
 
