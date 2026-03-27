@@ -37,7 +37,7 @@ add_pkgdown_examples <- function(
 #' @returns Character vector of HTML file names.
 #' @keywords internal
 list_non_index_html <- function(examples_dir) {
-  html_files <- fs::file_path(fs::dir_ls(examples_dir, glob = "*.html"))
+  html_files <- fs::path_file(fs::dir_ls(examples_dir, glob = "*.html"))
   html_files[html_files != "index.html"]
 }
 
