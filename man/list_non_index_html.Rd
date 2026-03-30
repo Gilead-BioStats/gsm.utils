@@ -4,10 +4,12 @@
 \alias{list_non_index_html}
 \title{List HTML files excluding index.html}
 \usage{
-list_non_index_html(examples_dir)
+list_non_index_html(examples_dir, debug = FALSE)
 }
 \arguments{
 \item{examples_dir}{Character. Path to directory containing example HTML files.}
+
+\item{debug}{Logical. Whether to show debug messages.}
 }
 \value{
 Character vector of HTML file names.

@@ -4,12 +4,14 @@
 \alias{remove_pkgdown_examples}
 \title{Remove examples menu from pkgdown YAML}
 \usage{
-remove_pkgdown_examples(pkgdown_yml, examples_dir)
+remove_pkgdown_examples(pkgdown_yml, examples_dir, debug = FALSE)
 }
 \arguments{
 \item{pkgdown_yml}{Character. Path to \verb{_pkgdown.yml}.}
 
 \item{examples_dir}{Character. Path to examples directory.}
+
+\item{debug}{Logical. Whether to show debug messages.}
 }
 \value{
 \code{NULL} invisibly.
