@@ -27,6 +27,11 @@
       "name": "r-releaser.yaml",
       "description": "R package release workflow",
       "path": "workflows/r-releaser.yaml"
+    },
+    {
+      "name": "test-coverage.yaml",
+      "description": "Compute test coverage and publish coverage-summary.json artifact",
+      "path": "workflows/test-coverage.yaml"
     }
   ],
   "issue_templates": [
