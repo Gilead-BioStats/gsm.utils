@@ -10,23 +10,25 @@
 #'   Default is `"_pkgdown.yml"`.
 #' @param rmd_dir Character. Path to directory containing example `\.Rmd` files
 #'   used to derive titles and order. Default is `"inst/examples"`.
+#' @param debug Logical. Whether to show debug messages. Default is `FALSE`.
 #'
 #' @returns `NULL` invisibly.
 #' @export
 add_pkgdown_examples <- function(
   examples_dir = "pkgdown/assets/examples",
   pkgdown_yml = "_pkgdown.yml",
-  rmd_dir = "inst/examples"
+  rmd_dir = "inst/examples",
+  debug = FALSE
 ) {
   rlang::check_installed("yaml", reason = "to manipulate _pkgdown.yml files.")
 
-  html_files <- list_non_index_html(examples_dir)
+  html_files <- list_non_index_html(examples_dir, debug = debug)
   metadata <- list_example_metadata(rmd_dir)
 
   if (length(html_files)) {
     update_pkgdown_examples(pkgdown_yml, html_files, metadata)
   } else {
-    remove_pkgdown_examples(pkgdown_yml, examples_dir)
+    remove_pkgdown_examples(pkgdown_yml, examples_dir, debug = debug)
   }
   invisible(NULL)
 }
@@ -34,10 +36,31 @@ add_pkgdown_examples <- function(
 #' List HTML files excluding index.html
 #'
 #' @param examples_dir Character. Path to directory containing example HTML files.
+#' @param debug Logical. Whether to show debug messages.
 #' @returns Character vector of HTML file names.
 #' @keywords internal
-list_non_index_html <- function(examples_dir) {
-  html_files <- fs::path_file(fs::dir_ls(examples_dir, glob = "*.html"))
+list_non_index_html <- function(examples_dir, debug = FALSE) {
+  if (is.null(examples_dir) || !fs::dir_exists(examples_dir)) {
+    return(character())
+  }
+  
+  html_files <- tryCatch(
+    fs::path_file(fs::dir_ls(examples_dir, glob = "*.html")),
+    error = function(e) {
+      if (debug) {
+        cli::cli_inform("Could not read HTML files from {.path {examples_dir}}: {e$message}")
+      }
+      character()
+    }
+  )
+  
+  if (length(html_files) == 0) {
+    if (debug) {
+      cli::cli_inform("No HTML files found in {.path {examples_dir}}.")
+    }
+    return(character())
+  }
+  
   html_files[html_files != "index.html"]
 }
 
@@ -115,10 +138,13 @@ add_pkgdown_examples_to_yaml <- function(pkgdown_yaml, html_files, metadata) {
 #'
 #' @param pkgdown_yml Character. Path to `_pkgdown.yml`.
 #' @param examples_dir Character. Path to examples directory.
+#' @param debug Logical. Whether to show debug messages.
 #' @returns `NULL` invisibly.
 #' @keywords internal
-remove_pkgdown_examples <- function(pkgdown_yml, examples_dir) {
-  cli::cli_inform("No HTML files found in {.path {examples_dir}}.")
+remove_pkgdown_examples <- function(pkgdown_yml, examples_dir, debug = FALSE) {
+  if (debug) {
+    cli::cli_inform("No HTML files found in {.path {examples_dir}}.")
+  }
   if (!is.null(pkgdown_yml) && fs::file_exists(pkgdown_yml)) {
     pkgdown_yaml <- yaml::read_yaml(pkgdown_yml)
     pkgdown_yaml$navbar$components$examples <- NULL
