@@ -5,7 +5,7 @@ Remove examples menu from pkgdown YAML
 ## Usage
 
 ``` r
-remove_pkgdown_examples(pkgdown_yml, examples_dir)
+remove_pkgdown_examples(pkgdown_yml, examples_dir, debug = FALSE)
 ```
 
 ## Arguments
@@ -17,6 +17,10 @@ remove_pkgdown_examples(pkgdown_yml, examples_dir)
 - examples_dir:
 
   Character. Path to examples directory.
+
+- debug:
+
+  Logical. Whether to show debug messages.
 
 ## Value
 
