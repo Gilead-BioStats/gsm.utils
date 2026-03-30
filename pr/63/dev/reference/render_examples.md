@@ -34,7 +34,7 @@ render_examples(
 - quiet:
 
   Logical. Passed to
-  [`rmarkdown::render()`](https://pkgs.rstudio.com/rmarkdown/reference/render.html).
+  [`rmarkdown::render()`](https://rdrr.io/pkg/rmarkdown/man/render.html).
 
 ## Value
 

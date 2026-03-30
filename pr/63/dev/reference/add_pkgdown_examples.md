@@ -10,8 +10,7 @@ new sub-menu listing the html files.
 add_pkgdown_examples(
   examples_dir = "pkgdown/assets/examples",
   pkgdown_yml = "_pkgdown.yml",
-  rmd_dir = "inst/examples",
-  debug = FALSE
+  rmd_dir = "inst/examples"
 )
 ```
 
@@ -31,10 +30,6 @@ add_pkgdown_examples(
 
   Character. Path to directory containing example `\.Rmd` files used to
   derive titles and order. Default is `"inst/examples"`.
-
-- debug:
-
-  Logical. Whether to show debug messages. Default is `FALSE`.
 
 ## Value
 
