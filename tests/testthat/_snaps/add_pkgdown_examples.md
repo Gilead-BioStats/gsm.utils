@@ -21,6 +21,9 @@
     Code
       test_result <- add_pkgdown_examples(empty_dir, test_path("fixtures",
         "_pkgdown.yml"), rmd_dir = NULL)
+    Condition
+      Warning:
+      No HTML files found in <tempdir>
     Message
       No HTML files found in <tempdir>
       YAML written
