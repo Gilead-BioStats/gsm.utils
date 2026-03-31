@@ -8,11 +8,6 @@ on:
   release:
     types: [published]
   workflow_dispatch:
-    inputs:
-      tag_name:
-        description: 'Release tag to attach coverage-summary.json to (for testing only)'
-        required: false
-        default: ''
 
 name: test-coverage
 
@@ -55,7 +50,7 @@ jobs:
           path: coverage-summary.json
 
       - name: Attach coverage summary to release
-        if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && inputs.tag_name != '')
-        run: gh release upload ${{ github.event_name == 'release' && github.event.release.tag_name || inputs.tag_name }} coverage-summary.json
+        if: github.event_name == 'release'
+        run: gh release upload ${{ github.event.release.tag_name }} coverage-summary.json
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
