@@ -5,6 +5,8 @@
 on:
   push:
     branches: [main, dev]
+    paths-ignore:
+      - 'coverage-summary.json'
   release:
     types: [published]
   workflow_dispatch:
@@ -22,7 +24,6 @@ jobs:
       contents: write
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
 
     steps:
       - uses: actions/checkout@v5
@@ -50,24 +51,16 @@ jobs:
           name: coverage-summary
           path: coverage-summary.json
 
-      - name: Update coverage badge gist
-        if: env.GIST_TOKEN != ''
+      - name: Commit coverage summary to branch
+        if: github.event_name == 'push'
         run: |
-          COVERAGE_RAW=$(jq -r '.coverage_percent // empty' coverage-summary.json)
-          if [ -z "$COVERAGE_RAW" ]; then
-            MSG="error"; COLOR="red"
-          else
-            MSG="$(printf '%.1f' "$COVERAGE_RAW")%"
-            if awk "BEGIN {exit !($COVERAGE_RAW >= 90)}"; then COLOR="brightgreen"
-            elif awk "BEGIN {exit !($COVERAGE_RAW >= 75)}"; then COLOR="yellow"
-            else COLOR="red"
-            fi
-          fi
-          jq -n --arg msg "$MSG" --arg color "$COLOR" \
-            '{files: {"coverage-badge.json": {content: ({schemaVersion:1,label:"coverage",message:$msg,color:$color} | tojson)}}}' | \
-          gh api -X PATCH /gists/d9b66c0da8123b3016aa5ec0e0ad47f0 --input -
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add coverage-summary.json
+          git diff --staged --quiet || git commit -m "chore: update coverage-summary.json [skip ci]"
+          git push
         env:
-          GH_TOKEN: ${{ secrets.GIST_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Attach coverage summary to release
         if: github.event_name == 'release'
