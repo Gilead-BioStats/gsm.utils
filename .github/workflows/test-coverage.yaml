@@ -6,7 +6,7 @@ on:
   push:
     branches: [main, dev]
   release:
-    types: [published]
+    types: [published, edited]
   workflow_dispatch:
 
 name: test-coverage
