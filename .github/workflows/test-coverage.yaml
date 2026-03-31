@@ -4,7 +4,7 @@
 
 on:
   push:
-    branches: [main, dev]
+    branches: [main, dev, fix-31]
     paths-ignore:
       - 'coverage-summary.json'
   release:
