@@ -50,7 +50,7 @@ jobs:
           path: coverage-summary.json
 
   upload-release-asset:
-    if: github.event_name == 'release'
+    if: ${{ github.event_name == 'release' }}
     needs: coverage
     runs-on: ubuntu-latest
     permissions:
@@ -63,6 +63,7 @@ jobs:
           name: coverage-summary
 
       - name: Attach coverage summary to release
+        if: ${{ github.event.release.tag_name != '' }}
         run: gh release upload ${{ github.event.release.tag_name }} coverage-summary.json
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
