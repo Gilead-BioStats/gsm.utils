@@ -51,6 +51,6 @@ jobs:
 
       - name: Attach coverage summary to release
         if: github.event_name == 'release'
-        run: gh release upload ${{ github.event.release.tag_name }} coverage-summary.json
+        run: gh release upload ${{ github.event.release.tag_name }} coverage-summary.json --clobber
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
