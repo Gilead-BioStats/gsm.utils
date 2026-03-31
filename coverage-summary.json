@@ -1,0 +1,9 @@
+{
+  "repo": "Gilead-BioStats/gsm.utils",
+  "sha": "44f316862672e7b9ac7c1a3194c44fdcb3d1b7e9",
+  "ref": "refs/heads/fix-31",
+  "coverage_percent": 58.7477,
+  "timestamp_utc": "2026-03-31T20:27:29Z",
+  "runner_os": "Linux",
+  "r_version": "4.5.3"
+}
