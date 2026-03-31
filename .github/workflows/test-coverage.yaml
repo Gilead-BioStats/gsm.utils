@@ -19,7 +19,7 @@ jobs:
   coverage:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
@@ -49,21 +49,8 @@ jobs:
           name: coverage-summary
           path: coverage-summary.json
 
-  upload-release-asset:
-    if: ${{ github.event_name == 'release' }}
-    needs: coverage
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
-    steps:
-      - name: Download coverage artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: coverage-summary
-
       - name: Attach coverage summary to release
-        if: ${{ github.event.release.tag_name != '' }}
+        if: github.event_name == 'release'
         run: gh release upload ${{ github.event.release.tag_name }} coverage-summary.json
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
