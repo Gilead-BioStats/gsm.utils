@@ -5,8 +5,6 @@
 on:
   push:
     branches: [main, dev]
-    paths-ignore:
-      - 'coverage-summary.json'
   release:
     types: [published]
   workflow_dispatch:
@@ -51,14 +49,19 @@ jobs:
           name: coverage-summary
           path: coverage-summary.json
 
-      - name: Commit coverage summary to branch
+      - name: Publish coverage summary to coverage-data branch
         if: github.event_name == 'push'
         run: |
+          cp coverage-summary.json /tmp/coverage-summary.json
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add coverage-summary.json
-          git diff --staged --quiet || git commit -m "chore: update coverage-summary.json [skip ci]"
-          git push
+          git fetch origin
+          git switch coverage-data 2>/dev/null || git switch -c coverage-data
+          mkdir -p ${{ github.ref_name }}
+          cp /tmp/coverage-summary.json ${{ github.ref_name }}/coverage-summary.json
+          git add ${{ github.ref_name }}/coverage-summary.json
+          git diff --staged --quiet || git commit -m "chore: update ${{ github.ref_name }}/coverage-summary.json [skip ci]"
+          git push origin coverage-data
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
