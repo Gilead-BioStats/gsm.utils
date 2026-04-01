@@ -8,7 +8,7 @@
 <div class="pkgdown-release">
 
 [![R-CMD-check](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/R-CMD-check.yaml)
-[![test-coverage](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/test-coverage.yaml)
+[![test-coverage](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/test-coverage.yaml/badge.svg?branch=main)](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/test-coverage.yaml)
 [![coverage %](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/main/coverage-summary.json&label=coverage&query=%24.coverage_percent&suffix=%25)](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/test-coverage.yaml)
 
 </div>
@@ -16,7 +16,7 @@
 <div class="pkgdown-devel">
 
 [![R-CMD-check](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/R-CMD-check-dev.yaml/badge.svg)](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/R-CMD-check-dev.yaml)
-[![test-coverage](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/test-coverage.yaml)
+[![test-coverage](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/test-coverage.yaml/badge.svg?branch=dev)](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/test-coverage.yaml)
 [![coverage %](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/dev/coverage-summary.json&label=coverage&query=%24.coverage_percent&suffix=%25)](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/test-coverage.yaml)
 
 </div>
