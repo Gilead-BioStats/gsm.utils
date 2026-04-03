@@ -62,7 +62,8 @@ jobs:
           echo "Coverage: ${{ env.COVERAGE_PCT }}%"
 
       - name: Comment coverage on PR
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        continue-on-error: true
         uses: actions/github-script@v7
         with:
           script: |
@@ -100,6 +101,7 @@ jobs:
       - name: Write coverage-summary.json
         if: github.event_name == 'release'
         shell: Rscript {0}
+        # allow_fail defaults to FALSE — coverage failures intentionally abort the release workflow
         run: |
           gsm.utils::emit_coverage_summary(
             output_path = "coverage-summary.json",
