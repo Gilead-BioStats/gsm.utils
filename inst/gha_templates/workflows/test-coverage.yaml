@@ -58,7 +58,8 @@ jobs:
           )
 
       - name: Log coverage
-        run: echo "Coverage: ${{ env.COVERAGE_PCT }}%"
+        run: |
+          echo "Coverage: ${{ env.COVERAGE_PCT }}%"
 
       - name: Comment coverage on PR
         if: github.event_name == 'pull_request'
