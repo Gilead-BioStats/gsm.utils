@@ -112,6 +112,12 @@ GitHub Actions workflow templates for GSM packages:
   action with configurable options for data compression and vignette
   building.
 
+- **`test-coverage.yaml`**: Computes test coverage using `covr` and
+  logs the result on every run. On pull requests, coverage is posted as
+  a sticky comment that updates on each push. `coverage-summary.json`
+  (written via `gsm.utils::emit_coverage_summary()`) is attached as a
+  release asset when triggered by a `release: published` event.
+
 ## Code of Conduct
 
 Please note that the gsm.utils project is released with a [Contributor
