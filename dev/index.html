@@ -124,6 +124,7 @@
 <li><p><strong><code>pkgdown-with-examples.yaml</code></strong>: Builds and deploys pkgdown documentation sites with automatic example indexing via <code><a href="reference/add_pkgdown_examples.html">add_pkgdown_examples()</a></code> and example rendering via <code><a href="reference/render_examples.html">render_examples()</a></code>. Creates PR preview sites at <code>/pr/{number}</code> and deploys production sites to gh-pages on push to <code>main</code> or <code>dev</code>.</p></li>
 <li><p><strong><code>pkgdown-cleanup.yaml</code></strong>: Automatically removes pkgdown PR preview directories from the gh-pages branch when pull requests are closed to keep the repository clean.</p></li>
 <li><p><strong><code>r_releaser.yaml</code></strong>: Reusable workflow for building and attaching R package source tarballs to GitHub releases, using the A2-ai/r-releaser action with configurable options for data compression and vignette building.</p></li>
+<li><p><strong><code>test-coverage.yaml</code></strong>: Computes test coverage using <code>covr</code> and logs the result on every run. On pull requests, coverage is posted as a sticky comment that updates on each push. <code>coverage-summary.json</code> (written via <code><a href="reference/emit_coverage_summary.html">gsm.utils::emit_coverage_summary()</a></code>) is attached as a release asset when triggered by a <code>release: published</code> event.</p></li>
 </ul>
 </div>
 <div class="section level2">

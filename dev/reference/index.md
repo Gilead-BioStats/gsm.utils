@@ -33,6 +33,8 @@
   : Generate Examples menu in pkgdown
 - [`check_gha_version()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/check_gha_version.md)
   : Check GitHub Actions version in a package
+- [`emit_coverage_summary()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/emit_coverage_summary.md)
+  : Emit Coverage Summary Artifact
 
 ## Example rendering
 
