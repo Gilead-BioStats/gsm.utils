@@ -7,7 +7,8 @@
 add_pkgdown_examples(
   examples_dir = "pkgdown/assets/examples",
   pkgdown_yml = "_pkgdown.yml",
-  rmd_dir = "inst/examples"
+  rmd_dir = "inst/examples",
+  debug = FALSE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ Default is \code{"_pkgdown.yml"}.}
 
 \item{rmd_dir}{Character. Path to directory containing example \verb{\\.Rmd} files
 used to derive titles and order. Default is \code{"inst/examples"}.}
+
+\item{debug}{Logical. Whether to show debug messages. Default is \code{FALSE}.}
 }
 \value{
 \code{NULL} invisibly.

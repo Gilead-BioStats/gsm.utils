@@ -23,7 +23,9 @@ test_that("check_gha_version detects current version", {
   dir.create(temp_pkg, showWarnings = FALSE)
 
   # Install workflows
-  add_gsm_actions(temp_pkg)
+  add_gsm_actions(temp_pkg) |>
+    expect_message("Installed 6 workflow files") |>
+    expect_message("Installing gsm.utils GitHub Actions")
 
   result <- check_gha_version(temp_pkg, bVerbose = FALSE)
 
@@ -66,7 +68,10 @@ test_that("check_gha_version detects outdated version", {
 })
 
 test_that("gha_version.json manifest exists and is valid", {
-  manifest_path <- system.file("gha_templates/gha_version.json", package = "gsm.utils")
+  manifest_path <- fs::path_package(
+    "gsm.utils",
+    "gha_templates", "gha_version.json"
+  )
 
   expect_true(file.exists(manifest_path))
 
@@ -81,8 +86,12 @@ test_that("gha_version.json manifest exists and is valid", {
 })
 
 test_that("all workflow templates have version headers", {
-  workflows_dir <- system.file("gha_templates/workflows", package = "gsm.utils")
-  workflow_files <- list.files(workflows_dir, pattern = "\\.ya?ml$", full.names = TRUE)
+  workflows_dir <- fs::path_package("gsm.utils", "gha_templates", "workflows")
+  workflow_files <- list.files(
+    workflows_dir,
+    pattern = "\\.ya?ml$",
+    full.names = TRUE
+  )
 
   expect_gt(length(workflow_files), 0)
 
@@ -93,7 +102,11 @@ test_that("all workflow templates have version headers", {
     expect_equal(
       length(version_line),
       1,
-      info = paste("File", basename(wf), "should have exactly one version header")
+      info = paste(
+        "File",
+        basename(wf),
+        "should have exactly one version header"
+      )
     )
   }
 })

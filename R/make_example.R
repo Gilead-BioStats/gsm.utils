@@ -104,7 +104,7 @@ build_example_template <- function(strName, strType, strDetails, intIndex) {
     "  parent = environment()",
     ")",
     "child_report <- knitr::knit_child(",
-    "  system.file(\"report\", \"Report_Name.Rmd\", package = \"your.package\"),",
+    "  fs::path_package(\"your.package\", \"report\", \"Report_Name.Rmd\"),",
     "  envir = child_env,",
     "  quiet = TRUE",
     ")",
