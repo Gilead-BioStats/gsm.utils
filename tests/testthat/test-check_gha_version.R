@@ -24,7 +24,7 @@ test_that("check_gha_version detects current version", {
 
   # Install workflows
   add_gsm_actions(temp_pkg) |>
-    expect_message("Installed 6 workflow files") |>
+    expect_message("Installed 7 workflow files") |>
     expect_message("Installing gsm.utils GitHub Actions")
 
   result <- check_gha_version(temp_pkg, bVerbose = FALSE)
