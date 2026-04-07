@@ -83,7 +83,20 @@ update_gsm_package(strPackageDir = ".")
 
 Use this function to keep your package’s CI/CD infrastructure
 synchronized with the latest conventions.
+### `check_workflow_compliance()`
 
+Checks if a package's GitHub Actions workflows comply with gsm.utils
+templates:
+
+``` r
+check_workflow_compliance(strPackageDir = ".")
+```
+
+- Verifies that required workflow files are present
+- Checks version headers match the current gsm.utils version
+- Compares critical workflow content against templates
+- Provides detailed reporting of compliance issues
+- Can be used in CI/CD to enforce workflow standards
 ## GitHub Actions Workflows
 
 The `inst/gha_templates/workflows` directory contains standardized
@@ -112,6 +125,12 @@ GitHub Actions workflow templates for GSM packages:
   action with configurable options for data compression and vignette
   building.
 
+- **`workflow-template-check.yaml`**: Ensures workflow compliance by
+  checking that a package's `.github/workflows` directory matches the
+  gsm.utils templates. Runs on pushes to `main` or `release` branches
+  and verifies file presence, version headers, and critical content to
+  maintain standardized CI/CD across GSM packages.
+  
 - **`test-coverage.yaml`**: Computes test coverage using `covr` and
   logs the result on every run. On pull requests, coverage is posted as
   a sticky comment that updates on each push. `coverage-summary.json`

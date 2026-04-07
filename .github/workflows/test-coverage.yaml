@@ -44,6 +44,15 @@ jobs:
           pct <- tryCatch(
             {
               cov <- covr::package_coverage()
+              df <- as.data.frame(cov)
+              file_pct <- tapply(df$value > 0, df$filename, function(x) round(100 * mean(x), 1))
+              file_data <- data.frame(
+                file = names(file_pct),
+                coverage = as.numeric(file_pct),
+                stringsAsFactors = FALSE
+              )
+              file_data <- file_data[order(file_data$file), ]
+              jsonlite::write_json(file_data, "coverage-data.json", auto_unbox = TRUE)
               as.numeric(covr::percent_coverage(cov))
             },
             error = function(e) {
@@ -67,13 +76,20 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            const fs = require('fs');
             const pct = process.env.COVERAGE_PCT;
             const sha = context.sha.slice(0, 7);
             const timestamp = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
             const marker = '<!-- coverage-comment -->';
+            let fileTable = '';
+            try {
+              const fileData = JSON.parse(fs.readFileSync('coverage-data.json', 'utf8'));
+              const rows = fileData.map(f => `| \`${f.file}\` | ${f.coverage}% |`).join('\n');
+              fileTable = `\n\n<details>\n<summary>Per-file coverage</summary>\n\n| File | Coverage |\n|------|----------|\n${rows}\n\n</details>`;
+            } catch (e) {}
             const body = pct === 'NA'
               ? `${marker}\n⚠️ Coverage computation failed.\n\n_Commit: ${sha} | ${timestamp}_`
-              : `${marker}\n📊 Test coverage: **${pct}%**\n\n_Commit: ${sha} | ${timestamp}_`;
+              : `${marker}\n📊 Test coverage: **${pct}%**${fileTable}\n\n_Commit: ${sha} | ${timestamp}_`;
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,

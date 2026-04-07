@@ -23,8 +23,13 @@ test_that("check_gha_version detects current version", {
   dir.create(temp_pkg, showWarnings = FALSE)
 
   # Install workflows
+  n_workflows <- length(fs::dir_ls(
+    fs::path_package("gsm.utils", "gha_templates", "workflows"),
+    regexp = "\\.ya?ml$"
+  ))
+
   add_gsm_actions(temp_pkg) |>
-    expect_message("Installed 6 workflow files") |>
+    expect_message(paste0("Installed ", n_workflows, " workflow file")) |>
     expect_message("Installing gsm.utils GitHub Actions")
 
   result <- check_gha_version(temp_pkg, bVerbose = FALSE)
