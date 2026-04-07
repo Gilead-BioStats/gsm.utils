@@ -210,6 +210,6 @@ report_compliance_results <- function(missing_workflows, extra_workflows, versio
     cli::cli_alert_success("All workflow files are compliant with gsm.utils templates!")
   } else {
     cli::cli_alert_danger("Workflow compliance issues found!")
-    cli::cli_alert_info("To fix these issues, run: gsm.utils::update_gsm_package()")
+    cli::cli_alert_info("To fix these issues, ensure your gsm.utils package installation is up to date and run: gsm.utils::update_gsm_package()")
   }
 }

@@ -33,7 +33,7 @@ jobs:
         run: Rscript -e "install.packages('remotes')"
 
       - name: Install gsm.utils from GitHub
-        run: Rscript -e "remotes::install_github('Gilead-BioStats/gsm.utils')"
+        run: Rscript -e "remotes::install_github('Gilead-BioStats/gsm.utils@main')"
 
       - name: Check workflow compliance
         run: Rscript -e "gsm.utils::check_workflow_compliance('current-repo')"
