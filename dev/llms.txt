@@ -60,9 +60,22 @@ update_gsm_package(strPackageDir = ".")
   definitions
 
 Use this function to keep your package’s CI/CD infrastructure
-synchronized with the latest conventions.
+synchronized with the latest conventions. \###
+[`check_workflow_compliance()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/check_workflow_compliance.md)
 
-## GitHub Actions Workflows
+Checks if a package’s GitHub Actions workflows comply with gsm.utils
+templates:
+
+``` r
+check_workflow_compliance(strPackageDir = ".")
+```
+
+- Verifies that required workflow files are present
+- Checks version headers match the current gsm.utils version
+- Compares critical workflow content against templates
+- Provides detailed reporting of compliance issues
+- Can be used in CI/CD to enforce workflow standards \## GitHub Actions
+  Workflows
 
 The `inst/gha_templates/workflows` directory contains standardized
 GitHub Actions workflow templates for GSM packages:
@@ -91,6 +104,12 @@ GitHub Actions workflow templates for GSM packages:
   package source tarballs to GitHub releases, using the A2-ai/r-releaser
   action with configurable options for data compression and vignette
   building.
+
+- **`workflow-template-check.yaml`**: Ensures workflow compliance by
+  checking that a package’s `.github/workflows` directory matches the
+  gsm.utils templates. Runs on pushes to `main` or `release` branches
+  and verifies file presence, version headers, and critical content to
+  maintain standardized CI/CD across GSM packages.
 
 - **`test-coverage.yaml`**: Computes test coverage using `covr` and logs
   the result on every run. On pull requests, coverage is posted as a
@@ -142,6 +161,8 @@ By contributing to this project, you agree to abide by its terms.
   : Generate Examples menu in pkgdown
 - [`check_gha_version()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/check_gha_version.md)
   : Check GitHub Actions version in a package
+- [`check_workflow_compliance()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/check_workflow_compliance.md)
+  : Check Workflow Template Compliance
 - [`emit_coverage_summary()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/emit_coverage_summary.md)
   : Emit Coverage Summary Artifact
 
