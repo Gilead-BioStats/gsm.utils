@@ -121,3 +121,79 @@ test_that("check_workflow_compliance detects compliant workflows", {
   # Clean up
   unlink(temp_pkg, recursive = TRUE)
 })
+
+test_that("check_workflow_compliance detects missing or incorrect version header", {
+  skip_if_not(exists("check_workflow_compliance"))
+  skip_if_not(exists("add_gsm_actions"))
+
+  temp_dir <- tempdir()
+  temp_pkg <- file.path(temp_dir, "test_pkg_bad_version_header")
+  dir.create(temp_pkg, showWarnings = FALSE, recursive = TRUE)
+  add_gsm_actions(temp_pkg)
+
+  workflows_dir <- file.path(temp_pkg, ".github", "workflows")
+
+  # Corrupt the version header in R-CMD-check.yaml
+  target <- file.path(workflows_dir, "R-CMD-check.yaml")
+  lines <- readLines(target, warn = FALSE)
+  lines[grep("^# gsm.utils GHA version:", lines)[1]] <- "# gsm.utils GHA version: 0.0.0-bad"
+  writeLines(lines, target)
+
+  result <- check_workflow_compliance(temp_pkg, bVerbose = FALSE, bFailOnErrors = FALSE)
+
+  expect_type(result, "list")
+  # version_issues should flag the bad header
+  expect_gt(length(result$version_issues), 0)
+  expect_true(any(grepl("R-CMD-check.yaml", result$version_issues)))
+
+  unlink(temp_pkg, recursive = TRUE)
+})
+
+test_that("check_workflow_compliance detects extra workflow files", {
+  skip_if_not(exists("check_workflow_compliance"))
+  skip_if_not(exists("add_gsm_actions"))
+
+  temp_dir <- tempdir()
+  temp_pkg <- file.path(temp_dir, "test_pkg_extra_workflow")
+  dir.create(temp_pkg, showWarnings = FALSE, recursive = TRUE)
+  add_gsm_actions(temp_pkg)
+
+  # Add a workflow file that is not in the manifest
+  extra_file <- file.path(temp_pkg, ".github", "workflows", "custom-deploy.yaml")
+  writeLines(c("# custom workflow", "on: push", "jobs:"), extra_file)
+
+  result <- check_workflow_compliance(temp_pkg, bVerbose = FALSE, bFailOnErrors = FALSE)
+
+  expect_type(result, "list")
+  expect_true("custom-deploy.yaml" %in% result$extra_workflows)
+
+  unlink(temp_pkg, recursive = TRUE)
+})
+
+test_that("check_workflow_compliance detects content differences in critical workflows", {
+  skip_if_not(exists("check_workflow_compliance"))
+  skip_if_not(exists("add_gsm_actions"))
+
+  temp_dir <- tempdir()
+  temp_pkg <- file.path(temp_dir, "test_pkg_content_diff")
+  dir.create(temp_pkg, showWarnings = FALSE, recursive = TRUE)
+  add_gsm_actions(temp_pkg)
+
+  workflows_dir <- file.path(temp_pkg, ".github", "workflows")
+
+  # Modify a non-comment line in R-CMD-check.yaml to introduce a content difference
+  target <- file.path(workflows_dir, "R-CMD-check.yaml")
+  lines <- readLines(target, warn = FALSE)
+  # Replace the first non-comment, non-empty line with altered content
+  non_comment_idx <- which(!grepl("^#|^\\s*$", lines))[1]
+  lines[non_comment_idx] <- paste0(lines[non_comment_idx], " # modified")
+  writeLines(lines, target)
+
+  result <- check_workflow_compliance(temp_pkg, bVerbose = FALSE, bFailOnErrors = FALSE)
+
+  expect_type(result, "list")
+  expect_gt(length(result$content_issues), 0)
+  expect_true(any(grepl("R-CMD-check.yaml", result$content_issues)))
+
+  unlink(temp_pkg, recursive = TRUE)
+})
