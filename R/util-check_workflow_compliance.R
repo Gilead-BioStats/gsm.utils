@@ -207,11 +207,7 @@ report_compliance_results <- function(missing_workflows, extra_workflows, versio
 
   # Summary
   if (!has_errors) {
-    if (length(version_issues) == 0 && length(missing_workflows) == 0) {
-      cli::cli_alert_success("All workflow files are compliant with gsm.utils templates!")
-    } else {
-      cli::cli_alert_success("No critical issues found")
-    }
+    cli::cli_alert_success("All workflow files are compliant with gsm.utils templates!")
   } else {
     cli::cli_alert_danger("Workflow compliance issues found!")
     cli::cli_alert_info("To fix these issues, run: gsm.utils::update_gsm_package()")
