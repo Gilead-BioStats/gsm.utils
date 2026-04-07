@@ -5,7 +5,7 @@ List HTML files excluding index.html
 ## Usage
 
 ``` r
-list_non_index_html(examples_dir)
+list_non_index_html(examples_dir, debug = FALSE)
 ```
 
 ## Arguments
@@ -13,6 +13,10 @@ list_non_index_html(examples_dir)
 - examples_dir:
 
   Character. Path to directory containing example HTML files.
+
+- debug:
+
+  Logical. Whether to show debug messages.
 
 ## Value
 
