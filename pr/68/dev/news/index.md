@@ -1,5 +1,26 @@
 # Changelog
 
+## gsm.utils v0.4.0
+
+### New features
+
+- Added
+  [`check_workflow_compliance()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/check_workflow_compliance.md)
+  to verify that a package’s GitHub Actions workflows match the current
+  gsm.utils templates, checking for missing workflows, extra workflows,
+  version header mismatches, and critical content differences
+  ([\#59](https://github.com/Gilead-BioStats/gsm.utils/issues/59)).
+- Added `workflow-template-check.yaml` GitHub Actions workflow that
+  automatically runs compliance checks on PR and push to main/release.
+
+### Improvements
+
+- `test-coverage.yaml` now posts a sticky PR comment showing the overall
+  coverage percentage alongside a collapsible per-file coverage table,
+  updated on each new commit.
+- GHA template version bumped to `0.4.0`; all installed workflow headers
+  updated accordingly.
+
 ## gsm.utils v0.3.0
 
 This update of the gsm.utils package introduces the following features:
