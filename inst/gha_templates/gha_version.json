@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.4.0",
   "package": "gsm.utils",
   "repository": "https://github.com/Gilead-BioStats/gsm.utils",
   "workflows": [
@@ -29,14 +29,14 @@
       "path": "workflows/r-releaser-caller.yaml"
     },
     {
+      "name": "test-coverage.yaml",
+      "description": "Compute test coverage; log results, post sticky PR comments, and attach coverage-summary.json to releases",
+      "path": "workflows/test-coverage.yaml"
+    },
+    {
       "name": "workflow-template-check.yaml",
       "description": "Check if GitHub Actions workflows match gsm.utils templates",
       "path": "workflows/workflow-template-check.yaml"
-    },
-    {
-      "name": "test-coverage.yaml",
-      "description": "Compute test coverage and publish coverage-summary.json artifact",
-      "path": "workflows/test-coverage.yaml"
     }
   ],
   "issue_templates": [
