@@ -38,20 +38,6 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.4.0" id="gsmutils-v040">gsm.utils v0.4.0<a class="anchor" aria-label="anchor" href="#gsmutils-v040"></a></h2>
-<div class="section level3">
-<h3 id="new-features-0-4-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-4-0"></a></h3>
-<ul><li>Added <code><a href="../reference/check_workflow_compliance.html">check_workflow_compliance()</a></code> to verify that a package’s GitHub Actions workflows match the current gsm.utils templates, checking for missing workflows, extra workflows, version header mismatches, and critical content differences (<a href="https://github.com/Gilead-BioStats/gsm.utils/issues/59" class="external-link">#59</a>).</li>
-<li>Added <code>workflow-template-check.yaml</code> GitHub Actions workflow that automatically runs compliance checks on PR and push to main/release.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="improvements-0-4-0">Improvements<a class="anchor" aria-label="anchor" href="#improvements-0-4-0"></a></h3>
-<ul><li>
-<code>test-coverage.yaml</code> now posts a sticky PR comment showing the overall coverage percentage alongside a collapsible per-file coverage table, updated on each new commit.</li>
-<li>GHA template version bumped to <code>0.4.0</code>; all installed workflow headers updated accordingly.</li>
-</ul></div>
-</div>
-    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="gsmutils-v030">gsm.utils v0.3.0<a class="anchor" aria-label="anchor" href="#gsmutils-v030"></a></h2>
 <p>This update of the gsm.utils package introduces the following features:</p>
 <ul><li>Adds three new exported functions (<code>render_examples</code>, <code>render_rmd</code>, <code>make_example</code>) for managing R Markdown example files</li>
