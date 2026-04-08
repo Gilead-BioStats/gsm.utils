@@ -37,7 +37,7 @@ render_rmd <- function(
   # Create a temporary directory with a safe path (no spaces)
   # to avoid issues with Quarto when paths contain spaces
   safe_temp_dir <- fs::file_temp("gsm_render_temp")
-  on.exit(unlink(safe_temp_dir), add = TRUE)
+  on.exit(unlink(safe_temp_dir, recursive = TRUE), add = TRUE)
   fs::dir_create(safe_temp_dir)
   
   rendered <- tryCatch({
