@@ -32,8 +32,9 @@ jobs:
       - name: Install remotes
         run: Rscript -e "install.packages('remotes')"
 
+        # difference from standard template check- compare to current/local branch to ensure it is up to date.
       - name: Install gsm.utils from GitHub
-        run: Rscript -e "remotes::install_github('Gilead-BioStats/gsm.utils@main')"
+        run: Rscript -e "remotes::install_local()"
 
       - name: Check workflow compliance
         run: Rscript -e "gsm.utils::check_workflow_compliance('current-repo')"
