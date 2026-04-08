@@ -97,6 +97,7 @@ check_workflow_compliance(strPackageDir = ".")
 - Compares critical workflow content against templates
 - Provides detailed reporting of compliance issues
 - Can be used in CI/CD to enforce workflow standards
+
 ## GitHub Actions Workflows
 
 The `inst/gha_templates/workflows` directory contains standardized
@@ -120,7 +121,7 @@ GitHub Actions workflow templates for GSM packages:
   directories from the gh-pages branch when pull requests are closed to
   keep the repository clean.
 
-- **`r_releaser.yaml`**: Reusable workflow for building and attaching R
+- **`r_releaser-caller.yaml`**: Reusable workflow for building and attaching R
   package source tarballs to GitHub releases, using the A2-ai/r-releaser
   action with configurable options for data compression and vignette
   building.
