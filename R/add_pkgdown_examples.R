@@ -43,24 +43,26 @@ list_non_index_html <- function(examples_dir, debug = FALSE) {
   if (is.null(examples_dir) || !fs::dir_exists(examples_dir)) {
     return(character())
   }
-  
+
   html_files <- tryCatch(
     fs::path_file(fs::dir_ls(examples_dir, glob = "*.html")),
     error = function(e) {
       if (debug) {
-        cli::cli_inform("Could not read HTML files from {.path {examples_dir}}: {e$message}")
+        cli::cli_inform(
+          "Could not read HTML files from {.path {examples_dir}}: {e$message}"
+        )
       }
       character()
     }
   )
-  
+
   if (length(html_files) == 0) {
     if (debug) {
       cli::cli_inform("No HTML files found in {.path {examples_dir}}.")
     }
     return(character())
   }
-  
+
   html_files[html_files != "index.html"]
 }
 
@@ -166,7 +168,11 @@ remove_pkgdown_examples <- function(pkgdown_yml, examples_dir, debug = FALSE) {
 #' @keywords internal
 list_example_metadata <- function(rmd_dir) {
   if (is.null(rmd_dir) || !fs::dir_exists(rmd_dir)) {
-    return(data.frame(html = character(), title = character(), index = numeric()))
+    return(data.frame(
+      html = character(),
+      title = character(),
+      index = numeric()
+    ))
   }
 
   rlang::check_installed(
@@ -175,8 +181,14 @@ list_example_metadata <- function(rmd_dir) {
   )
 
   rmd_files <- fs::dir_ls(rmd_dir, glob = "*.Rmd")
+  qmd_files <- fs::dir_ls(rmd_dir, glob = "*.qmd")
+  rmd_files <- unname(c(rmd_files, qmd_files))
   if (!length(rmd_files)) {
-    return(data.frame(html = character(), title = character(), index = numeric()))
+    return(data.frame(
+      html = character(),
+      title = character(),
+      index = numeric()
+    ))
   }
 
   metadata <- lapply(rmd_files, function(rmd_file) {
@@ -185,23 +197,17 @@ list_example_metadata <- function(rmd_dir) {
       error = function(e) list()
     )
     title_val <- front_matter$title
-    if (length(title_val) == 0) {
-      title_val <- NULL
-    }
-    title <- rlang::`%||%`(
-      title_val,
-      tools::toTitleCase(gsub("_", " ", tools::file_path_sans_ext(basename(rmd_file))))
-    )
+    title <- resolve_md_title(rmd_file, title_val)
     index_val <- front_matter$index
-    if (length(index_val) == 0) {
+    if (!length(index_val)) {
       index_val <- NA_real_
     }
     index <- suppressWarnings(as.numeric(index_val))
-    if (length(index) == 0 || is.na(index)) {
+    if (!length(index) || is.na(index)) {
       index <- Inf
     }
     data.frame(
-      html = paste0(tools::file_path_sans_ext(basename(rmd_file)), ".html"),
+      html = fs::path_ext_set(fs::path_file(rmd_file), "html"),
       title = as.character(title),
       index = index,
       stringsAsFactors = FALSE
@@ -235,7 +241,13 @@ build_examples_menu <- function(html_files, metadata) {
   )
 
   if (nrow(metadata)) {
-    meta <- merge(meta, metadata, by = "html", all.x = TRUE, suffixes = c(".default", ".rmd"))
+    meta <- merge(
+      meta,
+      metadata,
+      by = "html",
+      all.x = TRUE,
+      suffixes = c(".default", ".rmd")
+    )
     has_title <- !is.na(meta$title.rmd) & nzchar(meta$title.rmd)
     meta$title <- meta$title.default
     meta$title[has_title] <- meta$title.rmd[has_title]
