@@ -30,8 +30,9 @@ reference:
       - check_gha_version
       - check_workflow_compliance
       - emit_coverage_summary
-  - title: Example rendering
+  - title: Menu rendering
     contents:
+      - build_assets
       - render_examples
       - render_rmd
       - make_example
