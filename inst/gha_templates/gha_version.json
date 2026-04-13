@@ -9,9 +9,9 @@
       "path": "workflows/pkgdown-cleanup.yaml"
     },
     {
-      "name": "pkgdown-with-examples.yaml",
-      "description": "Deploy pkgdown site with examples",
-      "path": "workflows/pkgdown-with-examples.yaml"
+      "name": "pkgdown-with-assets.yaml",
+      "description": "Deploy pkgdown site with assets (such as examples and slide decks).",
+      "path": "workflows/pkgdown-with-assets.yaml"
     },
     {
       "name": "R-CMD-check-dev.yaml",
