@@ -1,0 +1,41 @@
+name: "Deploy PR preview"
+description: "Deploy a pkgdown preview for a pull request."
+inputs:
+  token:
+    description: "GitHub token, set to secrets.GITHUB_TOKEN"
+    required: false
+    default: ${{ github.token }}
+  pr_number:
+    description: "Pull request number."
+    required: false
+    default: ${{ github.event.number }}
+  repository_name:
+    description: "Repository to which to deploy."
+    required: false
+    default: ${{ github.event.repository.name }}
+  repository_owner:
+    description: "Owner of the repository."
+    required: false
+    default: ${{ github.event.repository.owner }}
+
+runs:
+  using: "composite"
+  if: github.event_name == 'pull_request'
+  env:
+    GITHUB_PAT: ${{ inputs.token }}
+  steps:
+    - name: Deploy PR preview 🧪
+      uses: JamesIves/github-pages-deploy-action@v4.5.0
+      with:
+        token: ${{ inputs.token }}
+        repository-name: ${{ inputs.repository_owner }}/${{ inputs.repository_name }}
+        # Don't clean the whole branch, just the target folder
+        clean: false
+        branch: gh-pages
+        folder: docs
+        # Deploy to a subdirectory named after the PR number
+        target-folder: pr/${{ inputs.pr_number }}
+
+    - name: PR site URL 🌐
+      run: |
+        echo "🌐 URL: https://${{ inputs.repository_owner }}.github.io/${{ inputs.repository_name }}/pr/${{ ${{ inputs.pr_number }} }}/dev"
