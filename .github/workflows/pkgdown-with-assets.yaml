@@ -46,12 +46,12 @@ jobs:
         shell: Rscript {0}
 
       - name: Deploy PR preview 🧪
-        if: github.event_name == 'pull_request'
         uses: ./.github/workflows/pkgdown-pr_preview
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          event_name: ${{ github.event_name}}
 
-      - name: Deploy pkgdown 📃
+      - name: Deploy non-preview 📃
         if: github.event_name != 'pull_request'
         run: |
           git config --local user.email "actions@github.com"
