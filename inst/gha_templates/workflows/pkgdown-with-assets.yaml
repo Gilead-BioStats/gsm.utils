@@ -22,15 +22,15 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: ./.github/workflows/install
-        name: Install R and dependencies
+      - name: Install R and dependencies
+        uses: ./.github/workflows/install
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           needs: website
           extra-packages: any::pkgdown gilead-biostats/qcthat local::.
 
-      - uses: ./.github/workflows/pkgdown-build_assets
-        name: Build pkgdown assets and add associated menu
+      - name: Build pkgdown assets and add associated menu
+        uses: ./.github/workflows/pkgdown-build_assets
         with:
           verbose: false
 
