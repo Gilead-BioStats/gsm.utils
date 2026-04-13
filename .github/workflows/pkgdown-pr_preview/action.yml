@@ -36,9 +36,12 @@ runs:
 
     - name: Comment with PR site URL 🌐
       uses: actions/github-script@v6
+      env:
+        REPO_NAME: ${{ inputs.repository_name }}
       with:
         script: |
-          const prSiteURL = `https://${context.repo.owner}.github.io/${context.workflow.inputs.repository_name}/pr/${context.issue.number}/dev`
+          const repoName = process.env.REPO_NAME;
+          const prSiteURL = `https://${context.repo.owner}.github.io/${repoName}/pr/${context.issue.number}/dev`
           const timestamp = new Date().toISOString();
           const commentBody = `🌐 PR pkgdown deployed: [${prSiteURL}](${prSiteURL})\n\n_Last updated: ${timestamp}_`;
           const commentMarker = '🌐 PR pkgdown deployed:';
