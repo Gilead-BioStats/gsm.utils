@@ -1,22 +1,7 @@
 name: "Deploy PR preview"
 description: "Deploy a pkgdown preview for a pull request."
 inputs:
-  pkgdown_dev_mode:
-    description: "Pass 'devel' to operate in dev mode, leave blank or pass 'prod' otherwise."
-    required: false
-    default: ''
-  event_name:
-    description: "Type of event. Used to skip steps for non-PRs."
-    required: false
-    default: ${{ github.event_name}}
-  token:
-    description: "GitHub token, set to secrets.GITHUB_TOKEN"
-    required: false
-    default: ${{ github.token }}
-  pr_number:
-    description: "Pull request number."
-    required: false
-    default: ${{ github.event.number }}
+  # General
   repository_name:
     description: "Repository to which to deploy."
     required: false
@@ -25,6 +10,23 @@ inputs:
     description: "Owner of the repository to which to deploy."
     required: false
     default: ${{ github.repository_owner }}
+  token:
+    description: "GitHub token, set to secrets.GITHUB_TOKEN"
+    required: false
+    default: ${{ github.token }}
+  event_name:
+    description: "Type of event. Used to skip steps for non-PRs."
+    required: false
+    default: ${{ github.event_name}}
+  pr_number:
+    description: "Pull request number."
+    required: false
+    default: ${{ github.event.number }}
+  # pkgdown
+  pkgdown_dev_mode:
+    description: "Pass 'devel' to operate in dev mode, leave blank or pass 'prod' otherwise."
+    required: false
+    default: ''
 
 runs:
   using: "composite"
