@@ -3,7 +3,8 @@ description: "Deploy a pkgdown preview for a pull request."
 inputs:
   event_name:
     description: "Type of event. Used to skip steps for non-PRs."
-    required: true
+    required: false
+    default: ${{ github.event_name}}
   token:
     description: "GitHub token, set to secrets.GITHUB_TOKEN"
     required: false
