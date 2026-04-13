@@ -52,14 +52,14 @@ runs:
   using: "composite"
   steps:
     - name: Install R and dependencies
-      uses: ./.github/workflows/install
+      uses: gilead-biostats/gsm.utils/.github/workflows/install@fix-67-render_menus
       with:
         token: ${{ inputs.token }}
         needs: website
         extra-packages: any::pkgdown gilead-biostats/qcthat local::.
 
     - name: Build pkgdown assets and add associated menus
-      uses: ./.github/workflows/pkgdown-build_assets
+      uses: gilead-biostats/gsm.utils/.github/workflows/pkgdown-build_assets@fix-67-render_menus
       with:
         assets_dir: ${{ inputs.assets_dir }}
         source_dir: ${{ inputs.source_dir }}
@@ -80,7 +80,7 @@ runs:
       shell: Rscript {0}
 
     - name: Deploy PR preview 🧪
-      uses: ./.github/workflows/pkgdown-pr_preview
+      uses: gilead-biostats/gsm.utils/.github/workflows/pkgdown-pr_preview@fix-67-render_menus
       with:
         repository_name: ${{ inputs.repository_name }}
         repository_owner: ${{ inputs.repository_owner }}
