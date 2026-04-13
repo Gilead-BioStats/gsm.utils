@@ -52,7 +52,7 @@ runs:
   using: "composite"
   steps:
     - name: Install R and dependencies
-      uses: gilead-biostats/gsm.utils/.github/workflows/install@fix-67-render_menus
+      uses: gilead-biostats/gsm.utils/.github/actions/install@fix-67-render_menus
       with:
         token: ${{ inputs.token }}
         needs: website
