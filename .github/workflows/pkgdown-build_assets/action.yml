@@ -1,4 +1,4 @@
-name: "Build pkgdown assets and add associated menu"
+name: "Build pkgdown assets and add associated menus"
 description: "Scan a directory for subdirectories, render any `.*md` files in those subdirectories to `.html`, and add them to the pkgdown index."
 inputs:
   source_dir:

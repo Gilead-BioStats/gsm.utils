@@ -30,7 +30,7 @@ jobs:
           needs: website
           extra-packages: any::pkgdown gilead-biostats/qcthat local::.
 
-      - name: Build pkgdown assets and add associated menu
+      - name: Build pkgdown assets and add associated menus
         uses: ./.github/workflows/pkgdown-build_assets
         with:
           verbose: false
