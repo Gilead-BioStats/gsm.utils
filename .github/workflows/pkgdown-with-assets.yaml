@@ -22,13 +22,13 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: ../install
+      - uses: ./.github/workflows/install
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           needs: website
           extra-packages: any::pkgdown gilead-biostats/qcthat local::.
 
-      - uses: ../pkgdown-assets
+      - uses: ./.github/workflows/pkgdown-assets
         with:
           verbose: false
 
