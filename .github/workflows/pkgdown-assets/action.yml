@@ -47,8 +47,6 @@ inputs:
     description: "Path to the `_pkgdown.yml` file to update with new menu items, or from which to remove unused menu items."
     required: false
     default: _pkgdown.yml
-env:
-  GITHUB_PAT: ${{ inputs.token }}
 
 runs:
   using: "composite"
@@ -71,10 +69,13 @@ runs:
 
     - name: Set Development Mode Env Var
       if: inputs.pkgdown_dev_mode == 'devel'
+      shell: bash
       run: |
         echo "PKGDOWN_DEV_MODE=devel" >> $GITHUB_ENV
 
     - name: Build site
+      env:
+        GITHUB_PAT: ${{ inputs.token }}
       run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
       shell: Rscript {0}
 
@@ -90,6 +91,9 @@ runs:
 
     - name: Deploy non-preview 📃
       if: inputs.event_name != 'pull_request'
+      env:
+        GITHUB_PAT: ${{ inputs.token }}
+      shell: bash
       run: |
         git config --local user.email "actions@github.com"
         git config --local user.name "GitHub Actions"
