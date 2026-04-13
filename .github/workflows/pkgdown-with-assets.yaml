@@ -49,6 +49,7 @@ jobs:
         uses: ./.github/workflows/pkgdown-pr_preview
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          pkgdown_dev_mode: ${{ env.PKGDOWN_DEV_MODE }}
 
       - name: Deploy non-preview 📃
         if: github.event_name != 'pull_request'
