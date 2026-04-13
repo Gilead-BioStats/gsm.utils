@@ -20,6 +20,9 @@ jobs:
       pull-requests: write
 
     steps:
+      - name: Check out repo
+        uses: actions/checkout@v5
+
       - name: Build and deploy pkgdown site
         uses: ./.github/workflows/pkgdown-assets
         with:
