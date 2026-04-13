@@ -49,9 +49,9 @@ runs:
       if: github.event_name == 'pull_request'
       run: |
         intPRNumber <- ${{ inputs.pr_number }}
-        strOwner <- tolower(${{ inputs.repository_owner }})
-        strRepo <- ${{ inputs.repository_name }}
-        strGHToken <- ${{ inputs.token }}
+        strOwner <- tolower("${{ inputs.repository_owner }}")
+        strRepo <- "${{ inputs.repository_name }}"
+        strGHToken <- "${{ inputs.token }}"
         strURL <- glue::glue(
           "https://{strOwner}.github.io/{strRepo}/pr/{intPRNumber}/dev"
         )
