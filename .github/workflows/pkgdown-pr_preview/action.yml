@@ -13,10 +13,6 @@ inputs:
     description: "Repository to which to deploy."
     required: false
     default: ${{ github.event.repository.name }}
-  repository_owner:
-    description: "Owner of the repository."
-    required: false
-    default: ${{ github.event.repository.owner }}
 
 runs:
   using: "composite"
@@ -25,7 +21,7 @@ runs:
       uses: JamesIves/github-pages-deploy-action@v4.5.0
       with:
         token: ${{ inputs.token }}
-        repository-name: ${{ inputs.repository_owner }}/${{ inputs.repository_name }}
+        repository-name: gilead-biostats/${{ inputs.repository_name }}
         # Don't clean the whole branch, just the target folder
         clean: false
         branch: gh-pages
