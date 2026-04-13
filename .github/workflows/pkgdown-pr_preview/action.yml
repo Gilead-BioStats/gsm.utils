@@ -27,7 +27,7 @@ runs:
   using: "composite"
   steps:
     - name: Deploy PR preview 🧪
-      if: github.event_name == 'pull_request'
+      if: inputs.event_name == 'pull_request'
       uses: JamesIves/github-pages-deploy-action@v4.5.0
       with:
         token: ${{ inputs.token }}
@@ -40,13 +40,13 @@ runs:
         target-folder: pr/${{ inputs.pr_number }}
 
     - name: PR site URL 🌐
-      if: github.event_name == 'pull_request'
+      if: inputs.event_name == 'pull_request'
       shell: bash
       run: |
         echo "🌐 URL: https://${{ inputs.repository_owner }}.github.io/${{ inputs.repository_name }}/pr/${{ inputs.pr_number }}/dev"
 
     - name: Comment with PR site URL 🌐
-      if: github.event_name == 'pull_request'
+      if: inputs.event_name == 'pull_request'
       uses: actions/github-script@v6
       env:
         REPO_NAME: ${{ inputs.repository_name }}
