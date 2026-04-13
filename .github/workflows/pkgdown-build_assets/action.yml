@@ -1,5 +1,5 @@
-name: "Install R and dependencies"
-description: "Set up pandoc, R, and package dependencies"
+name: "Build pkgdown assets and add associated menu"
+description: "Scan a directory for subdirectories, render any `.*md` files in those subdirectories to `.html`, and add them to the pkgdown index."
 inputs:
   source_dir:
     description: "Path to the directory containing asset subdirectories."
@@ -25,8 +25,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Build pkgdown assets and add associated menu
-      env:
+    - env:
         SOURCE_DIR: ${{ inputs.source_dir }}
         ASSETS_DIR: ${{ inputs.assets_dir }}
         PKGDOWN_YML: ${{ inputs.pkgdown_yml }}

@@ -28,7 +28,7 @@ jobs:
           needs: website
           extra-packages: any::pkgdown gilead-biostats/qcthat local::.
 
-      - uses: ./.github/workflows/pkgdown-assets
+      - uses: ./.github/workflows/pkgdown-build_assets
         with:
           verbose: false
 
