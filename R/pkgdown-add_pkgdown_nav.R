@@ -131,3 +131,14 @@ remove_pkgdown_menu <- function(pkgdown_contents, menu, verbose) {
 
   return(pkgdown_contents)
 }
+
+#' Helper to wrap yaml::write_yaml for testing.
+#'
+#' @param ... Arguments passed to [yaml::write_yaml()].
+#' @returns `NULL` (invisibly)
+#' @keywords internal
+write_yaml <- function(...) {
+  # nocov start
+  yaml::write_yaml(...)
+  # nocov end
+}
