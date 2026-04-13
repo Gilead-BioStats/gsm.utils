@@ -12,7 +12,7 @@ inputs:
   repository_name:
     description: "Repository to which to deploy."
     required: false
-    default: ${{ github.repository }}
+    default: ${{ github.event.repository.name }}
   repository_owner:
     description: "Owner of the repository to which to deploy."
     required: false
