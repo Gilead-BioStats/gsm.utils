@@ -22,22 +22,22 @@ inputs:
 runs:
   using: "composite"
   steps:
-    # - name: Deploy PR preview 🧪
-    #   uses: JamesIves/github-pages-deploy-action@v4.5.0
-    #   with:
-    #     token: ${{ inputs.token }}
-    #     repository-name: gilead-biostats/${{ inputs.repository_name }}
-    #     # Don't clean the whole branch, just the target folder
-    #     clean: false
-    #     branch: gh-pages
-    #     folder: docs
-    #     # Deploy to a subdirectory named after the PR number
-    #     target-folder: pr/${{ inputs.pr_number }}
-    #
-    # - name: PR site URL 🌐
-    #   shell: bash
-    #   run: |
-    #     echo "🌐 URL: https://gilead-biostats.github.io/${{ inputs.repository_name }}/pr/${{ inputs.pr_number }}/dev"
+    - name: Deploy PR preview 🧪
+      uses: JamesIves/github-pages-deploy-action@v4.5.0
+      with:
+        token: ${{ inputs.token }}
+        repository-name: ${{ inputs.repository_owner }}/${{ inputs.repository_name }}
+        # Don't clean the whole branch, just the target folder
+        clean: false
+        branch: gh-pages
+        folder: docs
+        # Deploy to a subdirectory named after the PR number
+        target-folder: pr/${{ inputs.pr_number }}
+
+    - name: PR site URL 🌐
+      shell: bash
+      run: |
+        echo "🌐 URL: https://${{ inputs.repository_owner }}.github.io/${{ inputs.repository_name }}/pr/${{ inputs.pr_number }}/dev"
 
     - name: Comment with PR site URL 🌐
       uses: actions/github-script@v6
@@ -46,6 +46,7 @@ runs:
         REPO_OWNER: ${{ inputs.repository_owner }}
         PR_NUMBER: ${{ inputs.pr_number }}
       with:
+        github-token: ${{ inputs.token }}
         script: |
           const repoName = process.env.REPO_NAME;
           const repoOwner = process.env.REPO_OWNER;
