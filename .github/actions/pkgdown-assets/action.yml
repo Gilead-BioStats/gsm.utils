@@ -56,11 +56,7 @@ runs:
       with:
         token: ${{ inputs.token }}
         needs: website
-        extra-packages:
-          - any::pkgdown
-          - gilead-biostats/qcthat
-          - gilead-biostasts/gsm.utils@fix-67-render_menus
-          - local::.
+        extra-packages: any::pkgdown gilead-biostats/qcthat gilead-biostasts/gsm.utils@fix-67-render_menus local::.
 
     - name: Build pkgdown assets and add associated menus
       uses: gilead-biostats/gsm.utils/.github/actions/pkgdown-build_assets@fix-67-render_menus
