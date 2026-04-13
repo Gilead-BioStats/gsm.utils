@@ -34,5 +34,6 @@ runs:
         target-folder: pr/${{ inputs.pr_number }}
 
     - name: PR site URL 🌐
+      shell: bash
       run: |
         echo "🌐 URL: https://${{ inputs.repository_owner }}.github.io/${{ inputs.repository_name }}/pr/${{ ${{ inputs.pr_number }} }}/dev"
