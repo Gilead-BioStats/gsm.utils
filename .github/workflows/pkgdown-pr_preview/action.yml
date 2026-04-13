@@ -28,3 +28,8 @@ runs:
         folder: docs
         # Deploy to a subdirectory named after the PR number
         target-folder: pr/${{ inputs.pr_number }}
+
+    - name: PR site URL 🌐
+      shell: bash
+      run: |
+        echo "🌐 URL: https://gilead-biostats.github.io/${{ inputs.repository_name }}/pr/${{ inputs.pr_number }}/dev"
