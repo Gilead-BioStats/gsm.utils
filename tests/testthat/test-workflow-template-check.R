@@ -123,9 +123,12 @@ test_that("check_workflow_compliance detects compliant workflows", {
   temp_dir <- tempdir()
   temp_pkg <- file.path(temp_dir, "test_pkg_compliant_workflows")
   dir.create(temp_pkg, showWarnings = FALSE, recursive = TRUE)
+  on.exit(unlink(temp_pkg, recursive = TRUE), add = TRUE)
 
   # Install workflows
-  add_gsm_actions(temp_pkg)
+  add_gsm_actions(temp_pkg) |>
+    expect_message("Installing gsm\\.utils GitHub Actions") |>
+    expect_message("Installed [0-9]+ workflow file[s]? to")
 
   # Check compliance
   result <- check_workflow_compliance(
@@ -138,16 +141,15 @@ test_that("check_workflow_compliance detects compliant workflows", {
   expect_true(result$is_compliant)
   expect_equal(length(result$missing_workflows), 0)
   expect_equal(length(result$version_issues), 0)
-
-  # Clean up
-  unlink(temp_pkg, recursive = TRUE)
 })
 
 test_that("check_workflow_compliance detects missing or incorrect version header", {
   temp_dir <- tempdir()
   temp_pkg <- file.path(temp_dir, "test_pkg_bad_version_header")
   dir.create(temp_pkg, showWarnings = FALSE, recursive = TRUE)
-  add_gsm_actions(temp_pkg)
+  add_gsm_actions(temp_pkg) |>
+    expect_message("Installing gsm\\.utils GitHub Actions") |>
+    expect_message("Installed [0-9]+ workflow file[s]? to")
 
   workflows_dir <- file.path(temp_pkg, ".github", "workflows")
 
@@ -177,7 +179,9 @@ test_that("check_workflow_compliance detects extra workflow files", {
   temp_dir <- tempdir()
   temp_pkg <- file.path(temp_dir, "test_pkg_extra_workflow")
   dir.create(temp_pkg, showWarnings = FALSE, recursive = TRUE)
-  add_gsm_actions(temp_pkg)
+  add_gsm_actions(temp_pkg) |>
+    expect_message("Installing gsm\\.utils GitHub Actions") |>
+    expect_message("Installed [0-9]+ workflow file[s]? to")
 
   # Add a workflow file that is not in the manifest
   extra_file <- file.path(
@@ -204,7 +208,9 @@ test_that("check_workflow_compliance detects content differences in critical wor
   temp_dir <- tempdir()
   temp_pkg <- file.path(temp_dir, "test_pkg_content_diff")
   dir.create(temp_pkg, showWarnings = FALSE, recursive = TRUE)
-  add_gsm_actions(temp_pkg)
+  add_gsm_actions(temp_pkg) |>
+    expect_message("Installing gsm\\.utils GitHub Actions") |>
+    expect_message("Installed [0-9]+ workflow file[s]? to")
 
   workflows_dir <- file.path(temp_pkg, ".github", "workflows")
 
