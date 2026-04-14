@@ -12,8 +12,7 @@ render_qmd_assets <- function(menu_subdir, output_dir, verbose) {
     safe_temp_dir <- withr::local_tempdir()
     fs::dir_copy(menu_subdir, safe_temp_dir, overwrite = TRUE)
 
-    qmd_tempfiles <- fs::dir_ls(safe_temp_dir, glob = "*.qmd")
-    # fs::file_delete(fs::path(output_dir, fs::path_file(rmd_files)))
+    qmd_tempfiles <- unname(fs::dir_ls(safe_temp_dir, glob = "*.qmd"))
     purrr::map_chr(
       qmd_tempfiles,
       \(qmd_file) {
@@ -27,7 +26,8 @@ render_qmd_assets <- function(menu_subdir, output_dir, verbose) {
           },
           error = function(e) {
             cli::cli_warn(
-              "Failed to render {.file {qmd_file}}: {conditionMessage(e)}"
+              "Failed to render {.file {qmd_file}}: {conditionMessage(e)}",
+              class = "gsm.utils-render_failure"
             )
             ""
           }
@@ -54,6 +54,10 @@ render_qmd <- function(
   params = NULL,
   verbose = FALSE
 ) {
+  # Skipping coverage because this really just renders via quarto Test
+  # manually.
+  #
+  # nocov start
   rlang::check_installed("quarto", reason = "to render qmd files.")
 
   # I already created a safe tempdir before this to render the whole group of
@@ -85,4 +89,5 @@ render_qmd <- function(
   )
 
   invisible(rendered)
+  # nocov end
 }

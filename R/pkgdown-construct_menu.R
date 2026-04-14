@@ -1,23 +1,19 @@
-construct_menu <- function(rendered_assets, metadata) {
-  if (!length(rendered_assets)) {
-    return(list())
-  }
-  menu_data <- dplyr::tibble(
-    html = rendered_assets,
-    html_file = fs::path_file(rendered_assets)
-  ) |>
-    dplyr::inner_join(metadata, by = "html_file") |>
-    dplyr::arrange(.data$index, .data$title) |>
-    dplyr::select("html", "title")
-
-  purrr::pmap(menu_data, \(html, title) {
-    list(text = title, href = unclass(html))
-  })
+#' Construct an empty data frame of menu metadata
+#'
+#' @returns A default blank data.frame with columns `html_file`, `title`, and
+#'   `index` for each md file in the menu subdirectory.
+#' @keywords internal
+empty_menu_metadata_table <- function() {
+  data.frame(
+    html_file = character(),
+    title = character(),
+    index = numeric()
+  )
 }
 
 #' Construct a data frame of menu metadata from md files
 #'
-#' @name build_assets_params
+#' @inheritParams build_assets_params
 #' @returns A data.frame with columns `html_file`, `title`, and `index` for each
 #'   md file in the menu subdirectory.
 #' @keywords internal
@@ -39,22 +35,9 @@ construct_menu_metadata_table <- function(menu_subdir) {
     purrr::list_rbind()
 }
 
-#' Construct an empty data frame of menu metadata
-#'
-#' @returns A default blank data.frame with columns `html_file`, `title`, and
-#'   `index` for each md file in the menu subdirectory.
-#' @keywords internal
-empty_menu_metadata_table <- function() {
-  data.frame(
-    html_file = character(),
-    title = character(),
-    index = numeric()
-  )
-}
-
 #' Construct a data frame of menu metadata from a single md file
 #'
-#' @name build_assets_params
+#' @inheritParams build_assets_params
 #' @returns A data.frame with columns `html_file`, `title`, and `index` for one
 #'   md file.
 #' @keywords internal
@@ -75,4 +58,28 @@ construct_md_metadata_table <- function(md_file) {
     index = index,
     stringsAsFactors = FALSE
   )
+}
+
+#' Construct a list of menu entries for rendered assets
+#'
+#' @inheritParams build_assets_params
+#' @returns A list of lists with `text` and `href` entries for each rendered
+#'   asset, sorted by `index` and `title` metadata from the corresponding md
+#'   file.
+#' @keywords internal
+construct_menu <- function(rendered_assets, metadata) {
+  if (!length(rendered_assets)) {
+    return(list())
+  }
+  menu_data <- dplyr::tibble(
+    html = rendered_assets,
+    html_file = fs::path_file(rendered_assets)
+  ) |>
+    dplyr::left_join(metadata, by = "html_file") |>
+    dplyr::arrange(.data$index, .data$title) |>
+    dplyr::select("html", "title")
+
+  purrr::pmap(menu_data, \(html, title) {
+    list(text = title, href = unclass(html))
+  })
 }

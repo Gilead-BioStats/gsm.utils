@@ -5,7 +5,7 @@
 #'   successfully rendered Rmd files.
 #' @keywords internal
 render_rmd_assets <- function(menu_subdir, output_dir, verbose) {
-  rmd_files <- fs::dir_ls(menu_subdir, glob = "*.Rmd")
+  rmd_files <- unname(fs::dir_ls(menu_subdir, glob = "*.Rmd"))
   if (length(rmd_files)) {
     purrr::map_chr(
       rmd_files,
@@ -25,7 +25,8 @@ render_rmd_assets <- function(menu_subdir, output_dir, verbose) {
           },
           error = function(e) {
             cli::cli_warn(
-              "Failed to render {.file {rmd_file}}: {conditionMessage(e)}"
+              "Failed to render {.file {rmd_file}}: {conditionMessage(e)}",
+              class = "gsm.utils-render_failure"
             )
             ""
           }
@@ -62,6 +63,10 @@ render_rmd <- function(
   lParams = NULL,
   quiet = FALSE
 ) {
+  # Skipping coverage because this really just renders via rmarkdown. Test
+  # manually.
+  #
+  # nocov start
   rlang::check_installed("rmarkdown", reason = "to render Rmd files.")
 
   fs::dir_create(strOutputDir)
@@ -91,4 +96,5 @@ render_rmd <- function(
   })
 
   invisible(rendered)
+  # nocov end
 }

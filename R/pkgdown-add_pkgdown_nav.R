@@ -1,6 +1,6 @@
 #' Add rendered assets to pkgdown navbar menu
 #'
-#' @name build_assets_params
+#' @inheritParams build_assets_params
 #' @returns `NULL` (invisibly). Updates `_pkgdown.yml` in place.
 #' @keywords internal
 add_pkgdown_nav <- function(
@@ -38,7 +38,7 @@ add_pkgdown_nav <- function(
 
 #' Update pkgdown contents with menu
 #'
-#' @name build_assets_params
+#' @inheritParams build_assets_params
 #' @returns An updated list of pkgdown YAML contents with the new menu entries
 #'   added.
 #' @keywords internal
@@ -56,8 +56,9 @@ update_pkgdown_menu <- function(
       rendered_assets
     )
   if (verbose) {
+    n_rendered <- length(rendered_assets)
     cli::cli_inform(
-      "Added {.val {length(rendered_assets)}} {menu} item{?s} to pkgdown layout."
+      "Added {.val {n_rendered}} {menu} {qty(n_rendered)} item{?s} to pkgdown layout."
     )
   }
   return(pkgdown_contents)
@@ -65,7 +66,7 @@ update_pkgdown_menu <- function(
 
 #' Ensure pkgdown menu section exists
 #'
-#' @name build_assets_params
+#' @inheritParams build_assets_params
 #' @returns An updated list of pkgdown YAML contents with the new menu added.
 #' @keywords internal
 ensure_pkgdown_menu_section <- function(pkgdown_contents, menu) {
@@ -91,7 +92,7 @@ ensure_pkgdown_menu_section <- function(pkgdown_contents, menu) {
 
 #' Update pkgdown contents with menu entries for rendered assets
 #'
-#' @name build_assets_params
+#' @inheritParams build_assets_params
 #' @returns An updated list of pkgdown YAML contents with the new menu entries
 #'   added.
 #' @keywords internal
@@ -110,7 +111,7 @@ add_assets_to_pkgdown_menu <- function(
 
 #' Remove menu from pkgdown YAML
 #'
-#' @name build_assets_params
+#' @inheritParams build_assets_params
 #' @returns An updated list of pkgdown YAML contents with the menu removed.
 #' @keywords internal
 remove_pkgdown_menu <- function(pkgdown_contents, menu, verbose) {

@@ -52,7 +52,7 @@ resolve_md_title <- function(path, title = NULL) {
       stringr::str_trim()
   }
   # Make sure it *still* has characters
-  if (!nzchar(title)) {
+  if (!length(title) || !nzchar(title) || is.na(title)) {
     title <- NULL
   }
   title %||% to_title_case(fs::path_ext_remove(fs::path_file(path)))
