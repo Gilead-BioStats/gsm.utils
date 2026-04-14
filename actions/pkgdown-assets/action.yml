@@ -52,14 +52,14 @@ runs:
   using: "composite"
   steps:
     - name: Install R and dependencies
-      uses: gilead-biostats/gsm.utils/.github/actions/install@actions-v1
+      uses: gilead-biostats/gsm.utils/actions/install@actions-v1
       with:
         token: ${{ inputs.token }}
         needs: website
-        extra-packages: any::pkgdown gilead-biostats/qcthat gilead-biostasts/gsm.utils@actions-v1 local::.
+        extra-packages: any::pkgdown gilead-biostats/gsm.utils@actions-v1 local::.
 
     - name: Build pkgdown assets and add associated menus
-      uses: gilead-biostats/gsm.utils/.github/actions/pkgdown-build_assets@actions-v1
+      uses: gilead-biostats/gsm.utils/actions/pkgdown-build_assets@actions-v1
       with:
         assets_dir: ${{ inputs.assets_dir }}
         source_dir: ${{ inputs.source_dir }}
@@ -80,7 +80,7 @@ runs:
       shell: Rscript {0}
 
     - name: Deploy PR preview 🧪
-      uses: gilead-biostats/gsm.utils/.github/actions/pkgdown-pr_preview@actions-v1
+      uses: gilead-biostats/gsm.utils/actions/pkgdown-pr_preview@actions-v1
       with:
         repository_name: ${{ inputs.repository_name }}
         repository_owner: ${{ inputs.repository_owner }}

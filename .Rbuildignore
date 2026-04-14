@@ -15,3 +15,4 @@
 ^\.DS_Store$
 ^pkgdown/\.DS_Store$
 ^\.\.Rcheck$
+^actions$
