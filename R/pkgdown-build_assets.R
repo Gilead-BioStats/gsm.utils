@@ -33,7 +33,7 @@ NULL
 #' subdirectories to `.html`, and add them to the pkgdown index.
 #'
 #' @inheritParams build_assets_params
-#' @returns `NULL` (invisibily). Called for the side effect of setting up
+#' @returns `NULL` (invisibly). Called for the side effect of setting up
 #'   pkgdown assets.
 #' @export
 build_assets <- function(
@@ -48,7 +48,7 @@ build_assets <- function(
   pkgdown_yml <- fs::path_abs(pkgdown_yml, start = root_dir)
   if (!fs::dir_exists(source_dir)) {
     cli::cli_inform("Source directory {.path {source_dir}} does not exist.")
-    return(invisible(character()))
+    return(invisible(NULL))
   }
   menu_subdirs <- fs::dir_ls(source_dir, type = "directory")
 

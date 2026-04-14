@@ -1,14 +1,14 @@
 #' Render qmd files in a menu subdirectory
 #'
 #' @inheritParams build_assets_params
-#' @returns Character vector of relative paths to rendered HTML files for
-#'   successfully rendered qmd files.
+#' @returns Character vector of paths to rendered HTML files for successfully
+#'   rendered qmd files, or `""` for failed renders.
 #' @keywords internal
 render_qmd_assets <- function(menu_subdir, output_dir, verbose) {
   qmd_files <- fs::dir_ls(menu_subdir, glob = "*.qmd")
   if (length(qmd_files)) {
-    # We'll put eveything into a temp dir for rendering. We'll share a temp dir,
-    # so we don't have to (for example) repeatedly copy files.
+    # We'll put everything into a temp dir for rendering. We'll share a temp
+    # dir, so we don't have to (for example) repeatedly copy files.
     safe_temp_dir <- withr::local_tempdir()
     fs::dir_copy(menu_subdir, safe_temp_dir, overwrite = TRUE)
 
@@ -22,7 +22,7 @@ render_qmd_assets <- function(menu_subdir, output_dir, verbose) {
         )
         rendered <- tryCatch(
           {
-            render_qmd(qmd_file, output_file, verbose)
+            render_qmd(qmd_file, output_file, verbose = verbose)
           },
           error = function(e) {
             cli::cli_warn(
@@ -45,8 +45,7 @@ render_qmd_assets <- function(menu_subdir, output_dir, verbose) {
 #' Render an individual qmd file
 #'
 #' @inheritParams build_assets_params
-#' @returns Character vector of relative paths to rendered HTML files for
-#'   successfully rendered qmd files.
+#' @returns `output_file` (on success) or `""` (on failure), invisibly.
 #' @keywords internal
 render_qmd <- function(
   qmd_file,

@@ -45,6 +45,7 @@ extract_pattern <- function(x) {
 #'   etc.
 #' @keywords internal
 resolve_md_title <- function(path, title = NULL) {
+  rlang::check_installed("rvest", reason = "to resolve md titles.")
   title <- if (length(title) && nzchar(title)) {
     # Deal with extra HTML in titles (useful in QMD slide decks).
     rvest::read_html(paste0("<html>", title, "</html>")) |>

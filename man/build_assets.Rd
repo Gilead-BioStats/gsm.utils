@@ -29,7 +29,7 @@ construct absolute paths. Default is \code{"."}.}
 menu updates.}
 }
 \value{
-\code{NULL} (invisibily). Called for the side effect of setting up
+\code{NULL} (invisibly). Called for the side effect of setting up
 pkgdown assets.
 }
 \description{

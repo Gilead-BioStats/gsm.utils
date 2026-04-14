@@ -18,8 +18,7 @@ render_qmd(qmd_file, output_file, params = NULL, verbose = FALSE)
 menu updates.}
 }
 \value{
-Character vector of relative paths to rendered HTML files for
-successfully rendered qmd files.
+\code{output_file} (on success) or \code{""} (on failure), invisibly.
 }
 \description{
 Render an individual qmd file

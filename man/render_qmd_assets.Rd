@@ -16,8 +16,8 @@ files to render and add to pkgdown.}
 menu updates.}
 }
 \value{
-Character vector of relative paths to rendered HTML files for
-successfully rendered qmd files.
+Character vector of paths to rendered HTML files for successfully
+rendered qmd files, or \code{""} for failed renders.
 }
 \description{
 Render qmd files in a menu subdirectory

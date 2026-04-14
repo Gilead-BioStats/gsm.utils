@@ -9,6 +9,7 @@ test_that("to_title_case works with several input cases (#67)", {
 })
 
 test_that("resolve_md_title uses title if provided (#67)", {
+  skip_if_not_installed("rvest")
   expect_equal(resolve_md_title("path/to/file.md", "My Title"), "My Title")
 })
 
