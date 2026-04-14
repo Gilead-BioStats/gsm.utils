@@ -12,6 +12,8 @@ files should be saved. Default is \code{"pkgdown/assets"}.}
 \item{menu_subdir}{Character. Path to the subdirectory containing \code{.*md}
 files to render and add to pkgdown.}
 
+\item{output_dir}{Character. Directory to write the example to.}
+
 \item{output_file}{Character. Path to output HTML file to create.}
 
 \item{params}{List. Optional list of parameters to pass to

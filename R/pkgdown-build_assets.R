@@ -5,6 +5,7 @@
 #' @param menu Character. Menu folder name.
 #' @param menu_subdir Character. Path to the subdirectory containing `.*md`
 #'   files to render and add to pkgdown.
+#' @param output_dir Character. Directory to write the example to.
 #' @param output_file Character. Path to output HTML file to create.
 #' @param params List. Optional list of parameters to pass to
 #'   [quarto::quarto_render()].

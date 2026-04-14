@@ -10,6 +10,8 @@ render_qmd_assets(menu_subdir, output_dir, verbose)
 \item{menu_subdir}{Character. Path to the subdirectory containing \code{.*md}
 files to render and add to pkgdown.}
 
+\item{output_dir}{Character. Directory to write the example to.}
+
 \item{verbose}{Logical. Whether to print messages about rendered assets and
 menu updates.}
 }
