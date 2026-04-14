@@ -18,6 +18,10 @@ Asset params
   Character. Path to the subdirectory containing `.*md` files to render
   and add to pkgdown.
 
+- output_dir:
+
+  Character. Directory to write the example to.
+
 - output_file:
 
   Character. Path to output HTML file to create.

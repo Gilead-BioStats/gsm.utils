@@ -15,6 +15,10 @@ render_rmd_assets(menu_subdir, output_dir, verbose)
   Character. Path to the subdirectory containing `.*md` files to render
   and add to pkgdown.
 
+- output_dir:
+
+  Character. Directory to write the example to.
+
 - verbose:
 
   Logical. Whether to print messages about rendered assets and menu
