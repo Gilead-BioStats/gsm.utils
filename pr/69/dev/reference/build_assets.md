@@ -44,5 +44,5 @@ build_assets(
 
 ## Value
 
-`NULL` (invisibily). Called for the side effect of setting up pkgdown
+`NULL` (invisibly). Called for the side effect of setting up pkgdown
 assets.

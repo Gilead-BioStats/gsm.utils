@@ -30,5 +30,4 @@ render_qmd(qmd_file, output_file, params = NULL, verbose = FALSE)
 
 ## Value
 
-Character vector of relative paths to rendered HTML files for
-successfully rendered qmd files.
+`output_file` (on success) or `""` (on failure), invisibly.

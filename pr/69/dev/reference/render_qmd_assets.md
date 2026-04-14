@@ -26,5 +26,5 @@ render_qmd_assets(menu_subdir, output_dir, verbose)
 
 ## Value
 
-Character vector of relative paths to rendered HTML files for
-successfully rendered qmd files.
+Character vector of paths to rendered HTML files for successfully
+rendered qmd files, or `""` for failed renders.
