@@ -1,7 +1,6 @@
 #' Create an example R Markdown template
 #'
-#' Creates a new example `.Rmd` file from a standard template in
-#' `inst/examples`.
+#' Creates a new example `.Rmd` file from a standard template.
 #'
 #' @param strName Character. Display name of the example.
 #' @param strType Character. Type of example, either `"Example"` or
@@ -18,7 +17,7 @@ make_example <- function(
   strType = c("Example", "Cookbook"),
   strDetails = "<<Fill in Example description here>>",
   intIndex = 999,
-  output_dir = "inst/examples",
+  output_dir = "pkgdown/menus/examples",
   overwrite = FALSE
 ) {
   rlang::check_required(strName)

@@ -9,7 +9,7 @@ make_example(
   strType = c("Example", "Cookbook"),
   strDetails = "<<Fill in Example description here>>",
   intIndex = 999,
-  output_dir = "inst/examples",
+  output_dir = "pkgdown/menus/examples",
   overwrite = FALSE
 )
 }
@@ -31,6 +31,5 @@ make_example(
 Path to the created example file (invisibly).
 }
 \description{
-Creates a new example \code{.Rmd} file from a standard template in
-\code{inst/examples}.
+Creates a new example \code{.Rmd} file from a standard template.
 }
