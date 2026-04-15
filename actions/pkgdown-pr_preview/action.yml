@@ -61,13 +61,16 @@ runs:
         REPO_NAME: ${{ inputs.repository_name }}
         REPO_OWNER: ${{ inputs.repository_owner }}
         PR_NUMBER: ${{ inputs.pr_number }}
+        PKGDOWN_DEV_MODE: ${{ inputs.pkgdown_dev_mode }}
       with:
         github-token: ${{ inputs.token }}
         script: |
           const repoName = process.env.REPO_NAME;
           const repoOwner = process.env.REPO_OWNER;
           const prNumber = Number(process.env.PR_NUMBER);
-          const prSiteURL = `https://${repoOwner}.github.io/${repoName}/pr/${prNumber}/dev`
+          const pkgdownDevMode = process.env.PKGDOWN_DEV_MODE;
+          const devSuffix = pkgdownDevMode === 'devel' ? '/dev' : '';
+          const prSiteURL = `https://${repoOwner}.github.io/${repoName}/pr/${prNumber}${devSuffix}`
           const timestamp = new Date().toISOString();
           const commentBody = `🌐 PR pkgdown deployed: [${prSiteURL}](${prSiteURL})\n\n_Last updated: ${timestamp}_`;
           const commentMarker = '🌐 PR pkgdown deployed:';
