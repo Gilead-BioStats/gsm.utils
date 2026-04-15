@@ -12,6 +12,10 @@ inputs:
     description: "HTTP user agent, passed to r-lib/actions/setup-r@v2"
     required: false
     default: ""
+  use-public-rspm:
+    description: "Use the public version of Posit package manager to serve binaries for Linux and Windows."
+    required: false
+    default: false
   needs:
     description: "Config/Needs tag(s), passed to r-lib/actions/setup-r-dependencies@v2"
     required: false
@@ -39,7 +43,7 @@ runs:
         install-r: true
         r-version: ${{ inputs.r-version }}
         http-user-agent: ${{ inputs.http-user-agent }}
-        use-public-rspm: true
+        use-public-rspm: ${{ inputs.use-public-rspm }}
 
     - uses: r-lib/actions/setup-r-dependencies@v2
       env:
