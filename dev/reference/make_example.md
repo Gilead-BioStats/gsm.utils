@@ -1,7 +1,6 @@
 # Create an example R Markdown template
 
-Creates a new example `.Rmd` file from a standard template in
-`inst/examples`.
+Creates a new example `.Rmd` file from a standard template.
 
 ## Usage
 
@@ -11,7 +10,7 @@ make_example(
   strType = c("Example", "Cookbook"),
   strDetails = "<<Fill in Example description here>>",
   intIndex = 999,
-  output_dir = "inst/examples",
+  output_dir = "pkgdown/menus/examples",
   overwrite = FALSE
 )
 ```

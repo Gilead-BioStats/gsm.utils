@@ -29,8 +29,6 @@
   : Add GSM issue templates to package
 - [`add_contributor_guidelines()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_contributor_guidelines.md)
   : Add GSM Contributor Guidelines markdown to package
-- [`add_pkgdown_examples()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_pkgdown_examples.md)
-  : Generate Examples menu in pkgdown
 - [`check_gha_version()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/check_gha_version.md)
   : Check GitHub Actions version in a package
 - [`check_workflow_compliance()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/check_workflow_compliance.md)
@@ -38,10 +36,10 @@
 - [`emit_coverage_summary()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/emit_coverage_summary.md)
   : Emit Coverage Summary Artifact
 
-## Example rendering
+## Menu rendering
 
-- [`render_examples()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/render_examples.md)
-  : Render example R Markdown files
+- [`build_assets()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/build_assets.md)
+  : Build additional pkgdown assets
 - [`render_rmd()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/render_rmd.md)
   : Custom Rmarkdown render function
 - [`make_example()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/make_example.md)
