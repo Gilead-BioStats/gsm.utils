@@ -26,13 +26,12 @@ reference:
       - add_gsm_actions
       - add_gsm_issue_templates
       - add_contributor_guidelines
-      - add_pkgdown_examples
       - check_gha_version
       - check_workflow_compliance
       - emit_coverage_summary
-  - title: Example rendering
+  - title: Menu rendering
     contents:
-      - render_examples
+      - build_assets
       - render_rmd
       - make_example
 

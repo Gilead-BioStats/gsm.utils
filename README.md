@@ -1,6 +1,3 @@
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 # gsm.utils
 
 <!-- badges: start -->
@@ -100,42 +97,41 @@ check_workflow_compliance(strPackageDir = ".")
 ## GitHub Actions Workflows
 
 The `inst/gha_templates/workflows` directory contains standardized
-GitHub Actions workflow templates for GSM packages:
-
-- **`R-CMD-check.yaml`**: Runs comprehensive R package checks on PRs to
-  `main` across multiple platforms (macOS, Windows, Ubuntu) and R
-  versions to ensure package integrity before release.
-
-- **`R-CMD-check-dev.yaml`**: Lightweight R package check for PRs to
-  `dev` branch, running on Ubuntu with current and minimum supported R
-  versions for faster CI feedback during development.
-
-- **`pkgdown-with-examples.yaml`**: Builds and deploys pkgdown
-  documentation sites with automatic example indexing via
-  `add_pkgdown_examples()` and example rendering via `render_examples()`. 
-  Creates PR preview sites at `/pr/{number}`
-  and deploys production sites to gh-pages on push to `main` or `dev`.
+GitHub Actions workflow templates for Gilead packages:
 
 - **`pkgdown-cleanup.yaml`**: Automatically removes pkgdown PR preview
   directories from the gh-pages branch when pull requests are closed to
   keep the repository clean.
 
-- **`r_releaser.yaml`**: Reusable workflow for building and attaching R
-  package source tarballs to GitHub releases, using the A2-ai/r-releaser
-  action with configurable options for data compression and vignette
-  building.
+- **`pkgdown-with-assets.yaml`**: Builds and deploys pkgdown documentation sites 
+  with automatic menu addition and asset creation via 
+  `gsm.utils::build_assets()`. Creates PR preview sites at `/pr/{number}` (or, 
+  depending on your pkgdown configuration, `/pr/{number}/dev`), and deploys 
+  production and/or `/dev` sites on push to `main` or `dev`.
 
-- **`workflow-template-check.yaml`**: Ensures workflow compliance by
-  checking that a package's `.github/workflows` directory matches the
-  gsm.utils templates. Runs on pushes to `main` or `release` branches
-  and verifies file presence, version headers, and critical content to
-  maintain standardized CI/CD across GSM packages.
-  
-- **`test-coverage.yaml`**: Computes test coverage using `covr` and
-  logs the result on every run. On pull requests, coverage is posted as
-  a sticky comment that updates on each push. `coverage-summary.json`
-  (written via `gsm.utils::emit_coverage_summary()`) is attached as a
-  release asset when triggered by a `release: published` event.
+- **`R-CMD-check-dev.yaml`**: Lightweight R package check for PRs to `dev` 
+  branch, running on Ubuntu with current and minimum supported R versions for 
+  faster CI feedback during development.
+
+- **`R-CMD-check.yaml`**: Runs comprehensive R package checks on PRs to `main` 
+  across multiple platforms (macOS, Windows, Ubuntu) and R versions to ensure 
+  package integrity before release.
+
+- **`r_releaser-caller.yaml`**: Reusable workflow for building and attaching R
+  package source tarballs to GitHub releases, using the A2-ai/r-releaser action 
+  with configurable options for data compression and vignette building.
+
+- **`test-coverage.yaml`**: Computes test coverage using `covr` and logs the 
+  result on every run. On pull requests, coverage is posted as a sticky comment 
+  that updates on each push. `coverage-summary.json` (written via 
+  `gsm.utils::emit_coverage_summary()`) is attached as a release asset when 
+  triggered by a `release: published` event.
+
+- **`workflow-template-check.yaml`**: Ensures workflow compliance by checking 
+  that a package's `.github/workflows` directory matches the gsm.utils 
+  templates. Runs on pushes to `main` or `release` branches and verifies 
+  file presence, version headers, and critical content to maintain standardized 
+  CI/CD across GSM packages.
 
 ## Code of Conduct
 

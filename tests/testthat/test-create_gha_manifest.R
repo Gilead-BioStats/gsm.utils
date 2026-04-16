@@ -10,7 +10,7 @@ test_that("creates a valid GHA manifest JSON from workflows and issue templates"
   writeLines(
     c(
       "Package: gsm.utils",
-      "Version: 0.2.0"
+      "Version: 0.3.0"
     ),
     desc_path
   )
@@ -48,7 +48,7 @@ test_that("creates a valid GHA manifest JSON from workflows and issue templates"
   manifest <- jsonlite::read_json(output_path, simplifyVector = TRUE)
 
   expect_equal(manifest$package, "gsm.utils")
-  expect_equal(manifest$version, "0.2.0")
+  expect_equal(manifest$version, "0.3.0")
   expect_equal(
     manifest$repository,
     "https://github.com/Gilead-BioStats/gsm.utils"

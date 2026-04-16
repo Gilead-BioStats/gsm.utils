@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.3.0",
   "package": "gsm.utils",
   "repository": "https://github.com/Gilead-BioStats/gsm.utils",
   "workflows": [
@@ -9,9 +9,9 @@
       "path": "workflows/pkgdown-cleanup.yaml"
     },
     {
-      "name": "pkgdown-with-examples.yaml",
-      "description": "Deploy pkgdown site with examples",
-      "path": "workflows/pkgdown-with-examples.yaml"
+      "name": "pkgdown-with-assets.yaml",
+      "description": "Deploy pkgdown site with assets (such as examples and slide decks).",
+      "path": "workflows/pkgdown-with-assets.yaml"
     },
     {
       "name": "R-CMD-check-dev.yaml",
@@ -29,14 +29,14 @@
       "path": "workflows/r-releaser-caller.yaml"
     },
     {
-      "name": "workflow-template-check.yaml",
-      "description": "Check if GitHub Actions workflows match gsm.utils templates",
-      "path": "workflows/workflow-template-check.yaml"
-    },
-    {
       "name": "test-coverage.yaml",
       "description": "Compute test coverage and publish coverage-summary.json artifact",
       "path": "workflows/test-coverage.yaml"
+    },
+    {
+      "name": "workflow-template-check.yaml",
+      "description": "Check if GitHub Actions workflows match gsm.utils templates",
+      "path": "workflows/workflow-template-check.yaml"
     }
   ],
   "issue_templates": [

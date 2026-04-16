@@ -1,0 +1,111 @@
+name: "Deploy PR preview"
+description: "Deploy a pkgdown preview for a pull request."
+inputs:
+  # General
+  repository_name:
+    description: "Repository to which to deploy."
+    required: false
+    default: ${{ github.event.repository.name }}
+  repository_owner:
+    description: "Owner of the repository to which to deploy."
+    required: false
+    default: ${{ github.repository_owner }}
+  token:
+    description: "GitHub token, set to secrets.GITHUB_TOKEN"
+    required: false
+    default: ${{ github.token }}
+  event_name:
+    description: "Type of event. Used to skip steps for non-PRs."
+    required: false
+    default: ${{ github.event_name}}
+  pr_number:
+    description: "Pull request number."
+    required: false
+    default: ${{ github.event.number }}
+  is_fork:
+    description: "Whether the PR is from a fork. Used to skip steps that require write permissions for forked PRs."
+    required: false
+    default: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
+  # pkgdown
+  pkgdown_dev_mode:
+    description: "Pass 'devel' to operate in dev mode, leave blank or pass 'prod' otherwise."
+    required: false
+    default: ''
+
+runs:
+  using: "composite"
+  steps:
+    - name: Deploy PR preview 🧪
+      if: inputs.event_name == 'pull_request' && inputs.is_fork == 'false'
+      uses: JamesIves/github-pages-deploy-action@v4.8.0
+      with:
+        token: ${{ inputs.token }}
+        repository-name: ${{ inputs.repository_owner }}/${{ inputs.repository_name }}
+        # Don't clean the whole branch, just the target folder
+        clean: false
+        branch: gh-pages
+        folder: docs
+        # Deploy to a subdirectory named after the PR number
+        target-folder: pr/${{ inputs.pr_number }}
+
+    - name: PR site URL 🌐
+      if: inputs.event_name == 'pull_request'
+      shell: bash
+      run: |
+        DEV_SUFFIX=""
+        if [ "${{ inputs.pkgdown_dev_mode }}" == "devel" ]; then
+          DEV_SUFFIX="/dev"
+        fi
+        echo "🌐 URL: https://${{ inputs.repository_owner }}.github.io/${{ inputs.repository_name }}/pr/${{ inputs.pr_number }}${DEV_SUFFIX}"
+
+    - name: Comment with PR site URL 🌐
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v6
+      env:
+        REPO_NAME: ${{ inputs.repository_name }}
+        REPO_OWNER: ${{ inputs.repository_owner }}
+        PR_NUMBER: ${{ inputs.pr_number }}
+        PKGDOWN_DEV_MODE: ${{ inputs.pkgdown_dev_mode }}
+      with:
+        github-token: ${{ inputs.token }}
+        script: |
+          const repoName = process.env.REPO_NAME;
+          const repoOwner = process.env.REPO_OWNER;
+          const prNumber = Number(process.env.PR_NUMBER);
+          const pkgdownDevMode = process.env.PKGDOWN_DEV_MODE;
+          const devSuffix = pkgdownDevMode === 'devel' ? '/dev' : '';
+          const prSiteURL = `https://${repoOwner}.github.io/${repoName}/pr/${prNumber}${devSuffix}`
+          const timestamp = new Date().toISOString();
+          const commentBody = `🌐 PR pkgdown deployed: [${prSiteURL}](${prSiteURL})\n\n_Last updated: ${timestamp}_`;
+          const commentMarker = '🌐 PR pkgdown deployed:';
+
+          // Get all comments on the PR
+          const comments = await github.rest.issues.listComments({
+            issue_number: prNumber,
+            owner: repoOwner,
+            repo: repoName,
+          });
+
+          // Find existing comment from this bot
+          const existingComment = comments.data.find(comment =>
+            comment.user.login === 'github-actions[bot]' &&
+            comment.body.includes(commentMarker)
+          );
+
+          if (existingComment) {
+            // Update existing comment
+            await github.rest.issues.updateComment({
+              comment_id: existingComment.id,
+              owner: repoOwner,
+              repo: repoName,
+              body: commentBody,
+            });
+          } else {
+            // Create new comment
+            await github.rest.issues.createComment({
+              issue_number: prNumber,
+              owner: repoOwner,
+              repo: repoName,
+              body: commentBody,
+            });
+          }

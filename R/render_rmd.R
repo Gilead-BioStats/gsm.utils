@@ -1,3 +1,46 @@
+#' Render Rmd files in a menu subdirectory
+#'
+#' @inheritParams build_assets_params
+#' @returns Character vector of relative paths to rendered HTML files for
+#'   successfully rendered Rmd files.
+#' @keywords internal
+render_rmd_assets <- function(menu_subdir, output_dir, verbose) {
+  rmd_files <- unname(fs::dir_ls(menu_subdir, glob = "*.Rmd"))
+  if (length(rmd_files)) {
+    purrr::map_chr(
+      rmd_files,
+      \(rmd_file) {
+        output_file <- fs::path(
+          output_dir,
+          fs::path_ext_set(fs::path_file(rmd_file), "html")
+        )
+        rendered <- tryCatch(
+          {
+            render_rmd(
+              strInputPath = rmd_file,
+              strOutputFile = fs::path_file(output_file),
+              strOutputDir = output_dir,
+              quiet = !verbose
+            )
+          },
+          error = function(e) {
+            cli::cli_warn(
+              "Failed to render {.file {rmd_file}}: {conditionMessage(e)}",
+              class = "gsm.utils-render_failure"
+            )
+            ""
+          }
+        )
+        if (fs::file_exists(rendered %||% "")) {
+          output_file
+        } else {
+          ""
+        }
+      }
+    )
+  }
+}
+
 #' Custom Rmarkdown render function
 #'
 #' Rmarkdown render function that defaults to rendering intermediate Rmd files
@@ -20,26 +63,27 @@ render_rmd <- function(
   lParams = NULL,
   quiet = FALSE
 ) {
+  # Skipping coverage because this really just renders via rmarkdown. Test
+  # manually.
+  #
+  # nocov start
   rlang::check_installed("rmarkdown", reason = "to render Rmd files.")
 
   fs::dir_create(strOutputDir)
-  if (file.access(strOutputDir, mode = 2) == -1) {
-    tpath <- tempdir()
-    cli::cli_inform(
+  if (!fs::file_access(strOutputDir, mode = "write")) {
+    cli::cli_abort(
       "You do not have permission to write to {.path {strOutputDir}}. "
     )
-    cli::cli_inform("Report will be saved to {.path {tpath}}.")
-    strOutputDir <- tpath
   }
 
   output_path <- fs::path(strOutputDir, strOutputFile)
-  
-  # Create a temporary directory with a safe path (no spaces)
-  # to avoid issues with Quarto when paths contain spaces
+
+  # Create a temporary directory with a safe path (no spaces) to avoid issues
+  # with Quarto when paths contain spaces
   safe_temp_dir <- fs::file_temp("gsm_render_temp")
   on.exit(unlink(safe_temp_dir), add = TRUE)
   fs::dir_create(safe_temp_dir)
-  
+
   rendered <- tryCatch({
     rmarkdown::render(
       input = strInputPath,
@@ -52,4 +96,5 @@ render_rmd <- function(
   })
 
   invisible(rendered)
+  # nocov end
 }
