@@ -28,9 +28,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           needs: website
-          # Unlike the version in inst, gsm.utils doesn't need/want the tagged
-          # version of gsm.utils
-          extra-packages: any::pkgdown local::.
+          extra-packages: any::pkgdown gilead-biostats/gsm.utils@actions-v1 local::.
 
       - name: Build pkgdown assets and add associated menus
         uses: gilead-biostats/gsm.utils/actions/pkgdown-build_assets@actions-v1
