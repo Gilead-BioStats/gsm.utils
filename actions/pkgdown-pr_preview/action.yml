@@ -22,6 +22,10 @@ inputs:
     description: "Pull request number."
     required: false
     default: ${{ github.event.number }}
+  is_fork:
+    description: "Whether the PR is from a fork. Used to skip steps that require write permissions for forked PRs."
+    required: false
+    default: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
   # pkgdown
   pkgdown_dev_mode:
     description: "Pass 'devel' to operate in dev mode, leave blank or pass 'prod' otherwise."
@@ -32,8 +36,8 @@ runs:
   using: "composite"
   steps:
     - name: Deploy PR preview 🧪
-      if: inputs.event_name == 'pull_request'
-      uses: JamesIves/github-pages-deploy-action@v4.5.0
+      if: inputs.event_name == 'pull_request' && inputs.is_fork == 'false'
+      uses: JamesIves/github-pages-deploy-action@v4.8.0
       with:
         token: ${{ inputs.token }}
         repository-name: ${{ inputs.repository_owner }}/${{ inputs.repository_name }}
