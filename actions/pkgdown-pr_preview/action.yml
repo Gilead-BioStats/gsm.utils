@@ -28,9 +28,9 @@ inputs:
     default: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
   # pkgdown
   pkgdown_dev_mode:
-    description: "Pass 'devel' to operate in dev mode, leave blank or pass 'prod' otherwise."
+    description: "Whether pkgdown should operate in dev mode."
     required: false
-    default: ''
+    default: 'false'
 
 runs:
   using: "composite"
@@ -53,13 +53,13 @@ runs:
       shell: bash
       run: |
         DEV_SUFFIX=""
-        if [ "${{ inputs.pkgdown_dev_mode }}" == "devel" ]; then
+        if [ "${{ inputs.pkgdown_dev_mode }}" == "true" ]; then
           DEV_SUFFIX="/dev"
         fi
         echo "🌐 URL: https://${{ inputs.repository_owner }}.github.io/${{ inputs.repository_name }}/pr/${{ inputs.pr_number }}${DEV_SUFFIX}"
 
     - name: Comment with PR site URL 🌐
-      if: github.event_name == 'pull_request'
+      if: inputs.event_name == 'pull_request'
       uses: actions/github-script@v6
       env:
         REPO_NAME: ${{ inputs.repository_name }}
@@ -73,7 +73,7 @@ runs:
           const repoOwner = process.env.REPO_OWNER;
           const prNumber = Number(process.env.PR_NUMBER);
           const pkgdownDevMode = process.env.PKGDOWN_DEV_MODE;
-          const devSuffix = pkgdownDevMode === 'devel' ? '/dev' : '';
+          const devSuffix = pkgdownDevMode === 'true' ? '/dev' : '';
           const prSiteURL = `https://${repoOwner}.github.io/${repoName}/pr/${prNumber}${devSuffix}`
           const timestamp = new Date().toISOString();
           const commentBody = `🌐 PR pkgdown deployed: [${prSiteURL}](${prSiteURL})\n\n_Last updated: ${timestamp}_`;
