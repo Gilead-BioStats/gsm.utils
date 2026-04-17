@@ -79,7 +79,7 @@ jobs:
     # Run ONLY when a pull request is closed OR workflow_dispatch cleanup mode.
     if: |
       (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository) ||
-      (github.event_name == 'workflow_dispatch' && inputs.mode == 'cleanup' && inputs.pr_number != '')
+      (github.event_name == 'workflow_dispatch' && inputs.mode == 'cleanup')
     runs-on: ubuntu-latest
     permissions:
       contents: write

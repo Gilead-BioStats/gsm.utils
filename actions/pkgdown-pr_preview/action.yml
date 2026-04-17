@@ -49,7 +49,7 @@ runs:
         target-folder: pr/${{ inputs.pr_number }}
 
     - name: PR site URL 🌐
-      if: inputs.event_name == 'pull_request'
+      if: inputs.event_name == 'pull_request' && inputs.is_fork == 'false'
       shell: bash
       run: |
         DEV_SUFFIX=""
@@ -59,7 +59,7 @@ runs:
         echo "🌐 URL: https://${{ inputs.repository_owner }}.github.io/${{ inputs.repository_name }}/pr/${{ inputs.pr_number }}${DEV_SUFFIX}"
 
     - name: Comment with PR site URL 🌐
-      if: inputs.event_name == 'pull_request'
+      if: inputs.event_name == 'pull_request' && inputs.is_fork == 'false'
       uses: actions/github-script@v6
       env:
         REPO_NAME: ${{ inputs.repository_name }}
