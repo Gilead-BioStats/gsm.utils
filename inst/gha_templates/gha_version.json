@@ -4,14 +4,9 @@
   "repository": "https://github.com/Gilead-BioStats/gsm.utils",
   "workflows": [
     {
-      "name": "pkgdown-cleanup.yaml",
-      "description": "Removes the pkgdown preview directory when a PR is closed.",
-      "path": "workflows/pkgdown-cleanup.yaml"
-    },
-    {
-      "name": "pkgdown-with-assets.yaml",
-      "description": "Deploy pkgdown site with assets (such as examples and slide decks).",
-      "path": "workflows/pkgdown-with-assets.yaml"
+      "name": "pkgdown-all.yaml",
+      "description": "Deploy pkgdown site with assets, and clean up PR previews on close.",
+      "path": "workflows/pkgdown-all.yaml"
     },
     {
       "name": "R-CMD-check-dev.yaml",
