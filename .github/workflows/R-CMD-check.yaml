@@ -17,13 +17,17 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     env:
       MATRIX_CONFIG: |
-        - target: [main]
+        - target:
+            - main
           os: macOS-latest
           r: release
-        - target: [main]
+        - target:
+            - main
           os: windows-latest
           r: release
-        - target: [main, dev]
+        - target:
+            - main
+            - dev
           os: ubuntu-latest
           r:
             - release
