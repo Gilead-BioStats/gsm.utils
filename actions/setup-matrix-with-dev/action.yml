@@ -7,9 +7,9 @@ inputs:
     required: false
     default: "public"
   prod-config:
-    description: "A configuration to always test in spite of rules based on pkg-use. This should be a comma-separated list of configurations, where each configuration is of the form 'os-version-r_version' (e.g. 'windows-latest-release', where 'windows-latest' is the OS and 'release' is the R version)."
+    description: "A configuration to always test in spite of rules based on pkg-use. This should be a comma-separated list of configurations, where each configuration is of the form 'os-version-r_version' (e.g. 'windows-latest-release', where 'windows-latest' is the OS and 'release' is the R version). Defaults to 'ubuntu-latest-4.3.3' to match the Gilead production environment."
     required: false
-    default: ""
+    default: "ubuntu-latest-4.3.3"
   target-branch:
     description: "The target branch to determine the matrix (typically passed implicitly via github.base_ref or github.ref_name)."
     required: false
