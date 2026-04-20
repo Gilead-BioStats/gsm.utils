@@ -16,18 +16,23 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     env:
-      MATRIX_CONFIG: >
-        [
-          {"target": ["main"], "os": "macOS-latest", "r": "release"},
-          {"target": ["main"], "os": "windows-latest", "r": "release"},
-          {"target": ["main", "dev"], "os": "ubuntu-latest", "r": "release"},
-          {"target": ["main", "dev"], "os": "ubuntu-latest", "r": "4.3.3"}
-        ]
+      MATRIX_CONFIG: |
+        - target: [main]
+          os: macOS-latest
+          r: release
+        - target: [main]
+          os: windows-latest
+          r: release
+        - target: [main, dev]
+          os: ubuntu-latest
+          r:
+            - release
+            - '4.3.3'
     steps:
       - name: Define matrix based on target branch
         id: set-matrix
         run: |
-          FILTERED=$(echo "$MATRIX_CONFIG" | jq -c '[.[] | select(.target | index("${{ github.base_ref }}")) | del(.target)]')
+          FILTERED=$(echo "$MATRIX_CONFIG" | yq -o=json | jq -c '[.[] | select(.target | index("${{ github.base_ref }}")) | del(.target) | (.r | if type=="array" then .[] else . end) as $r_val | .r = $r_val]')
           echo "matrix=$FILTERED" >> "$GITHUB_OUTPUT"
 
   R-CMD-check:
