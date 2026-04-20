@@ -21,7 +21,7 @@ jobs:
           {"target": ["main"], "os": "macOS-latest", "r": "release"},
           {"target": ["main"], "os": "windows-latest", "r": "release"},
           {"target": ["main", "dev"], "os": "ubuntu-latest", "r": "release"},
-          {"target": ["main", "dev"], "os": "ubuntu-latest", "r": "4.3.3", "repos": "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
+          {"target": ["main", "dev"], "os": "ubuntu-latest", "r": "4.3.3"}
         ]
     steps:
       - name: Define matrix based on target branch
