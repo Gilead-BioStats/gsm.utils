@@ -32,14 +32,19 @@ runs:
           --arg prod_config "${{ inputs.prod-config }}" \
           --arg target "${{ inputs.target-branch }}" \
           '
-          # Parse prod_config into an array of objects by splitting on the final dash
+          # Parse prod_config into an array of objects by splitting on the final dash.
+          # Validate each entry first so malformed values fail with a clear message.
           # Handles semantic versions (4.3.3), oldrel-#, release, and devel correctly.
           (
             if $prod_config == "" then []
             else
               $prod_config | split(",") | map(
-                sub("^\\s+"; "") | sub("\\s+$"; "") |
-                capture("^(?<os>.*?)-(?<r>release|devel|oldrel-[0-9]+|[0-9]+(?:\\.[0-9]+)*)$")
+                (sub("^\\s+"; "") | sub("\\s+$"; "")) as $entry |
+                if $entry | test("^(?<os>.*?)-(?<r>release|devel|oldrel-[0-9]+|[0-9]+(?:\\.[0-9]+)*)$") then
+                  $entry | capture("^(?<os>.*?)-(?<r>release|devel|oldrel-[0-9]+|[0-9]+(?:\\.[0-9]+)*)$")
+                else
+                  error("Invalid prod-config entry '" + $entry + "'. Expected format 'os-version-r_version', for example 'windows-latest-release'.")
+                end
               )
             end
           ) as $prod_arr |
@@ -74,7 +79,7 @@ runs:
               {"os": "ubuntu-latest", "r": "devel", "http-user-agent": "release"}
             ] + $prod_arr
           else
-            []
+            error("Invalid pkg-use: \($pkg_use). Expected one of: private, public, wide.")
           end | unique
           '
         )
