@@ -1,19 +1,19 @@
 name: "Build pkgdown assets and add associated menus"
 description: "Scan a directory for subdirectories, render any `.*md` files in those subdirectories to `.html`, and add them to the pkgdown index."
 inputs:
-  assets_dir:
+  assets-dir:
     description: "Path to the directory where rendered `.html` files should be saved."
     required: false
     default: pkgdown/assets
-  source_dir:
+  source-dir:
     description: "Path to the directory containing asset subdirectories."
     required: false
     default: pkgdown/menus
-  pkgdown_yml:
+  pkgdown-yml:
     description: "Path to the `_pkgdown.yml` file to update with new menu items, or from which to remove unused menu items."
     required: false
     default: _pkgdown.yml
-  root_dir:
+  root-dir:
     description: "Path to the root directory of the package, used to construct absolute paths."
     required: false
     default: .
@@ -26,10 +26,10 @@ runs:
   using: "composite"
   steps:
     - env:
-        SOURCE_DIR: ${{ inputs.source_dir }}
-        ASSETS_DIR: ${{ inputs.assets_dir }}
-        PKGDOWN_YML: ${{ inputs.pkgdown_yml }}
-        ROOT_DIR: ${{ inputs.root_dir }}
+        SOURCE_DIR: ${{ inputs.source-dir }}
+        ASSETS_DIR: ${{ inputs.assets-dir }}
+        PKGDOWN_YML: ${{ inputs.pkgdown-yml }}
+        ROOT_DIR: ${{ inputs.root-dir }}
         VERBOSE: ${{ inputs.verbose }}
       shell: Rscript {0}
       run: |

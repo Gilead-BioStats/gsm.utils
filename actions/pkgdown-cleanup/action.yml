@@ -1,11 +1,11 @@
 name: "Clean up pkgdown preview"
 description: "Removes the pkgdown preview directory when a PR is closed."
 inputs:
-  repository_name:
+  repository-name:
     description: "Repository to clean up."
     required: false
     default: ${{ github.event.repository.name }}
-  repository_owner:
+  repository-owner:
     description: "Owner of the repository to clean up."
     required: false
     default: ${{ github.repository_owner }}
@@ -17,7 +17,7 @@ inputs:
     description: "Branch to checkout."
     required: false
     default: 'gh-pages'
-  pr_number:
+  pr-number:
     description: "Pull request number."
     required: false
     default: ${{ github.event.number }}
@@ -28,19 +28,19 @@ runs:
     - name: Checkout gh-pages branch
       uses: actions/checkout@v6
       with:
-        repository: ${{ inputs.repository_owner }}/${{ inputs.repository_name }}
+        repository: ${{ inputs.repository-owner }}/${{ inputs.repository-name }}
         token: ${{ inputs.token }}
         ref: ${{ inputs.ref }}
 
     - name: Remove PR preview directory
       shell: bash
       run: |
-        pr_dir="pr/${{ inputs.pr_number }}"
+        pr_dir="pr/${{ inputs.pr-number }}"
         if [ -d "$pr_dir" ]; then
           git config --local user.name "$GITHUB_ACTOR"
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git rm -rf "$pr_dir"
-          git commit -m "Remove preview for PR #${{ inputs.pr_number }}"
+          git commit -m "Remove preview for PR #${{ inputs.pr-number }}"
           git push
         else
           echo "Directory $pr_dir does not exist, skipping cleanup."

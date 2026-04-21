@@ -2,11 +2,11 @@ name: "Deploy PR preview"
 description: "Deploy a pkgdown preview for a pull request."
 inputs:
   # General
-  repository_name:
+  repository-name:
     description: "Repository to which to deploy."
     required: false
     default: ${{ github.event.repository.name }}
-  repository_owner:
+  repository-owner:
     description: "Owner of the repository to which to deploy."
     required: false
     default: ${{ github.repository_owner }}
@@ -14,20 +14,20 @@ inputs:
     description: "GitHub token, set to secrets.GITHUB_TOKEN"
     required: false
     default: ${{ github.token }}
-  event_name:
+  event-name:
     description: "Type of event. Used to skip steps for non-PRs."
     required: false
     default: ${{ github.event_name}}
-  pr_number:
+  pr-number:
     description: "Pull request number."
     required: false
     default: ${{ github.event.number }}
-  is_fork:
+  is-fork:
     description: "Whether the PR is from a fork. Used to skip steps that require write permissions for forked PRs."
     required: false
     default: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
   # pkgdown
-  pkgdown_dev_mode:
+  pkgdown-dev-mode:
     description: "Whether pkgdown should operate in dev mode."
     required: false
     default: 'false'
@@ -36,36 +36,36 @@ runs:
   using: "composite"
   steps:
     - name: Deploy PR preview 🧪
-      if: inputs.event_name == 'pull_request' && inputs.is_fork == 'false'
+      if: inputs.event-name == 'pull_request' && inputs.is-fork == 'false'
       uses: JamesIves/github-pages-deploy-action@v4.8.0
       with:
         token: ${{ inputs.token }}
-        repository-name: ${{ inputs.repository_owner }}/${{ inputs.repository_name }}
+        repository-name: ${{ inputs.repository-owner }}/${{ inputs.repository-name }}
         # Don't clean the whole branch, just the target folder
         clean: false
         branch: gh-pages
         folder: docs
         # Deploy to a subdirectory named after the PR number
-        target-folder: pr/${{ inputs.pr_number }}
+        target-folder: pr/${{ inputs.pr-number }}
 
     - name: PR site URL 🌐
-      if: inputs.event_name == 'pull_request' && inputs.is_fork == 'false'
+      if: inputs.event-name == 'pull_request' && inputs.is-fork == 'false'
       shell: bash
       run: |
         DEV_SUFFIX=""
-        if [ "${{ inputs.pkgdown_dev_mode }}" == "true" ]; then
+        if [ "${{ inputs.pkgdown-dev-mode }}" == "true" ]; then
           DEV_SUFFIX="/dev"
         fi
-        echo "🌐 URL: https://${{ inputs.repository_owner }}.github.io/${{ inputs.repository_name }}/pr/${{ inputs.pr_number }}${DEV_SUFFIX}"
+        echo "🌐 URL: https://${{ inputs.repository-owner }}.github.io/${{ inputs.repository-name }}/pr/${{ inputs.pr-number }}${DEV_SUFFIX}"
 
     - name: Comment with PR site URL 🌐
-      if: inputs.event_name == 'pull_request' && inputs.is_fork == 'false'
+      if: inputs.event-name == 'pull_request' && inputs.is-fork == 'false'
       uses: actions/github-script@v6
       env:
-        REPO_NAME: ${{ inputs.repository_name }}
-        REPO_OWNER: ${{ inputs.repository_owner }}
-        PR_NUMBER: ${{ inputs.pr_number }}
-        PKGDOWN_DEV_MODE: ${{ inputs.pkgdown_dev_mode }}
+        REPO_NAME: ${{ inputs.repository-name }}
+        REPO_OWNER: ${{ inputs.repository-owner }}
+        PR_NUMBER: ${{ inputs.pr-number }}
+        PKGDOWN_DEV_MODE: ${{ inputs.pkgdown-dev-mode }}
       with:
         github-token: ${{ inputs.token }}
         script: |

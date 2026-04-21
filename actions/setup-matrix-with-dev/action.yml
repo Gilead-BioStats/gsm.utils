@@ -1,6 +1,5 @@
 name: "Setup Matrix with Dev"
 description: "Generates a dynamic strategy matrix for R CMD check based on package usage intentions, for a repository using a 'main-to-dev' branching strategy."
-
 inputs:
   pkg-use:
     description: "How this package is intended to be used. Must be one of 'private' (will only be tested on ubuntu-latest with the latest release of R, or, if specified, on your production configuration), 'public' (intended to be installable by anyone, but without the zealous tidyverse-style testing matrix), or 'wide' (likely to be used on many different operating systems and R versions, will be tested across many OSes and R versions)."
