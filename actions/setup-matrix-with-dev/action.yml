@@ -1,0 +1,86 @@
+name: "Setup Matrix with Dev"
+description: "Generates a dynamic strategy matrix for R CMD check based on package usage intentions, for a repository using a 'main-to-dev' branching strategy."
+
+inputs:
+  pkg-use:
+    description: "How this package is intended to be used. Must be one of 'private' (will only be tested on ubuntu-latest with the latest release of R, or, if specified, on your production configuration), 'public' (intended to be installable by anyone, but without the zealous tidyverse-style testing matrix), or 'wide' (likely to be used on many different operating systems and R versions, will be tested across many OSes and R versions)."
+    required: false
+    default: "public"
+  prod-config:
+    description: "A configuration to always test in spite of rules based on pkg-use. This should be a comma-separated list of configurations, where each configuration is of the form 'os-version-r_version' (e.g. 'windows-latest-release', where 'windows-latest' is the OS and 'release' is the R version). Defaults to 'ubuntu-latest-4.3.3' to match the Gilead production environment."
+    required: false
+    default: "ubuntu-latest-4.3.3"
+  target-branch:
+    description: "The target branch to determine the matrix (typically passed implicitly via github.base_ref or github.ref_name)."
+    required: false
+    default: ${{ github.base_ref || github.ref_name }}
+
+outputs:
+  matrix:
+    description: "A JSON array representing the configuration matrix."
+    value: ${{ steps.set-matrix.outputs.matrix }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Define matrix
+      id: set-matrix
+      shell: bash
+      run: |
+        FILTERED=$(jq -n -c \
+          --arg pkg_use "${{ inputs.pkg-use }}" \
+          --arg prod_config "${{ inputs.prod-config }}" \
+          --arg target "${{ inputs.target-branch }}" \
+          '
+          # Parse prod_config into an array of objects by splitting on the final dash.
+          # Validate each entry first so malformed values fail with a clear message.
+          # Handles semantic versions (4.3.3), oldrel-#, release, and devel correctly.
+          (
+            if $prod_config == "" then []
+            else
+              $prod_config | split(",") | map(
+                (sub("^\\s+"; "") | sub("\\s+$"; "")) as $entry |
+                if $entry | test("^(?<os>.*?)-(?<r>release|devel|oldrel-[0-9]+|[0-9]+(?:\\.[0-9]+)*)$") then
+                  $entry | capture("^(?<os>.*?)-(?<r>release|devel|oldrel-[0-9]+|[0-9]+(?:\\.[0-9]+)*)$")
+                else
+                  error("Invalid prod-config entry '" + $entry + "'. Expected format 'os-version-r_version', for example 'windows-latest-release'.")
+                end
+              )
+            end
+          ) as $prod_arr |
+
+          if $pkg_use == "private" then
+            if ($prod_arr | length) > 0 then $prod_arr
+            else [{"os": "ubuntu-latest", "r": "release"}]
+            end
+          elif $pkg_use == "public" then
+            (
+              if $target == "main" or $target == "master" then
+                [
+                  {"os": "macOS-latest", "r": "release"},
+                  {"os": "windows-latest", "r": "release"},
+                  {"os": "ubuntu-latest", "r": "release"}
+                ]
+              else
+                [
+                  {"os": "ubuntu-latest", "r": "release"}
+                ]
+              end
+            ) + $prod_arr
+          elif $pkg_use == "wide" then
+            [
+              {"os": "macOS-latest", "r": "release"},
+              {"os": "windows-latest", "r": "release"},
+              {"os": "ubuntu-latest", "r": "release"},
+              {"os": "ubuntu-latest", "r": "oldrel-1"},
+              {"os": "ubuntu-latest", "r": "oldrel-2"},
+              {"os": "ubuntu-latest", "r": "oldrel-3"},
+              {"os": "ubuntu-latest", "r": "oldrel-4", "error-on": "\"error\""},
+              {"os": "ubuntu-latest", "r": "devel", "http-user-agent": "release"}
+            ] + $prod_arr
+          else
+            error("Invalid pkg-use: \($pkg_use). Expected one of: private, public, wide.")
+          end | unique
+          '
+        )
+        echo "matrix=$FILTERED" >> "$GITHUB_OUTPUT"
