@@ -77,7 +77,7 @@ runs:
       shell: Rscript {0}
 
     - name: Deploy PR preview 🧪
-      uses: gilead-biostats/gsm.utils/actions/pkgdown-pr_preview@actions-v1
+      uses: gilead-biostats/gsm.utils/actions/pkgdown-pr_preview@fix-78-comment-pr
       with:
         repository-name: ${{ inputs.repository-name }}
         repository-owner: ${{ inputs.repository-owner }}
