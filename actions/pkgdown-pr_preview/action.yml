@@ -49,6 +49,7 @@ runs:
         target-folder: pr/${{ inputs.pr-number }}
 
     - name: PR site URL 🌐
+      id: site-url
       if: inputs.event-name == 'pull_request' && inputs.is-fork == 'false'
       shell: bash
       run: |
@@ -56,56 +57,16 @@ runs:
         if [ "${{ inputs.pkgdown-dev-mode }}" == "true" ]; then
           DEV_SUFFIX="/dev"
         fi
-        echo "🌐 URL: https://${{ inputs.repository-owner }}.github.io/${{ inputs.repository-name }}/pr/${{ inputs.pr-number }}${DEV_SUFFIX}"
+        SITE_URL="https://${{ inputs.repository-owner }}.github.io/${{ inputs.repository-name }}/pr/${{ inputs.pr-number }}${DEV_SUFFIX}"
+        echo "url=$SITE_URL" >> $GITHUB_OUTPUT
+        echo "🌐 URL: $SITE_URL"
 
     - name: Comment with PR site URL 🌐
       if: inputs.event-name == 'pull_request' && inputs.is-fork == 'false'
-      uses: actions/github-script@v6
-      env:
-        REPO_NAME: ${{ inputs.repository-name }}
-        REPO_OWNER: ${{ inputs.repository-owner }}
-        PR_NUMBER: ${{ inputs.pr-number }}
-        PKGDOWN_DEV_MODE: ${{ inputs.pkgdown-dev-mode }}
+      uses: gilead-biostats/gsm.utils/actions/comment-pr@fix-78-comment-pr
       with:
-        github-token: ${{ inputs.token }}
-        script: |
-          const repoName = process.env.REPO_NAME;
-          const repoOwner = process.env.REPO_OWNER;
-          const prNumber = Number(process.env.PR_NUMBER);
-          const pkgdownDevMode = process.env.PKGDOWN_DEV_MODE;
-          const devSuffix = pkgdownDevMode === 'true' ? '/dev' : '';
-          const prSiteURL = `https://${repoOwner}.github.io/${repoName}/pr/${prNumber}${devSuffix}`
-          const timestamp = new Date().toISOString();
-          const commentBody = `🌐 PR pkgdown deployed: [${prSiteURL}](${prSiteURL})\n\n_Last updated: ${timestamp}_`;
-          const commentMarker = '🌐 PR pkgdown deployed:';
-
-          // Get all comments on the PR
-          const comments = await github.rest.issues.listComments({
-            issue_number: prNumber,
-            owner: repoOwner,
-            repo: repoName,
-          });
-
-          // Find existing comment from this bot
-          const existingComment = comments.data.find(comment =>
-            comment.user.login === 'github-actions[bot]' &&
-            comment.body.includes(commentMarker)
-          );
-
-          if (existingComment) {
-            // Update existing comment
-            await github.rest.issues.updateComment({
-              comment_id: existingComment.id,
-              owner: repoOwner,
-              repo: repoName,
-              body: commentBody,
-            });
-          } else {
-            // Create new comment
-            await github.rest.issues.createComment({
-              issue_number: prNumber,
-              owner: repoOwner,
-              repo: repoName,
-              body: commentBody,
-            });
-          }
+        comment-id: 'pkgdown-preview-url'
+        body: |
+          🌐 PR pkgdown deployed: [${{ steps.site-url.outputs.url }}](${{ steps.site-url.outputs.url }})
+        pr-number: ${{ inputs.pr-number }}
+        token: ${{ inputs.token }}
