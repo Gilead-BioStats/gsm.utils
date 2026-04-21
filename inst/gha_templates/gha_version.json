@@ -9,13 +9,8 @@
       "path": "workflows/pkgdown-all.yaml"
     },
     {
-      "name": "R-CMD-check-dev.yaml",
-      "description": "R CMD check for dev branch PRs",
-      "path": "workflows/R-CMD-check-dev.yaml"
-    },
-    {
       "name": "R-CMD-check.yaml",
-      "description": "R CMD check for main branch PRs",
+      "description": "R CMD check for PRs",
       "path": "workflows/R-CMD-check.yaml"
     },
     {
