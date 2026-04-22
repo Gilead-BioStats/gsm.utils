@@ -57,7 +57,7 @@ runs:
   using: "composite"
   steps:
     - name: Build pkgdown assets and add associated menus
-      uses: gilead-biostats/gsm.utils/actions/pkgdown-build_assets@actions-v1
+      uses: gilead-biostats/gsm.utils/pkgdown-build_assets@fix-78-comment-pr
       with:
         assets-dir: ${{ inputs.assets-dir }}
         source-dir: ${{ inputs.source-dir }}
@@ -77,7 +77,7 @@ runs:
       shell: Rscript {0}
 
     - name: Deploy PR preview 🧪
-      uses: gilead-biostats/gsm.utils/actions/pkgdown-pr_preview@fix-78-comment-pr
+      uses: gilead-biostats/gsm.utils/pkgdown-pr_preview@fix-78-comment-pr
       with:
         repository-name: ${{ inputs.repository-name }}
         repository-owner: ${{ inputs.repository-owner }}

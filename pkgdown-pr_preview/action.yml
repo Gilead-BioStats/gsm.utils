@@ -63,7 +63,7 @@ runs:
 
     - name: Comment with PR site URL 🌐
       if: inputs.event-name == 'pull_request' && inputs.is-fork == 'false'
-      uses: gilead-biostats/gsm.utils/actions/comment-pr@fix-78-comment-pr
+      uses: gilead-biostats/gsm.utils/comment-pr@fix-78-comment-pr
       with:
         comment-id: 'pkgdown-preview-url'
         body: |
