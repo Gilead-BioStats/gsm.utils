@@ -31,7 +31,6 @@ on:
 
 jobs:
   pkgdown-assets:
-    # Run on push, PR opened/synchronize/reopened, and workflow_dispatch deploy mode. Skip on PR closed.
     if: |
       (github.event_name == 'push') ||
       (github.event_name == 'pull_request' && github.event.action != 'closed') ||
@@ -76,7 +75,6 @@ jobs:
           pkgdown_dev_mode: ${{ inputs.pkgdown_dev_mode == true || (github.event_name != 'workflow_dispatch' && github.ref_name != 'main') }}
 
   clean-pr-preview:
-    # Run ONLY when a pull request is closed OR workflow_dispatch cleanup mode.
     if: |
       (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository) ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'cleanup')
