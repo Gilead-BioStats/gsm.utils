@@ -17,7 +17,7 @@ runs:
       uses: gilead-biostats/gsm.utils/actions/install@fix-78-comment-pr
       with:
         token: ${{ inputs.token }}
-        extra-packages: any::covr any::xml2 gilead-bioStats/gsm.utils@dev local::.
+        extra-packages: any::covr any::xml2 any::jsonlite gilead-bioStats/gsm.utils@dev local::.
         needs: coverage
 
     - name: Compute coverage
