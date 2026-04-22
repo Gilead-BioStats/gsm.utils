@@ -16,3 +16,5 @@
 ^pkgdown/\.DS_Store$
 ^\.\.Rcheck$
 ^actions$
+^\.positai$
+^\.claude$

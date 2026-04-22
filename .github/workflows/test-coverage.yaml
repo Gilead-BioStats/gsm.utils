@@ -23,97 +23,9 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: Check out repo
-        uses: gilead-biostats/gsm.utils/actions/checkout@fix-78-comment-pr
-
-      - name: Install R and dependencies
-        uses: gilead-biostats/gsm.utils/actions/install@actions-v1
+      - name: Compute test coverage
+        uses: gilead-biostats/gsm.utils/actions/test-coverage@fix-78-comment-pr
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          use-public-rspm: true
-          extra-packages: any::covr any::xml2 gilead-bioStats/gsm.utils@dev local::.
-          needs: coverage
-
-      - name: Compute coverage
-        shell: Rscript {0}
-        run: |
-          pct <- tryCatch(
-            {
-              cov <- covr::package_coverage()
-              df <- as.data.frame(cov)
-              file_pct <- tapply(df$value > 0, df$filename, function(x) round(100 * mean(x), 1))
-              file_data <- data.frame(
-                file = names(file_pct),
-                coverage = as.numeric(file_pct),
-                stringsAsFactors = FALSE
-              )
-              file_data <- file_data[order(file_data$file), ]
-              jsonlite::write_json(file_data, "coverage-data.json", auto_unbox = TRUE)
-              as.numeric(covr::percent_coverage(cov))
-            },
-            error = function(e) {
-              message("Coverage computation failed: ", conditionMessage(e))
-              NA_real_
-            }
-          )
-          cat(
-            sprintf("COVERAGE_PCT=%s\n", if (is.na(pct)) "NA" else sprintf("%.2f", pct)),
-            file = Sys.getenv("GITHUB_ENV"),
-            append = TRUE
-          )
-
-      - name: Log coverage
-        run: |
-          echo "Coverage: ${{ env.COVERAGE_PCT }}%"
-
-      - name: Prepare Coverage Comment Body
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-        run: |
-          PCT="${{ env.COVERAGE_PCT }}"
-          if [ "$PCT" == "NA" ]; then
-            echo "⚠️ Coverage computation failed." > pr_comment.md
-          else
-            echo "📊 Test coverage: **${PCT}%**" > pr_comment.md
-
-            if [ -f "coverage-data.json" ]; then
-              echo "" >> pr_comment.md
-              echo "<details>" >> pr_comment.md
-              echo "<summary>Per-file coverage</summary>" >> pr_comment.md
-              echo "" >> pr_comment.md
-              echo "| File | Coverage |" >> pr_comment.md
-              echo "|------|----------|" >> pr_comment.md
-              jq -r '.[] | "| `\(.file)` | \(.coverage)% |"' coverage-data.json >> pr_comment.md
-              echo "" >> pr_comment.md
-              echo "</details>" >> pr_comment.md
-            fi
-          fi
-
-      - name: Comment coverage on PR
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-        continue-on-error: true
-        uses: gilead-biostats/gsm.utils/actions/comment-pr@fix-78-comment-pr
-        with:
-          comment-id: 'coverage-comment'
-          body-path: 'pr_comment.md'
-          # append-metadata defaults to true, which adds the Commit SHA and Timestamp automatically
-
-
-      - name: Write coverage-summary.json
-        if: github.event_name == 'release'
-        shell: Rscript {0}
-        # allow_fail defaults to FALSE — coverage failures intentionally abort the release workflow
-        run: |
-          gsm.utils::emit_coverage_summary(
-            output_path = "coverage-summary.json",
-            quiet       = FALSE
-          )
-
-      - name: Attach coverage summary to release
-        if: github.event_name == 'release'
-        run: gh release upload ${{ github.event.release.tag_name }} coverage-summary.json --clobber
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
