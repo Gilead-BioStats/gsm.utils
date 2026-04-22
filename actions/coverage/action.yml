@@ -1,0 +1,36 @@
+name: "Test Coverage"
+description: "Compute test coverage; log results, post sticky PR comments, and attach coverage-summary.json to releases"
+
+inputs:
+  token:
+    description: "GitHub token (usually secrets.GITHUB_TOKEN)"
+    required: true
+    default: ${{ github.token }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check out repo
+      uses: gilead-biostats/gsm.utils/actions/checkout@fix-78-comment-pr
+
+    - name: Install R and dependencies
+      uses: gilead-biostats/gsm.utils/actions/install@fix-78-comment-pr
+      with:
+        token: ${{ inputs.token }}
+        extra-packages: any::covr any::xml2 gilead-bioStats/gsm.utils@dev local::.
+        needs: coverage
+
+    - name: Compute coverage
+      uses: gilead-biostats/gsm.utils/actions/coverage-compute@fix-78-comment-pr
+      with:
+        token: ${{ inputs.token }}
+
+    - name: Handle PR Coverage Comments
+      if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+      uses: gilead-biostats/gsm.utils/actions/coverage-comment-pr@fix-78-comment-pr
+
+    - name: Handle Release Summaries
+      if: github.event_name == 'release'
+      uses: gilead-biostats/gsm.utils/actions/coverage-release@fix-78-comment-pr
+      with:
+        token: ${{ inputs.token }}

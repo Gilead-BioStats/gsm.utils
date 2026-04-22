@@ -1,0 +1,44 @@
+name: "Compute Coverage"
+description: "Computes R package test coverage and writes coverage-data.json."
+
+inputs:
+  token:
+    description: "GitHub token"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Compute coverage
+      shell: Rscript {0}
+      env:
+        GITHUB_PAT: ${{ inputs.token }}
+      run: |
+        pct <- tryCatch(
+          {
+            cov <- covr::package_coverage()
+            df <- as.data.frame(cov)
+            file_pct <- tapply(df$value > 0, df$filename, function(x) round(100 * mean(x), 1))
+            file_data <- data.frame(
+              file = names(file_pct),
+              coverage = as.numeric(file_pct)
+            )
+            file_data <- file_data[order(file_data$file), ]
+            jsonlite::write_json(file_data, "coverage-data.json", auto_unbox = TRUE)
+            as.numeric(covr::percent_coverage(cov))
+          },
+          error = function(e) {
+            message("Coverage computation failed: ", conditionMessage(e))
+            NA_real_
+          }
+        )
+        cat(
+          sprintf("COVERAGE_PCT=%s\n", if (is.na(pct)) "NA" else sprintf("%.2f", pct)),
+          file = Sys.getenv("GITHUB_ENV"),
+          append = TRUE
+        )
+
+    - name: Log coverage
+      shell: bash
+      run: |
+        echo "Coverage: ${{ env.COVERAGE_PCT }}%"
