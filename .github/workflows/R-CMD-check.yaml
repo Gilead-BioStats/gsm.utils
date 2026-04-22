@@ -53,4 +53,4 @@ jobs:
       - name: Check package
         uses: gilead-biostats/gsm.utils/actions/check-r-package@fix-78-comment-pr
         with:
-          error-on: ${{ matrix.config.error-on || 'warning' }}
+          error-on: ${{ matrix.config.error-on || '"warning"' }}
