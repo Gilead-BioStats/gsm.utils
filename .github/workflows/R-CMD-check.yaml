@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Define matrix based on target branch
         id: set-matrix
-        uses: gilead-biostats/gsm.utils/actions/setup-matrix-with-dev@actions-v1
+        uses: gilead-biostats/gsm.utils/setup-matrix-with-dev@fix-78-comment-pr
         with:
           pkg-use: 'public'
 
@@ -38,10 +38,10 @@ jobs:
 
     steps:
       - name: Check out repo
-        uses: gilead-biostats/gsm.utils/actions/checkout@fix-78-comment-pr
+        uses: gilead-biostats/gsm.utils/checkout@fix-78-comment-pr
 
       - name: Install R and dependencies
-        uses: gilead-biostats/gsm.utils/actions/install@actions-v1
+        uses: gilead-biostats/gsm.utils/install@fix-78-comment-pr
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           r-version: ${{ matrix.config.r }}
@@ -51,6 +51,6 @@ jobs:
           needs: check
 
       - name: Check package
-        uses: gilead-biostats/gsm.utils/actions/check-r-package@fix-78-comment-pr
+        uses: gilead-biostats/gsm.utils/check-r-package@fix-78-comment-pr
         with:
           error-on: ${{ matrix.config.error-on || '"warning"' }}

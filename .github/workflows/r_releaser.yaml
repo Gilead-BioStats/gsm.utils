@@ -27,12 +27,12 @@ jobs:
 
     steps:
       - name: Check out repo
-        uses: gilead-biostats/gsm.utils/actions/checkout@fix-78-comment-pr
+        uses: gilead-biostats/gsm.utils/checkout@fix-78-comment-pr
         with:
           fetch-depth: 0
 
       - name: Install R and dependencies
-        uses: gilead-biostats/gsm.utils/actions/install@actions-v1
+        uses: gilead-biostats/gsm.utils/install@fix-78-comment-pr
         with:
           use-public-rspm: true
           dependencies: '"hard"'

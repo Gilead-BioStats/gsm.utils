@@ -26,6 +26,6 @@ jobs:
 
     steps:
       - name: Compute test coverage
-        uses: gilead-biostats/gsm.utils/actions/coverage@fix-78-comment-pr
+        uses: gilead-biostats/gsm.utils/coverage@fix-78-comment-pr
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
