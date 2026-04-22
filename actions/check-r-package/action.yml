@@ -1,0 +1,51 @@
+name: "Check R Package"
+description: "Wraps r-lib/actions/check-r-package to centrally manage check behavior across the organization."
+
+inputs:
+  args:
+    description: 'Arguments to pass to the `args` parameter of rcmdcheck. Must be an R expression. Note that it often needs to be quoted in YAML, see the README for details.'
+    default: 'c("--no-manual", "--as-cran")'
+  build_args:
+    description: 'Arguments to pass to the `build_args` parameter of rcmdcheck. Note that it often needs to be quoted in YAML, see the README for details.'
+    default: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
+  error-on:
+    description: 'What type of result should cause a build error? Note that it often needs to be quoted in YAML, see the README for details.'
+    default: '"warning"'
+  check-dir:
+    description: 'Where should the check output go? Note that it often needs to be quoted in YAML, see the README for details.'
+    default: '"check"'
+  working-directory:
+    description: 'Using the working-directory keyword, you can specify the working directory of where "rcmdcheck::rcmdcheck" is run.'
+    default: '.'
+  upload-snapshots:
+    description: |
+      Whether to upload all testthat snapshots as an artifact. Possible values are 'true',
+      'false', 'always'.
+    default: true
+  upload-results:
+    description: |
+      Whether to upload check results for successful runs too. If 'never',
+      then it does not upload the results, even on failure.
+    default: false
+  artifact-name:
+    description: |
+      Use this to override the default artifact name for the check results.
+  snapshot-artifact-name:
+    description: |
+      Use this to override the default artifact name for testthat snapshots.
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check package
+      uses: r-lib/actions/check-r-package@v2
+      with:
+        args: ${{ inputs.args }}
+        build_args: ${{ inputs.build_args }}
+        error-on: ${{ inputs.error-on }}
+        check-dir: ${{ inputs.check-dir }}
+        working-directory: ${{ inputs.working-directory }}
+        upload-snapshots: ${{ inputs.upload-snapshots }}
+        upload-results: ${{ inputs.upload-results }}
+        artifact-name: ${{ inputs.artifact-name }}
+        snapshot-artifact-name: ${{ inputs.snapshot-artifact-name }}
