@@ -60,7 +60,7 @@ jobs:
           cache-version: '1'
 
       - name: Build and deploy site
-        uses: gilead-biostats/gsm.utils/actions/pkgdown-deploy@actions-v1
+        uses: gilead-biostats/gsm.utils/actions/pkgdown-deploy@fix-78-comment-pr
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           assets_dir: pkgdown/assets
