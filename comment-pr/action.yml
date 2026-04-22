@@ -94,18 +94,27 @@ runs:
           const repoOwner = context.repo.owner;
           const repoName = context.repo.repo;
 
-          // 5. Check for existing comment
-          const { data: comments } = await github.rest.issues.listComments({
+          // 5. Determine authenticated user login
+          let botLogin = 'github-actions[bot]';
+          try {
+            const { data: user } = await github.rest.users.getAuthenticated();
+            botLogin = user.login;
+          } catch (e) {
+            core.info(`Could not fetch authenticated user from token (expected for standard GITHUB_TOKEN). Defaulting to '${botLogin}'.`);
+          }
+
+          // 6. Check for existing comment
+          const comments = await github.paginate(github.rest.issues.listComments, {
             owner: repoOwner,
             repo: repoName,
             issue_number: issueNumber,
           });
 
           const existing = comments.find(c =>
-            c.user.login === 'github-actions[bot]' && c.body.includes(marker)
+            c.user?.login === botLogin && c.body.includes(marker)
           );
 
-          // 6. Create or Update
+          // 7. Create or Update
           if (existing) {
             await github.rest.issues.updateComment({
               owner: repoOwner,
@@ -121,5 +130,5 @@ runs:
               issue_number: issueNumber,
               body: finalBody,
             });
-            core.info(`Created new comment ${created.data.id}`);
+            core.info(`Created new comment ${created.id}`);
           }

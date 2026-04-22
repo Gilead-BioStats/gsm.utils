@@ -1,6 +1,12 @@
 name: "Coverage PR Comment"
 description: "Formats coverage data and posts a sticky PR comment."
 
+inputs:
+  token:
+    description: "GitHub token (usually secrets.GITHUB_TOKEN)"
+    required: true
+    default: ${{ github.token }}
+
 runs:
   using: "composite"
   steps:
@@ -34,3 +40,4 @@ runs:
       with:
         comment-id: 'coverage-comment'
         body-path: 'pr_comment.md'
+        token: ${{ inputs.token }}
