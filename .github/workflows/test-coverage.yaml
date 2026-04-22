@@ -35,7 +35,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           use-public-rspm: true
-          extra-packages: any::covr any::xml2 local::. Gilead-BioStats/gsm.utils
+          extra-packages: any::covr any::xml2 gilead-bioStats/gsm.utils@dev local::.
           needs: coverage
 
       - name: Compute coverage
