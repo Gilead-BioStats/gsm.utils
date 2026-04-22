@@ -51,6 +51,6 @@ jobs:
           needs: check
 
       - name: Check package
-        uses: gilead-biostats/gsm.utils/actions/check@fix-78-comment-pr
+        uses: gilead-biostats/gsm.utils/actions/check-r-package@fix-78-comment-pr
         with:
           error-on: ${{ matrix.config.error-on || 'warning' }}
