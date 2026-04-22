@@ -70,49 +70,37 @@ jobs:
         run: |
           echo "Coverage: ${{ env.COVERAGE_PCT }}%"
 
+      - name: Prepare Coverage Comment Body
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          PCT="${{ env.COVERAGE_PCT }}"
+          if [ "$PCT" == "NA" ]; then
+            echo "⚠️ Coverage computation failed." > pr_comment.md
+          else
+            echo "📊 Test coverage: **${PCT}%**" > pr_comment.md
+
+            if [ -f "coverage-data.json" ]; then
+              echo "" >> pr_comment.md
+              echo "<details>" >> pr_comment.md
+              echo "<summary>Per-file coverage</summary>" >> pr_comment.md
+              echo "" >> pr_comment.md
+              echo "| File | Coverage |" >> pr_comment.md
+              echo "|------|----------|" >> pr_comment.md
+              jq -r '.[] | "| `\(.file)` | \(.coverage)% |"' coverage-data.json >> pr_comment.md
+              echo "" >> pr_comment.md
+              echo "</details>" >> pr_comment.md
+            fi
+          fi
+
       - name: Comment coverage on PR
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         continue-on-error: true
-        uses: actions/github-script@v7
+        uses: gilead-biostats/gsm.utils/actions/pr-comment-action@fix-78-comment-pr
         with:
-          script: |
-            const fs = require('fs');
-            const pct = process.env.COVERAGE_PCT;
-            const sha = context.sha.slice(0, 7);
-            const timestamp = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
-            const marker = '<!-- coverage-comment -->';
-            let fileTable = '';
-            try {
-              const fileData = JSON.parse(fs.readFileSync('coverage-data.json', 'utf8'));
-              const rows = fileData.map(f => `| \`${f.file}\` | ${f.coverage}% |`).join('\n');
-              fileTable = `\n\n<details>\n<summary>Per-file coverage</summary>\n\n| File | Coverage |\n|------|----------|\n${rows}\n\n</details>`;
-            } catch (e) {}
-            const body = pct === 'NA'
-              ? `${marker}\n⚠️ Coverage computation failed.\n\n_Commit: ${sha} | ${timestamp}_`
-              : `${marker}\n📊 Test coverage: **${pct}%**${fileTable}\n\n_Commit: ${sha} | ${timestamp}_`;
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            });
-            const existing = comments.find(c =>
-              c.user.login === 'github-actions[bot]' && c.body.includes(marker)
-            );
-            if (existing) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: existing.id,
-                body,
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body,
-              });
-            }
+          comment-id: 'coverage-comment'
+          body-path: 'pr_comment.md'
+          # append-metadata defaults to true, which adds the Commit SHA and Timestamp automatically
+
 
       - name: Write coverage-summary.json
         if: github.event_name == 'release'
