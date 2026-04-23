@@ -108,7 +108,8 @@ jobs:
       - name: Check out repo
         uses: gilead-biostats/gsm.utils/checkout@fix-78-comment-pr
 
-      - name: Generate markdown body
+      - name: Prepare updates and comments
+        id: prepare
         run: |
           BASE_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-78-comment-pr"
           TEMPLATE_URL="$BASE_URL/workflow_templates/${{ matrix.workflow.name }}"
@@ -126,34 +127,34 @@ jobs:
           EOF
             cat template.yaml >> "$BODY_FILE"
             echo '```' >> "$BODY_FILE"
+            echo "method=comment" >> $GITHUB_OUTPUT
           else
-            cat << 'EOF' > "$BODY_FILE"
-          ### 🔄 Outdated Workflow: `${{ matrix.workflow.name }}`
-          EOF
-
-            # If the file is part of the PR diff, we provide a "proper" suggestion block
+            # If the file is part of the PR diff, we overwrite it locally so reviewdog can suggest the diff
             if [ "${{ matrix.workflow.changed }}" = "true" ]; then
-              cat << 'EOF' >> "$BODY_FILE"
-          This workflow is outdated (local: `${{ matrix.workflow.local_version }}`, target: `${{ matrix.workflow.target_version }}`). Since you modified it in this PR, here is the suggested change to bring it up to date:
-
-          ```suggestion
-          EOF
-              cat template.yaml >> "$BODY_FILE"
-              echo '```' >> "$BODY_FILE"
-
-            # Otherwise, just provide the standard yaml replacement text
+              cp template.yaml ".github/workflows/${{ matrix.workflow.name }}"
+              echo "method=suggester" >> $GITHUB_OUTPUT
             else
-              cat << 'EOF' >> "$BODY_FILE"
+              cat << 'EOF' > "$BODY_FILE"
+          ### 🔄 Outdated Workflow: `${{ matrix.workflow.name }}`
           This workflow is currently at version `${{ matrix.workflow.local_version }}`, but the latest is `${{ matrix.workflow.target_version }}`. Please replace the entirety of `.github/workflows/${{ matrix.workflow.name }}` with the following updated text:
 
           ```yaml
           EOF
               cat template.yaml >> "$BODY_FILE"
               echo '```' >> "$BODY_FILE"
+              echo "method=comment" >> $GITHUB_OUTPUT
             fi
           fi
 
+      - name: Suggest changes inline
+        if: ${{ steps.prepare.outputs.method == 'suggester' }}
+        uses: reviewdog/action-suggester@v1
+        with:
+          tool_name: workflow-template-compliance
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Post PR Comment
+        if: ${{ steps.prepare.outputs.method == 'comment' }}
         uses: gilead-biostats/gsm.utils/comment-pr@fix-78-comment-pr
         with:
           comment-id: 'update-workflow-${{ matrix.workflow.name }}'
@@ -162,5 +163,5 @@ jobs:
 
       - name: Fail check for outdated workflow
         run: |
-          echo "::error::Workflow ${{ matrix.workflow.name }} requires an update. See the PR comments for details."
+          echo "::error::Workflow ${{ matrix.workflow.name }} requires an update. See the PR comments or inline suggestions for details."
           exit 1
