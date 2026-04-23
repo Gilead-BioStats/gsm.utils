@@ -70,7 +70,7 @@ jobs:
           rm gha_version.json
 
       - name: Create Pull Request targeting the PR head branch
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore: auto-update GitHub Actions workflow templates"
@@ -81,4 +81,3 @@ jobs:
             This PR automatically updates the GitHub Actions workflows in this branch to match the canonical templates defined in `gilead-biostats/gsm.utils`.
 
             Merging this into your working branch will trigger the updated checks to run.
-          labels: "automated pr"
