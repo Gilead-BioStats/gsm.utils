@@ -1,3 +1,4 @@
+# name: pkgdown-all.yaml
 # version: 0.3.1
 # Description: Deploy pkgdown site with assets, and clean up PR previews on close.
 
