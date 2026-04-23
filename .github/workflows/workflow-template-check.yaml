@@ -27,7 +27,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          BASE_URL="[https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-78-comment-pr](https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-78-comment-pr)"
+          BASE_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-78-comment-pr"
           MANIFEST_URL="$BASE_URL/gha_version.json"
 
           echo "Downloading manifest from $MANIFEST_URL..."
