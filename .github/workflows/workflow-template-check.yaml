@@ -106,18 +106,36 @@ jobs:
           if [ "${{ matrix.workflow.status }}" = "missing" ]; then
             cat << 'EOF' > "$BODY_FILE"
           ### ⚠️ Missing Workflow: `${{ matrix.workflow.name }}`
-          This required workflow is missing. Please create `.github/workflows/${{ matrix.workflow.name }}` and paste the following content:
+          This required workflow is missing.
 
-          ```yaml
           EOF
           else
             cat << 'EOF' > "$BODY_FILE"
           ### 🔄 Outdated Workflow: `${{ matrix.workflow.name }}`
-          This workflow is currently at version `${{ matrix.workflow.local_version }}`, but the latest is `${{ matrix.workflow.target_version }}`. Please replace the entirety of `.github/workflows/${{ matrix.workflow.name }}` with the following updated text:
+          This workflow is currently at version `${{ matrix.workflow.local_version }}`, but the latest is `${{ matrix.workflow.target_version }}`.
+
+          EOF
+          fi
+
+          cat << 'EOF' >> "$BODY_FILE"
+          #### How to update:
+
+          **Option 1: Terminal**
+          ```bash
+          mkdir -p .github/workflows
+          curl -sL [https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-78-comment-pr/workflow_templates/$](https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-78-comment-pr/workflow_templates/$){{ matrix.workflow.name }} -o .github/workflows/${{ matrix.workflow.name }}
+          ```
+
+          **Option 2: R Console**
+          ```r
+          usethis::use_github_action(url = "[https://github.com/gilead-biostats/gsm.utils/blob/fix-78-comment-pr/workflow_templates/$](https://github.com/gilead-biostats/gsm.utils/blob/fix-78-comment-pr/workflow_templates/$){{ matrix.workflow.name }}")
+          ```
+
+          **Option 3: Manual Copy/Paste**
+          Alternatively, create or replace the file `.github/workflows/${{ matrix.workflow.name }}` with the following content:
 
           ```yaml
           EOF
-          fi
 
           # Append the actual yaml content and close the code block
           cat template.yaml >> "$BODY_FILE"
