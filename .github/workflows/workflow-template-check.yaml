@@ -19,21 +19,19 @@ jobs:
     name: Check Workflow Template Compliance
 
     steps:
-      - name: Checkout current repository
-        uses: actions/checkout@v6
-        with:
-          path: current-repo
+      - name: Check out repo
+        uses: gilead-biostats/gsm.utils/checkout@fix-78-comment-pr
 
       - name: Install R and dependencies
-        uses: gilead-biostats/gsm.utils/actions/install@actions-v1
+        uses: gilead-biostats/gsm.utils/actions/install@fix-78-comment-pr
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           r-version: 'release'
           use-public-rspm: true
-          extra-packages: Gilead-BioStats/gsm.utils@main
+          extra-packages: Gilead-BioStats/gsm.utils@dev
 
       - name: Check workflow compliance
-        run: Rscript -e "gsm.utils::check_workflow_compliance('current-repo')"
+        run: Rscript -e "gsm.utils::check_workflow_compliance()"
 
       - name: Show fix instructions on failure
         if: failure()
