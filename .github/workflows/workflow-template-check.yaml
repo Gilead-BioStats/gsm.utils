@@ -43,10 +43,7 @@ jobs:
 
             update_needed="false"
 
-            if [ ! -f "$local_file" ]; then
-              echo "Identified missing workflow: $name"
-              update_needed="true"
-            else
+            if [ -f "$local_file" ]; then
               # Extract local version, stripping potential Windows carriage returns
               local_version=$(grep -m 1 "^# version:" "$local_file" | awk '{print $3}' | tr -d '\r')
 
@@ -54,12 +51,14 @@ jobs:
                 echo "Identified outdated workflow: $name (local: $local_version, target: $target_version)"
                 update_needed="true"
               fi
+            else
+              echo "Skipping missing workflow for now to avoid breaking reviewdog: $name"
             fi
 
             if [ "$update_needed" = "true" ]; then
               HAS_UPDATES="true"
               TEMPLATE_URL="$BASE_URL/workflow_templates/$name"
-              # Overwrite/create local file to create an uncommitted diff for reviewdog
+              # Overwrite local file to create an uncommitted diff for reviewdog
               curl -sL -f "$TEMPLATE_URL" -o "$local_file" || echo "::error::Failed to download canonical template for $name"
             fi
           done < workflows.jsonl
@@ -70,7 +69,7 @@ jobs:
         if: ${{ steps.check.outputs.has_updates == 'true' }}
         uses: reviewdog/action-suggester@v1
         with:
-          tool_name: workflow-template-compliance2
+          tool_name: workflow-template-compliance
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Fail check for outdated workflows
