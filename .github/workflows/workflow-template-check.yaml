@@ -54,14 +54,23 @@ jobs:
             else
               # Extract local version, stripping potential Windows carriage returns
               local_version=$(grep -m 1 "^# version:" "$local_file" | awk '{print $3}' | tr -d '\r')
+              if [ -z "$local_version" ]; then
+                local_version="unknown"
+              fi
 
-              if [ "$local_version" != "$target_version" ]; then
+              # Extract local name, stripping potential Windows carriage returns
+              local_name=$(grep -m 1 "^# name:" "$local_file" | awk '{print $3}' | tr -d '\r')
+              if [ -z "$local_name" ]; then
+                local_name="unknown"
+              fi
+
+              if [ "$local_version" != "$target_version" ] || [ "$local_name" != "$name" ]; then
                 jq -n --arg name "$name" \
                       --arg status "outdated" \
                       --arg tv "$target_version" \
                       --arg lv "$local_version" \
                       '{name: $name, status: $status, target_version: $tv, local_version: $lv}' >> "$STATUS_FILE"
-                echo "Identified outdated workflow: $name (local: $local_version, target: $target_version)"
+                echo "Identified outdated or mismatched workflow: $name (local version: $local_version, local name: $local_name, target: $target_version)"
               else
                 jq -n --arg name "$name" \
                       --arg status "compliant" \
@@ -113,8 +122,8 @@ jobs:
           EOF
             else
               cat << 'EOF' > "$BODY_FILE"
-          ### 🔄 Outdated Workflow: `${{ matrix.workflow.name }}`
-          This workflow is currently at version `${{ matrix.workflow.local_version }}`, but the latest is `${{ matrix.workflow.target_version }}`.
+          ### 🔄 Outdated or Incorrect Workflow: `${{ matrix.workflow.name }}`
+          This workflow expects version `${{ matrix.workflow.target_version }}` and the matching `# name:` header. The local file was detected as version `${{ matrix.workflow.local_version }}`.
 
           EOF
             fi
