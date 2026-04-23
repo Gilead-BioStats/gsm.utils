@@ -23,7 +23,7 @@ jobs:
         uses: gilead-biostats/gsm.utils/checkout@fix-78-comment-pr
 
       - name: Install R and dependencies
-        uses: gilead-biostats/gsm.utils/actions/install@fix-78-comment-pr
+        uses: gilead-biostats/gsm.utils/install@fix-78-comment-pr
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           r-version: 'release'
