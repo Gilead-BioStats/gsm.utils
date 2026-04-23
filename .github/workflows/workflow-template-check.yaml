@@ -132,5 +132,5 @@ jobs:
 
       - name: Fail check for outdated workflow
         run: |
-          echo "::error::Workflow ${{ matrix.workflow.name }} requires an update. See the PR comments for details."
+          echo "Workflow ${{ matrix.workflow.name }} requires an update. See the PR comments for details."
           exit 1
