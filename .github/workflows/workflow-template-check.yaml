@@ -70,7 +70,7 @@ jobs:
         if: ${{ steps.check.outputs.has_updates == 'true' }}
         uses: reviewdog/action-suggester@v1
         with:
-          tool_name: workflow-template-compliance
+          tool_name: workflow-template-compliance2
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Fail check for outdated workflows
