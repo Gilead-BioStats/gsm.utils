@@ -134,12 +134,12 @@ jobs:
           **Option 1: Terminal**
           ```bash
           mkdir -p .github/workflows
-          curl -sL [https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-78-comment-pr/workflow_templates/$](https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-78-comment-pr/workflow_templates/$){{ matrix.workflow.name }} -o .github/workflows/${{ matrix.workflow.name }}
+          curl -sL https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-78-comment-pr/workflow_templates/${{ matrix.workflow.name }} -o .github/workflows/${{ matrix.workflow.name }}
           ```
 
           **Option 2: R Console**
           ```r
-          usethis::use_github_action(url = "[https://github.com/gilead-biostats/gsm.utils/blob/fix-78-comment-pr/workflow_templates/$](https://github.com/gilead-biostats/gsm.utils/blob/fix-78-comment-pr/workflow_templates/$){{ matrix.workflow.name }}")
+          usethis::use_github_action(url = "https://github.com/gilead-biostats/gsm.utils/blob/fix-78-comment-pr/workflow_templates/${{ matrix.workflow.name }}")
           ```
 
           **Option 3: Manual Copy/Paste**
