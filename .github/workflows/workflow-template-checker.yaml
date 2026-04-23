@@ -5,10 +5,6 @@ name: Workflow Template Compliance Checker
 
 on:
   workflow_call:
-    secrets:
-      GITHUB_TOKEN:
-        required: true
-        description: "GitHub token for commenting on the PR"
 
 jobs:
   check-workflows:
