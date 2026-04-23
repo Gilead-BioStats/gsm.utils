@@ -14,14 +14,17 @@ permissions:
   contents: read
 
 jobs:
-  check-and-suggest-workflows:
+  evaluate-workflows:
     runs-on: ubuntu-latest
-    name: Check Workflow Templates
+    name: Evaluate Workflow Templates
+    outputs:
+      updates: ${{ steps.check.outputs.updates }}
+      has_updates: ${{ steps.check.outputs.has_updates }}
     steps:
       - name: Check out repo
         uses: gilead-biostats/gsm.utils/checkout@fix-78-comment-pr
 
-      - name: Check compliance and stage updates
+      - name: Check compliance against manifest
         id: check
         run: |
           BASE_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-78-comment-pr"
@@ -30,7 +33,8 @@ jobs:
           echo "Downloading manifest from $MANIFEST_URL..."
           curl -sL -f "$MANIFEST_URL" -o gha_version.json || { echo "::error::Failed to download manifest"; exit 1; }
 
-          mkdir -p .github/workflows
+          UPDATES_FILE="updates.jsonl"
+          touch "$UPDATES_FILE"
           HAS_UPDATES="false"
 
           # Use jq to iterate over workflows
@@ -41,39 +45,92 @@ jobs:
             target_version=$(echo "$item" | jq -r '.version')
             local_file=".github/workflows/$name"
 
-            update_needed="false"
-
-            if [ -f "$local_file" ]; then
+            if [ ! -f "$local_file" ]; then
+              HAS_UPDATES="true"
+              # Use jq -n to safely build JSON objects for our matrix output
+              jq -n --arg name "$name" \
+                    --arg status "missing" \
+                    --arg tv "$target_version" \
+                    --arg lv "none" \
+                    '{name: $name, status: $status, target_version: $tv, local_version: $lv}' >> "$UPDATES_FILE"
+              echo "Identified missing workflow: $name"
+            else
               # Extract local version, stripping potential Windows carriage returns
               local_version=$(grep -m 1 "^# version:" "$local_file" | awk '{print $3}' | tr -d '\r')
 
               if [ "$local_version" != "$target_version" ]; then
+                HAS_UPDATES="true"
+                jq -n --arg name "$name" \
+                      --arg status "outdated" \
+                      --arg tv "$target_version" \
+                      --arg lv "$local_version" \
+                      '{name: $name, status: $status, target_version: $tv, local_version: $lv}' >> "$UPDATES_FILE"
                 echo "Identified outdated workflow: $name (local: $local_version, target: $target_version)"
-                update_needed="true"
               fi
-            else
-              echo "Skipping missing workflow for now to avoid breaking reviewdog: $name"
-            fi
-
-            if [ "$update_needed" = "true" ]; then
-              HAS_UPDATES="true"
-              TEMPLATE_URL="$BASE_URL/workflow_templates/$name"
-              # Overwrite local file to create an uncommitted diff for reviewdog
-              curl -sL -f "$TEMPLATE_URL" -o "$local_file" || echo "::error::Failed to download canonical template for $name"
             fi
           done < workflows.jsonl
 
+          # Export results to be consumed by the matrix job
+          if [ "$HAS_UPDATES" = "true" ]; then
+            # Format lines back into a clean JSON Array string
+            jq -c -s '.' "$UPDATES_FILE" > final_updates.json
+            echo "updates=$(cat final_updates.json)" >> $GITHUB_OUTPUT
+          else
+            echo "updates=[]" >> $GITHUB_OUTPUT
+          fi
           echo "has_updates=$HAS_UPDATES" >> $GITHUB_OUTPUT
 
-      - name: Suggest changes inline
-        if: ${{ steps.check.outputs.has_updates == 'true' }}
-        uses: reviewdog/action-suggester@v1
-        with:
-          tool_name: workflow-template-compliance
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+  suggest-and-fail:
+    needs: evaluate-workflows
+    if: ${{ needs.evaluate-workflows.outputs.has_updates == 'true' }}
+    runs-on: ubuntu-latest
+    name: Suggest Update (${{ matrix.workflow.name }})
+    strategy:
+      # We want comments to post for ALL files, so don't abort if one fails
+      fail-fast: false
+      matrix:
+        workflow: ${{ fromJSON(needs.evaluate-workflows.outputs.updates) }}
+    steps:
+      - name: Check out repo
+        uses: gilead-biostats/gsm.utils/checkout@fix-78-comment-pr
 
-      - name: Fail check for outdated workflows
-        if: ${{ steps.check.outputs.has_updates == 'true' }}
+      - name: Generate markdown body
         run: |
-          echo "::error::One or more workflows require an update. See the PR review suggestions for details."
+          BASE_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-78-comment-pr"
+          TEMPLATE_URL="$BASE_URL/workflow_templates/${{ matrix.workflow.name }}"
+
+          curl -sL -f "$TEMPLATE_URL" -o template.yaml || { echo "::error::Failed to download canonical template for ${{ matrix.workflow.name }}"; exit 1; }
+
+          BODY_FILE="comment_body.md"
+
+          if [ "${{ matrix.workflow.status }}" = "missing" ]; then
+            cat << 'EOF' > "$BODY_FILE"
+          ### ⚠️ Missing Workflow: `${{ matrix.workflow.name }}`
+          This required workflow is missing. Please create `.github/workflows/${{ matrix.workflow.name }}` and paste the following content:
+
+          ```yaml
+          EOF
+          else
+            cat << 'EOF' > "$BODY_FILE"
+          ### 🔄 Outdated Workflow: `${{ matrix.workflow.name }}`
+          This workflow is currently at version `${{ matrix.workflow.local_version }}`, but the latest is `${{ matrix.workflow.target_version }}`. Please replace the entirety of `.github/workflows/${{ matrix.workflow.name }}` with the following updated text:
+
+          ```yaml
+          EOF
+          fi
+
+          # Append the actual yaml content and close the code block
+          cat template.yaml >> "$BODY_FILE"
+          echo '```' >> "$BODY_FILE"
+
+      - name: Post PR Comment
+        uses: gilead-biostats/gsm.utils/comment-pr@fix-78-comment-pr
+        with:
+          comment-id: 'update-workflow-${{ matrix.workflow.name }}'
+          body-path: comment_body.md
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fail check for outdated workflow
+        run: |
+          echo "::error::Workflow ${{ matrix.workflow.name }} requires an update. See the PR comments for details."
           exit 1
