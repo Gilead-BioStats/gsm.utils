@@ -1,4 +1,4 @@
-# version: 0.3.0
+# version: 0.3.1
 # Description: Compute test coverage; log results, post sticky PR comments, and attach coverage-summary.json to releases
 
 on:
