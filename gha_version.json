@@ -23,7 +23,7 @@
     {
       "name": "workflow-template-check.yaml",
       "description": "Check if GitHub Actions workflows match gsm.utils templates",
-      "version": "0.3.2"
+      "version": "0.3.4"
     }
   ]
 }
