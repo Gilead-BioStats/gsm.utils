@@ -1,0 +1,30 @@
+# version: 0.3.1
+# Description: Compute test coverage; log results, post sticky PR comments, and attach coverage-summary.json to releases
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    types: [opened, synchronize, reopened]
+  release:
+    types: [published]
+  workflow_dispatch:
+
+name: test-coverage
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Compute test coverage
+        uses: gilead-biostats/gsm.utils/coverage@fix-78-comment-pr
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}

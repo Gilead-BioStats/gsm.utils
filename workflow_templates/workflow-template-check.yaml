@@ -1,0 +1,84 @@
+# version: 0.3.1
+# Description: Auto-update GitHub Actions workflows from gsm.utils templates
+
+name: Workflow Template Compliance Auto-Fix
+
+on:
+  pull_request:
+    branches: [main, release, dev]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  # Required to create the branch and open the PR
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-and-update-workflows:
+    runs-on: ubuntu-latest
+    name: Check and Auto-Update Workflow Templates
+
+    steps:
+      - name: Check out repo
+        uses: gilead-biostats/gsm.utils/checkout@fix-78-comment-pr
+        with:
+          # Check out the PR branch instead of the PR merge commit
+          # so we can branch off of it for the new PR.
+          ref: ${{ github.head_ref }}
+
+      - name: Fetch and apply workflow updates
+        run: |
+          BASE_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-78-comment-pr"
+          MANIFEST_URL="$BASE_URL/gha_version.json"
+
+          echo "Downloading manifest from $MANIFEST_URL..."
+          curl -sL -f "$MANIFEST_URL" -o gha_version.json || { echo "::error::Failed to download manifest"; exit 1; }
+
+          # Ensure target directory exists
+          mkdir -p .github/workflows
+
+          # Loop over each workflow in the JSON manifest
+          jq -c '.workflows[]' gha_version.json | while read -r item; do
+            name=$(echo "$item" | jq -r '.name')
+            target_version=$(echo "$item" | jq -r '.version')
+            local_file=".github/workflows/$name"
+            update_needed=false
+
+            if [ ! -f "$local_file" ]; then
+              echo "Workflow $name is missing."
+              update_needed=true
+            else
+              # Extract local version, stripping potential Windows carriage returns
+              local_version=$(grep -m 1 "^# version:" "$local_file" | awk '{print $3}' | tr -d '\r')
+
+              if [ "$local_version" != "$target_version" ]; then
+                echo "Workflow $name version mismatch (local: '${local_version}', target: '${target_version}')."
+                update_needed=true
+              else
+                echo "Workflow $name is up to date (version $target_version)."
+              fi
+            fi
+
+            if [ "$update_needed" = true ]; then
+              echo "Downloading canonical $name..."
+              TEMPLATE_URL="$BASE_URL/workflow_templates/$name"
+              curl -sL -f "$TEMPLATE_URL" -o "$local_file" || echo "::error::Failed to download $name template"
+            fi
+          done
+
+          # Clean up
+          rm gha_version.json
+
+      - name: Create Pull Request targeting the PR head branch
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: auto-update GitHub Actions workflow templates"
+          branch: "chore/update-workflows-${{ github.head_ref }}"
+          base: ${{ github.head_ref }}
+          title: "chore: auto-update GitHub Actions workflow templates"
+          body: |
+            This PR automatically updates the GitHub Actions workflows in this branch to match the canonical templates defined in `gilead-biostats/gsm.utils`.
+
+            Merging this into your working branch will trigger the updated checks to run.
+          labels: "automated pr"
