@@ -1,5 +1,4 @@
-# name: workflow-template-check.yaml
-# version: 0.3.1
+# version: 0.3.2
 # Description: Check if GitHub Actions workflows match gsm.utils templates
 
 name: Workflow Template Compliance Check
@@ -15,26 +14,26 @@ permissions:
   contents: read
 
 jobs:
-  evaluate-workflows:
+  check-workflows:
     runs-on: ubuntu-latest
-    name: Evaluate Workflow Templates
-    outputs:
-      workflows: ${{ steps.check.outputs.workflows }}
+    name: Check Workflow Templates
     steps:
       - name: Check out repo
         uses: gilead-biostats/gsm.utils/checkout@fix-78-comment-pr
 
-      - name: Check compliance against manifest
+      - name: Check compliance and build comment
         id: check
         run: |
           BASE_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-78-comment-pr"
           MANIFEST_URL="$BASE_URL/gha_version.json"
+          BLOB_BASE_URL="https://github.com/gilead-biostats/gsm.utils/blob/fix-78-comment-pr/workflow_templates"
 
           echo "Downloading manifest from $MANIFEST_URL..."
           curl -sL -f "$MANIFEST_URL" -o gha_version.json || { echo "::error::Failed to download manifest"; exit 1; }
 
-          STATUS_FILE="workflows_status.jsonl"
-          touch "$STATUS_FILE"
+          BODY_FILE="comment_body.md"
+          touch "$BODY_FILE"
+          HAS_ERRORS="false"
 
           # Use jq to iterate over workflows
           jq -c '.workflows[]' gha_version.json > manifest_workflows.jsonl
@@ -44,13 +43,10 @@ jobs:
             target_version=$(echo "$item" | jq -r '.version')
             local_file=".github/workflows/$name"
 
+            ISSUE_MSG=""
+
             if [ ! -f "$local_file" ]; then
-              # Use jq -n to safely build JSON objects for our matrix output
-              jq -n --arg name "$name" \
-                    --arg status "missing" \
-                    --arg tv "$target_version" \
-                    --arg lv "none" \
-                    '{name: $name, status: $status, target_version: $tv, local_version: $lv}' >> "$STATUS_FILE"
+              ISSUE_MSG="This required workflow is missing."
               echo "Identified missing workflow: $name"
             else
               # Extract local version, stripping potential Windows carriage returns
@@ -66,105 +62,56 @@ jobs:
               fi
 
               if [ "$local_version" != "$target_version" ] || [ "$local_name" != "$name" ]; then
-                jq -n --arg name "$name" \
-                      --arg status "outdated" \
-                      --arg tv "$target_version" \
-                      --arg lv "$local_version" \
-                      '{name: $name, status: $status, target_version: $tv, local_version: $lv}' >> "$STATUS_FILE"
+                ISSUE_MSG="This workflow expects version \`$target_version\` and the matching \`# name:\` header. The local file was detected as version \`$local_version\` and name \`$local_name\`."
                 echo "Identified outdated or mismatched workflow: $name (local version: $local_version, local name: $local_name, target: $target_version)"
               else
-                jq -n --arg name "$name" \
-                      --arg status "compliant" \
-                      --arg tv "$target_version" \
-                      --arg lv "$local_version" \
-                      '{name: $name, status: $status, target_version: $tv, local_version: $lv}' >> "$STATUS_FILE"
                 echo "Identified compliant workflow: $name"
               fi
             fi
+
+            if [ -n "$ISSUE_MSG" ]; then
+              if [ "$HAS_ERRORS" = "false" ]; then
+                echo "### ⚠️ Workflow Template Compliance Issues" > "$BODY_FILE"
+                echo "" >> "$BODY_FILE"
+                echo "The following workflows require updates to match the canonical templates:" >> "$BODY_FILE"
+                echo "" >> "$BODY_FILE"
+                HAS_ERRORS="true"
+              fi
+
+              echo "#### \`$name\`" >> "$BODY_FILE"
+              echo "$ISSUE_MSG" >> "$BODY_FILE"
+              echo "" >> "$BODY_FILE"
+              echo "**Option 1: Terminal**" >> "$BODY_FILE"
+              echo '```bash' >> "$BODY_FILE"
+              echo "mkdir -p .github/workflows && curl -sL $BASE_URL/workflow_templates/$name -o .github/workflows/$name" >> "$BODY_FILE"
+              echo '```' >> "$BODY_FILE"
+              echo "**Option 2: R Console**" >> "$BODY_FILE"
+              echo '```r' >> "$BODY_FILE"
+              echo "usethis::use_github_action(url = \"$BLOB_BASE_URL/$name\")" >> "$BODY_FILE"
+              echo '```' >> "$BODY_FILE"
+              echo "**Option 3: Manual Copy/Paste**" >> "$BODY_FILE"
+              echo "[View Raw File]($BASE_URL/workflow_templates/$name)" >> "$BODY_FILE"
+              echo "" >> "$BODY_FILE"
+              echo "---" >> "$BODY_FILE"
+              echo "" >> "$BODY_FILE"
+            fi
           done < manifest_workflows.jsonl
 
-          # Format lines back into a clean JSON Array string for the matrix strategy
-          jq -c -s '.' "$STATUS_FILE" > final_workflows.json
-          echo "workflows=$(cat final_workflows.json)" >> $GITHUB_OUTPUT
-
-  process-workflows:
-    needs: evaluate-workflows
-    runs-on: ubuntu-latest
-    name: Check Workflow (${{ matrix.workflow.name }})
-    strategy:
-      # We want comments to post for ALL files, so don't abort if one fails
-      fail-fast: false
-      matrix:
-        workflow: ${{ fromJSON(needs.evaluate-workflows.outputs.workflows) }}
-    steps:
-      - name: Check out repo
-        uses: gilead-biostats/gsm.utils/checkout@fix-78-comment-pr
-
-      - name: Generate markdown body
-        run: |
-          BODY_FILE="comment_body.md"
-
-          if [ "${{ matrix.workflow.status }}" = "compliant" ]; then
-            cat << 'EOF' > "$BODY_FILE"
-          ### ✅ Workflow Up-to-Date: `${{ matrix.workflow.name }}`
-          This workflow is properly tracking the canonical template.
-          EOF
-          else
-            BASE_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-78-comment-pr"
-            TEMPLATE_URL="$BASE_URL/workflow_templates/${{ matrix.workflow.name }}"
-
-            curl -sL -f "$TEMPLATE_URL" -o template.yaml || { echo "::error::Failed to download canonical template for ${{ matrix.workflow.name }}"; exit 1; }
-
-            if [ "${{ matrix.workflow.status }}" = "missing" ]; then
-              cat << 'EOF' > "$BODY_FILE"
-          ### ⚠️ Missing Workflow: `${{ matrix.workflow.name }}`
-          This required workflow is missing.
-
-          EOF
-            else
-              cat << 'EOF' > "$BODY_FILE"
-          ### 🔄 Outdated or Incorrect Workflow: `${{ matrix.workflow.name }}`
-          This workflow expects version `${{ matrix.workflow.target_version }}` and the matching `# name:` header. The local file was detected as version `${{ matrix.workflow.local_version }}`.
-
-          EOF
-            fi
-
-            cat << 'EOF' >> "$BODY_FILE"
-          #### How to update:
-
-          **Option 1: Terminal**
-          ```bash
-          mkdir -p .github/workflows
-          curl -sL https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-78-comment-pr/workflow_templates/${{ matrix.workflow.name }} -o .github/workflows/${{ matrix.workflow.name }}
-          ```
-
-          **Option 2: R Console**
-          ```r
-          usethis::use_github_action(url = "https://github.com/gilead-biostats/gsm.utils/blob/fix-78-comment-pr/workflow_templates/${{ matrix.workflow.name }}")
-          ```
-
-          **Option 3: Manual Copy/Paste**
-          Alternatively, create or replace the file `.github/workflows/${{ matrix.workflow.name }}` with the following content:
-
-          ```yaml
-          EOF
-
-            # Append the actual yaml content and close the code block
-            cat template.yaml >> "$BODY_FILE"
-            echo '```' >> "$BODY_FILE"
+          if [ "$HAS_ERRORS" = "false" ]; then
+            echo "### ✅ All workflows are valid!" > "$BODY_FILE"
           fi
+
+          echo "has_errors=$HAS_ERRORS" >> $GITHUB_OUTPUT
 
       - name: Post PR Comment
         uses: gilead-biostats/gsm.utils/comment-pr@fix-78-comment-pr
         with:
-          comment-id: 'update-workflow-${{ matrix.workflow.name }}'
+          comment-id: 'workflow-template-check'
           body-path: comment_body.md
           token: ${{ secrets.GITHUB_TOKEN }}
-          # Dynamically set append-metadata to false if the workflow is compliant
-          append-metadata: ${{ matrix.workflow.status != 'compliant' && 'true' || 'false' }}
 
-      - name: Fail check for outdated workflow
-        if: ${{ matrix.workflow.status != 'compliant' }}
+      - name: Fail check if updates required
+        if: ${{ steps.check.outputs.has_errors == 'true' }}
         run: |
-          echo "Workflow ${{ matrix.workflow.name }} requires an update. See the PR comments for details."
+          echo "One or more workflows require an update. See the PR comments for details."
           exit 1
