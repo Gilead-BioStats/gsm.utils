@@ -1,0 +1,19 @@
+{
+  "workflows": [
+    {
+      "name": "action1.yaml",
+      "description": "Description 1",
+      "version": "1.0.0"
+    },
+    {
+      "name": "action2.yaml",
+      "description": "Description 2",
+      "version": "2.2.0"
+    },
+    {
+      "name": "action3.yaml",
+      "description": "Description 3",
+      "version": "3.3.3"
+    }
+  ]
+}

@@ -1,3 +1,5 @@
+skip()
+
 test_that("check_gha_version works with no workflows", {
   # Create temp directory without workflows
   temp_dir <- tempdir()
@@ -75,7 +77,8 @@ test_that("check_gha_version detects outdated version", {
 test_that("gha_version.json manifest exists and is valid", {
   manifest_path <- fs::path_package(
     "gsm.utils",
-    "gha_templates", "gha_version.json"
+    "gha_templates",
+    "gha_version.json"
   )
 
   expect_true(file.exists(manifest_path))

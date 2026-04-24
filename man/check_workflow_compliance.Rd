@@ -13,9 +13,11 @@ check_workflow_compliance(
 \arguments{
 \item{strPackageDir}{\code{character} path to package directory. Default is \code{"."}.}
 
-\item{bVerbose}{\code{logical} whether to print detailed information. Default is \code{TRUE}.}
+\item{bVerbose}{\code{logical} whether to print detailed information. Default is
+\code{TRUE}.}
 
-\item{bFailOnErrors}{\code{logical} whether to error if critical issues are found. Default is \code{TRUE}.}
+\item{bFailOnErrors}{\code{logical} whether to error if critical issues are found.
+Default is \code{TRUE}.}
 }
 \value{
 A list with compliance check results:
@@ -27,8 +29,9 @@ A list with compliance check results:
 \item{gsm_utils_version}{Current gsm.utils version}
 }
 \description{
-Checks if a package's GitHub Actions workflows comply with gsm.utils templates.
-This function verifies file presence, version headers, and critical content.
+Checks if a package's GitHub Actions workflows comply with
+gsm.utils templates. This function verifies file presence, version headers,
+and critical content.
 }
 \examples{
 \dontrun{
