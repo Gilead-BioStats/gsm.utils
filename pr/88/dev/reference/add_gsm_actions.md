@@ -1,20 +1,32 @@
-# Add GSM GitHub Actions to package
+# Add Gilead GitHub Actions to package
 
-Add GSM GitHub Actions to package
+Add the official Gilead GitHub Actions from
+<https://github.com/Gilead-BioStats/gsm.utils@actions-v1> to a package,
+and update existing Gilead GitHub Actions to the latest versions if
+necessary.
 
 ## Usage
 
 ``` r
-add_gsm_actions(strPackageDir = ".", overwrite = TRUE)
+add_gsm_actions(strPackageDir = ".", overwrite = TRUE, verbose = TRUE)
+
+add_gilead_actions(strPackageDir = ".", overwrite = TRUE, verbose = TRUE)
 ```
 
 ## Arguments
 
 - strPackageDir:
 
-  path to package directory
+  String. Path to package directory
 
 - overwrite:
 
-  `boolean` argument declaring whether or not to overwrite existing
-  files. Default is `TRUE`.
+  Logical. Overwrite existing files?
+
+- verbose:
+
+  Logical. Inform about changes?
+
+## Value
+
+A character vector of added and updated action names, invisibly.

@@ -24,7 +24,10 @@
 ## GitHub tooling
 
 - [`add_gsm_actions()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_gsm_actions.md)
-  : Add GSM GitHub Actions to package
+  [`add_gilead_actions()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_gsm_actions.md)
+  : Add Gilead GitHub Actions to package
+- [`add_gilead_action()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_gilead_action.md)
+  : Add a Gilead GitHub Action to package
 - [`add_gsm_issue_templates()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_gsm_issue_templates.md)
   : Add GSM issue templates to package
 - [`add_contributor_guidelines()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_contributor_guidelines.md)
@@ -35,6 +38,8 @@
   : Check Workflow Template Compliance
 - [`emit_coverage_summary()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/emit_coverage_summary.md)
   : Emit Coverage Summary Artifact
+- [`remove_deprecated_workflows()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/remove_deprecated_workflows.md)
+  : Remove deprecated Gilead GitHub Actions from package
 
 ## Menu rendering
 
