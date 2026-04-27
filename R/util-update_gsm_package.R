@@ -78,7 +78,7 @@ add_contributor_guidelines <- function(strPackageDir = ".", overwrite = TRUE) {
 
   strFilePath <- fs::path(strDirPath, "CONTRIBUTING.md")
   if (fs::file_exists(strFilePath) && !overwrite) {
-    cli::cli_abor(c(
+    cli::cli_abort(c(
       x = "The .github/CONTRIBUTING.md file already exists.",
       i = "Set {.code overwrite = TRUE} to overwrite it."
     ))

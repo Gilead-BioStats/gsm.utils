@@ -24,11 +24,13 @@ reference:
   - title: GitHub tooling
     contents:
       - add_gsm_actions
+      - add_gilead_action
       - add_gsm_issue_templates
       - add_contributor_guidelines
       - check_gha_version
       - check_workflow_compliance
       - emit_coverage_summary
+      - remove_deprecated_workflows
   - title: Menu rendering
     contents:
       - build_assets
