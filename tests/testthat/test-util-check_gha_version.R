@@ -1,5 +1,3 @@
-skip()
-
 test_that("check_gha_version works with no workflows", {
   # Create temp directory without workflows
   temp_dir <- tempdir()
@@ -20,40 +18,24 @@ test_that("check_gha_version works with no workflows", {
 
 test_that("check_gha_version detects current version", {
   # Create temp directory and install workflows
-  temp_dir <- tempdir()
-  temp_pkg <- file.path(temp_dir, "test_pkg_with_workflows")
-  dir.create(temp_pkg, showWarnings = FALSE)
-
-  # Install workflows
-  n_workflows <- length(fs::dir_ls(
+  temp_pkg <- withr::local_tempdir("test_pkg_with_workflows")
+  gh_dir <- fs::dir_create(temp_pkg, ".github")
+  fs::dir_copy(
     fs::path_package("gsm.utils", "gha_templates", "workflows"),
-    regexp = "\\.ya?ml$"
-  ))
-
-  add_gsm_actions(temp_pkg) |>
-    expect_message(paste0("Installed ", n_workflows, " workflow file")) |>
-    expect_message("Installing gsm.utils GitHub Actions")
+    gh_dir
+  )
 
   result <- check_gha_version(temp_pkg, bVerbose = FALSE)
-
   expect_type(result, "list")
   expect_false(is.na(result$package_version))
   expect_equal(result$package_version, result$gsm_utils_version)
   expect_true(result$is_current)
   expect_gt(length(result$workflows_found), 0)
-
-  # Clean up
-  unlink(temp_pkg, recursive = TRUE)
 })
 
 test_that("check_gha_version detects outdated version", {
-  # Create temp directory with old version
-  temp_dir <- tempdir()
-  temp_pkg <- file.path(temp_dir, "test_pkg_outdated")
-  workflows_dir <- file.path(temp_pkg, ".github", "workflows")
-  dir.create(workflows_dir, recursive = TRUE, showWarnings = FALSE)
-
-  # Create a workflow with old version
+  temp_pkg <- withr::local_tempdir("test_pkg_outdated")
+  workflows_dir <- fs::dir_create(temp_pkg, ".github", "workflows")
   writeLines(
     c(
       "# gsm.utils GHA version: 0.1.0",
@@ -61,17 +43,13 @@ test_that("check_gha_version detects outdated version", {
       "name: Test Workflow",
       "on: push"
     ),
-    file.path(workflows_dir, "test.yaml")
+    fs::path(workflows_dir, "test.yaml")
   )
 
   result <- check_gha_version(temp_pkg, bVerbose = FALSE)
-
   expect_type(result, "list")
   expect_equal(result$package_version, "0.1.0")
   expect_false(result$is_current)
-
-  # Clean up
-  unlink(temp_pkg, recursive = TRUE)
 })
 
 test_that("gha_version.json manifest exists and is valid", {

@@ -8,7 +8,7 @@ on:
   push:
     branches: [main, release]
   pull_request:
-    branches: [main, release, dev]
+    branches: [main, release]
     types: [opened, synchronize, reopened]
 
 permissions: read-all
@@ -19,19 +19,21 @@ jobs:
     name: Check Workflow Template Compliance
 
     steps:
-      - name: Check out repo
-        uses: gilead-biostats/gsm.utils/checkout@fix-78-comment-pr
+      - name: Checkout current repository
+        uses: actions/checkout@v6
+        with:
+          path: current-repo
 
       - name: Install R and dependencies
-        uses: gilead-biostats/gsm.utils/install@fix-78-comment-pr
+        uses: gilead-biostats/gsm.utils/actions/install@actions-v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           r-version: 'release'
           use-public-rspm: true
-          extra-packages: Gilead-BioStats/gsm.utils@dev
+          extra-packages: Gilead-BioStats/gsm.utils@main
 
       - name: Check workflow compliance
-        run: Rscript -e "gsm.utils::check_workflow_compliance()"
+        run: Rscript -e "gsm.utils::check_workflow_compliance('current-repo')"
 
       - name: Show fix instructions on failure
         if: failure()

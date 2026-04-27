@@ -18,13 +18,14 @@ jobs:
     steps:
       - name: Define matrix based on target branch
         id: set-matrix
-        uses: gilead-biostats/gsm.utils/setup-matrix-with-dev@fix-78-comment-pr
+        uses: gilead-biostats/gsm.utils/actions/setup-matrix-with-dev@actions-v1
         with:
           pkg-use: 'public'
 
   R-CMD-check:
     needs: setup-matrix
     runs-on: ${{ matrix.config.os }}
+
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
@@ -38,10 +39,10 @@ jobs:
 
     steps:
       - name: Check out repo
-        uses: gilead-biostats/gsm.utils/checkout@fix-78-comment-pr
+        uses: actions/checkout@v6
 
       - name: Install R and dependencies
-        uses: gilead-biostats/gsm.utils/install@fix-78-comment-pr
+        uses: gilead-biostats/gsm.utils/actions/install@actions-v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           r-version: ${{ matrix.config.r }}
@@ -50,7 +51,7 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
-      - name: Check package
-        uses: gilead-biostats/gsm.utils/check-r-package@fix-78-comment-pr
+      - uses: r-lib/actions/check-r-package@v2
         with:
-          error-on: ${{ matrix.config.error-on || '"warning"' }}
+          upload-snapshots: true
+          build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
