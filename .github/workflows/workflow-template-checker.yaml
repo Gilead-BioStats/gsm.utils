@@ -1,5 +1,5 @@
 # name: workflow-template-checker.yaml
-# version: 0.0.1
+# version: 0.3.5
 # Description: Reusable workflow template checker designed to be invoked via workflow-template-check.yaml
 name: Workflow Template Compliance Checker
 
@@ -27,6 +27,7 @@ jobs:
           BODY_FILE="comment_body.md"
           touch "$BODY_FILE"
           HAS_ERRORS="false"
+          FAILED_WORKFLOWS=""
 
           # Use jq to iterate over workflows
           jq -c '.workflows[]' gha_version.json > manifest_workflows.jsonl
@@ -36,10 +37,10 @@ jobs:
             target_version=$(echo "$item" | jq -r '.version')
             local_file=".github/workflows/$name"
 
-            ISSUE_MSG=""
+            ISSUE_FOUND="false"
 
             if [ ! -f "$local_file" ]; then
-              ISSUE_MSG="This required workflow is missing."
+              ISSUE_FOUND="true"
               echo "Identified missing workflow: $name"
             else
               # Extract local version, stripping potential Windows carriage returns
@@ -55,14 +56,14 @@ jobs:
               fi
 
               if [ "$local_version" != "$target_version" ] || [ "$local_name" != "$name" ]; then
-                ISSUE_MSG="This workflow expects version \`$target_version\` and the matching \`# name:\` header. The local file was detected as version \`$local_version\` and name \`$local_name\`."
+                ISSUE_FOUND="true"
                 echo "Identified outdated or mismatched workflow: $name (local version: $local_version, local name: $local_name, target: $target_version)"
               else
                 echo "Identified compliant workflow: $name"
               fi
             fi
 
-            if [ -n "$ISSUE_MSG" ]; then
+            if [ "$ISSUE_FOUND" = "true" ]; then
               if [ "$HAS_ERRORS" = "false" ]; then
                 echo "# ⚠️ Workflow Template Compliance Issues" > "$BODY_FILE"
                 echo "" >> "$BODY_FILE"
@@ -71,26 +72,30 @@ jobs:
                 HAS_ERRORS="true"
               fi
 
-              echo "## \`$name\`" >> "$BODY_FILE"
-              echo "$ISSUE_MSG" >> "$BODY_FILE"
-              echo "" >> "$BODY_FILE"
-              echo "**Option 1: Terminal**" >> "$BODY_FILE"
-              echo '```bash' >> "$BODY_FILE"
-              echo "mkdir -p .github/workflows && curl -sL $BASE_URL/workflow_templates/$name -o .github/workflows/$name" >> "$BODY_FILE"
-              echo '```' >> "$BODY_FILE"
-              echo "**Option 2: R Console**" >> "$BODY_FILE"
-              echo '```r' >> "$BODY_FILE"
-              echo "usethis::use_github_action(url = \"$BLOB_BASE_URL/$name\")" >> "$BODY_FILE"
-              echo '```' >> "$BODY_FILE"
-              echo "**Option 3: Manual Copy/Paste**" >> "$BODY_FILE"
-              echo "[View Raw File]($BASE_URL/workflow_templates/$name)" >> "$BODY_FILE"
-              echo "" >> "$BODY_FILE"
-              echo "---" >> "$BODY_FILE"
-              echo "" >> "$BODY_FILE"
+              # Add to the bulleted list
+              echo "- \`$name\`" >> "$BODY_FILE"
+              # Append to the space-separated list for the bash loop later
+              FAILED_WORKFLOWS="$FAILED_WORKFLOWS $name"
             fi
           done < manifest_workflows.jsonl
 
-          if [ "$HAS_ERRORS" = "false" ]; then
+          # If errors were found, append the resolution options
+          if [ "$HAS_ERRORS" = "true" ]; then
+            echo "" >> "$BODY_FILE"
+            echo "**Option 1: Terminal**" >> "$BODY_FILE"
+            echo '```bash' >> "$BODY_FILE"
+            echo "mkdir -p .github/workflows" >> "$BODY_FILE"
+            echo "for wf in$FAILED_WORKFLOWS; do" >> "$BODY_FILE"
+            echo "  curl -sL \"$BASE_URL/workflow_templates/\$wf\" -o \".github/workflows/\$wf\"" >> "$BODY_FILE"
+            echo "done" >> "$BODY_FILE"
+            echo '```' >> "$BODY_FILE"
+
+            echo "**Option 2: R Console**" >> "$BODY_FILE"
+            echo '```r' >> "$BODY_FILE"
+            echo "# pak::pak(\"Gilead-BioStats/gsm.utils\")" >> "$BODY_FILE"
+            echo "gsm.utils::add_gilead_actions()" >> "$BODY_FILE"
+            echo '```' >> "$BODY_FILE"
+          else
             echo "## ✅ All workflows are valid!" > "$BODY_FILE"
           fi
 
