@@ -1,5 +1,5 @@
 # name: workflow-template-checker.yaml
-# version: 0.3.5
+# version: 0.3.6
 # Description: Reusable workflow template checker designed to be invoked via workflow-template-check.yaml
 name: Workflow Template Compliance Checker
 
