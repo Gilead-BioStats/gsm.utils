@@ -65,7 +65,7 @@ jobs:
 
             if [ "$ISSUE_FOUND" = "true" ]; then
               if [ "$HAS_ERRORS" = "false" ]; then
-                echo "# ⚠️ Workflow Template Compliance Issues" > "$BODY_FILE"
+                echo "## ⚠️ Workflow Template Compliance Issues" > "$BODY_FILE"
                 echo "" >> "$BODY_FILE"
                 echo "The following workflows require updates to match the canonical templates:" >> "$BODY_FILE"
                 echo "" >> "$BODY_FILE"
@@ -96,7 +96,7 @@ jobs:
             echo "gsm.utils::add_gilead_actions()" >> "$BODY_FILE"
             echo '```' >> "$BODY_FILE"
           else
-            echo "## ✅ All workflows are valid!" > "$BODY_FILE"
+            echo "## ✅ All workflows are up to date" > "$BODY_FILE"
           fi
 
           echo "has_errors=$HAS_ERRORS" >> $GITHUB_OUTPUT
