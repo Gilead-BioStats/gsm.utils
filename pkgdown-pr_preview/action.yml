@@ -4,34 +4,26 @@ inputs:
   # General
   repository-name:
     description: "Repository to which to deploy."
-    required: false
     default: ${{ github.event.repository.name }}
   repository-owner:
     description: "Owner of the repository to which to deploy."
-    required: false
     default: ${{ github.repository_owner }}
   token:
     description: "GitHub token, set to secrets.GITHUB_TOKEN"
-    required: false
     default: ${{ github.token }}
   event-name:
     description: "Type of event. Used to skip steps for non-PRs."
-    required: false
     default: ${{ github.event_name}}
   pr-number:
     description: "Pull request number."
-    required: false
     default: ${{ github.event.number }}
   is-fork:
     description: "Whether the PR is from a fork. Used to skip steps that require write permissions for forked PRs."
-    required: false
     default: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
   # pkgdown
   pkgdown-dev-mode:
     description: "Whether pkgdown should operate in dev mode."
-    required: false
     default: 'false'
-
 runs:
   using: "composite"
   steps:
@@ -47,7 +39,6 @@ runs:
         folder: docs
         # Deploy to a subdirectory named after the PR number
         target-folder: pr/${{ inputs.pr-number }}
-
     - name: PR site URL 🌐
       id: site-url
       if: inputs.event-name == 'pull_request' && inputs.is-fork == 'false'
@@ -60,7 +51,6 @@ runs:
         SITE_URL="https://${{ inputs.repository-owner }}.github.io/${{ inputs.repository-name }}/pr/${{ inputs.pr-number }}${DEV_SUFFIX}"
         echo "url=$SITE_URL" >> $GITHUB_OUTPUT
         echo "🌐 URL: $SITE_URL"
-
     - name: Comment with PR site URL 🌐
       if: inputs.event-name == 'pull_request' && inputs.is-fork == 'false'
       uses: gilead-biostats/gsm.utils/comment-pr@fix-78-comment-pr

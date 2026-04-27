@@ -3,25 +3,19 @@ description: "Removes the pkgdown preview directory when a PR is closed."
 inputs:
   repository-name:
     description: "Repository to clean up."
-    required: false
     default: ${{ github.event.repository.name }}
   repository-owner:
     description: "Owner of the repository to clean up."
-    required: false
     default: ${{ github.repository_owner }}
   token:
     description: "GitHub token, typically set to secrets.GITHUB_TOKEN"
-    required: false
     default: ${{ github.token }}
   ref:
     description: "Branch to checkout."
-    required: false
     default: 'gh-pages'
   pr-number:
     description: "Pull request number."
-    required: false
     default: ${{ github.event.number }}
-
 runs:
   using: "composite"
   steps:
@@ -31,7 +25,6 @@ runs:
         repository: ${{ inputs.repository-owner }}/${{ inputs.repository-name }}
         token: ${{ inputs.token }}
         ref: ${{ inputs.ref }}
-
     - name: Remove PR preview directory
       shell: bash
       run: |

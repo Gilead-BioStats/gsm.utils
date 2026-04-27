@@ -1,29 +1,22 @@
 name: 'Create or Update PR Comment'
 description: 'Posts a new comment or updates an existing one on a PR.'
-
 inputs:
   comment-id:
     description: 'Unique identifier used as an invisible HTML marker in the comment.'
     required: true
   body:
     description: 'Direct string content for the comment body. Used if body-path is not provided.'
-    required: false
   body-path:
     description: 'Path to a text/markdown file containing the comment body.'
-    required: false
   pr-number:
     description: 'Pull Request number. Defaults to the current context issue number.'
-    required: false
     default: ${{ github.event.number }}
   append-metadata:
     description: 'Whether to append the action URL and timestamp footer to the comment.'
-    required: false
     default: 'true'
   token:
     description: 'GitHub token for API calls'
-    required: false
     default: ${{ github.token }}
-
 runs:
   using: "composite"
   steps:
@@ -39,7 +32,6 @@ runs:
         github-token: ${{ inputs.token }}
         script: |
           const fs = require('fs');
-
           const commentId = process.env.COMMENT_ID;
           let bodyText = process.env.BODY_TEXT;
           const bodyPath = process.env.BODY_PATH;

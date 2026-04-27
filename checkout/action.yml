@@ -1,6 +1,5 @@
 name: "Checkout repository"
 description: "Wraps actions/checkout to centrally manage the version used across the organization."
-
 inputs:
   repository:
     description: 'Repository name with owner. For example, actions/checkout'
@@ -83,8 +82,6 @@ inputs:
     default: true
   github-server-url:
     description: The base URL for the GitHub instance that you are trying to clone from, will use environment defaults to fetch from the same instance that the workflow is running from unless specified. Example URLs are https://github.com or https://my-ghes-server.example.com
-    required: false
-
 runs:
   using: "composite"
   steps:
