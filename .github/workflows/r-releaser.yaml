@@ -23,11 +23,11 @@ jobs:
       GITHUB_PAT: ${{ secrets.PRIVATE_REPO_PAT }}
     steps:
       - name: Check out repo
-        uses: gilead-biostats/gsm.utils/checkout@fix-78-comment-pr
+        uses: gilead-biostats/gsm.utils/checkout@actions-v1
         with:
           fetch-depth: 0
       - name: Install R and dependencies
-        uses: gilead-biostats/gsm.utils/install@fix-78-comment-pr
+        uses: gilead-biostats/gsm.utils/install@actions-v1
         with:
           use-public-rspm: true
           dependencies: '"hard"'
