@@ -38,7 +38,7 @@ render_rmd(
 - quiet:
 
   Logical. Passed to
-  [`rmarkdown::render()`](https://rdrr.io/pkg/rmarkdown/man/render.html).
+  [`rmarkdown::render()`](https://pkgs.rstudio.com/rmarkdown/reference/render.html).
 
 ## Value
 
