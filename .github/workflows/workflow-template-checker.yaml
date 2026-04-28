@@ -12,14 +12,14 @@ jobs:
     name: Check Workflow Templates
     steps:
       - name: Check out repo
-        uses: gilead-biostats/gsm.utils/checkout@actions-v1
+        uses: gilead-biostats/gsm.utils/checkout@fix-78-comment-pr
 
       - name: Check compliance and build comment
         id: check
         run: |
-          BASE_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/actions-v1"
+          BASE_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-78-comment-pr"
           MANIFEST_URL="$BASE_URL/gha_version.json"
-          BLOB_BASE_URL="https://github.com/gilead-biostats/gsm.utils/blob/actions-v1/workflow_templates"
+          BLOB_BASE_URL="https://github.com/gilead-biostats/gsm.utils/blob/fix-78-comment-pr/workflow_templates"
 
           echo "Downloading manifest from $MANIFEST_URL..."
           curl -sL -f "$MANIFEST_URL" -o gha_version.json || { echo "::error::Failed to download manifest"; exit 1; }
@@ -102,7 +102,7 @@ jobs:
           echo "has_errors=$HAS_ERRORS" >> $GITHUB_OUTPUT
 
       - name: Post PR Comment
-        uses: gilead-biostats/gsm.utils/comment-pr@actions-v1
+        uses: gilead-biostats/gsm.utils/comment-pr@fix-78-comment-pr
         with:
           comment-id: 'workflow-template-check'
           body-path: comment_body.md

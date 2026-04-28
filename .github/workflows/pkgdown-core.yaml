@@ -30,9 +30,9 @@ jobs:
       pull-requests: write
     steps:
       - name: Check out repo
-        uses: gilead-biostats/gsm.utils/checkout@actions-v1
+        uses: gilead-biostats/gsm.utils/checkout@fix-78-comment-pr
       - name: Install R and dependencies
-        uses: gilead-biostats/gsm.utils/install@actions-v1
+        uses: gilead-biostats/gsm.utils/install@fix-78-comment-pr
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           r-version: release
@@ -40,7 +40,7 @@ jobs:
           extra-packages: any::pkgdown gilead-biostats/gsm.utils@dev local::.
           cache-version: '1'
       - name: Build and deploy site
-        uses: gilead-biostats/gsm.utils/pkgdown-deploy@actions-v1
+        uses: gilead-biostats/gsm.utils/pkgdown-deploy@fix-78-comment-pr
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           event-name: ${{ inputs.pr-number && 'pull_request' || github.event_name }}
@@ -55,7 +55,7 @@ jobs:
       contents: write
     steps:
       - name: Clean up PR preview
-        uses: gilead-biostats/gsm.utils/pkgdown-cleanup@actions-v1
+        uses: gilead-biostats/gsm.utils/pkgdown-cleanup@fix-78-comment-pr
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           pr-number: ${{ inputs.pr-number || github.event.number }}
