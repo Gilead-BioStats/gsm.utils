@@ -4,7 +4,7 @@
   "https://raw.githubusercontent.com",
   "Gilead-BioStats",
   "gsm.utils",
-  "fix-78-comment-pr",
+  "actions-v1",
   sep = "/"
 )
 
