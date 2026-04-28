@@ -1,0 +1,29 @@
+name: "Coverage Release Summary"
+description: "Generates coverage-summary.json and attaches it to a GitHub release."
+
+inputs:
+  token:
+    description: "GitHub token"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Write coverage-summary.json
+      if: github.event_name == 'release'
+      shell: Rscript {0}
+      env:
+        GITHUB_PAT: ${{ inputs.token }}
+      # allow_fail defaults to FALSE — coverage failures intentionally abort the release workflow
+      run: |
+        gsm.utils::emit_coverage_summary(
+          output_path = "coverage-summary.json",
+          quiet       = FALSE
+        )
+
+    - name: Attach coverage summary to release
+      if: github.event_name == 'release'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+      run: gh release upload ${{ github.event.release.tag_name }} coverage-summary.json --clobber

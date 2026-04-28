@@ -2,93 +2,75 @@ name: "Build and deploy pkgdown site"
 description: "Build pkgdown assets, build the site, and deploy either as a PR preview or to the main branch."
 inputs:
   # pkgdown-build_assets inputs
-  assets_dir:
+  assets-dir:
     description: "Path to the directory where rendered `.html` files should be saved."
-    required: false
     default: pkgdown/assets
-  source_dir:
+  source-dir:
     description: "Path to the directory containing asset subdirectories."
-    required: false
     default: pkgdown/menus
-  pkgdown_yml:
+  pkgdown-yml:
     description: "Path to the `_pkgdown.yml` file to update with new menu items, or from which to remove unused menu items."
-    required: false
     default: _pkgdown.yml
-  root_dir:
+  root-dir:
     description: "Path to the root directory of the package, used to construct absolute paths."
-    required: false
     default: .
   verbose:
     description: "Whether to print messages about rendered assets and menu updates."
-    required: false
     default: false
-
   # pkgdown-pr_preview inputs
-  repository_name:
+  repository-name:
     description: "Repository to which to deploy."
-    required: false
     default: ${{ github.event.repository.name }}
-  repository_owner:
+  repository-owner:
     description: "Owner of the repository to which to deploy."
-    required: false
     default: ${{ github.repository_owner }}
   token:
     description: "GitHub token, set to secrets.GITHUB_TOKEN"
-    required: false
     default: ${{ github.token }}
-  event_name:
+  event-name:
     description: "Type of event. Used to skip steps for non-PRs."
-    required: false
     default: ${{ github.event_name }}
-  pr_number:
+  pr-number:
     description: "Pull request number."
-    required: false
     default: ${{ github.event.number }}
-  is_fork:
+  is-fork:
     description: "Whether the PR is from a fork. Used to skip steps that require write permissions for forked PRs."
-    required: false
     default: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
-  pkgdown_dev_mode:
+  pkgdown-dev-mode:
     description: "Whether pkgdown should operate in dev mode."
-    required: false
     default: 'false'
-
 runs:
   using: "composite"
   steps:
     - name: Build pkgdown assets and add associated menus
-      uses: gilead-biostats/gsm.utils/actions/pkgdown-build_assets@actions-v1
+      uses: gilead-biostats/gsm.utils/pkgdown-build_assets@actions-v1
       with:
-        assets_dir: ${{ inputs.assets_dir }}
-        source_dir: ${{ inputs.source_dir }}
-        pkgdown_yml: ${{ inputs.pkgdown_yml }}
-        root_dir: ${{ inputs.root_dir }}
+        assets-dir: ${{ inputs.assets-dir }}
+        source-dir: ${{ inputs.source-dir }}
+        pkgdown-yml: ${{ inputs.pkgdown-yml }}
+        root-dir: ${{ inputs.root-dir }}
         verbose: ${{ inputs.verbose }}
-
     - name: Set Development Mode Env Var
       shell: bash
       run: |
-        if [ "${{ inputs.pkgdown_dev_mode }}" == "true" ]; then
+        if [ "${{ inputs.pkgdown-dev-mode }}" == "true" ]; then
           echo "PKGDOWN_DEV_MODE=devel" >> $GITHUB_ENV
         fi
-
     - name: Build site
       run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
       shell: Rscript {0}
-
     - name: Deploy PR preview 🧪
-      uses: gilead-biostats/gsm.utils/actions/pkgdown-pr_preview@actions-v1
+      uses: gilead-biostats/gsm.utils/pkgdown-pr_preview@actions-v1
       with:
-        repository_name: ${{ inputs.repository_name }}
-        repository_owner: ${{ inputs.repository_owner }}
+        repository-name: ${{ inputs.repository-name }}
+        repository-owner: ${{ inputs.repository-owner }}
         token: ${{ inputs.token }}
-        event_name: ${{ inputs.event_name }}
-        pr_number: ${{ inputs.pr_number }}
-        is_fork: ${{ inputs.is_fork }}
-        pkgdown_dev_mode: ${{ inputs.pkgdown_dev_mode }}
-
+        event-name: ${{ inputs.event-name }}
+        pr-number: ${{ inputs.pr-number }}
+        is-fork: ${{ inputs.is-fork }}
+        pkgdown-dev-mode: ${{ inputs.pkgdown-dev-mode }}
     - name: Deploy non-preview 📃
-      if: inputs.event_name != 'pull_request'
+      if: inputs.event-name != 'pull_request'
       shell: bash
       run: |
         git config --local user.email "actions@github.com"

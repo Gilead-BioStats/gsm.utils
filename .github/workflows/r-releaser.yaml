@@ -1,0 +1,59 @@
+# name: r-releaser.yaml
+# version: 0.3.6
+# Description: Reusable R package release workflow designed to be invoked by
+# other gsm packages via r-releaser-caller.yaml workflow
+name: R Release
+on:
+  workflow_call:
+    inputs:
+      tag:
+        description: Tag to release
+        required: true
+        type: string
+    secrets:
+      PRIVATE_REPO_PAT:
+        description: Personal access token used by remotes and gh
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      GITHUB_PAT: ${{ secrets.PRIVATE_REPO_PAT }}
+    steps:
+      - name: Check out repo
+        uses: gilead-biostats/gsm.utils/checkout@actions-v1
+        with:
+          fetch-depth: 0
+      - name: Install R and dependencies
+        uses: gilead-biostats/gsm.utils/install@actions-v1
+        with:
+          use-public-rspm: true
+          dependencies: '"hard"'
+      - name: get library path
+        id: library
+        run: |
+          OUTPUT=$(Rscript -e "cat(.libPaths()[1])")
+          echo "result=$OUTPUT" >> $GITHUB_OUTPUT
+          echo $GITHUB_OUTPUT
+      - name: Run R Releaser
+        id: releaser
+        uses: A2-ai/r-releaser/build-src@main
+        with:
+          library: ${{ steps.library.outputs.result }}
+          resave-data: false
+          md5: true
+          build-vignettes: false
+      - name: echo output
+        run: |
+          echo ${{ steps.releaser.outputs.tarball_path }}
+          echo ${{ steps.releaser.outputs.tarball_name }}
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ steps.releaser.outputs.tarball_path }}
+          asset_name: ${{ steps.releaser.outputs.tarball_name }}
+          tag: ${{ inputs.tag }}
+          overwrite: true
