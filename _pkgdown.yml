@@ -30,7 +30,7 @@ reference:
       - check_gha_version
       - check_workflow_compliance
       - emit_coverage_summary
-      - remove_deprecated_workflows
+      - remove_deprecated_actions
   - title: Menu rendering
     contents:
       - build_assets
