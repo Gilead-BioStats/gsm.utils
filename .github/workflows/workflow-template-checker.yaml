@@ -93,7 +93,7 @@ jobs:
             echo "**Option 2: R Console**" >> "$BODY_FILE"
             echo '```r' >> "$BODY_FILE"
             echo "# pak::pak(\"Gilead-BioStats/gsm.utils\")" >> "$BODY_FILE"
-            echo "gsm.utils::add_gilead_actions()" >> "$BODY_FILE"
+            echo "gsm.utils::add_actions()" >> "$BODY_FILE"
             echo '```' >> "$BODY_FILE"
           else
             echo "## ✅ All workflows are up to date" > "$BODY_FILE"
