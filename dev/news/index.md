@@ -35,7 +35,7 @@ maintaining GSM suite of packages.
   [`init_gsm_package()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/init_gsm_package.md),
   [`update_gsm_package()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/update_gsm_package.md),
   [`add_gsm_issue_templates()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_gsm_issue_templates.md),
-  [`add_gsm_actions()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_gsm_actions.md),
+  `add_gsm_actions()`,
   [`add_contributor_guidelines()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_contributor_guidelines.md),
   `add_pkgdown_examples()`.
 - Added versioning system for GitHub Actions templates\*\*
