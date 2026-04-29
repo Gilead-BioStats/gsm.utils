@@ -23,8 +23,8 @@ reference:
       - infer_from_yaml
   - title: GitHub tooling
     contents:
-      - add_gsm_actions
-      - add_gilead_action
+      - add_actions
+      - add_action
       - add_gsm_issue_templates
       - add_contributor_guidelines
       - check_gha_version
