@@ -4,13 +4,16 @@
 \alias{add_gsm_issue_templates}
 \title{Add GSM issue templates to package}
 \usage{
-add_gsm_issue_templates(strPackageDir = ".", overwrite = TRUE)
+add_gsm_issue_templates(strPackageDir = ".", overwrite = TRUE, verbose = TRUE)
 }
 \arguments{
 \item{strPackageDir}{path to package directory}
 
 \item{overwrite}{\code{boolean} argument declaring whether or not to overwrite
 existing files. Default is \code{TRUE}.}
+
+\item{verbose}{\code{boolean} argument declaring whether to emit messages about
+updates.}
 }
 \description{
 Add GSM issue templates to package

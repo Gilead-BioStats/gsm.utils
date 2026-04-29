@@ -23,12 +23,14 @@ reference:
       - infer_from_yaml
   - title: GitHub tooling
     contents:
-      - add_gsm_actions
+      - add_actions
+      - add_action
       - add_gsm_issue_templates
       - add_contributor_guidelines
       - check_gha_version
       - check_workflow_compliance
       - emit_coverage_summary
+      - remove_deprecated_actions
   - title: Menu rendering
     contents:
       - build_assets

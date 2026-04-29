@@ -4,10 +4,16 @@
 \alias{update_gsm_package}
 \title{Update GSM package with global issue templates and GH actions}
 \usage{
-update_gsm_package(strPackageDir = ".")
+update_gsm_package(strPackageDir = ".", overwrite = TRUE, verbose = TRUE)
 }
 \arguments{
 \item{strPackageDir}{path to package directory}
+
+\item{overwrite}{\code{boolean} argument declaring whether or not to overwrite
+existing files. Default is \code{TRUE}.}
+
+\item{verbose}{\code{boolean} argument declaring whether to emit messages about
+updates.}
 }
 \description{
 Update GSM package with global issue templates and GH actions

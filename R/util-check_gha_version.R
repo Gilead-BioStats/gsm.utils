@@ -1,12 +1,12 @@
 #' Check GitHub Actions version in a package
 #'
-#' @description
 #' Checks the version of GitHub Actions (GHA) workflows installed in a package
 #' against the version available in gsm.utils. This helps identify if workflows
 #' need to be updated.
 #'
 #' @param strPackageDir `character` path to package directory. Default is `"."`.
-#' @param bVerbose `logical` whether to print detailed information. Default is `TRUE`.
+#' @param bVerbose `logical` whether to print detailed information. Default is
+#'   `TRUE`.
 #'
 #' @return A list with the following components:
 #'   \item{package_version}{Version found in the package workflows (or NA)}
@@ -27,7 +27,11 @@
 #' }
 check_gha_version <- function(strPackageDir = ".", bVerbose = TRUE) {
   # Get gsm.utils version from manifest
-  manifest_path <- fs::path_package("gsm.utils", "gha_templates", "gha_version.json")
+  manifest_path <- fs::path_package(
+    "gsm.utils",
+    "gha_templates",
+    "gha_version.json"
+  )
 
   if (!fs::file_exists(manifest_path)) {
     cli::cli_abort("Cannot find GHA version manifest in gsm.utils package.")
@@ -41,7 +45,9 @@ check_gha_version <- function(strPackageDir = ".", bVerbose = TRUE) {
 
   if (!fs::dir_exists(workflows_dir)) {
     if (bVerbose) {
-      cli::cli_alert_warning("No .github/workflows directory found in {.path {strPackageDir}}")
+      cli::cli_alert_warning(
+        "No .github/workflows directory found in {.path {strPackageDir}}"
+      )
     }
     return(list(
       package_version = NA_character_,
@@ -64,7 +70,11 @@ check_gha_version <- function(strPackageDir = ".", bVerbose = TRUE) {
       lines <- readLines(wf, n = 5, warn = FALSE)
       version_line <- grep("^# gsm.utils GHA version:", lines, value = TRUE)
       if (length(version_line) > 0) {
-        package_version <- sub("^# gsm.utils GHA version:\\s*", "", version_line[1])
+        package_version <- sub(
+          "^# gsm.utils GHA version:\\s*",
+          "",
+          version_line[1]
+        )
         break
       }
     }
@@ -79,18 +89,26 @@ check_gha_version <- function(strPackageDir = ".", bVerbose = TRUE) {
   if (bVerbose) {
     if (is.na(package_version)) {
       cli::cli_alert_warning("No gsm.utils version found in workflow files")
-      cli::cli_alert_info("Workflows may not be from gsm.utils or are from an older version")
+      cli::cli_alert_info(
+        "Workflows may not be from gsm.utils or are from an older version"
+      )
     } else if (is_current) {
-      cli::cli_alert_success("GHA workflows are up to date (v{package_version})")
+      cli::cli_alert_success(
+        "GHA workflows are up to date (v{package_version})"
+      )
     } else {
       cli::cli_alert_warning(
         "GHA workflows are outdated (v{package_version}) - current version is v{gsm_utils_version}"
       )
-      cli::cli_alert_info("Run {.code gsm.utils::update_gsm_package()} to update")
+      cli::cli_alert_info(
+        "Run {.code gsm.utils::update_gsm_package()} to update"
+      )
     }
 
     if (length(workflows_found) > 0) {
-      cli::cli_alert_info("Found {length(workflows_found)} workflow file{?s}: {.file {workflows_found}}")
+      cli::cli_alert_info(
+        "Found {length(workflows_found)} workflow file{?s}: {.file {workflows_found}}"
+      )
     }
 
     if (length(workflows_missing) > 0) {

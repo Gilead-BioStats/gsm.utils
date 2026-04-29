@@ -1,12 +1,14 @@
 #' Check Workflow Template Compliance
 #'
-#' @description
-#' Checks if a package's GitHub Actions workflows comply with gsm.utils templates.
-#' This function verifies file presence, version headers, and critical content.
+#' Checks if a package's GitHub Actions workflows comply with
+#' gsm.utils templates. This function verifies file presence, version headers,
+#' and critical content.
 #'
 #' @param strPackageDir `character` path to package directory. Default is `"."`.
-#' @param bVerbose `logical` whether to print detailed information. Default is `TRUE`.
-#' @param bFailOnErrors `logical` whether to error if critical issues are found. Default is `TRUE`.
+#' @param bVerbose `logical` whether to print detailed information. Default is
+#'   `TRUE`.
+#' @param bFailOnErrors `logical` whether to error if critical issues are found.
+#'   Default is `TRUE`.
 #'
 #' @return A list with compliance check results:
 #'   \item{is_compliant}{Logical indicating overall compliance}
@@ -26,14 +28,23 @@
 #' # Check another package
 #' check_workflow_compliance("path/to/package")
 #' }
-check_workflow_compliance <- function(strPackageDir = ".", bVerbose = TRUE, bFailOnErrors = TRUE) {
+check_workflow_compliance <- function(
+  strPackageDir = ".",
+  bVerbose = TRUE,
+  bFailOnErrors = TRUE
+) {
   # Use check_gha_version() as foundation - it already handles manifest loading,
   # directory checks, and finding missing/extra workflows
-  version_check <- check_gha_version(strPackageDir = strPackageDir, bVerbose = FALSE)
+  version_check <- check_gha_version(
+    strPackageDir = strPackageDir,
+    bVerbose = FALSE
+  )
 
   if (bVerbose) {
     cli::cli_h1("GSM.utils Workflow Template Compliance Check")
-    cli::cli_alert_info("GSM.utils template version: {version_check$gsm_utils_version}")
+    cli::cli_alert_info(
+      "GSM.utils template version: {version_check$gsm_utils_version}"
+    )
   }
 
   # If no workflows directory, return early
@@ -41,7 +52,9 @@ check_workflow_compliance <- function(strPackageDir = ".", bVerbose = TRUE, bFai
   if (!dir.exists(workflows_dir)) {
     if (bVerbose) {
       cli::cli_alert_danger("No .github/workflows directory found!")
-      cli::cli_alert_info("This package should have GitHub Actions workflows matching gsm.utils templates.")
+      cli::cli_alert_info(
+        "This package should have GitHub Actions workflows matching gsm.utils templates."
+      )
     }
     result <- list(
       is_compliant = FALSE,
@@ -52,32 +65,55 @@ check_workflow_compliance <- function(strPackageDir = ".", bVerbose = TRUE, bFai
       gsm_utils_version = version_check$gsm_utils_version
     )
     if (bFailOnErrors) {
-      cli::cli_abort("No {.path .github/workflows} directory found in {.path {strPackageDir}}.")
+      cli::cli_abort(
+        "No {.path .github/workflows} directory found in {.path {strPackageDir}}."
+      )
     }
     return(result)
   }
 
   # Get workflow information from version check
   missing_workflows <- version_check$workflows_missing
-  expected_workflows <- c(version_check$workflows_found, version_check$workflows_missing)
+  expected_workflows <- c(
+    version_check$workflows_found,
+    version_check$workflows_missing
+  )
   existing_workflows <- list.files(workflows_dir, pattern = "\\.ya?ml$")
   extra_workflows <- setdiff(existing_workflows, expected_workflows)
 
   if (bVerbose) {
-    cli::cli_alert_info("Expected workflow files: {paste(expected_workflows, collapse = ', ')}")
-    cli::cli_alert_info("Found workflow files: {paste(existing_workflows, collapse = ', ')}")
+    cli::cli_alert_info(
+      "Expected workflow files: {paste(expected_workflows, collapse = ', ')}"
+    )
+    cli::cli_alert_info(
+      "Found workflow files: {paste(existing_workflows, collapse = ', ')}"
+    )
   }
 
   # Check version headers and content (beyond what check_gha_version provides)
-  version_issues <- check_workflow_headers(workflows_dir, existing_workflows, expected_workflows, version_check$gsm_utils_version)
-  content_issues <- check_critical_workflow_content(workflows_dir, existing_workflows)
+  version_issues <- check_workflow_headers(
+    workflows_dir,
+    existing_workflows,
+    expected_workflows,
+    version_check$gsm_utils_version
+  )
+  content_issues <- check_critical_workflow_content(
+    workflows_dir,
+    existing_workflows
+  )
 
   # Determine if there are critical errors
   has_errors <- length(missing_workflows) > 0 || length(version_issues) > 0
 
   # Report findings
   if (bVerbose) {
-    report_compliance_results(missing_workflows, extra_workflows, version_issues, content_issues, has_errors)
+    report_compliance_results(
+      missing_workflows,
+      extra_workflows,
+      version_issues,
+      content_issues,
+      has_errors
+    )
   }
 
   # Exit with error if requested and issues found
@@ -98,30 +134,53 @@ check_workflow_compliance <- function(strPackageDir = ".", bVerbose = TRUE, bFai
 }
 
 #' @noRd
-check_workflow_headers <- function(workflows_dir, existing_workflows, expected_workflows, gsm_utils_version) {
+check_workflow_headers <- function(
+  workflows_dir,
+  existing_workflows,
+  expected_workflows,
+  gsm_utils_version
+) {
   version_issues <- character(0)
 
   for (wf in intersect(existing_workflows, expected_workflows)) {
     workflow_path <- file.path(workflows_dir, wf)
-    if (!file.exists(workflow_path)) next
+    if (!file.exists(workflow_path)) {
+      next
+    }
 
     lines <- readLines(workflow_path, n = 5, warn = FALSE)
 
     # Check for version header
     version_line <- grep("^# gsm.utils GHA version:", lines, value = TRUE)
     if (length(version_line) == 0) {
-      version_issues <- c(version_issues, paste0(wf, ": Missing version header"))
+      version_issues <- c(
+        version_issues,
+        paste0(wf, ": Missing version header")
+      )
     } else {
       # Extract and validate version
       file_version <- sub("^# gsm.utils GHA version:\\s*", "", version_line[1])
       if (file_version != gsm_utils_version) {
-        version_issues <- c(version_issues, paste0(wf, ": Version ", file_version, " (expected ", gsm_utils_version, ")"))
+        version_issues <- c(
+          version_issues,
+          paste0(
+            wf,
+            ": Version ",
+            file_version,
+            " (expected ",
+            gsm_utils_version,
+            ")"
+          )
+        )
       }
     }
 
     # Check for generated by header
     if (!any(grepl("^# Generated by:", lines))) {
-      version_issues <- c(version_issues, paste0(wf, ": Missing \"Generated by\" header"))
+      version_issues <- c(
+        version_issues,
+        paste0(wf, ": Missing \"Generated by\" header")
+      )
     }
   }
 
@@ -135,15 +194,25 @@ check_critical_workflow_content <- function(workflows_dir, existing_workflows) {
 
   for (wf in intersect(existing_workflows, critical_workflows)) {
     workflow_path <- file.path(workflows_dir, wf)
-    template_path <- system.file("gha_templates/workflows", wf, package = "gsm.utils")
+    template_path <- system.file(
+      "gha_templates/workflows",
+      wf,
+      package = "gsm.utils"
+    )
 
     # Development fallback (only works when run from gsm.utils repo root)
-    if ((is.na(template_path) || template_path == "" || !file.exists(template_path)) &&
-        file.exists(file.path("inst", "gha_templates", "workflows", wf))) {
+    if (
+      (is.na(template_path) ||
+        template_path == "" ||
+        !file.exists(template_path)) &&
+        file.exists(file.path("inst", "gha_templates", "workflows", wf))
+    ) {
       template_path <- file.path("inst", "gha_templates", "workflows", wf)
     }
 
-    if (!file.exists(template_path)) next
+    if (!file.exists(template_path)) {
+      next
+    }
 
     template_content <- readLines(template_path, warn = FALSE)
     workflow_content <- readLines(workflow_path, warn = FALSE)
@@ -153,7 +222,10 @@ check_critical_workflow_content <- function(workflows_dir, existing_workflows) {
     workflow_clean <- workflow_content[!grepl("^#", workflow_content)]
 
     if (!identical(template_clean, workflow_clean)) {
-      content_issues <- c(content_issues, paste0(wf, ": Content differs from template"))
+      content_issues <- c(
+        content_issues,
+        paste0(wf, ": Content differs from template")
+      )
     }
   }
 
@@ -172,7 +244,13 @@ check_critical_workflow_content <- function(workflows_dir, existing_workflows) {
 #'
 #' @return NULL (prints results to console)
 #' @keywords internal
-report_compliance_results <- function(missing_workflows, extra_workflows, version_issues, content_issues, has_errors) {
+report_compliance_results <- function(
+  missing_workflows,
+  extra_workflows,
+  version_issues,
+  content_issues,
+  has_errors
+) {
   # Report missing workflows
   if (length(missing_workflows) > 0) {
     cli::cli_alert_danger("Missing required workflow files:")
@@ -207,9 +285,13 @@ report_compliance_results <- function(missing_workflows, extra_workflows, versio
 
   # Summary
   if (!has_errors) {
-    cli::cli_alert_success("All workflow files are compliant with gsm.utils templates!")
+    cli::cli_alert_success(
+      "All workflow files are compliant with gsm.utils templates!"
+    )
   } else {
     cli::cli_alert_danger("Workflow compliance issues found!")
-    cli::cli_alert_info("To fix these issues, ensure your gsm.utils package installation is up to date and run: gsm.utils::update_gsm_package()")
+    cli::cli_alert_info(
+      "To fix these issues, ensure your gsm.utils package installation is up to date and run: gsm.utils::update_gsm_package()"
+    )
   }
 }

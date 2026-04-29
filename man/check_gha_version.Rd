@@ -9,7 +9,8 @@ check_gha_version(strPackageDir = ".", bVerbose = TRUE)
 \arguments{
 \item{strPackageDir}{\code{character} path to package directory. Default is \code{"."}.}
 
-\item{bVerbose}{\code{logical} whether to print detailed information. Default is \code{TRUE}.}
+\item{bVerbose}{\code{logical} whether to print detailed information. Default is
+\code{TRUE}.}
 }
 \value{
 A list with the following components:
