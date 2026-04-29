@@ -1,18 +1,18 @@
-# add_gsm_actions ----
+# add_actions ----
 
-test_that("add_gsm_actions handles empty manifest (#90)", {
+test_that("add_actions handles empty manifest (#90)", {
   local_mocked_bindings(
     .read_gilead_action_manifest = function() {
       NULL
     }
   )
-  add_gsm_actions() |>
+  add_actions() |>
     expect_message("No canonical workflows found")
-  add_gsm_actions(verbose = FALSE) |>
+  add_actions(verbose = FALSE) |>
     expect_no_message()
 })
 
-test_that("add_gsm_actions adds each action in the manifest (#90)", {
+test_that("add_actions adds each action in the manifest (#90)", {
   local_mocked_bindings(
     .read_gilead_action_manifest = function() {
       data.frame(
@@ -22,7 +22,7 @@ test_that("add_gsm_actions adds each action in the manifest (#90)", {
       )
     },
     .ensure_dir_exists = function(path) path,
-    add_gilead_action = function(
+    add_action = function(
       name,
       version,
       workflows_path,
@@ -33,14 +33,14 @@ test_that("add_gsm_actions adds each action in the manifest (#90)", {
       name
     }
   )
-  add_gsm_actions() |>
+  add_actions() |>
     expect_equal(c("action1.yaml", "action2.yaml", "action3.yaml")) |>
     expect_message("installing action1.yaml v1.0.0") |>
     expect_message("installing action2.yaml v2.2.0") |>
     expect_message("installing action3.yaml v3.3.3")
 })
 
-test_that("add_gsm_actions informs when nothing added (#90)", {
+test_that("add_actions informs when nothing added (#90)", {
   local_mocked_bindings(
     .read_gilead_action_manifest = function() {
       data.frame(
@@ -50,14 +50,14 @@ test_that("add_gsm_actions informs when nothing added (#90)", {
       )
     },
     .ensure_dir_exists = function(path) path,
-    add_gilead_action = function(...) character()
+    add_action = function(...) character()
   )
-  add_gsm_actions() |>
+  add_actions() |>
     expect_equal(character()) |>
     expect_message("All workflows already up-to-date")
 })
 
-## add_gilead_action ----
+## add_action ----
 
 test_that("action helpers work (#90)", {
   local_mocked_bindings(
@@ -98,11 +98,11 @@ test_that("action helpers work (#90)", {
   ))
 })
 
-test_that("add_gilead_action errors when workflow needs an update but overwrite is FALSE (#90)", {
+test_that("add_action errors when workflow needs an update but overwrite is FALSE (#90)", {
   local_mocked_bindings(
     .workflow_up_to_date = function(...) FALSE
   )
-  add_gilead_action(
+  add_action(
     "action1.yaml",
     "2.0.0",
     workflows_path = test_path("fixtures/actions/installed_workflows"),
@@ -111,12 +111,12 @@ test_that("add_gilead_action errors when workflow needs an update but overwrite 
     expect_error("Workflow file .+ already exists")
 })
 
-test_that("add_gilead_action returns an empty vector when workflow is already up-to-date (#90)", {
+test_that("add_action returns an empty vector when workflow is already up-to-date (#90)", {
   local_mocked_bindings(
     .workflow_up_to_date = function(...) TRUE
   )
   expect_equal(
-    add_gilead_action(
+    add_action(
       "action1.yaml",
       "2.0.0",
       workflows_path = test_path("fixtures/actions/installed_workflows")
@@ -125,12 +125,12 @@ test_that("add_gilead_action returns an empty vector when workflow is already up
   )
 })
 
-test_that("add_gilead_action informs when verbose is TRUE (#90)", {
+test_that("add_action informs when verbose is TRUE (#90)", {
   local_mocked_bindings(
     .workflow_up_to_date = function(...) FALSE,
     .update_workflow = function(name, workflow_path) name
   )
-  add_gilead_action(
+  add_action(
     "action1.yaml",
     "2.0.0",
     workflows_path = test_path("fixtures/actions/installed_workflows")
@@ -138,13 +138,13 @@ test_that("add_gilead_action informs when verbose is TRUE (#90)", {
     expect_message("Creating or updating workflow file .+")
 })
 
-test_that("add_gilead_action updates when appropriate (#90)", {
+test_that("add_action updates when appropriate (#90)", {
   local_mocked_bindings(
     .workflow_up_to_date = function(...) FALSE,
     .read_workflow_template = function(...) "Contents of the workflow"
   )
   workflows_path <- withr::local_tempdir(pattern = "workflows")
-  add_gilead_action(
+  add_action(
     "action1.yaml",
     "2.0.0",
     workflows_path = workflows_path
@@ -157,24 +157,24 @@ test_that("add_gilead_action updates when appropriate (#90)", {
   )
 })
 
-# remove_deprecated_workflows ----
+# remove_deprecated_actions ----
 
-test_that("remove_deprecated_workflows informs when nothing removed and verbose (#90)", {
+test_that("remove_deprecated_actions informs when nothing removed and verbose (#90)", {
   local_mocked_bindings(
-    .remove_deprecated_workflow = function(...) character()
+    .remove_action = function(...) character()
   )
-  remove_deprecated_workflows() |>
+  remove_deprecated_actions() |>
     expect_equal(character()) |>
     expect_message("No deprecated workflows found")
-  remove_deprecated_workflows(verbose = FALSE) |>
+  remove_deprecated_actions(verbose = FALSE) |>
     expect_equal(character()) |>
     expect_no_message()
 })
 
-## .remove_deprecated_workflow
+## .remove_action
 
-test_that(".remove_deprecated_workflow returns silently when file doesn't exist (#90)", {
-  .remove_deprecated_workflow(
+test_that(".remove_action returns silently when file doesn't exist (#90)", {
+  .remove_action(
     "does-not-exist.yaml",
     test_path("fixtures", "actions", "installed_workflows")
   ) |>
@@ -182,12 +182,12 @@ test_that(".remove_deprecated_workflow returns silently when file doesn't exist 
     expect_no_message()
 })
 
-test_that(".remove_deprecated_workflow errors when file exists but overwrite is false (#90)", {
+test_that(".remove_action errors when file exists but overwrite is false (#90)", {
   workflows_path <- withr::local_tempdir("workflows")
   workflow_name <- "action.yaml"
   workflow_path <- fs::path(workflows_path, workflow_name)
   writeLines("Bad workflow", workflow_path)
-  .remove_deprecated_workflow(
+  .remove_action(
     workflow_name,
     workflows_path,
     overwrite = FALSE
@@ -195,12 +195,12 @@ test_that(".remove_deprecated_workflow errors when file exists but overwrite is 
     expect_error("Deprecated workflow file .+ found")
 })
 
-test_that(".remove_deprecated_workflow removes bad workflows (#90)", {
+test_that(".remove_action removes bad workflows (#90)", {
   workflows_path <- withr::local_tempdir("workflows")
   workflow_name <- "action.yaml"
   workflow_path <- fs::path(workflows_path, workflow_name)
   writeLines("Bad workflow", workflow_path)
-  .remove_deprecated_workflow(workflow_name, workflows_path) |>
+  .remove_action(workflow_name, workflows_path) |>
     expect_equal(workflow_name) |>
     expect_message("Removing deprecated workflow")
 })

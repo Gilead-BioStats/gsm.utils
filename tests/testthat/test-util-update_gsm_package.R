@@ -13,13 +13,13 @@ test_that("update_gsm_package calls the expected sub-functions (#90)", {
       expect_true(verbose)
       cli::cli_inform("issues")
     },
-    add_gsm_actions = function(strPackageDir, overwrite, verbose) {
+    add_actions = function(strPackageDir, overwrite, verbose) {
       expect_equal(strPackageDir, test_path())
       expect_true(overwrite)
       expect_true(verbose)
       cli::cli_inform("actions")
     },
-    remove_deprecated_workflows = function(strPackageDir, overwrite, verbose) {
+    remove_deprecated_actions = function(strPackageDir, overwrite, verbose) {
       expect_equal(strPackageDir, test_path())
       expect_true(overwrite)
       expect_true(verbose)

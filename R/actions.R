@@ -19,7 +19,7 @@
 #' @param verbose Logical. Inform about changes?
 #' @returns A character vector of added and updated action names, invisibly.
 #' @export
-add_gsm_actions <- function(
+add_actions <- function(
   strPackageDir = ".",
   overwrite = TRUE,
   verbose = TRUE
@@ -31,7 +31,7 @@ add_gsm_actions <- function(
     results <- purrr::pmap(
       manifest,
       function(name, description, version) {
-        add_gilead_action(
+        add_action(
           name,
           version,
           workflows_path = workflows_path,
@@ -52,10 +52,6 @@ add_gsm_actions <- function(
   }
   invisible(character())
 }
-
-#' @export
-#' @rdname add_gsm_actions
-add_gilead_actions <- add_gsm_actions
 
 .read_gilead_action_manifest <- function() {
   .read_github_manifest()$workflows
@@ -80,13 +76,13 @@ add_gilead_actions <- add_gsm_actions
 #' @param name String. The action to install.
 #' @param version String. The expected version of the action.
 #' @param workflows_path String. Path to the package workflows.
-#' @inheritParams add_gsm_actions
+#' @inheritParams add_actions
 #' @inheritParams rlang::args_dots_empty
 #'
 #' @returns The name of the workflow if it was updated, otherwise an empty
 #'   character vector.
 #' @export
-add_gilead_action <- function(
+add_action <- function(
   name,
   version,
   ...,
@@ -155,7 +151,7 @@ add_gilead_action <- function(
 #' @param verbose Logical. Inform about changes?
 #' @returns A character vector of deleted action names, invisibly.
 #' @export
-remove_deprecated_workflows <- function(
+remove_deprecated_actions <- function(
   strPackageDir = ".",
   overwrite = TRUE,
   verbose = TRUE
@@ -169,7 +165,7 @@ remove_deprecated_workflows <- function(
     "r_releaser.yaml"
   )
   results <- purrr::map(extra_workflows, \(name) {
-    .remove_deprecated_workflow(name, workflows_path, overwrite = overwrite)
+    .remove_action(name, workflows_path, overwrite = overwrite)
   }) |>
     purrr::compact() |>
     as.character()
@@ -179,7 +175,7 @@ remove_deprecated_workflows <- function(
   return(invisible(results))
 }
 
-.remove_deprecated_workflow <- function(
+.remove_action <- function(
   name,
   workflows_path,
   overwrite = TRUE,
@@ -190,7 +186,7 @@ remove_deprecated_workflows <- function(
     if (!overwrite) {
       cli::cli_abort(c(
         x = "Deprecated workflow file {.file {workflow_path}} found.",
-        i = "Set {.code overwrite = TRUE} to remove the deprecated workflow."
+        i = "Set {.code overwrite = TRUE} to remove the workflow."
       ))
     }
     if (verbose) {

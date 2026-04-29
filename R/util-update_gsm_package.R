@@ -21,12 +21,12 @@ update_gsm_package <- function(
     overwrite = overwrite,
     verbose = verbose
   )
-  add_gsm_actions(
+  add_actions(
     strPackageDir = strPackageDir,
     overwrite = overwrite,
     verbose = verbose
   )
-  remove_deprecated_workflows(
+  remove_deprecated_actions(
     strPackageDir = strPackageDir,
     overwrite = overwrite,
     verbose = verbose
