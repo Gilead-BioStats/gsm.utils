@@ -7,10 +7,10 @@
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/examples/example_helloworld.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/index.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/news/index.html</loc></url>
+<url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/add_action.html</loc></url>
+<url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/add_actions.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/add_assets_to_pkgdown_menu.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/add_contributor_guidelines.html</loc></url>
-<url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/add_gilead_action.html</loc></url>
-<url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/add_gsm_actions.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/add_gsm_issue_templates.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/add_menu.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/add_pkgdown_nav.html</loc></url>
@@ -34,7 +34,7 @@
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/init_gsm_package.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/make_example.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/or_pipe.html</loc></url>
-<url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/remove_deprecated_workflows.html</loc></url>
+<url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/remove_deprecated_actions.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/remove_pkgdown_menu.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/render_assets.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/render_qmd.html</loc></url>
