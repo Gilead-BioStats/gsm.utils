@@ -8,7 +8,7 @@
     {
       "name": "R-CMD-check.yaml",
       "description": "R CMD check for PRs",
-      "version": "0.3.6"
+      "version": "0.3.7"
     },
     {
       "name": "r-releaser-caller.yaml",
