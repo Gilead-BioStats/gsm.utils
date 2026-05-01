@@ -24,11 +24,11 @@ jobs:
       GITHUB_PAT: ${{ secrets.token || github.token }}
     steps:
       - name: Check out repo
-        uses: gilead-biostats/gsm.utils/checkout@actions-v1
+        uses: gilead-biostats/gsm.utils/checkout@fix-97-configure_tokens
         with:
           fetch-depth: 0
       - name: Install R and dependencies
-        uses: gilead-biostats/gsm.utils/install@actions-v1
+        uses: gilead-biostats/gsm.utils/install@fix-97-configure_tokens
         with:
           use-public-rspm: true
           dependencies: '"hard"'

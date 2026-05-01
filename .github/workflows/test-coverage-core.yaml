@@ -19,6 +19,6 @@ jobs:
       pull-requests: write
     steps:
       - name: Compute test coverage
-        uses: gilead-biostats/gsm.utils/coverage@actions-v1
+        uses: gilead-biostats/gsm.utils/coverage@fix-97-configure_tokens
         with:
           token: ${{ secrets.token || github.token }}
