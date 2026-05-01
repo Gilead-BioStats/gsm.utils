@@ -12,7 +12,6 @@ inputs:
     default: ""
   use-public-rspm:
     description: "Use the public version of Posit package manager to serve binaries for Linux and Windows."
-    default: false
   needs:
     description: "Config/Needs tag(s), passed to r-lib/actions/setup-r-dependencies@v2"
     default: ""

@@ -1,5 +1,5 @@
 # name: pkgdown-core.yaml
-# version: 0.3.6
+# version: 0.3.7
 # Description: Reusable workflow to deploy pkgdown site with assets and clean up PR previews.
 name: pkgdown-core
 on:
@@ -16,6 +16,10 @@ on:
         description: "Whether pkgdown should operate in dev mode."
         type: boolean
         default: false
+    secrets:
+      token:
+        description: "GitHub token, set to secrets.GITHUB_TOKEN"
+        required: false
 jobs:
   pkgdown-assets:
     if: |
@@ -24,7 +28,7 @@ jobs:
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'deploy')
     runs-on: ubuntu-latest
     env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_PAT: ${{ secrets.token || github.token }}
     permissions:
       contents: write
       pull-requests: write
@@ -34,7 +38,7 @@ jobs:
       - name: Install R and dependencies
         uses: gilead-biostats/gsm.utils/install@actions-v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.token || github.token }}
           r-version: release
           needs: website
           extra-packages: any::pkgdown gilead-biostats/gsm.utils@dev local::.
@@ -42,7 +46,7 @@ jobs:
       - name: Build and deploy site
         uses: gilead-biostats/gsm.utils/pkgdown-deploy@actions-v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.token || github.token }}
           event-name: ${{ inputs.pr-number && 'pull_request' || github.event_name }}
           pr-number: ${{ inputs.pr-number || github.event.number }}
           pkgdown-dev-mode: ${{ inputs.pkgdown-dev-mode == true || (github.event_name != 'workflow_dispatch' && github.ref_name != 'main') }}
@@ -57,5 +61,5 @@ jobs:
       - name: Clean up PR preview
         uses: gilead-biostats/gsm.utils/pkgdown-cleanup@actions-v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.token || github.token }}
           pr-number: ${{ inputs.pr-number || github.event.number }}

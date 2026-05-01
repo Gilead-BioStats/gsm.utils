@@ -3,22 +3,22 @@
     {
       "name": "pkgdown-all.yaml",
       "description": "Deploy pkgdown site with assets, and clean up PR previews on close.",
-      "version": "0.3.6"
+      "version": "0.3.7"
     },
     {
       "name": "R-CMD-check.yaml",
       "description": "R CMD check for PRs",
-      "version": "0.3.6"
+      "version": "0.3.7"
     },
     {
       "name": "r-releaser-caller.yaml",
       "description": "R package release workflow",
-      "version": "0.3.6"
+      "version": "0.3.7"
     },
     {
       "name": "test-coverage.yaml",
       "description": "Compute test coverage and publish coverage-summary.json artifact",
-      "version": "0.3.6"
+      "version": "0.3.7"
     },
     {
       "name": "workflow-template-check.yaml",
