@@ -1,5 +1,5 @@
 # name: r-releaser.yaml
-# version: 0.3.6
+# version: 0.3.7
 # Description: Reusable R package release workflow designed to be invoked by
 # other gsm packages via r-releaser-caller.yaml workflow
 name: R Release
@@ -11,8 +11,9 @@ on:
         required: true
         type: string
     secrets:
-      PRIVATE_REPO_PAT:
-        description: Personal access token used by remotes and gh
+      token:
+        description: "GitHub token, set to secrets.GITHUB_TOKEN"
+        required: false
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -20,7 +21,7 @@ jobs:
       contents: write
       pull-requests: write
     env:
-      GITHUB_PAT: ${{ secrets.PRIVATE_REPO_PAT }}
+      GITHUB_PAT: ${{ secrets.token || github.token }}
     steps:
       - name: Check out repo
         uses: gilead-biostats/gsm.utils/checkout@actions-v1
@@ -31,6 +32,7 @@ jobs:
         with:
           use-public-rspm: true
           dependencies: '"hard"'
+          token: ${{ secrets.token || github.token }}
       - name: get library path
         id: library
         run: |
@@ -52,7 +54,7 @@ jobs:
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: ${{ secrets.token || github.token }}
           file: ${{ steps.releaser.outputs.tarball_path }}
           asset_name: ${{ steps.releaser.outputs.tarball_name }}
           tag: ${{ inputs.tag }}
