@@ -14,7 +14,7 @@ runs:
       uses: gilead-biostats/gsm.utils/checkout@actions-v1
 
     - name: Install R and dependencies
-      uses: gilead-biostats/gsm.utils/install@actions-v1
+      uses: gilead-biostats/gsm.utils/install@fix-97-configure_tokens
       with:
         token: ${{ inputs.token }}
         extra-packages: any::covr any::xml2 any::jsonlite gilead-bioStats/gsm.utils@dev local::.

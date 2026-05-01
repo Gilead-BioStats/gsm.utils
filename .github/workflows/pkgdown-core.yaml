@@ -36,7 +36,7 @@ jobs:
       - name: Check out repo
         uses: gilead-biostats/gsm.utils/checkout@actions-v1
       - name: Install R and dependencies
-        uses: gilead-biostats/gsm.utils/install@actions-v1
+        uses: gilead-biostats/gsm.utils/install@fix-97-configure_tokens
         with:
           token: ${{ secrets.token || github.token }}
           r-version: release
