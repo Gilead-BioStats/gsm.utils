@@ -31,6 +31,7 @@ reference:
       - check_workflow_compliance
       - emit_coverage_summary
       - remove_deprecated_actions
+      - remove_deprecated_issue_templates
   - title: Menu rendering
     contents:
       - build_assets
