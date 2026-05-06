@@ -9,6 +9,7 @@ You can install the latest release of gsm.utils from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("Gilead-BioStats/gsm.utils@*release⁠")
 ```
@@ -17,6 +18,7 @@ You can install the development version of gsm.utils from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("Gilead-BioStats/gsm.utils")
 ```
@@ -32,6 +34,7 @@ Initializes a new extension package with standardized structure and
 configuration:
 
 ``` r
+
 init_gsm_package(
   strPackageDir = "path/to/new/package",
   lDescriptionFields = list(),
@@ -51,6 +54,7 @@ init_gsm_package(
 Updates an existing GSM package with the latest standardized templates:
 
 ``` r
+
 update_gsm_package(strPackageDir = ".")
 ```
 
@@ -67,6 +71,7 @@ Checks if a package’s GitHub Actions workflows comply with gsm.utils
 templates:
 
 ``` r
+
 check_workflow_compliance(strPackageDir = ".")
 ```
 
