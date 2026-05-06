@@ -39,6 +39,8 @@
   : Emit Coverage Summary Artifact
 - [`remove_deprecated_actions()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/remove_deprecated_actions.md)
   : Remove deprecated Gilead GitHub Actions from package
+- [`remove_deprecated_issue_templates()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/remove_deprecated_issue_templates.md)
+  : Remove deprecated issue templates from package
 
 ## Menu rendering
 
