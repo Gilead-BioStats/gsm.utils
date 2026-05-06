@@ -58,7 +58,7 @@ test_that("remove_deprecated_issue_templates informs when nothing removed and ve
 test_that(".remove_issue_template returns silently when file doesn't exist", {
   templates_path <- withr::local_tempdir("templates")
   .remove_issue_template("does-not-exist.md", templates_path) |>
-    expect_equal(character()) |>
+    expect_equal(NULL) |>
     expect_no_message()
 })
 
