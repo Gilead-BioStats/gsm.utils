@@ -21,6 +21,11 @@ update_gsm_package <- function(
     overwrite = overwrite,
     verbose = verbose
   )
+  remove_deprecated_issue_templates(
+    strPackageDir = strPackageDir,
+    overwrite = overwrite,
+    verbose = verbose
+  )
   add_actions(
     strPackageDir = strPackageDir,
     overwrite = overwrite,
@@ -63,6 +68,59 @@ add_gsm_issue_templates <- function(
     issuePath,
     overwrite = overwrite
   )
+}
+
+#' Remove deprecated issue templates from package
+#'
+#' Removes issue templates that we no longer recommend nor support. Currently
+#' the only deprecated template is `1-requirement.md` — roadmap requirements
+#' now live exclusively in `gsm.roadmap`. New deprecations should be added to
+#' the hard-coded list below.
+#'
+#' @param strPackageDir String. Path to package directory.
+#' @param overwrite Logical. Is it ok to delete existing files?
+#' @param verbose Logical. Inform about changes?
+#' @returns A character vector of deleted template names, invisibly.
+#' @export
+remove_deprecated_issue_templates <- function(
+  strPackageDir = ".",
+  overwrite = TRUE,
+  verbose = TRUE
+) {
+  templates_path <- fs::path(strPackageDir, ".github", "ISSUE_TEMPLATE")
+  deprecated_templates <- c("1-requirement.md")
+  results <- purrr::map(deprecated_templates, \(name) {
+    .remove_issue_template(name, templates_path, overwrite = overwrite, verbose = verbose)
+  }) |>
+    purrr::compact() |>
+    as.character()
+  if (!length(results) && verbose) {
+    cli::cli_inform("No deprecated issue templates found.")
+  }
+  return(invisible(results))
+}
+
+.remove_issue_template <- function(
+  name,
+  templates_path,
+  overwrite = TRUE,
+  verbose = TRUE
+) {
+  template_path <- fs::path(templates_path, name)
+  if (fs::file_exists(template_path)) {
+    if (!overwrite) {
+      cli::cli_abort(c(
+        x = "Deprecated issue template {.file {template_path}} found.",
+        i = "Set {.code overwrite = TRUE} to remove it."
+      ))
+    }
+    if (verbose) {
+      cli::cli_inform("Removing deprecated issue template {.file {template_path}}.")
+    }
+    fs::file_delete(template_path)
+    return(name)
+  }
+  return(NULL)
 }
 
 #' Add GSM Contributor Guidelines markdown to package
