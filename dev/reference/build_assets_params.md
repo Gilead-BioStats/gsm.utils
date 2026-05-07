@@ -9,6 +9,11 @@ Asset params
   Character. Path to the directory where rendered `.html` files should
   be saved. Default is `"pkgdown/assets"`.
 
+- existing_menu:
+
+  List. Existing menu items from the pkgdown YAML contents, if any, to
+  preserve when adding new menu items for rendered assets.
+
 - menu:
 
   Character. Menu folder name.

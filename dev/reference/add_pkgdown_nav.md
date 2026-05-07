@@ -5,7 +5,7 @@ Add rendered assets to pkgdown navbar menu
 ## Usage
 
 ``` r
-add_pkgdown_nav(pkgdown_yml, menu_subdir, rendered_assets, verbose)
+add_pkgdown_nav(pkgdown_yml, menu_subdir, rendered_assets, assets_dir, verbose)
 ```
 
 ## Arguments
@@ -24,6 +24,11 @@ add_pkgdown_nav(pkgdown_yml, menu_subdir, rendered_assets, verbose)
 
   Character. Path to successfully rendered HTML files to add to pkgdown
   menu.
+
+- assets_dir:
+
+  Character. Path to the directory where rendered `.html` files should
+  be saved. Default is `"pkgdown/assets"`.
 
 - verbose:
 

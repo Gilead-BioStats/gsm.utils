@@ -10,6 +10,7 @@ update_pkgdown_menu(
   menu,
   menu_subdir,
   rendered_assets,
+  existing_menu,
   verbose
 )
 ```
@@ -34,6 +35,11 @@ update_pkgdown_menu(
 
   Character. Path to successfully rendered HTML files to add to pkgdown
   menu.
+
+- existing_menu:
+
+  List. Existing menu items from the pkgdown YAML contents, if any, to
+  preserve when adding new menu items for rendered assets.
 
 - verbose:
 
