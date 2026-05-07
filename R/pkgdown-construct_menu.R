@@ -67,9 +67,9 @@ construct_md_metadata_table <- function(md_file) {
 #'   asset, sorted by `index` and `title` metadata from the corresponding md
 #'   file.
 #' @keywords internal
-construct_menu <- function(rendered_assets, metadata) {
+construct_menu <- function(rendered_assets, metadata, existing_menu = NULL) {
   if (!length(rendered_assets)) {
-    return(list())
+    return(as.list(existing_menu))
   }
   menu_data <- dplyr::tibble(
     html = rendered_assets,
@@ -78,8 +78,17 @@ construct_menu <- function(rendered_assets, metadata) {
     dplyr::left_join(metadata, by = "html_file") |>
     dplyr::arrange(.data$index, .data$title) |>
     dplyr::select("html", "title")
-
-  purrr::pmap(menu_data, \(html, title) {
+  rendered_menu <- purrr::pmap(menu_data, \(html, title) {
     list(text = title, href = unclass(html))
   })
+  # If there are existing menu items, replace old titles with new for any
+  # overlaps, but keep any existing menu items that don't have new rendered
+  # assets.
+  existing_menu_assets <- purrr::map_chr(existing_menu, \(x) {
+    x[["href"]] %||% ""
+  })
+  leftover_menu_items <- existing_menu[
+    !existing_menu_assets %in% menu_data$html
+  ]
+  return(c(rendered_menu, leftover_menu_items))
 }

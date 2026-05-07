@@ -4,7 +4,7 @@
 \alias{add_pkgdown_nav}
 \title{Add rendered assets to pkgdown navbar menu}
 \usage{
-add_pkgdown_nav(pkgdown_yml, menu_subdir, rendered_assets, verbose)
+add_pkgdown_nav(pkgdown_yml, menu_subdir, rendered_assets, assets_dir, verbose)
 }
 \arguments{
 \item{pkgdown_yml}{Character. Path to the \verb{_pkgdown.yml} file to update with
@@ -15,6 +15,9 @@ files to render and add to pkgdown.}
 
 \item{rendered_assets}{Character. Path to successfully rendered HTML files to
 add to pkgdown menu.}
+
+\item{assets_dir}{Character. Path to the directory where rendered \code{.html}
+files should be saved. Default is \code{"pkgdown/assets"}.}
 
 \item{verbose}{Logical. Whether to print messages about rendered assets and
 menu updates.}

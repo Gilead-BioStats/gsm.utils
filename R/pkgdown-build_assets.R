@@ -2,6 +2,9 @@
 #'
 #' @param assets_dir Character. Path to the directory where rendered `.html`
 #'   files should be saved. Default is `"pkgdown/assets"`.
+#' @param existing_menu List. Existing menu items from the pkgdown YAML
+#'   contents, if any, to preserve when adding new menu items for rendered
+#'   assets.
 #' @param menu Character. Menu folder name.
 #' @param menu_subdir Character. Path to the subdirectory containing `.*md`
 #'   files to render and add to pkgdown.
@@ -65,5 +68,11 @@ build_assets <- function(
 #' @keywords internal
 add_menu <- function(menu_subdir, assets_dir, pkgdown_yml, verbose) {
   rendered_assets <- render_assets(menu_subdir, assets_dir, verbose)
-  add_pkgdown_nav(pkgdown_yml, menu_subdir, rendered_assets, verbose)
+  add_pkgdown_nav(
+    pkgdown_yml,
+    menu_subdir,
+    rendered_assets,
+    assets_dir,
+    verbose
+  )
 }

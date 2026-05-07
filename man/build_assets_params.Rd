@@ -7,6 +7,10 @@
 \item{assets_dir}{Character. Path to the directory where rendered \code{.html}
 files should be saved. Default is \code{"pkgdown/assets"}.}
 
+\item{existing_menu}{List. Existing menu items from the pkgdown YAML
+contents, if any, to preserve when adding new menu items for rendered
+assets.}
+
 \item{menu}{Character. Menu folder name.}
 
 \item{menu_subdir}{Character. Path to the subdirectory containing \code{.*md}
