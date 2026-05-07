@@ -50,14 +50,12 @@ filter_existing_menu <- function(pkgdown_contents, menu, assets_dir) {
     "menu"
   ]]
   if (is.null(existing_menu)) {
-    return(character())
+    return(list())
   }
-  menu_assets <- fs::dir_ls(fs::path(assets_dir, menu), glob = "*.html") |>
-    fs::path_rel(assets_dir)
   existing_menu_assets <- purrr::map_chr(existing_menu, \(x) {
     x[["href"]] %||% ""
   })
-  asset_exists <- existing_menu_assets %in% menu_assets
+  asset_exists <- fs::file_exists(fs::path(assets_dir, existing_menu_assets))
   return(existing_menu[asset_exists])
 }
 

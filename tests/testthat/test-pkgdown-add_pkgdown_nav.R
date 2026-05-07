@@ -274,9 +274,9 @@ test_that("add_pkgdown_nav removes menu from pkgdown layout (#67, #103)", {
     expect_message("YAML written")
 })
 
-test_that("filter_existing_menu returns character() when menu is not in yaml (#103)", {
+test_that("filter_existing_menu returns list() when menu is not in yaml (#103)", {
   result <- filter_existing_menu(list(), "examples", tempdir())
-  expect_equal(result, character())
+  expect_equal(result, list())
 })
 
 test_that("filter_existing_menu returns only items whose html files still exist (#103)", {
