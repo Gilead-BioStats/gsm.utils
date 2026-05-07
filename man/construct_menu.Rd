@@ -4,11 +4,15 @@
 \alias{construct_menu}
 \title{Construct a list of menu entries for rendered assets}
 \usage{
-construct_menu(rendered_assets, metadata)
+construct_menu(rendered_assets, metadata, existing_menu = NULL)
 }
 \arguments{
 \item{rendered_assets}{Character. Path to successfully rendered HTML files to
 add to pkgdown menu.}
+
+\item{existing_menu}{List. Existing menu items from the pkgdown YAML
+contents, if any, to preserve when adding new menu items for rendered
+assets.}
 }
 \value{
 A list of lists with \code{text} and \code{href} entries for each rendered

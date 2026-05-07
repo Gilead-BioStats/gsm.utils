@@ -7,6 +7,7 @@ add_pkgdown_nav <- function(
   pkgdown_yml,
   menu_subdir,
   rendered_assets,
+  assets_dir,
   verbose
 ) {
   if (!length(pkgdown_yml) || !fs::file_exists(pkgdown_yml)) {
@@ -20,13 +21,15 @@ add_pkgdown_nav <- function(
 
   menu <- fs::path_file(menu_subdir)
   pkgdown_contents <- yaml::read_yaml(pkgdown_yml)
+  existing_menu <- filter_existing_menu(pkgdown_contents, menu, assets_dir)
 
-  if (length(rendered_assets)) {
+  if (length(rendered_assets) || length(existing_menu)) {
     pkgdown_contents <- update_pkgdown_menu(
       pkgdown_contents,
       menu,
       menu_subdir,
       rendered_assets,
+      existing_menu,
       verbose
     )
   } else {
@@ -34,6 +37,28 @@ add_pkgdown_nav <- function(
   }
   write_yaml(pkgdown_contents, pkgdown_yml)
   invisible(NULL)
+}
+
+#' Filter existing menu items to only those with assets that still exist
+#'
+#' @inheritParams build_assets_params
+#' @returns A list of existing menu items from the pkgdown YAML contents that
+#'   correspond to assets that still exist in the assets directory.
+#' @keywords internal
+filter_existing_menu <- function(pkgdown_contents, menu, assets_dir) {
+  existing_menu <- pkgdown_contents[["navbar"]][["components"]][[menu]][[
+    "menu"
+  ]]
+  if (is.null(existing_menu)) {
+    return(character())
+  }
+  menu_assets <- fs::dir_ls(fs::path(assets_dir, menu), glob = "*.html") |>
+    fs::path_rel(assets_dir)
+  existing_menu_assets <- purrr::map_chr(existing_menu, \(x) {
+    x[["href"]] %||% ""
+  })
+  asset_exists <- existing_menu_assets %in% menu_assets
+  return(existing_menu[asset_exists])
 }
 
 #' Update pkgdown contents with menu
@@ -47,13 +72,15 @@ update_pkgdown_menu <- function(
   menu,
   menu_subdir,
   rendered_assets,
+  existing_menu,
   verbose
 ) {
   pkgdown_contents <- ensure_pkgdown_menu_section(pkgdown_contents, menu) |>
     add_assets_to_pkgdown_menu(
       menu,
       menu_subdir,
-      rendered_assets
+      rendered_assets,
+      existing_menu
     )
   if (verbose) {
     n_rendered <- length(rendered_assets)
@@ -100,10 +127,15 @@ add_assets_to_pkgdown_menu <- function(
   pkgdown_contents,
   menu,
   menu_subdir,
-  rendered_assets
+  rendered_assets,
+  existing_menu
 ) {
   metadata <- construct_menu_metadata_table(menu_subdir)
-  menu_items <- construct_menu(rendered_assets, metadata)
+  menu_items <- construct_menu(
+    rendered_assets,
+    metadata,
+    existing_menu
+  )
 
   pkgdown_contents[["navbar"]][["components"]][[menu]][["menu"]] <- menu_items
   return(pkgdown_contents)

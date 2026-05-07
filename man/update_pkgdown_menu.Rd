@@ -9,6 +9,7 @@ update_pkgdown_menu(
   menu,
   menu_subdir,
   rendered_assets,
+  existing_menu,
   verbose
 )
 }
@@ -23,6 +24,10 @@ files to render and add to pkgdown.}
 
 \item{rendered_assets}{Character. Path to successfully rendered HTML files to
 add to pkgdown menu.}
+
+\item{existing_menu}{List. Existing menu items from the pkgdown YAML
+contents, if any, to preserve when adding new menu items for rendered
+assets.}
 
 \item{verbose}{Logical. Whether to print messages about rendered assets and
 menu updates.}

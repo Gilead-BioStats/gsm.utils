@@ -1,4 +1,4 @@
-test_that("add_menu calls the expected helpers (#67)", {
+test_that("add_menu calls the expected helpers (#67, #103)", {
   local_mocked_bindings(
     render_assets = function(menu_subdir, assets_dir, verbose) {
       expect_equal(menu_subdir, "test-menu")
@@ -10,11 +10,13 @@ test_that("add_menu calls the expected helpers (#67)", {
       pkgdown_yml,
       menu_subdir,
       rendered_assets,
+      assets_dir,
       verbose
     ) {
       expect_equal(pkgdown_yml, "_pkgdown.yml")
       expect_equal(menu_subdir, "test-menu")
       expect_equal(rendered_assets, "rendered-assets/test-menu")
+      expect_equal(assets_dir, "pkgdown/assets")
       expect_equal(verbose, TRUE)
       "done"
     }

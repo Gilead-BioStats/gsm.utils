@@ -58,6 +58,16 @@ test_that("construct_menu returns an empty list when rendered_assets is empty (#
   )
 })
 
+test_that("construct_menu returns existing_menu when rendered_assets is empty (#103)", {
+  existing_menu <- list(
+    list(text = "Existing Item", href = "examples/existing.html")
+  )
+  expect_equal(
+    construct_menu(NULL, NULL, existing_menu),
+    existing_menu
+  )
+})
+
 test_that("construct_menu returns a list of menu items when rendered_assets are provided (#67)", {
   rendered_assets <- c("asset1.html", "asset2.html")
   metadata <- data.frame(
@@ -73,4 +83,37 @@ test_that("construct_menu returns a list of menu items when rendered_assets are 
     construct_menu(rendered_assets, metadata),
     expected_menu
   )
+})
+
+test_that("construct_menu replaces title for re-rendered assets (#103)", {
+  rendered_assets <- c("asset1.html")
+  metadata <- data.frame(
+    html_file = "asset1.html",
+    title = "New Title",
+    index = 1
+  )
+  existing_menu <- list(
+    list(text = "Old Title", href = "asset1.html")
+  )
+  result <- construct_menu(rendered_assets, metadata, existing_menu)
+  expect_length(result, 1)
+  expect_equal(result[[1]]$text, "New Title")
+  expect_equal(result[[1]]$href, "asset1.html")
+})
+
+test_that("construct_menu appends leftover existing items that were not re-rendered (#103)", {
+  rendered_assets <- c("asset1.html")
+  metadata <- data.frame(
+    html_file = "asset1.html",
+    title = "Asset 1",
+    index = 1
+  )
+  existing_menu <- list(
+    list(text = "Asset 1 Old Title", href = "asset1.html"),
+    list(text = "Kept Old Item", href = "old_item.html")
+  )
+  result <- construct_menu(rendered_assets, metadata, existing_menu)
+  expect_length(result, 2)
+  expect_equal(result[[1]]$text, "Asset 1")
+  expect_equal(result[[2]]$text, "Kept Old Item")
 })
