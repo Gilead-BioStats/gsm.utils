@@ -14,12 +14,11 @@ jobs:
       - name: Check out repo
         uses: gilead-biostats/gsm.utils/checkout@actions-v1
 
-      - name: Check compliance and build comment
+      - name: Check compliance, auto-fix, and build comment
         id: check
         run: |
           BASE_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/actions-v1"
           MANIFEST_URL="$BASE_URL/gha_version.json"
-          BLOB_BASE_URL="https://github.com/gilead-biostats/gsm.utils/blob/actions-v1/workflow_templates"
 
           echo "Downloading manifest from $MANIFEST_URL..."
           curl -sL -f "$MANIFEST_URL" -o gha_version.json || { echo "::error::Failed to download manifest"; exit 1; }
@@ -27,10 +26,12 @@ jobs:
           BODY_FILE="comment_body.md"
           touch "$BODY_FILE"
           HAS_ERRORS="false"
-          FAILED_WORKFLOWS=""
 
           # Use jq to iterate over workflows
           jq -c '.workflows[]' gha_version.json > manifest_workflows.jsonl
+
+          # Ensure target directory exists before curl attempts to write to it
+          mkdir -p .github/workflows
 
           while read -r item; do
             name=$(echo "$item" | jq -r '.name')
@@ -65,37 +66,22 @@ jobs:
 
             if [ "$ISSUE_FOUND" = "true" ]; then
               if [ "$HAS_ERRORS" = "false" ]; then
-                echo "## ⚠️ Workflow Template Compliance Issues" > "$BODY_FILE"
+                echo "## ⚠️ Workflow Template Compliance Auto-Fixes" > "$BODY_FILE"
                 echo "" >> "$BODY_FILE"
-                echo "The following workflows require updates to match the canonical templates:" >> "$BODY_FILE"
+                echo "The following workflows were missing or outdated and have been automatically updated to match the canonical templates:" >> "$BODY_FILE"
                 echo "" >> "$BODY_FILE"
                 HAS_ERRORS="true"
               fi
 
+              # Automatically download and overwrite the file
+              curl -sL "$BASE_URL/workflow_templates/$name" -o "$local_file"
+
               # Add to the bulleted list
               echo "- \`$name\`" >> "$BODY_FILE"
-              # Append to the space-separated list for the bash loop later
-              FAILED_WORKFLOWS="$FAILED_WORKFLOWS $name"
             fi
           done < manifest_workflows.jsonl
 
-          # If errors were found, append the resolution options
-          if [ "$HAS_ERRORS" = "true" ]; then
-            echo "" >> "$BODY_FILE"
-            echo "**Option 1: Terminal**" >> "$BODY_FILE"
-            echo '```bash' >> "$BODY_FILE"
-            echo "mkdir -p .github/workflows" >> "$BODY_FILE"
-            echo "for wf in$FAILED_WORKFLOWS; do" >> "$BODY_FILE"
-            echo "  curl -sL \"$BASE_URL/workflow_templates/\$wf\" -o \".github/workflows/\$wf\"" >> "$BODY_FILE"
-            echo "done" >> "$BODY_FILE"
-            echo '```' >> "$BODY_FILE"
-
-            echo "**Option 2: R Console**" >> "$BODY_FILE"
-            echo '```r' >> "$BODY_FILE"
-            echo "# pak::pak(\"Gilead-BioStats/gsm.utils\")" >> "$BODY_FILE"
-            echo "gsm.utils::add_actions()" >> "$BODY_FILE"
-            echo '```' >> "$BODY_FILE"
-          else
+          if [ "$HAS_ERRORS" = "false" ]; then
             echo "## ✅ All workflows are up to date" > "$BODY_FILE"
           fi
 
@@ -108,8 +94,23 @@ jobs:
           body-path: comment_body.md
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Commit fixes
+        if: ${{ steps.check.outputs.has_errors == 'true' }}
+        run: |
+          git config --local user.name "$GITHUB_ACTOR"
+          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git add .github/workflows/
+          git commit -m 'chore: automatically update workflow templates'
+
+      - name: Push changes
+        if: ${{ steps.check.outputs.has_errors == 'true' }}
+        uses: r-lib/actions/pr-push@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Fail check if updates required
         if: ${{ steps.check.outputs.has_errors == 'true' }}
         run: |
-          echo "One or more workflows require an update. See the PR comments for details."
+          echo "One or more workflows required an update. The updates have been committed and pushed."
+          echo "Failing this check so the newly pushed commit can trigger a clean run."
           exit 1

@@ -1,0 +1,68 @@
+# name: generate-gha-version.yaml
+# version: 0.1.0
+# Description: Update gha_version.json with latest templates.
+name: Generate Workflow Version JSON
+on:
+  pull_request:
+    branches:
+      - 'actions-v1'
+    paths:
+      - 'workflow_templates/*.yaml'
+  workflow_dispatch:
+
+jobs:
+  update-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: gilead-biostats/gsm.utils/checkout@actions-v1
+      - name: Parse YAML headers and generate JSON
+        shell: python
+        run: |
+          import os, json, re, glob
+
+          workflows = []
+          # Regex to match case-insensitive keys in comments
+          pattern_name = re.compile(r'^#\s*name:\s*(.*)', re.I)
+          pattern_desc = re.compile(r'^#\s*description:\s*(.*)', re.I)
+          pattern_version = re.compile(r'^#\s*version:\s*(.*)', re.I)
+
+          if os.path.isdir('workflow_templates'):
+              # Sort to ensure consistent order in the JSON array
+              for filepath in sorted(glob.glob('workflow_templates/*.yaml')):
+                  with open(filepath, 'r') as f:
+                      w_name, w_version, w_desc = None, None, None
+
+                      for line in f:
+                          # Stop parsing once we hit the end of the commented header
+                          if not line.strip().startswith('#'):
+                              break
+
+                          if m := pattern_name.match(line):
+                              w_name = m.group(1).strip()
+                          elif m := pattern_version.match(line):
+                              w_version = m.group(1).strip()
+                          elif m := pattern_desc.match(line):
+                              w_desc = m.group(1).strip()
+
+                      # Only append if all required fields were found
+                      if w_name and w_version and w_desc:
+                          workflows.append({
+                              "name": w_name,
+                              "description": w_desc,
+                              "version": w_version
+                          })
+
+          with open('gha_version.json', 'w') as f:
+              # indent=2 matches your requested output format
+              json.dump({"workflows": workflows}, f, indent=2)
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add gha_version.json
+
+          # Only commit and push if there is an actual diff
+          git diff --quiet && git diff --staged --quiet || \
+          (git commit -m "chore: auto-update gha_version.json from templates" && git push)
