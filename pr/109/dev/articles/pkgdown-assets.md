@@ -69,7 +69,7 @@ title: "My First Example"
 author: "[your.package] Example"
 description: "<<Fill in Example description here>>"
 index: 1
-date: "May 13, 2026 15:24:02 UTC"
+date: "May 13, 2026 15:49:25 UTC"
 output: html_document
 ---
 ```
@@ -238,5 +238,4 @@ A couple of practical notes:
 
 - [`?gsm.utils::make_example`](https://gilead-biostats.github.io/gsm.utils/dev/reference/make_example.md)
 - [`?gsm.utils::build_assets`](https://gilead-biostats.github.io/gsm.utils/dev/reference/build_assets.md)
-- [`?gsm.utils::render_rmd`](https://gilead-biostats.github.io/gsm.utils/dev/reference/render_rmd.md)
 - [`?gsm.utils::add_action`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_action.md)
