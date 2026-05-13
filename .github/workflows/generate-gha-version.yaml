@@ -9,7 +9,6 @@ on:
       - 'actions-v1'
     paths:
       - 'workflow_templates/*.yaml'
-  workflow_dispatch:
 
 permissions:
   contents: write
