@@ -61,7 +61,7 @@ add_gsm_issue_templates <- function(
   fs::dir_create(issuePath)
   # Copy all issue template files to the target directory
   source_files <- fs::dir_ls(
-    fs::path_package("gsm.utils", "gha_templates", "ISSUE_TEMPLATE")
+    fs::path_package("gsm.utils", "github_templates", "ISSUE_TEMPLATE")
   )
   fs::file_copy(
     source_files,
@@ -90,7 +90,12 @@ remove_deprecated_issue_templates <- function(
   templates_path <- fs::path(strPackageDir, ".github", "ISSUE_TEMPLATE")
   deprecated_templates <- c("1-requirement.md")
   results <- purrr::map(deprecated_templates, \(name) {
-    .remove_issue_template(name, templates_path, overwrite = overwrite, verbose = verbose)
+    .remove_issue_template(
+      name,
+      templates_path,
+      overwrite = overwrite,
+      verbose = verbose
+    )
   }) |>
     purrr::compact() |>
     as.character()
@@ -115,7 +120,9 @@ remove_deprecated_issue_templates <- function(
       ))
     }
     if (verbose) {
-      cli::cli_inform("Removing deprecated issue template {.file {template_path}}.")
+      cli::cli_inform(
+        "Removing deprecated issue template {.file {template_path}}."
+      )
     }
     fs::file_delete(template_path)
     return(name)
@@ -143,7 +150,7 @@ add_contributor_guidelines <- function(strPackageDir = ".", overwrite = TRUE) {
   }
 
   fs::file_copy(
-    fs::path_package("gsm.utils", "gha_templates", "CONTRIBUTING.md"),
+    fs::path_package("gsm.utils", "github_templates", "CONTRIBUTING.md"),
     strFilePath,
     overwrite = overwrite
   )

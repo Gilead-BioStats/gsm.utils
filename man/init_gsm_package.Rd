@@ -7,7 +7,8 @@
 init_gsm_package(
   strPackageDir,
   lDescriptionFields = list(),
-  bIncludeWorkflowDir = TRUE
+  bIncludeWorkflowDir = TRUE,
+  strOrg = "Gilead-BioStats"
 )
 }
 \arguments{
@@ -19,6 +20,10 @@ init_gsm_package(
 \item{bIncludeWorkflowDir}{\code{boolean} argument declaring whether or not to
 include the \code{inst/workflow} directory in the root of the package. Default
 is \code{TRUE}.}
+
+\item{strOrg}{\code{string} GitHub organization under which the repo should be
+created. Set to \code{NULL} to create the package in your personal GitHub
+account.}
 }
 \description{
 Initialize gsm Extension package

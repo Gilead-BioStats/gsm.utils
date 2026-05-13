@@ -159,6 +159,8 @@ remove_deprecated_actions <- function(
   workflows_path <- fs::path(strPackageDir, ".github", "workflows")
   extra_workflows <- c(
     "R-CMD-check-dev.yaml",
+    "pkgdown.yaml",
+    "pkgdown.yml",
     "pkgdown-cleanup.yaml",
     "pkgdown-with-examples.yaml",
     "r-releaser.yaml",
