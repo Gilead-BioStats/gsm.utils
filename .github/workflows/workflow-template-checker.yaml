@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Check out repo
         uses: gilead-biostats/gsm.utils/checkout@actions-v1
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
 
       - name: Check compliance, auto-fix, and build comment
         id: check

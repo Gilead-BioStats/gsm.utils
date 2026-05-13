@@ -22,7 +22,6 @@ jobs:
       - name: Check out repo
         uses: gilead-biostats/gsm.utils/checkout@actions-v1
         with:
-          # Explicitly check out the PR branch to avoid detached HEAD
           ref: ${{ github.head_ref || github.ref_name }}
 
       - name: Parse YAML headers and generate JSON
@@ -60,6 +59,7 @@ jobs:
 
           with open('gha_version.json', 'w') as f:
               json.dump({"workflows": workflows}, f, indent=2)
+              f.write('\n')
 
       - name: Check for changes
         id: check
@@ -77,8 +77,6 @@ jobs:
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git add gha_version.json
           git commit -m 'chore: auto-update gha_version.json from templates'
-
-          # Pull with rebase to sync with the PR branch before pushing
           git pull --rebase origin ${{ github.head_ref || github.ref_name }}
 
       - name: Push changes
