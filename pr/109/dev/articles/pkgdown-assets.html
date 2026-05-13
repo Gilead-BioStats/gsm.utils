@@ -157,7 +157,7 @@ constructing the menu:</p>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"[your.package] Example"</span></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">description</span><span class="kw">:</span><span class="at"> </span><span class="st">"&lt;&lt;Fill in Example description here&gt;&gt;"</span></span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">index</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> </span><span class="st">"May 13, 2026 15:49:25 UTC"</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> </span><span class="st">"May 13, 2026 17:22:25 UTC"</span></span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">output</span><span class="kw">:</span><span class="at"> html_document</span></span>
 <span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div>
 <p>Two fields drive the menu:</p>
@@ -219,7 +219,8 @@ labels and order.</li>
 <code>menu:</code> list of <code>text</code> / <code>href</code>
 entries.</li>
 <li>Removes a menu entirely when its <code>pkgdown/assets</code>
-subdirectory is empty.</li>
+subdirectory is empty and no existing YAML menu entries point to
+existing assets.</li>
 </ol>
 <p>Existing menu items whose target HTML still exists on disk are
 preserved across rebuilds, so you can hand-edit
@@ -252,7 +253,7 @@ into <code>.github/workflows/</code>.</p>
 <code>main</code> or <code>dev</code>,</li>
 <li>deploys a per-PR preview to <code>/pr/&lt;number&gt;/</code> (or
 <code>/pr/&lt;number&gt;/dev</code> if dev-mode vs production-mode is
-enabled ) and comments the URL on the PR,</li>
+enabled) and comments the URL on the PR,</li>
 <li>cleans up the preview directory when the PR is closed.</li>
 </ul>
 <p>No per-package configuration is required as long as your sources live

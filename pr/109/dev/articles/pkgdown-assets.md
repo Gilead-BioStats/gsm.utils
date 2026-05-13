@@ -69,7 +69,7 @@ title: "My First Example"
 author: "[your.package] Example"
 description: "<<Fill in Example description here>>"
 index: 1
-date: "May 13, 2026 15:49:25 UTC"
+date: "May 13, 2026 17:22:25 UTC"
 output: html_document
 ---
 ```
@@ -128,7 +128,7 @@ is an orchestrator. Here’s what it does:
     inserts it into `navbar$structure$left`, and writes a sorted `menu:`
     list of `text` / `href` entries.
 5.  Removes a menu entirely when its `pkgdown/assets` subdirectory is
-    empty.
+    empty and no existing YAML menu entries point to existing assets.
 
 Existing menu items whose target HTML still exists on disk are preserved
 across rebuilds, so you can hand-edit `_pkgdown.yml` to add curated
@@ -169,7 +169,7 @@ The workflow:
 - builds the site against the current branch,
 - deploys production to `gh-pages` on push to `main` or `dev`,
 - deploys a per-PR preview to `/pr/<number>/` (or `/pr/<number>/dev` if
-  dev-mode vs production-mode is enabled ) and comments the URL on the
+  dev-mode vs production-mode is enabled) and comments the URL on the
   PR,
 - cleans up the preview directory when the PR is closed.
 
