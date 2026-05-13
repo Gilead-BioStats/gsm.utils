@@ -11,10 +11,6 @@
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Adding Examples and Other Assets to a pkgdown Site">
-<meta name="description" content="How to author example reports under `pkgdown/menus/`, render them to `pkgdown/assets/`, and surface them as navbar menus on a GSM package's pkgdown site.
-">
-<meta property="og:description" content="How to author example reports under `pkgdown/menus/`, render them to `pkgdown/assets/`, and surface them as navbar menus on a GSM package's pkgdown site.
-">
 <meta name="robots" content="noindex">
 </head>
 <body>
@@ -79,12 +75,11 @@
     
 <p>GSM packages frequently ship runnable example reports alongside their
 pkgdown reference docs. <code>gsm.utils</code> standardizes that
-workflow: drop <code>.Rmd</code> (or <code>.qmd</code>) files into a
+workflow: drop <code>.Rmd</code> or <code>.qmd</code> files into a
 subdirectory of <code>pkgdown/menus/</code>, call
-<code><a href="../reference/build_assets.html">build_assets()</a></code>, and you get rendered HTML in
-<code>pkgdown/assets/</code> plus a matching menu in the navbar of your
-pkgdown site.</p>
-<p>This vignette walks through that workflow end to end using the
+<code><a href="../reference/build_assets.html">build_assets()</a></code>, and you get rendered HTML plus a matching
+menu in the navbar of your pkgdown site.</p>
+<p>This vignette walks through that workflow end-to-end using the
 <code>examples</code> menu, then shows how the same machinery applies to
 other asset types like slide decks.</p>
 <div class="section level2">
@@ -93,8 +88,8 @@ other asset types like slide decks.</p>
 <p>Three locations stay in lockstep:</p>
 <table class="table">
 <colgroup>
-<col width="44%">
-<col width="55%">
+<col width="49%">
+<col width="50%">
 </colgroup>
 <thead><tr class="header">
 <th>Location</th>
@@ -117,9 +112,9 @@ other asset types like slide decks.</p>
 </table>
 <p>The subdirectory name under <code>pkgdown/menus/</code> is the menu
 name. A folder called <code>examples/</code> becomes an “Examples”
-dropdown; a folder called <code>slides/</code> becomes a “Slides”
-dropdown. <code><a href="../reference/build_assets.html">build_assets()</a></code> discovers them automatically — no
-per-menu configuration required.</p>
+dropdown, a folder called <code>slides/</code> becomes a “Slides”
+dropdown, etc. <code><a href="../reference/build_assets.html">build_assets()</a></code> discovers them automatically.
+No per-menu configuration is required.</p>
 </div>
 <div class="section level2">
 <h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
@@ -141,14 +136,13 @@ per-menu configuration required.</p>
 <p>After step 2 you should see:</p>
 <ul>
 <li>
-<code>pkgdown/menus/examples/Example_My_First_Example.Rmd</code> —
-your source</li>
+<code>pkgdown/menus/examples/Example_My_First_Example.Rmd</code>
+(your source, created in step 1)</li>
 <li>
-<code>pkgdown/assets/examples/Example_My_First_Example.html</code> —
-rendered</li>
-<li>a new <code>navbar.components.examples</code> block in
-<code>_pkgdown.yml</code>
-</li>
+<code>pkgdown/assets/examples/Example_My_First_Example.html</code>
+(rendered in step 2)</li>
+<li>a new <code>navbar$components$examples</code> block in
+<code>_pkgdown.yml</code> (added in step 2)</li>
 </ul>
 </div>
 <div class="section level2">
@@ -163,19 +157,19 @@ constructing the menu:</p>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"[your.package] Example"</span></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">description</span><span class="kw">:</span><span class="at"> </span><span class="st">"&lt;&lt;Fill in Example description here&gt;&gt;"</span></span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">index</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> </span><span class="st">"May 13, 2026 09:56:34 UTC"</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> </span><span class="st">"May 13, 2026 15:24:02 UTC"</span></span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">output</span><span class="kw">:</span><span class="at"> html_document</span></span>
 <span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div>
 <p>Two fields drive the menu:</p>
 <ul>
 <li>
-<strong><code>title</code></strong> — used as the menu label. If
-missing, the filename is title-cased instead
+<strong><code>title</code>:</strong> used as the menu label. If
+missing, the filename is used and converted to a title-cased title
 (e.g. <code>example_hello_world.Rmd</code> →
 <code>"Example Hello World"</code>). HTML in the title is stripped, so
 titles authored for QMD slides still render cleanly in the navbar.</li>
 <li>
-<strong><code>index</code></strong> — numeric ordering key. Lower
+<strong><code>index</code>:</strong> numeric ordering key. Lower
 indices appear first; ties fall back to alphabetical title order.
 Missing or non-numeric values are treated as <code>Inf</code>, sending
 the entry to the end.</li>
@@ -206,7 +200,8 @@ you parameterize the embedded report without touching its source.</p>
 <div class="section level2">
 <h2 id="what-build_assets-does">What <code>build_assets()</code> does<a class="anchor" aria-label="anchor" href="#what-build_assets-does"></a>
 </h2>
-<p><code><a href="../reference/build_assets.html">build_assets()</a></code> is a thin orchestrator:</p>
+<p><code><a href="../reference/build_assets.html">build_assets()</a></code> is an orchestrator. Here’s what it
+does:</p>
 <ol style="list-style-type: decimal">
 <li>Walks every subdirectory of <code>source_dir</code> (default
 <code>pkgdown/menus/</code>).</li>
@@ -216,39 +211,48 @@ you parameterize the embedded report without touching its source.</p>
 <code>pkgdown/assets/&lt;menu&gt;/</code>.</li>
 <li>Reads front-matter metadata from the source files to determine menu
 labels and order.</li>
-<li>Updates <code>_pkgdown.yml</code> in place: adds the menu component,
-inserts it into <code>navbar.structure.left</code>, and writes a sorted
+<li>Updates <code>_pkgdown.yml</code> in place: adds the menu component
+(with the title built from the subdirectory name, so
+<code>examples</code> becomes <code>"Examples"</code> and
+<code>your_other_menu</code> becomes “Your Other Menu”), inserts it into
+<code>navbar$structure$left</code>, and writes a sorted
 <code>menu:</code> list of <code>text</code> / <code>href</code>
 entries.</li>
-<li>Removes a menu entirely when its subdirectory contains no
-successfully rendered assets.</li>
+<li>Removes a menu entirely when its <code>pkgdown/assets</code>
+subdirectory is empty.</li>
 </ol>
 <p>Existing menu items whose target HTML still exists on disk are
 preserved across rebuilds, so you can hand-edit
 <code>_pkgdown.yml</code> to add curated links (e.g. to externally
 hosted content) without losing them on the next run.</p>
 <p>Render failures are surfaced as <code><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli::cli_warn()</a></code> messages
-of class <code>gsm.utils-render_failure</code>; the offending file is
+of class <code>gsm.utils-render_failure</code>. The offending file is
 skipped and the rest of the menu is built normally.</p>
 </div>
 <div class="section level2">
 <h2 id="wiring-up-ci">Wiring up CI<a class="anchor" aria-label="anchor" href="#wiring-up-ci"></a>
 </h2>
-<p>The <code>pkgdown-all</code> workflow (in
-<code>inst/gha_templates/workflows/</code>) runs the same pipeline on
-every push and pull request via the shared composite action
+<p>Install the <code>pkgdown-all</code> workflow with
+<code>gsm.utils::add_action("pkgdown-all.yaml")</code>. The
+<code>pkgdown-all</code> workflow runs the same pipeline on every push
+and pull request via the shared composite action
 <code>gilead-biostats/gsm.utils/actions/pkgdown-deploy@actions-v1</code>.
 To adopt it in a downstream package, run:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">gsm.utils</span><span class="fu">::</span><span class="fu"><a href="../reference/add_action.html">add_action</a></span><span class="op">(</span><span class="st">"pkgdown-all.yaml"</span><span class="op">)</span></span></code></pre></div>
+<p>Or install all GSM actions and issue templates:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">gsm.utils</span><span class="fu">::</span><span class="fu"><a href="../reference/update_gsm_package.html">update_gsm_package</a></span><span class="op">(</span><span class="st">"."</span><span class="op">)</span></span></code></pre></div>
-<p>This drops the latest <code>pkgdown-all.yaml</code> into
-<code>.github/workflows/</code>. The workflow:</p>
+<p>Either way, the latest <code>pkgdown-all.yaml</code> will be written
+into <code>.github/workflows/</code>.</p>
+<p>The workflow:</p>
 <ul>
 <li>builds the site against the current branch,</li>
 <li>deploys production to <code>gh-pages</code> on push to
 <code>main</code> or <code>dev</code>,</li>
-<li>deploys a per-PR preview to <code>gh-pages/pr/&lt;number&gt;/</code>
-and comments the URL on the PR,</li>
+<li>deploys a per-PR preview to <code>/pr/&lt;number&gt;/</code> (or
+<code>/pr/&lt;number&gt;/dev</code> if dev-mode vs production-mode is
+enabled ) and comments the URL on the PR,</li>
 <li>cleans up the preview directory when the PR is closed.</li>
 </ul>
 <p>No per-package configuration is required as long as your sources live
@@ -259,7 +263,9 @@ in <code>pkgdown/menus/</code> and your output target is
 <h2 id="other-assets-e-g--slide-decks">Other assets (e.g. slide decks)<a class="anchor" aria-label="anchor" href="#other-assets-e-g--slide-decks"></a>
 </h2>
 <p>The “menu = subdirectory” convention is generic. To publish a deck of
-Quarto slides next to your examples:</p>
+Quarto slides next to your examples, add a
+<code>pkgdown/menus/slides</code> directory, with one or more
+<code>.qmd</code> slide decks:</p>
 <pre><code><span><span class="va">pkgdown</span><span class="op">/</span></span>
 <span>  <span class="va">menus</span><span class="op">/</span></span>
 <span>    <span class="va">examples</span><span class="op">/</span></span>
@@ -275,7 +281,7 @@ copied).</p>
 <p>A couple of practical notes:</p>
 <ul>
 <li>Slide title labels can include inline HTML in the YAML
-<code>title:</code> field; <code><a href="../reference/build_assets.html">build_assets()</a></code> strips tags
+<code>title:</code> field. <code><a href="../reference/build_assets.html">build_assets()</a></code> strips tags
 before writing the navbar entry.</li>
 <li>For pre-rendered or third-party HTML you want to host without
 re-rendering, drop it directly into
@@ -283,9 +289,10 @@ re-rendering, drop it directly into
 <code>_pkgdown.yml</code>. As long as the target file exists, subsequent
 <code><a href="../reference/build_assets.html">build_assets()</a></code> runs will preserve it.</li>
 <li>Any subdirectory name works (<code>tutorials/</code>,
-<code>whitepapers/</code>, …). The menu label is derived by title-casing
-the directory name with acronyms preserved (<code>api_reference/</code>
-→ “API Reference”).</li>
+<code>whitepapers/</code>, etc). The menu label is derived by
+title-casing the directory name with acronyms preserved
+(<code>API_reference/</code> → “API Reference”, while
+<code>OtherReference</code> → “Other Reference”).</li>
 </ul>
 </div>
 <div class="section level2">
@@ -301,11 +308,11 @@ An empty asset directory causes the menu to be removed from
 <li>
 <strong>Wrong title or order.</strong> Check the YAML front matter
 of the source file. Missing <code>title</code> falls back to a
-title-cased filename; missing or non-numeric <code>index</code> sorts to
+title-cased filename. Missing or non-numeric <code>index</code> sorts to
 the end.</li>
 <li>
 <strong>Render failures in CI but not locally.</strong> Render
-errors are warned, not thrown, so <code><a href="../reference/build_assets.html">build_assets()</a></code> returns
+errors are warnings, not errors, so <code><a href="../reference/build_assets.html">build_assets()</a></code> returns
 successfully even when individual files fail. Inspect the workflow logs
 for the <code>gsm.utils-render_failure</code> warnings.</li>
 <li>
@@ -324,7 +331,7 @@ with spaces, upgrade to the current version of
 <li><code><a href="../reference/make_example.html">?gsm.utils::make_example</a></code></li>
 <li><code><a href="../reference/build_assets.html">?gsm.utils::build_assets</a></code></li>
 <li><code><a href="../reference/render_rmd.html">?gsm.utils::render_rmd</a></code></li>
-<li><code>inst/gha_templates/workflows/pkgdown-all.yaml</code></li>
+<li><code><a href="../reference/add_action.html">?gsm.utils::add_action</a></code></li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
