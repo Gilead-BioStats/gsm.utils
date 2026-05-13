@@ -110,7 +110,7 @@ Setting `params` in `child_env` lets you parameterize the embedded report withou
 2. For each subdirectory, renders all `.Rmd` files via `render_rmd()` and all `.qmd` files via `quarto::quarto_render()`, writing the HTML to `pkgdown/assets/<menu>/`.
 3. Reads front-matter metadata from the source files to determine menu labels and order.
 4. Updates `_pkgdown.yml` in place: adds the menu component (with the title built from the subdirectory name, so `examples` becomes `"Examples"` and `your_other_menu` becomes "Your Other Menu"), inserts it into `navbar$structure$left`, and writes a sorted `menu:` list of `text` / `href` entries.
-5. Removes a menu entirely when its `pkgdown/assets` subdirectory is empty.
+5. Removes a menu entirely when its `pkgdown/assets` subdirectory is empty and no existing YAML menu entries point to existing assets.
 
 Existing menu items whose target HTML still exists on disk are preserved across rebuilds, so you can hand-edit `_pkgdown.yml` to add curated links (e.g. to externally hosted content) without losing them on the next run.
 
