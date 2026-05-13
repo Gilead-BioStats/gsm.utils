@@ -22,19 +22,16 @@ jobs:
           import os, json, re, glob
 
           workflows = []
-          # Regex to match case-insensitive keys in comments
           pattern_name = re.compile(r'^#\s*name:\s*(.*)', re.I)
           pattern_desc = re.compile(r'^#\s*description:\s*(.*)', re.I)
           pattern_version = re.compile(r'^#\s*version:\s*(.*)', re.I)
 
           if os.path.isdir('workflow_templates'):
-              # Sort to ensure consistent order in the JSON array
               for filepath in sorted(glob.glob('workflow_templates/*.yaml')):
                   with open(filepath, 'r') as f:
                       w_name, w_version, w_desc = None, None, None
 
                       for line in f:
-                          # Stop parsing once we hit the end of the commented header
                           if not line.strip().startswith('#'):
                               break
 
@@ -45,7 +42,6 @@ jobs:
                           elif m := pattern_desc.match(line):
                               w_desc = m.group(1).strip()
 
-                      # Only append if all required fields were found
                       if w_name and w_version and w_desc:
                           workflows.append({
                               "name": w_name,
@@ -54,15 +50,25 @@ jobs:
                           })
 
           with open('gha_version.json', 'w') as f:
-              # indent=2 matches your requested output format
               json.dump({"workflows": workflows}, f, indent=2)
 
-      - name: Commit and push changes
+      - name: Check for changes
+        id: check
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          if [ -n "$(git status --porcelain gha_version.json)" ]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Commit fixes
+        if: ${{ steps.check.outputs.has_changes == 'true' }}
+        run: |
+          git config --local user.name "$GITHUB_ACTOR"
+          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git add gha_version.json
-
-          # Only commit and push if there is an actual diff
-          git diff --quiet && git diff --staged --quiet || \
-          (git commit -m "chore: auto-update gha_version.json from templates" && git push)
+          git commit -m 'chore: auto-update gha_version.json from templates'
+      - name: Push changes
+        if: ${{ steps.check.outputs.has_changes == 'true' }}
+        uses: r-lib/actions/pr-push@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
