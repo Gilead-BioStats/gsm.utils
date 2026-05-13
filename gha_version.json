@@ -22,8 +22,8 @@
     },
     {
       "name": "workflow-template-check.yaml",
-      "description": "Ensure that GitHub Actions workflows match gsm.utils templates",
-      "version": "0.3.7"
+      "description": "Check if GitHub Actions workflows match gsm.utils templates",
+      "version": "0.3.6"
     }
   ]
 }
