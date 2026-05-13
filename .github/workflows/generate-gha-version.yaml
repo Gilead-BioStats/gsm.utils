@@ -2,6 +2,7 @@
 # version: 0.1.0
 # Description: Update gha_version.json with latest templates.
 name: Generate Workflow Version JSON
+
 on:
   pull_request:
     branches:
@@ -10,12 +11,20 @@ on:
       - 'workflow_templates/*.yaml'
   workflow_dispatch:
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   update-json:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repo
         uses: gilead-biostats/gsm.utils/checkout@actions-v1
+        with:
+          # Explicitly check out the PR branch to avoid detached HEAD
+          ref: ${{ github.head_ref || github.ref_name }}
+
       - name: Parse YAML headers and generate JSON
         shell: python
         run: |
@@ -60,6 +69,7 @@ jobs:
           else
             echo "has_changes=false" >> $GITHUB_OUTPUT
           fi
+
       - name: Commit fixes
         if: ${{ steps.check.outputs.has_changes == 'true' }}
         run: |
@@ -67,6 +77,10 @@ jobs:
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git add gha_version.json
           git commit -m 'chore: auto-update gha_version.json from templates'
+
+          # Pull with rebase to sync with the PR branch before pushing
+          git pull --rebase origin ${{ github.head_ref || github.ref_name }}
+
       - name: Push changes
         if: ${{ steps.check.outputs.has_changes == 'true' }}
         uses: r-lib/actions/pr-push@v2
