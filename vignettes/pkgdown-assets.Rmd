@@ -140,7 +140,7 @@ The workflow:
 
 - builds the site against the current branch,
 - deploys production to `gh-pages` on push to `main` or `dev`,
-- deploys a per-PR preview to `/pr/<number>/` (or `/pr/<number>/dev` if dev-mode vs production-mode is enabled ) and comments the URL on the PR,
+- deploys a per-PR preview to `/pr/<number>/` (or `/pr/<number>/dev` if dev-mode vs production-mode is enabled) and comments the URL on the PR,
 - cleans up the preview directory when the PR is closed.
 
 No per-package configuration is required as long as your sources live in `pkgdown/menus/` and your output target is `pkgdown/assets/`.
