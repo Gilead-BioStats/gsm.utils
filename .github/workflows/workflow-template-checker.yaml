@@ -19,7 +19,7 @@ jobs:
       - name: Check compliance, auto-fix, and build comment
         id: check
         run: |
-          BASE_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/actions-v1"
+          BASE_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-107-action_permissions"
           MANIFEST_URL="$BASE_URL/gha_version.json"
 
           echo "Downloading manifest from $MANIFEST_URL..."
