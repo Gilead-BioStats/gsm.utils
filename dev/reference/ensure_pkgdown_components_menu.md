@@ -1,11 +1,11 @@
-# Ensure pkgdown menu sections exist
+# Ensure pkgdown components element has menu
 
-Ensure pkgdown menu sections exist
+Ensure pkgdown components element has menu
 
 ## Usage
 
 ``` r
-ensure_pkgdown_menu_section(pkgdown_contents, menu)
+ensure_pkgdown_components_menu(pkgdown_contents, menu)
 ```
 
 ## Arguments
@@ -21,4 +21,5 @@ ensure_pkgdown_menu_section(pkgdown_contents, menu)
 
 ## Value
 
-An updated list of pkgdown YAML contents with the new menu added.
+An updated list of pkgdown YAML contents with the menu in navbar
+components.

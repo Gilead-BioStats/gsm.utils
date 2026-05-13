@@ -1,6 +1,8 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/CONTRIBUTING.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/LICENSE.html</loc></url>
+<url><loc>https://gilead-biostats.github.io/gsm.utils/dev/articles/index.html</loc></url>
+<url><loc>https://gilead-biostats.github.io/gsm.utils/dev/articles/pkgdown-assets.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/authors.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/examples/Example_goodnightmoon.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/examples/example_goodbyeworld.html</loc></url>
@@ -26,7 +28,11 @@
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/create_gha_manifest.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/emit_coverage_summary.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/empty_menu_metadata_table.html</loc></url>
+<url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/ensure_pkgdown_components.html</loc></url>
+<url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/ensure_pkgdown_components_menu.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/ensure_pkgdown_menu_section.html</loc></url>
+<url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/ensure_pkgdown_navbar_left.html</loc></url>
+<url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/ensure_pkgdown_navbar_left_menu.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/extract_pattern.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/filter_existing_menu.html</loc></url>
 <url><loc>https://gilead-biostats.github.io/gsm.utils/dev/reference/gsm.utils-package.html</loc></url>
