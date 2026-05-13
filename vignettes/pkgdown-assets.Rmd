@@ -186,5 +186,4 @@ A couple of practical notes:
 
 - `?gsm.utils::make_example`
 - `?gsm.utils::build_assets`
-- `?gsm.utils::render_rmd`
 - `?gsm.utils::add_action`
