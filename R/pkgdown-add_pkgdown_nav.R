@@ -89,29 +89,86 @@ update_pkgdown_menu <- function(
   return(pkgdown_contents)
 }
 
-#' Ensure pkgdown menu section exists
+#' Ensure pkgdown menu sections exist
 #'
 #' @inheritParams build_assets_params
 #' @returns An updated list of pkgdown YAML contents with the new menu added.
 #' @keywords internal
 ensure_pkgdown_menu_section <- function(pkgdown_contents, menu) {
+  pkgdown_contents <- ensure_pkgdown_components(pkgdown_contents) |>
+    ensure_pkgdown_components_menu(menu) |>
+    ensure_pkgdown_navbar_left() |>
+    ensure_pkgdown_navbar_left_menu(menu)
+  return(pkgdown_contents)
+}
+
+#' Ensure pkgdown components element exists
+#'
+#' @inheritParams build_assets_params
+#' @returns An updated list of pkgdown YAML contents with components in the
+#'   navbar.
+#' @keywords internal
+ensure_pkgdown_components <- function(pkgdown_contents) {
+  if (!length(pkgdown_contents[["navbar"]][["components"]])) {
+    pkgdown_contents[["navbar"]][["components"]] <- list()
+  }
+  return(pkgdown_contents)
+}
+
+#' Ensure pkgdown components element has menu
+#'
+#' @inheritParams build_assets_params
+#' @returns An updated list of pkgdown YAML contents with the menu in navbar
+#'   components.
+#' @keywords internal
+ensure_pkgdown_components_menu <- function(pkgdown_contents, menu) {
   if (is.null(pkgdown_contents[["navbar"]][["components"]][[menu]])) {
     pkgdown_contents[["navbar"]][["components"]][[menu]] <- list(
       text = to_title_case(menu),
       menu = list()
     )
   }
+  return(pkgdown_contents)
+}
 
-  # Ensure menu is in navbar$structure$left if structure exists
-  if (!is.null(pkgdown_contents[["navbar"]][["structure"]][["left"]])) {
-    if (!(menu %in% pkgdown_contents[["navbar"]][["structure"]][["left"]])) {
-      pkgdown_contents[["navbar"]][["structure"]][["left"]] <- c(
-        pkgdown_contents[["navbar"]][["structure"]][["left"]],
-        menu
-      )
+#' Ensure pkgdown navbar structure left element exists
+#'
+#' @inheritParams build_assets_params
+#' @returns An updated list of pkgdown YAML contents with `structure$left` in
+#'   the navbar.
+#' @keywords internal
+ensure_pkgdown_navbar_left <- function(pkgdown_contents) {
+  if (is.null(pkgdown_contents[["navbar"]][["structure"]][["left"]])) {
+    if (
+      !is.null(pkgdown_contents[["navbar"]][["structure"]]) &&
+        is.null(pkgdown_contents[["navbar"]][["structure"]][["right"]])
+    ) {
+      cli::cli_abort(c(
+        "Existing {.arg pkgdown_contents} contains {.code navbar$structure} with neither {.code right} nor {.code left}.",
+        i = "Update `_pkgdown.yaml` manually to prepare for menus."
+      ))
     }
+    pkgdown_contents[["navbar"]][["structure"]][["left"]] <- c(
+      "reference",
+      "articles"
+    )
   }
+  return(pkgdown_contents)
+}
 
+#' Ensure pkgdown navbar structure left element contains menu
+#'
+#' @inheritParams build_assets_params
+#' @returns An updated list of pkgdown YAML contents with the menu in
+#'   `navbar$structure$left`.
+#' @keywords internal
+ensure_pkgdown_navbar_left_menu <- function(pkgdown_contents, menu) {
+  if (!(menu %in% pkgdown_contents[["navbar"]][["structure"]][["left"]])) {
+    pkgdown_contents[["navbar"]][["structure"]][["left"]] <- c(
+      pkgdown_contents[["navbar"]][["structure"]][["left"]],
+      menu
+    )
+  }
   return(pkgdown_contents)
 }
 
