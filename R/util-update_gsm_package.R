@@ -145,10 +145,8 @@ remove_deprecated_issue_templates <- function(
 #'
 #' @export
 add_contributor_guidelines <- function(strPackageDir = ".", overwrite = TRUE) {
-  strDirPath <- fs::path(strPackageDir, ".github")
-  fs::dir_create(strDirPath)
-
-  strFilePath <- fs::path(strDirPath, "CONTRIBUTING.md")
+  strDirPath <- .ensure_github_dir_exists(strPackageDir)
+  strFilePath <- .find_contributing(strPackageDir)
   if (fs::file_exists(strFilePath) && !overwrite) {
     cli::cli_abort(c(
       x = "The .github/CONTRIBUTING.md file already exists.",
@@ -161,4 +159,13 @@ add_contributor_guidelines <- function(strPackageDir = ".", overwrite = TRUE) {
     strFilePath,
     overwrite = overwrite
   )
+}
+
+.ensure_github_dir_exists <- function(strPackageDir) {
+  strDirPath <- fs::path(strPackageDir, ".github")
+  fs::dir_create(strDirPath)
+}
+
+.find_contributing <- function(strPackageDir) {
+  fs::path(strPackageDir, ".github", "CONTRIBUTING.md") # nocov
 }
