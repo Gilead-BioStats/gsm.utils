@@ -3,6 +3,8 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
 # Description: R CMD check for PRs
 on:
+  push:
+    branches: [main, dev]
   pull_request:
     branches: [main, dev]
 name: R-CMD-check
