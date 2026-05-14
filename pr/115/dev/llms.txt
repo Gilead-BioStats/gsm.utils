@@ -1,7 +1,7 @@
 # gsm.utils
 
 Tools to make an `OpenRBQM` developer’s life easier including standard
-GitHub actions, issue and pull request templates and utility functions.
+GitHub actions, issue and pull request templates, and utility functions.
 
 ## Installation
 
@@ -11,7 +11,7 @@ You can install the latest release of gsm.utils from
 ``` r
 
 # install.packages("pak")
-pak::pak("Gilead-BioStats/gsm.utils@*release⁠")
+pak::pak("Gilead-BioStats/gsm.utils@*release")
 ```
 
 You can install the development version of gsm.utils from
@@ -38,7 +38,8 @@ configuration:
 init_gsm_package(
   strPackageDir = "path/to/new/package",
   lDescriptionFields = list(),
-  bIncludeWorkflowDir = TRUE
+  bIncludeWorkflowDir = TRUE,
+  strOrg = "Gilead-BioStats"
 )
 ```
 
@@ -46,8 +47,17 @@ init_gsm_package(
   [`usethis::create_package()`](https://usethis.r-lib.org/reference/create_package.html)
 - Sets up pkgdown documentation with GitHub Pages
 - Configures testthat for unit testing
-- Copies GitHub Actions workflows and issue templates from
-  `inst/gha_templates`
+- Installs GitHub issue templates with
+  [`add_gsm_issue_templates()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_gsm_issue_templates.md)
+- Removes deprecated issue templates with
+  [`remove_deprecated_issue_templates()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/remove_deprecated_issue_templates.md)
+- Installs GitHub Actions workflows from the [`actions-v1` branch of
+  this
+  repo](https://github.com/Gilead-BioStats/gsm.utils/tree/actions-v1/workflow_templates)
+  with
+  [`add_actions()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_actions.md)
+- Removes deprecated issue templates with
+  [`remove_deprecated_actions()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/remove_deprecated_actions.md)
 
 ### `update_gsm_package()`
 
