@@ -3,7 +3,7 @@
     {
       "name": "R-CMD-check.yaml",
       "description": "R CMD check for PRs",
-      "version": "0.3.7"
+      "version": "0.3.8"
     },
     {
       "name": "pkgdown-all.yaml",
