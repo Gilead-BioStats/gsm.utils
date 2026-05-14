@@ -84,13 +84,15 @@ The [`actions-v1` branch of this repo](https://github.com/Gilead-BioStats/gsm.ut
 
 - **`R-CMD-check.yaml`**: Runs R package checks on PRs to ensure package integrity.
 
-- **`pkgdown-all.yaml`**: Builds and deploys pkgdown documentation sites with automatic menu addition and asset creation via `gsm.utils::build_assets()`. Creates PR preview sites at `/pr/{number}` (or, depending on your pkgdown configuration, `/pr/{number}/dev`) and deletes such sites once the PR is closed, and deploys production and/or `/dev` sites on push to `main` or `dev`.
+- **`pkgdown-all.yaml`**: Builds and deploys pkgdown documentation sites with automatic menu addition and asset creation via `gsm.utils::build_assets()`.
+  Creates PR preview sites at `/pr/{number}` (or, depending on your pkgdown configuration, `/pr/{number}/dev`) and deletes such sites once the PR is closed, and deploys production and/or `/dev` sites on push to `main` or `dev`.
 
 - **`r_releaser-caller.yaml`**: Reusable workflow for building and attaching R package source tarballs to GitHub releases, using the A2-ai/r-releaser action with configurable options for data compression and vignette building.
 
-- **`test-coverage.yaml`**: Computes test coverage using `covr` and logs the result on every run. On pull requests, coverage is posted as a sticky comment that updates on each push. `coverage-summary.json` (written via `gsm.utils::emit_coverage_summary()`) is attached as a release asset when triggered by a `release: published` event.
+- **`test-coverage.yaml`**: Computes test coverage using `covr` and logs the result on every run.
+  On pull requests, coverage is posted as a sticky comment that updates on each push. `coverage-summary.json` (written via `gsm.utils::emit_coverage_summary()`) is attached as a release asset when triggered by a `release: published` event.
 
-- **`workflow-template-check.yaml`**: Ensures workflow compliance by checking that a package's `.github/workflows` directory matches these templates. 
+- **`workflow-template-check.yaml`**: Ensures workflow compliance by checking that a package's `.github/workflows` directory matches these templates.
   Runs on pull requests and verifies file presence and version headers to maintain standardized CI/CD across GSM packages.
 
 ## Code of Conduct
