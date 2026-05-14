@@ -23,17 +23,17 @@ add_assets_to_pkgdown_menu(
 
 - menu:
 
-  Character. Menu folder name.
+  (`string`) Menu folder name.
 
 - menu_subdir:
 
-  Character. Path to the subdirectory containing `.*md` files to render
+  (`string`) Path to the subdirectory containing `.*md` files to render
   and add to pkgdown.
 
 - rendered_assets:
 
-  Character. Path to successfully rendered HTML files to add to pkgdown
-  menu.
+  (`character`) Paths to successfully rendered HTML files to add to
+  pkgdown menu.
 
 - existing_menu:
 

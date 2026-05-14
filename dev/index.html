@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">gsm.utils</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,14 +67,14 @@
 
 
 <!-- badges: end -->
-<p>Tools to make an <code>OpenRBQM</code> developer’s life easier including standard GitHub actions, issue and pull request templates and utility functions.</p>
+<p>Tools to make an <code>OpenRBQM</code> developer’s life easier including standard GitHub actions, issue and pull request templates, and utility functions.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>You can install the latest release of gsm.utils from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"Gilead-BioStats/gsm.utils@*release⁠"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"Gilead-BioStats/gsm.utils@*release"</span><span class="op">)</span></span></code></pre></div>
 <div class="pkgdown-devel">
 <p>You can install the development version of gsm.utils from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -95,15 +95,15 @@
 <code class="sourceCode R"><span><span class="fu"><a href="reference/init_gsm_package.html">init_gsm_package</a></span><span class="op">(</span></span>
 <span>  strPackageDir <span class="op">=</span> <span class="st">"path/to/new/package"</span>,</span>
 <span>  lDescriptionFields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  bIncludeWorkflowDir <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  bIncludeWorkflowDir <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  strOrg <span class="op">=</span> <span class="st">"Gilead-BioStats"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <ul>
 <li>Creates package skeleton using <code><a href="https://usethis.r-lib.org/reference/create_package.html" class="external-link">usethis::create_package()</a></code>
 </li>
 <li>Sets up pkgdown documentation with GitHub Pages</li>
 <li>Configures testthat for unit testing</li>
-<li>Copies GitHub Actions workflows and issue templates from <code>inst/gha_templates</code>
-</li>
+<li>Calls <code><a href="reference/update_gsm_package.html">update_gsm_package()</a></code> to update issue templates and GitHub Actions workflows</li>
 </ul>
 </div>
 <div class="section level3">
@@ -114,31 +114,28 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/update_gsm_package.html">update_gsm_package</a></span><span class="op">(</span>strPackageDir <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div>
 <ul>
-<li>Refreshes <code>.github/ISSUE_TEMPLATE/</code> with current issue templates (Bug, Feature, Technical Task, Documentation Task)</li>
-<li>Updates <code>.github/workflows/</code> with latest GitHub Actions workflow definitions</li>
-</ul>
-<p>Use this function to keep your package’s CI/CD infrastructure synchronized with the latest conventions. ### <code><a href="reference/check_workflow_compliance.html">check_workflow_compliance()</a></code></p>
-<p>Checks if a package’s GitHub Actions workflows comply with gsm.utils templates:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/check_workflow_compliance.html">check_workflow_compliance</a></span><span class="op">(</span>strPackageDir <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div>
-<ul>
-<li>Verifies that required workflow files are present</li>
-<li>Checks version headers match the current gsm.utils version</li>
-<li>Compares critical workflow content against templates</li>
-<li>Provides detailed reporting of compliance issues</li>
-<li>Can be used in CI/CD to enforce workflow standards ## GitHub Actions Workflows</li>
-</ul>
-<p>The <code>inst/gha_templates/workflows</code> directory contains standardized GitHub Actions workflow templates for Gilead packages:</p>
-<ul>
-<li><p><strong><code>pkgdown-cleanup.yaml</code></strong>: Automatically removes pkgdown PR preview directories from the gh-pages branch when pull requests are closed to keep the repository clean.</p></li>
-<li><p><strong><code>pkgdown-with-assets.yaml</code></strong>: Builds and deploys pkgdown documentation sites with automatic menu addition and asset creation via <code><a href="reference/build_assets.html">gsm.utils::build_assets()</a></code>. Creates PR preview sites at <code>/pr/{number}</code> (or, depending on your pkgdown configuration, <code>/pr/{number}/dev</code>), and deploys production and/or <code>/dev</code> sites on push to <code>main</code> or <code>dev</code>.</p></li>
-<li><p><strong><code>R-CMD-check-dev.yaml</code></strong>: Lightweight R package check for PRs to <code>dev</code> branch, running on Ubuntu with current and minimum supported R versions for faster CI feedback during development.</p></li>
-<li><p><strong><code>R-CMD-check.yaml</code></strong>: Runs comprehensive R package checks on PRs to <code>main</code> across multiple platforms (macOS, Windows, Ubuntu) and R versions to ensure package integrity before release.</p></li>
-<li><p><strong><code>r_releaser-caller.yaml</code></strong>: Reusable workflow for building and attaching R package source tarballs to GitHub releases, using the A2-ai/r-releaser action with configurable options for data compression and vignette building.</p></li>
-<li><p><strong><code>test-coverage.yaml</code></strong>: Computes test coverage using <code>covr</code> and logs the result on every run. On pull requests, coverage is posted as a sticky comment that updates on each push. <code>coverage-summary.json</code> (written via <code><a href="reference/emit_coverage_summary.html">gsm.utils::emit_coverage_summary()</a></code>) is attached as a release asset when triggered by a <code>release: published</code> event.</p></li>
-<li><p><strong><code>workflow-template-check.yaml</code></strong>: Ensures workflow compliance by checking that a package’s <code>.github/workflows</code> directory matches the gsm.utils templates. Runs on pushes to <code>main</code> or <code>release</code> branches and verifies file presence, version headers, and critical content to maintain standardized CI/CD across GSM packages.</p></li>
+<li>Installs/updates GitHub issue templates with <code><a href="reference/add_gsm_issue_templates.html">add_gsm_issue_templates()</a></code>
+</li>
+<li>Removes deprecated issue templates with <code><a href="reference/remove_deprecated_issue_templates.html">remove_deprecated_issue_templates()</a></code>
+</li>
+<li>Installs/updates GitHub Actions workflows from the <a href="https://github.com/Gilead-BioStats/gsm.utils/tree/actions-v1/workflow_templates" class="external-link"><code>actions-v1</code> branch of this repo</a> with <code><a href="reference/add_actions.html">add_actions()</a></code>
+</li>
+<li>Removes deprecated issue templates with <code><a href="reference/remove_deprecated_actions.html">remove_deprecated_actions()</a></code>
+</li>
 </ul>
 </div>
+</div>
+<div class="section level2">
+<h2 id="github-actions-workflows">GitHub Actions Workflows<a class="anchor" aria-label="anchor" href="#github-actions-workflows"></a>
+</h2>
+<p>The <a href="https://github.com/Gilead-BioStats/gsm.utils/tree/actions-v1/workflow_templates" class="external-link"><code>actions-v1</code> branch of this repo</a> contains standardized GitHub Actions workflow templates for Gilead packages:</p>
+<ul>
+<li><p><strong><code>R-CMD-check.yaml</code></strong>: Runs R package checks on PRs to ensure package integrity.</p></li>
+<li><p><strong><code>pkgdown-all.yaml</code></strong>: Builds and deploys pkgdown documentation sites with automatic menu addition and asset creation via <code><a href="reference/build_assets.html">gsm.utils::build_assets()</a></code>. Creates PR preview sites at <code>/pr/{number}</code> (or, depending on your pkgdown configuration, <code>/pr/{number}/dev</code>) and deletes such sites once the PR is closed, and deploys production and/or <code>/dev</code> sites on push to <code>main</code> or <code>dev</code>.</p></li>
+<li><p><strong><code>r_releaser-caller.yaml</code></strong>: Reusable workflow for building and attaching R package source tarballs to GitHub releases, using the A2-ai/r-releaser action with configurable options for data compression and vignette building.</p></li>
+<li><p><strong><code>test-coverage.yaml</code></strong>: Computes test coverage using <code>covr</code> and logs the result on every run. On pull requests, coverage is posted as a sticky comment that updates on each push. <code>coverage-summary.json</code> (written via <code><a href="reference/emit_coverage_summary.html">gsm.utils::emit_coverage_summary()</a></code>) is attached as a release asset when triggered by a <code>release: published</code> event.</p></li>
+<li><p><strong><code>workflow-template-check.yaml</code></strong>: Ensures workflow compliance by checking that a package’s <code>.github/workflows</code> directory matches these templates. Runs on pull requests and verifies file presence and version headers to maintain standardized CI/CD across GSM packages.</p></li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
@@ -192,7 +189,9 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/R-CMD-check-dev.yaml" class="external-link"><img src="https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/R-CMD-check-dev.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/R-CMD-check.yaml/badge.svg?branch=dev" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/test-coverage.yaml" class="external-link"><img src="https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/test-coverage.yaml/badge.svg?branch=dev" alt="test-coverage"></a></li>
+<li><a href="https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/pkgdown-all.yaml" class="external-link"><img src="https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/pkgdown-all.yaml/badge.svg?branch=dev" alt="pkgdown-all"></a></li>
 </ul>
 </div>
 

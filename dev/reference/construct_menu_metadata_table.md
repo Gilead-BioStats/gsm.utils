@@ -12,7 +12,7 @@ construct_menu_metadata_table(menu_subdir)
 
 - menu_subdir:
 
-  Character. Path to the subdirectory containing `.*md` files to render
+  (`string`) Path to the subdirectory containing `.*md` files to render
   and add to pkgdown.
 
 ## Value

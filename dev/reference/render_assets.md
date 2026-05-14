@@ -12,18 +12,17 @@ render_assets(menu_subdir, assets_dir, verbose)
 
 - menu_subdir:
 
-  Character. Path to the subdirectory containing `.*md` files to render
+  (`string`) Path to the subdirectory containing `.*md` files to render
   and add to pkgdown.
 
 - assets_dir:
 
-  Character. Path to the directory where rendered `.html` files should
+  (`string`) Path to the directory where rendered `.html` files should
   be saved. Default is `"pkgdown/assets"`.
 
 - verbose:
 
-  Logical. Whether to print messages about rendered assets and menu
-  updates.
+  (`boolean`) Inform about changes? Default is `TRUE`.
 
 ## Value
 

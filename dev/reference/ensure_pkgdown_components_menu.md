@@ -17,7 +17,7 @@ ensure_pkgdown_components_menu(pkgdown_contents, menu)
 
 - menu:
 
-  Character. Menu folder name.
+  (`string`) Menu folder name.
 
 ## Value
 

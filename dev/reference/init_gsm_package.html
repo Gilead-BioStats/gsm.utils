@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">gsm.utils</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,8 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">init_gsm_package</span><span class="op">(</span></span>
 <span>  <span class="va">strPackageDir</span>,</span>
 <span>  lDescriptionFields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  bIncludeWorkflowDir <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  bIncludeWorkflowDir <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  strOrg <span class="op">=</span> <span class="st">"Gilead-BioStats"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -60,18 +61,23 @@
 
 
 <dl><dt id="arg-strpackagedir">strPackageDir<a class="anchor" aria-label="anchor" href="#arg-strpackagedir"></a></dt>
-<dd><p>path to package directory</p></dd>
+<dd><p>(<code>string</code>) Path to the package directory.</p></dd>
 
 
 <dt id="arg-ldescriptionfields">lDescriptionFields<a class="anchor" aria-label="anchor" href="#arg-ldescriptionfields"></a></dt>
-<dd><p><code>list</code> of description fields, passed to
+<dd><p>(<code>list</code>) Description fields, passed to
 <code><a href="https://usethis.r-lib.org/reference/create_package.html" class="external-link">usethis::create_package()</a></code>. Default is <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.</p></dd>
 
 
 <dt id="arg-bincludeworkflowdir">bIncludeWorkflowDir<a class="anchor" aria-label="anchor" href="#arg-bincludeworkflowdir"></a></dt>
-<dd><p><code>boolean</code> argument declaring whether or not to
-include the <code>inst/workflow</code> directory in the root of the package. Default
-is <code>TRUE</code>.</p></dd>
+<dd><p>(<code>boolean</code>) Whether or not to include the
+<code>inst/workflow</code> directory in the root of the package. Default is <code>TRUE</code>.</p></dd>
+
+
+<dt id="arg-strorg">strOrg<a class="anchor" aria-label="anchor" href="#arg-strorg"></a></dt>
+<dd><p>(<code>string</code>) GitHub organization under which the repo should be
+created. Set to <code>NULL</code> to create the package in your personal GitHub
+account.</p></dd>
 
 </dl></div>
 

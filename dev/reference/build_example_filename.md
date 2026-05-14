@@ -12,11 +12,11 @@ build_example_filename(strName, strType)
 
 - strName:
 
-  Character. Display name of the example.
+  (`string`) Display name of the example.
 
 - strType:
 
-  Character. Example type prefix.
+  (`string`) Type of example, either `"Example"` or `"Cookbook"`.
 
 ## Value
 

@@ -19,28 +19,27 @@ build_assets(
 
 - source_dir:
 
-  Character. Path to the directory containing subdirectories with `.*md`
+  (`string`) Path to the directory containing subdirectories with `.*md`
   files to render. Default is `"pkgdown/menus"`.
 
 - assets_dir:
 
-  Character. Path to the directory where rendered `.html` files should
+  (`string`) Path to the directory where rendered `.html` files should
   be saved. Default is `"pkgdown/assets"`.
 
 - pkgdown_yml:
 
-  Character. Path to the `_pkgdown.yml` file to update with new menu
+  (`string`) Path to the `_pkgdown.yml` file to update with new menu
   items, or from which to remove unused menu items.
 
 - root_dir:
 
-  Character. Path to the root directory of the package, used to
+  (`string`) Path to the root directory of the package, used to
   construct absolute paths. Default is `"."`.
 
 - verbose:
 
-  Logical. Whether to print messages about rendered assets and menu
-  updates.
+  (`boolean`) Inform about changes? Default is `TRUE`.
 
 ## Value
 

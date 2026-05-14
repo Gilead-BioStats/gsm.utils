@@ -17,12 +17,11 @@ remove_pkgdown_menu(pkgdown_contents, menu, verbose)
 
 - menu:
 
-  Character. Menu folder name.
+  (`string`) Menu folder name.
 
 - verbose:
 
-  Logical. Whether to print messages about rendered assets and menu
-  updates.
+  (`boolean`) Inform about changes? Default is `TRUE`.
 
 ## Value
 

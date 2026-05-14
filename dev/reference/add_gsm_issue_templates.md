@@ -12,13 +12,12 @@ add_gsm_issue_templates(strPackageDir = ".", overwrite = TRUE, verbose = TRUE)
 
 - strPackageDir:
 
-  path to package directory
+  (`string`) Path to the package directory.
 
 - overwrite:
 
-  `boolean` argument declaring whether or not to overwrite existing
-  files. Default is `TRUE`.
+  (`boolean`) Overwrite existing files? Default is `TRUE`.
 
 - verbose:
 
-  `boolean` argument declaring whether to emit messages about updates.
+  (`boolean`) Inform about changes? Default is `TRUE`.

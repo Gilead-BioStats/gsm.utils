@@ -12,8 +12,8 @@ construct_menu(rendered_assets, metadata, existing_menu = NULL)
 
 - rendered_assets:
 
-  Character. Path to successfully rendered HTML files to add to pkgdown
-  menu.
+  (`character`) Paths to successfully rendered HTML files to add to
+  pkgdown menu.
 
 - existing_menu:
 
