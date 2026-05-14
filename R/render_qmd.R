@@ -1,6 +1,6 @@
 #' Render qmd files in a menu subdirectory
 #'
-#' @inheritParams build_assets_params
+#' @inheritParams .shared-params
 #' @returns Character vector of paths to rendered HTML files for successfully
 #'   rendered qmd files, or `""` for failed renders.
 #' @keywords internal
@@ -44,7 +44,7 @@ render_qmd_assets <- function(menu_subdir, output_dir, verbose) {
 
 #' Render an individual qmd file
 #'
-#' @inheritParams build_assets_params
+#' @inheritParams .shared-params
 #' @returns `output_file` (on success) or `""` (on failure), invisibly.
 #' @keywords internal
 render_qmd <- function(

@@ -16,13 +16,13 @@ add_assets_to_pkgdown_menu(
 \item{pkgdown_contents}{List. The contents of \verb{_pkgdown.yml}, as loaded by
 \code{\link[yaml:read_yaml]{yaml::read_yaml()}}.}
 
-\item{menu}{Character. Menu folder name.}
+\item{menu}{(\code{string}) Menu folder name.}
 
-\item{menu_subdir}{Character. Path to the subdirectory containing \code{.*md}
+\item{menu_subdir}{(\code{string}) Path to the subdirectory containing \code{.*md}
 files to render and add to pkgdown.}
 
-\item{rendered_assets}{Character. Path to successfully rendered HTML files to
-add to pkgdown menu.}
+\item{rendered_assets}{(\code{character}) Paths to successfully rendered HTML
+files to add to pkgdown menu.}
 
 \item{existing_menu}{List. Existing menu items from the pkgdown YAML
 contents, if any, to preserve when adding new menu items for rendered

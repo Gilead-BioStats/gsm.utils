@@ -7,20 +7,19 @@
 add_pkgdown_nav(pkgdown_yml, menu_subdir, rendered_assets, assets_dir, verbose)
 }
 \arguments{
-\item{pkgdown_yml}{Character. Path to the \verb{_pkgdown.yml} file to update with
+\item{pkgdown_yml}{(\code{string}) Path to the \verb{_pkgdown.yml} file to update with
 new menu items, or from which to remove unused menu items.}
 
-\item{menu_subdir}{Character. Path to the subdirectory containing \code{.*md}
+\item{menu_subdir}{(\code{string}) Path to the subdirectory containing \code{.*md}
 files to render and add to pkgdown.}
 
-\item{rendered_assets}{Character. Path to successfully rendered HTML files to
-add to pkgdown menu.}
+\item{rendered_assets}{(\code{character}) Paths to successfully rendered HTML
+files to add to pkgdown menu.}
 
-\item{assets_dir}{Character. Path to the directory where rendered \code{.html}
+\item{assets_dir}{(\code{string}) Path to the directory where rendered \code{.html}
 files should be saved. Default is \code{"pkgdown/assets"}.}
 
-\item{verbose}{Logical. Whether to print messages about rendered assets and
-menu updates.}
+\item{verbose}{(\code{boolean}) Inform about changes? Default is \code{TRUE}.}
 }
 \value{
 \code{NULL} (invisibly). Updates \verb{_pkgdown.yml} in place.

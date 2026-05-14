@@ -7,15 +7,14 @@
 render_qmd(qmd_file, output_file, params = NULL, verbose = FALSE)
 }
 \arguments{
-\item{qmd_file}{Character. Path to qmd file to render.}
+\item{qmd_file}{(\code{string}) Path to qmd file to render.}
 
-\item{output_file}{Character. Path to output HTML file to create.}
+\item{output_file}{(\code{string}) Path to output HTML file to create.}
 
 \item{params}{List. Optional list of parameters to pass to
 \code{\link[quarto:quarto_render]{quarto::quarto_render()}}.}
 
-\item{verbose}{Logical. Whether to print messages about rendered assets and
-menu updates.}
+\item{verbose}{(\code{boolean}) Inform about changes? Default is \code{TRUE}.}
 }
 \value{
 \code{output_file} (on success) or \code{""} (on failure), invisibly.

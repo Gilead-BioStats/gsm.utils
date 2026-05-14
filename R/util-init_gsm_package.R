@@ -1,14 +1,13 @@
 #' Initialize gsm Extension package
 #'
-#' @param strPackageDir path to package directory
-#' @param lDescriptionFields `list` of description fields, passed to
+#' @param lDescriptionFields (`list`) Description fields, passed to
 #'   [usethis::create_package()]. Default is `list()`.
-#' @param bIncludeWorkflowDir `boolean` argument declaring whether or not to
-#'   include the `inst/workflow` directory in the root of the package. Default
-#'   is `TRUE`.
-#' @param strOrg `string` GitHub organization under which the repo should be
+#' @param bIncludeWorkflowDir (`boolean`) Whether or not to include the
+#'   `inst/workflow` directory in the root of the package. Default is `TRUE`.
+#' @param strOrg (`string`) GitHub organization under which the repo should be
 #'   created. Set to `NULL` to create the package in your personal GitHub
 #'   account.
+#' @inheritParams .shared-params
 #'
 #' @export
 init_gsm_package <- function(

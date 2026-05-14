@@ -7,8 +7,8 @@
 construct_menu(rendered_assets, metadata, existing_menu = NULL)
 }
 \arguments{
-\item{rendered_assets}{Character. Path to successfully rendered HTML files to
-add to pkgdown menu.}
+\item{rendered_assets}{(\code{character}) Paths to successfully rendered HTML
+files to add to pkgdown menu.}
 
 \item{existing_menu}{List. Existing menu items from the pkgdown YAML
 contents, if any, to preserve when adding new menu items for rendered

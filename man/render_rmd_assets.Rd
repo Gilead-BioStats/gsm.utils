@@ -7,13 +7,12 @@
 render_rmd_assets(menu_subdir, output_dir, verbose)
 }
 \arguments{
-\item{menu_subdir}{Character. Path to the subdirectory containing \code{.*md}
+\item{menu_subdir}{(\code{string}) Path to the subdirectory containing \code{.*md}
 files to render and add to pkgdown.}
 
-\item{output_dir}{Character. Directory to write the example to.}
+\item{output_dir}{(\code{string}) Directory to write the example to.}
 
-\item{verbose}{Logical. Whether to print messages about rendered assets and
-menu updates.}
+\item{verbose}{(\code{boolean}) Inform about changes? Default is \code{TRUE}.}
 }
 \value{
 Character vector of relative paths to rendered HTML files for

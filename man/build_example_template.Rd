@@ -7,13 +7,14 @@
 build_example_template(strName, strType, strDetails, intIndex)
 }
 \arguments{
-\item{strName}{Character. Display name of the example.}
+\item{strName}{(\code{string}) Display name of the example.}
 
-\item{strType}{Character. Example type.}
+\item{strType}{(\code{string}) Type of example, either \code{"Example"} or
+\code{"Cookbook"}.}
 
-\item{strDetails}{Character. Optional description.}
+\item{strDetails}{(\code{string}) Optional description for the example.}
 
-\item{intIndex}{Numeric. Optional ordering index.}
+\item{intIndex}{(\code{numeric}) Optional ordering index for the examples menu.}
 }
 \value{
 Character vector of template lines.

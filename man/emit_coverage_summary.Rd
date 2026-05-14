@@ -18,36 +18,36 @@ emit_coverage_summary(
 )
 }
 \arguments{
-\item{output_path}{\code{character} path for the output JSON file.
-Default is \code{"coverage-summary.json"}.}
+\item{output_path}{(\code{string}) Path for the output JSON file. Default is
+\code{"coverage-summary.json"}.}
 
-\item{repo}{\code{character} repository name in \code{owner/repo} format. Defaults to
+\item{repo}{(\code{string}) Repository name in \code{owner/repo} format. Defaults to
 the \code{GITHUB_REPOSITORY} environment variable, or \code{NA} if unset.}
 
-\item{sha}{\code{character} full commit SHA. Defaults to the \code{GITHUB_SHA}
+\item{sha}{(\code{string}) Full commit SHA. Defaults to the \code{GITHUB_SHA}
 environment variable, or \code{NA} if unset.}
 
-\item{ref}{\code{character} git ref (e.g. \code{"refs/heads/main"}). Defaults to the
+\item{ref}{(\code{string}) git ref (e.g. \code{"refs/heads/main"}). Defaults to the
 \code{GITHUB_REF} environment variable, or \code{NA} if unset.}
 
-\item{runner_os}{\code{character} runner OS label. Defaults to the \code{RUNNER_OS}
+\item{runner_os}{(\code{string}) Runner OS label. Defaults to the \code{RUNNER_OS}
 environment variable, or \code{NA} if unset.}
 
-\item{r_version}{\code{character} R version string. Defaults to
+\item{r_version}{(\code{string}) R version string. Defaults to
 \code{as.character(getRversion())}.}
 
-\item{timestamp_utc}{\code{character} ISO-8601 UTC timestamp string.
-Defaults to the current time formatted as \code{"\%Y-\%m-\%dT\%H:\%M:\%SZ"}.}
+\item{timestamp_utc}{(\code{string}) ISO-8601 UTC timestamp string. Defaults to
+the current time formatted as \code{"\%Y-\%m-\%dT\%H:\%M:\%SZ"}.}
 
-\item{coverage}{a \code{covr} coverage object returned by
+\item{coverage}{A \code{covr} coverage object returned by
 \code{covr::package_coverage()}. If \code{NULL} (default), coverage is computed
 automatically.}
 
-\item{allow_fail}{\code{logical} if \code{TRUE}, coverage computation errors are
+\item{allow_fail}{(\code{boolean}) If \code{TRUE}, coverage computation errors are
 caught; the JSON is written with \code{coverage_percent: null} and an
 \code{error_message} field instead of stopping. Default is \code{FALSE}.}
 
-\item{quiet}{\code{logical} suppress informational messages. Default is \code{TRUE}.}
+\item{quiet}{(\code{boolean}) Suppress informational messages. Default is \code{TRUE}.}
 }
 \value{
 Invisibly returns the named list written to JSON.

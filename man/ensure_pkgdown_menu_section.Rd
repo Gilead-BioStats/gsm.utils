@@ -10,7 +10,7 @@ ensure_pkgdown_menu_section(pkgdown_contents, menu)
 \item{pkgdown_contents}{List. The contents of \verb{_pkgdown.yml}, as loaded by
 \code{\link[yaml:read_yaml]{yaml::read_yaml()}}.}
 
-\item{menu}{Character. Menu folder name.}
+\item{menu}{(\code{string}) Menu folder name.}
 }
 \value{
 An updated list of pkgdown YAML contents with the new menu added.

@@ -12,16 +12,15 @@ init_gsm_package(
 )
 }
 \arguments{
-\item{strPackageDir}{path to package directory}
+\item{strPackageDir}{(\code{string}) Path to the package directory.}
 
-\item{lDescriptionFields}{\code{list} of description fields, passed to
+\item{lDescriptionFields}{(\code{list}) Description fields, passed to
 \code{\link[usethis:create_package]{usethis::create_package()}}. Default is \code{list()}.}
 
-\item{bIncludeWorkflowDir}{\code{boolean} argument declaring whether or not to
-include the \code{inst/workflow} directory in the root of the package. Default
-is \code{TRUE}.}
+\item{bIncludeWorkflowDir}{(\code{boolean}) Whether or not to include the
+\code{inst/workflow} directory in the root of the package. Default is \code{TRUE}.}
 
-\item{strOrg}{\code{string} GitHub organization under which the repo should be
+\item{strOrg}{(\code{string}) GitHub organization under which the repo should be
 created. Set to \code{NULL} to create the package in your personal GitHub
 account.}
 }

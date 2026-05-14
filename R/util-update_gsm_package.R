@@ -1,11 +1,10 @@
 #' Update GSM package with global issue templates and GH actions
 #'
-#' @param strPackageDir path to package directory
-#' @param overwrite `boolean` argument declaring whether or not to overwrite
-#'   existing files. Default is `TRUE`.
-#' @param verbose `boolean` argument declaring whether to emit messages about
-#'   updates.
+#' Add standard GSM issue templates ([add_gsm_issue_templates()]) and actions
+#' ([add_actions()]), and remove deprecated versions of each
+#' ([remove_deprecated_issue_templates()] and [remove_deprecated_actions()].
 #'
+#' @inheritParams .shared-params
 #' @returns NULL
 #' @export
 update_gsm_package <- function(
@@ -38,21 +37,19 @@ update_gsm_package <- function(
   )
 }
 
+# add_gsm_issue_templates ----
+
 #' Add GSM issue templates to package
 #'
-#' @param strPackageDir path to package directory
-#' @param overwrite `boolean` argument declaring whether or not to overwrite
-#'   existing files. Default is `TRUE`.
-#' @param verbose `boolean` argument declaring whether to emit messages about
-#'   updates.
+#' @inheritParams .shared-params
 #' @export
 add_gsm_issue_templates <- function(
   strPackageDir = ".",
   overwrite = TRUE,
   verbose = TRUE
 ) {
-  issuePath <- fs::path(strPackageDir, ".github", "ISSUE_TEMPLATE")
-  if (!overwrite) {
+  issuePath <- .find_issue_path(strPackageDir)
+  if (fs::dir_exists(issuePath) && !overwrite) {
     cli::cli_abort(c(
       x = "The .github/ISSUE_TEMPLATE directory already exists.",
       "Set {.code overwrite = TRUE} to overwrite it."
@@ -70,6 +67,18 @@ add_gsm_issue_templates <- function(
   )
 }
 
+#' A simple path constructor for mocking
+#'
+#' @inheritParams add_gsm_issue_templates
+#'
+#' @returns The path to issue templates.
+#' @keywords internal
+.find_issue_path <- function(strPackageDir) {
+  fs::path(strPackageDir, ".github", "ISSUE_TEMPLATE") # nocov
+}
+
+# remove_deprecated_issue_templates ----
+
 #' Remove deprecated issue templates from package
 #'
 #' Removes issue templates that we no longer recommend nor support. Currently
@@ -77,9 +86,7 @@ add_gsm_issue_templates <- function(
 #' now live exclusively in `gsm.roadmap`. New deprecations should be added to
 #' the hard-coded list below.
 #'
-#' @param strPackageDir String. Path to package directory.
-#' @param overwrite Logical. Is it ok to delete existing files?
-#' @param verbose Logical. Inform about changes?
+#' @inheritParams .shared-params
 #' @returns A character vector of deleted template names, invisibly.
 #' @export
 remove_deprecated_issue_templates <- function(
@@ -130,11 +137,11 @@ remove_deprecated_issue_templates <- function(
   return(NULL)
 }
 
+# add_contributor_guidelines ----
+
 #' Add GSM Contributor Guidelines markdown to package
 #'
-#' @param strPackageDir path to package directory
-#' @param overwrite `boolean` argument declaring whether or not to overwrite
-#'   existing files. Default is `TRUE`.
+#' @inheritParams .shared-params
 #'
 #' @export
 add_contributor_guidelines <- function(strPackageDir = ".", overwrite = TRUE) {

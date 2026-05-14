@@ -7,9 +7,9 @@
 resolve_md_title(path, title = NULL)
 }
 \arguments{
-\item{path}{Character. The path to a file.}
+\item{path}{(\code{string}) The path to a file.}
 
-\item{title}{Character. An optional string to use as the title.}
+\item{title}{(\code{string}) An optional string to use as the title.}
 }
 \value{
 A title-case string to use as the title of the file, without html,

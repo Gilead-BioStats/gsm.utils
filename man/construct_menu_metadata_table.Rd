@@ -7,7 +7,7 @@
 construct_menu_metadata_table(menu_subdir)
 }
 \arguments{
-\item{menu_subdir}{Character. Path to the subdirectory containing \code{.*md}
+\item{menu_subdir}{(\code{string}) Path to the subdirectory containing \code{.*md}
 files to render and add to pkgdown.}
 }
 \value{
