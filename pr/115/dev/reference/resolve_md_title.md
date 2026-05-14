@@ -12,11 +12,11 @@ resolve_md_title(path, title = NULL)
 
 - path:
 
-  Character. The path to a file.
+  (`string`) The path to a file.
 
 - title:
 
-  Character. An optional string to use as the title.
+  (`string`) An optional string to use as the title.
 
 ## Value
 

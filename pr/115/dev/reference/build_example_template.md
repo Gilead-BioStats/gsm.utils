@@ -12,19 +12,19 @@ build_example_template(strName, strType, strDetails, intIndex)
 
 - strName:
 
-  Character. Display name of the example.
+  (`string`) Display name of the example.
 
 - strType:
 
-  Character. Example type.
+  (`string`) Type of example, either `"Example"` or `"Cookbook"`.
 
 - strDetails:
 
-  Character. Optional description.
+  (`string`) Optional description for the example.
 
 - intIndex:
 
-  Numeric. Optional ordering index.
+  (`numeric`) Optional ordering index for the examples menu.
 
 ## Value
 

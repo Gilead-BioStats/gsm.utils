@@ -22,11 +22,11 @@ add_action(
 
 - name:
 
-  String. The action to install.
+  (`string`) The action to install.
 
 - version:
 
-  String. The expected version of the action.
+  (`string`) The expected version of the action.
 
 - ...:
 
@@ -34,15 +34,15 @@ add_action(
 
 - workflows_path:
 
-  String. Path to the package workflows.
+  (`string`) Path to the package workflows.
 
 - overwrite:
 
-  Logical. Overwrite existing files?
+  (`boolean`) Overwrite existing files? Default is `TRUE`.
 
 - verbose:
 
-  Logical. Inform about changes?
+  (`boolean`) Inform about changes? Default is `TRUE`.
 
 ## Value
 

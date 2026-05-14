@@ -12,11 +12,11 @@ render_qmd(qmd_file, output_file, params = NULL, verbose = FALSE)
 
 - qmd_file:
 
-  Character. Path to qmd file to render.
+  (`string`) Path to qmd file to render.
 
 - output_file:
 
-  Character. Path to output HTML file to create.
+  (`string`) Path to output HTML file to create.
 
 - params:
 
@@ -25,8 +25,7 @@ render_qmd(qmd_file, output_file, params = NULL, verbose = FALSE)
 
 - verbose:
 
-  Logical. Whether to print messages about rendered assets and menu
-  updates.
+  (`boolean`) Inform about changes? Default is `TRUE`.
 
 ## Value
 

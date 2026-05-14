@@ -20,24 +20,23 @@ render_rmd(
 
 - strInputPath:
 
-  `string` or `fs_path` Path to the template `Rmd` file.
+  (`string`) Path to the template `Rmd` file.
 
 - strOutputFile:
 
-  `string` Filename for the output.
+  (`string`) Filename for the output.
 
 - strOutputDir:
 
-  `string` or `fs_path` Path to the directory where the output will be
-  saved.
+  (`string`) Path to the directory where the output will be saved.
 
 - lParams:
 
-  `list` Parameters to pass to the template `Rmd` file.
+  (`list`) Parameters to pass to the template `Rmd` file.
 
 - quiet:
 
-  Logical. Passed to
+  (`boolean`) Passed to
   [`rmarkdown::render()`](https://pkgs.rstudio.com/rmarkdown/reference/render.html).
 
 ## Value

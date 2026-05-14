@@ -17,11 +17,11 @@ filter_existing_menu(pkgdown_contents, menu, assets_dir)
 
 - menu:
 
-  Character. Menu folder name.
+  (`string`) Menu folder name.
 
 - assets_dir:
 
-  Character. Path to the directory where rendered `.html` files should
+  (`string`) Path to the directory where rendered `.html` files should
   be saved. Default is `"pkgdown/assets"`.
 
 ## Value

@@ -15,15 +15,15 @@ add_actions(strPackageDir = ".", overwrite = TRUE, verbose = TRUE)
 
 - strPackageDir:
 
-  String. Path to package directory
+  (`string`) Path to the package directory.
 
 - overwrite:
 
-  Logical. Overwrite existing files?
+  (`boolean`) Overwrite existing files? Default is `TRUE`.
 
 - verbose:
 
-  Logical. Inform about changes?
+  (`boolean`) Inform about changes? Default is `TRUE`.
 
 ## Value
 

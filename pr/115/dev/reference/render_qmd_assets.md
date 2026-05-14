@@ -12,17 +12,16 @@ render_qmd_assets(menu_subdir, output_dir, verbose)
 
 - menu_subdir:
 
-  Character. Path to the subdirectory containing `.*md` files to render
+  (`string`) Path to the subdirectory containing `.*md` files to render
   and add to pkgdown.
 
 - output_dir:
 
-  Character. Directory to write the example to.
+  (`string`) Directory to write the example to.
 
 - verbose:
 
-  Logical. Whether to print messages about rendered assets and menu
-  updates.
+  (`boolean`) Inform about changes? Default is `TRUE`.
 
 ## Value
 

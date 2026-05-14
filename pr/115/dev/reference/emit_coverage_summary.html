@@ -73,54 +73,54 @@ workflows, but works locally with explicit argument overrides.</p>
 
 
 <dl><dt id="arg-output-path">output_path<a class="anchor" aria-label="anchor" href="#arg-output-path"></a></dt>
-<dd><p><code>character</code> path for the output JSON file.
-Default is <code>"coverage-summary.json"</code>.</p></dd>
+<dd><p>(<code>string</code>) Path for the output JSON file. Default is
+<code>"coverage-summary.json"</code>.</p></dd>
 
 
 <dt id="arg-repo">repo<a class="anchor" aria-label="anchor" href="#arg-repo"></a></dt>
-<dd><p><code>character</code> repository name in <code>owner/repo</code> format. Defaults to
+<dd><p>(<code>string</code>) Repository name in <code>owner/repo</code> format. Defaults to
 the <code>GITHUB_REPOSITORY</code> environment variable, or <code>NA</code> if unset.</p></dd>
 
 
 <dt id="arg-sha">sha<a class="anchor" aria-label="anchor" href="#arg-sha"></a></dt>
-<dd><p><code>character</code> full commit SHA. Defaults to the <code>GITHUB_SHA</code>
+<dd><p>(<code>string</code>) Full commit SHA. Defaults to the <code>GITHUB_SHA</code>
 environment variable, or <code>NA</code> if unset.</p></dd>
 
 
 <dt id="arg-ref">ref<a class="anchor" aria-label="anchor" href="#arg-ref"></a></dt>
-<dd><p><code>character</code> git ref (e.g. <code>"refs/heads/main"</code>). Defaults to the
+<dd><p>(<code>string</code>) git ref (e.g. <code>"refs/heads/main"</code>). Defaults to the
 <code>GITHUB_REF</code> environment variable, or <code>NA</code> if unset.</p></dd>
 
 
 <dt id="arg-runner-os">runner_os<a class="anchor" aria-label="anchor" href="#arg-runner-os"></a></dt>
-<dd><p><code>character</code> runner OS label. Defaults to the <code>RUNNER_OS</code>
+<dd><p>(<code>string</code>) Runner OS label. Defaults to the <code>RUNNER_OS</code>
 environment variable, or <code>NA</code> if unset.</p></dd>
 
 
 <dt id="arg-r-version">r_version<a class="anchor" aria-label="anchor" href="#arg-r-version"></a></dt>
-<dd><p><code>character</code> R version string. Defaults to
+<dd><p>(<code>string</code>) R version string. Defaults to
 <code>as.character(getRversion())</code>.</p></dd>
 
 
 <dt id="arg-timestamp-utc">timestamp_utc<a class="anchor" aria-label="anchor" href="#arg-timestamp-utc"></a></dt>
-<dd><p><code>character</code> ISO-8601 UTC timestamp string.
-Defaults to the current time formatted as <code>"%Y-%m-%dT%H:%M:%SZ"</code>.</p></dd>
+<dd><p>(<code>string</code>) ISO-8601 UTC timestamp string. Defaults to
+the current time formatted as <code>"%Y-%m-%dT%H:%M:%SZ"</code>.</p></dd>
 
 
 <dt id="arg-coverage">coverage<a class="anchor" aria-label="anchor" href="#arg-coverage"></a></dt>
-<dd><p>a <code>covr</code> coverage object returned by
+<dd><p>A <code>covr</code> coverage object returned by
 <code><a href="http://covr.r-lib.org/reference/package_coverage.html" class="external-link">covr::package_coverage()</a></code>. If <code>NULL</code> (default), coverage is computed
 automatically.</p></dd>
 
 
 <dt id="arg-allow-fail">allow_fail<a class="anchor" aria-label="anchor" href="#arg-allow-fail"></a></dt>
-<dd><p><code>logical</code> if <code>TRUE</code>, coverage computation errors are
+<dd><p>(<code>boolean</code>) If <code>TRUE</code>, coverage computation errors are
 caught; the JSON is written with <code>coverage_percent: null</code> and an
 <code>error_message</code> field instead of stopping. Default is <code>FALSE</code>.</p></dd>
 
 
 <dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
-<dd><p><code>logical</code> suppress informational messages. Default is <code>TRUE</code>.</p></dd>
+<dd><p>(<code>boolean</code>) Suppress informational messages. Default is <code>TRUE</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
