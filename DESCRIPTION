@@ -40,9 +40,10 @@ Suggests:
     waldo (>= 0.5.0),
     withr,
     yaml
-VignetteBuilder: knitr
+VignetteBuilder: 
+    knitr
 Config/Needs/website: pkgdown, rmarkdown
+Config/roxygen2/version: 8.0.0
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-Config/roxygen2/version: 8.0.0
