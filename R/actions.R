@@ -14,9 +14,7 @@
 #' <https://github.com/Gilead-BioStats/gsm.utils@actions-v1> to a package, and
 #' update existing Gilead GitHub Actions to the latest versions if necessary.
 #'
-#' @param strPackageDir String. Path to package directory
-#' @param overwrite Logical. Overwrite existing files?
-#' @param verbose Logical. Inform about changes?
+#' @inheritParams .shared-params
 #' @returns A character vector of added and updated action names, invisibly.
 #' @export
 add_actions <- function(
@@ -73,10 +71,10 @@ add_actions <- function(
 #' <https://github.com/Gilead-BioStats/gsm.utils@actions-v1> to a package, or
 #' update an existing Gilead GitHub Actions to the latest version if necessary.
 #'
-#' @param name String. The action to install.
-#' @param version String. The expected version of the action.
-#' @param workflows_path String. Path to the package workflows.
-#' @inheritParams add_actions
+#' @param name (`string`) The action to install.
+#' @param version (`string`) The expected version of the action.
+#' @param workflows_path (`string`) Path to the package workflows.
+#' @inheritParams .shared-params
 #' @inheritParams rlang::args_dots_empty
 #'
 #' @returns The name of the workflow if it was updated, otherwise an empty
@@ -146,9 +144,7 @@ add_action <- function(
 #' "R-CMD-check-dev.yaml", "pkgdown-cleanup.yaml", "pkgdown-with-examples.yaml",
 #' "r-releaser.yaml", and "r_releaser.yaml".
 #'
-#' @param strPackageDir String. Path to package directory
-#' @param overwrite Logical. Is it ok to delete existing files?
-#' @param verbose Logical. Inform about changes?
+#' @inheritParams .shared-params
 #' @returns A character vector of deleted action names, invisibly.
 #' @export
 remove_deprecated_actions <- function(
@@ -159,6 +155,8 @@ remove_deprecated_actions <- function(
   workflows_path <- fs::path(strPackageDir, ".github", "workflows")
   extra_workflows <- c(
     "R-CMD-check-dev.yaml",
+    "pkgdown.yaml",
+    "pkgdown.yml",
     "pkgdown-cleanup.yaml",
     "pkgdown-with-examples.yaml",
     "r-releaser.yaml",

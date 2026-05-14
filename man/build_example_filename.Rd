@@ -7,9 +7,10 @@
 build_example_filename(strName, strType)
 }
 \arguments{
-\item{strName}{Character. Display name of the example.}
+\item{strName}{(\code{string}) Display name of the example.}
 
-\item{strType}{Character. Example type prefix.}
+\item{strType}{(\code{string}) Type of example, either \code{"Example"} or
+\code{"Cookbook"}.}
 }
 \value{
 File name for the example.

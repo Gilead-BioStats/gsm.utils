@@ -1,6 +1,6 @@
 #' Add rendered assets to pkgdown navbar menu
 #'
-#' @inheritParams build_assets_params
+#' @inheritParams .shared-params
 #' @returns `NULL` (invisibly). Updates `_pkgdown.yml` in place.
 #' @keywords internal
 add_pkgdown_nav <- function(
@@ -41,7 +41,7 @@ add_pkgdown_nav <- function(
 
 #' Filter existing menu items to only those with assets that still exist
 #'
-#' @inheritParams build_assets_params
+#' @inheritParams .shared-params
 #' @returns A list of existing menu items from the pkgdown YAML contents that
 #'   correspond to assets that still exist in the assets directory.
 #' @keywords internal
@@ -61,7 +61,7 @@ filter_existing_menu <- function(pkgdown_contents, menu, assets_dir) {
 
 #' Update pkgdown contents with menu
 #'
-#' @inheritParams build_assets_params
+#' @inheritParams .shared-params
 #' @returns An updated list of pkgdown YAML contents with the new menu entries
 #'   added.
 #' @keywords internal
@@ -91,7 +91,7 @@ update_pkgdown_menu <- function(
 
 #' Ensure pkgdown menu sections exist
 #'
-#' @inheritParams build_assets_params
+#' @inheritParams .shared-params
 #' @returns An updated list of pkgdown YAML contents with the new menu added.
 #' @keywords internal
 ensure_pkgdown_menu_section <- function(pkgdown_contents, menu) {
@@ -104,7 +104,7 @@ ensure_pkgdown_menu_section <- function(pkgdown_contents, menu) {
 
 #' Ensure pkgdown components element exists
 #'
-#' @inheritParams build_assets_params
+#' @inheritParams .shared-params
 #' @returns An updated list of pkgdown YAML contents with components in the
 #'   navbar.
 #' @keywords internal
@@ -117,7 +117,7 @@ ensure_pkgdown_components <- function(pkgdown_contents) {
 
 #' Ensure pkgdown components element has menu
 #'
-#' @inheritParams build_assets_params
+#' @inheritParams .shared-params
 #' @returns An updated list of pkgdown YAML contents with the menu in navbar
 #'   components.
 #' @keywords internal
@@ -133,7 +133,7 @@ ensure_pkgdown_components_menu <- function(pkgdown_contents, menu) {
 
 #' Ensure pkgdown navbar structure left element exists
 #'
-#' @inheritParams build_assets_params
+#' @inheritParams .shared-params
 #' @returns An updated list of pkgdown YAML contents with `structure$left` in
 #'   the navbar.
 #' @keywords internal
@@ -158,7 +158,7 @@ ensure_pkgdown_navbar_left <- function(pkgdown_contents) {
 
 #' Ensure pkgdown navbar structure left element contains menu
 #'
-#' @inheritParams build_assets_params
+#' @inheritParams .shared-params
 #' @returns An updated list of pkgdown YAML contents with the menu in
 #'   `navbar$structure$left`.
 #' @keywords internal
@@ -174,7 +174,7 @@ ensure_pkgdown_navbar_left_menu <- function(pkgdown_contents, menu) {
 
 #' Update pkgdown contents with menu entries for rendered assets
 #'
-#' @inheritParams build_assets_params
+#' @inheritParams .shared-params
 #' @returns An updated list of pkgdown YAML contents with the new menu entries
 #'   added.
 #' @keywords internal
@@ -198,7 +198,7 @@ add_assets_to_pkgdown_menu <- function(
 
 #' Remove menu from pkgdown YAML
 #'
-#' @inheritParams build_assets_params
+#' @inheritParams .shared-params
 #' @returns An updated list of pkgdown YAML contents with the menu removed.
 #' @keywords internal
 remove_pkgdown_menu <- function(pkgdown_contents, menu, verbose) {

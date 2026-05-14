@@ -10,9 +10,9 @@ filter_existing_menu(pkgdown_contents, menu, assets_dir)
 \item{pkgdown_contents}{List. The contents of \verb{_pkgdown.yml}, as loaded by
 \code{\link[yaml:read_yaml]{yaml::read_yaml()}}.}
 
-\item{menu}{Character. Menu folder name.}
+\item{menu}{(\code{string}) Menu folder name.}
 
-\item{assets_dir}{Character. Path to the directory where rendered \code{.html}
+\item{assets_dir}{(\code{string}) Path to the directory where rendered \code{.html}
 files should be saved. Default is \code{"pkgdown/assets"}.}
 }
 \value{

@@ -39,8 +39,8 @@ extract_pattern <- function(x) {
 
 #' Determine a title for a file
 #'
-#' @param path Character. The path to a file.
-#' @param title Character. An optional string to use as the title.
+#' @param path (`string`) The path to a file.
+#' @param title (`string`) An optional string to use as the title.
 #' @returns A title-case string to use as the title of the file, without html,
 #'   etc.
 #' @keywords internal

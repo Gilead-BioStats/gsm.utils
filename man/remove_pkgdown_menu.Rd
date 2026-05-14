@@ -10,10 +10,9 @@ remove_pkgdown_menu(pkgdown_contents, menu, verbose)
 \item{pkgdown_contents}{List. The contents of \verb{_pkgdown.yml}, as loaded by
 \code{\link[yaml:read_yaml]{yaml::read_yaml()}}.}
 
-\item{menu}{Character. Menu folder name.}
+\item{menu}{(\code{string}) Menu folder name.}
 
-\item{verbose}{Logical. Whether to print messages about rendered assets and
-menu updates.}
+\item{verbose}{(\code{boolean}) Inform about changes? Default is \code{TRUE}.}
 }
 \value{
 An updated list of pkgdown YAML contents with the menu removed.

@@ -13,7 +13,7 @@ empty_menu_metadata_table <- function() {
 
 #' Construct a data frame of menu metadata from md files
 #'
-#' @inheritParams build_assets_params
+#' @inheritParams .shared-params
 #' @returns A data.frame with columns `html_file`, `title`, and `index` for each
 #'   md file in the menu subdirectory.
 #' @keywords internal
@@ -37,7 +37,7 @@ construct_menu_metadata_table <- function(menu_subdir) {
 
 #' Construct a data frame of menu metadata from a single md file
 #'
-#' @inheritParams build_assets_params
+#' @inheritParams .shared-params
 #' @returns A data.frame with columns `html_file`, `title`, and `index` for one
 #'   md file.
 #' @keywords internal
@@ -62,7 +62,7 @@ construct_md_metadata_table <- function(md_file) {
 
 #' Construct a list of menu entries for rendered assets
 #'
-#' @inheritParams build_assets_params
+#' @inheritParams .shared-params
 #' @returns A list of lists with `text` and `href` entries for each rendered
 #'   asset, sorted by `index` and `title` metadata from the corresponding md
 #'   file.

@@ -14,17 +14,17 @@ add_action(
 )
 }
 \arguments{
-\item{name}{String. The action to install.}
+\item{name}{(\code{string}) The action to install.}
 
-\item{version}{String. The expected version of the action.}
+\item{version}{(\code{string}) The expected version of the action.}
 
 \item{...}{These dots are for future extensions and must be empty.}
 
-\item{workflows_path}{String. Path to the package workflows.}
+\item{workflows_path}{(\code{string}) Path to the package workflows.}
 
-\item{overwrite}{Logical. Overwrite existing files?}
+\item{overwrite}{(\code{boolean}) Overwrite existing files? Default is \code{TRUE}.}
 
-\item{verbose}{Logical. Inform about changes?}
+\item{verbose}{(\code{boolean}) Inform about changes? Default is \code{TRUE}.}
 }
 \value{
 The name of the workflow if it was updated, otherwise an empty

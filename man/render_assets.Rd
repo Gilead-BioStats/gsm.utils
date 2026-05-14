@@ -7,14 +7,13 @@
 render_assets(menu_subdir, assets_dir, verbose)
 }
 \arguments{
-\item{menu_subdir}{Character. Path to the subdirectory containing \code{.*md}
+\item{menu_subdir}{(\code{string}) Path to the subdirectory containing \code{.*md}
 files to render and add to pkgdown.}
 
-\item{assets_dir}{Character. Path to the directory where rendered \code{.html}
+\item{assets_dir}{(\code{string}) Path to the directory where rendered \code{.html}
 files should be saved. Default is \code{"pkgdown/assets"}.}
 
-\item{verbose}{Logical. Whether to print messages about rendered assets and
-menu updates.}
+\item{verbose}{(\code{boolean}) Inform about changes? Default is \code{TRUE}.}
 }
 \value{
 Character vector of relative paths to rendered HTML files for

@@ -7,11 +7,11 @@
 add_actions(strPackageDir = ".", overwrite = TRUE, verbose = TRUE)
 }
 \arguments{
-\item{strPackageDir}{String. Path to package directory}
+\item{strPackageDir}{(\code{string}) Path to the package directory.}
 
-\item{overwrite}{Logical. Overwrite existing files?}
+\item{overwrite}{(\code{boolean}) Overwrite existing files? Default is \code{TRUE}.}
 
-\item{verbose}{Logical. Inform about changes?}
+\item{verbose}{(\code{boolean}) Inform about changes? Default is \code{TRUE}.}
 }
 \value{
 A character vector of added and updated action names, invisibly.

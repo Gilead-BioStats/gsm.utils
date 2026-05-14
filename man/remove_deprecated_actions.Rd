@@ -11,11 +11,11 @@ remove_deprecated_actions(
 )
 }
 \arguments{
-\item{strPackageDir}{String. Path to package directory}
+\item{strPackageDir}{(\code{string}) Path to the package directory.}
 
-\item{overwrite}{Logical. Is it ok to delete existing files?}
+\item{overwrite}{(\code{boolean}) Overwrite existing files? Default is \code{TRUE}.}
 
-\item{verbose}{Logical. Inform about changes?}
+\item{verbose}{(\code{boolean}) Inform about changes? Default is \code{TRUE}.}
 }
 \value{
 A character vector of deleted action names, invisibly.

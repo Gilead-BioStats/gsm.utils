@@ -1,6 +1,6 @@
 Package: gsm.utils
 Title: Utilities for gsm package developers
-Version: 0.3.0.9000
+Version: 0.3.1
 Authors@R: c(
     person("Jeremy", "Wildfire", , "jwildfire@gmail.com", role = c("aut", "cre")),
     person("Jon", "Harmon", , "jon.harmon@atorusresearch.com", role = "aut",
@@ -24,6 +24,7 @@ Imports:
     dplyr,
     fs,
     jsonlite,
+    lifecycle,
     purrr,
     rlang,
     stringr
@@ -39,9 +40,10 @@ Suggests:
     waldo (>= 0.5.0),
     withr,
     yaml
-VignetteBuilder: knitr
+VignetteBuilder: 
+    knitr
 Config/Needs/website: pkgdown, rmarkdown
+Config/roxygen2/version: 8.0.0
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-Config/roxygen2/version: 8.0.0

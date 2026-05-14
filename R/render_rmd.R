@@ -1,6 +1,6 @@
 #' Render Rmd files in a menu subdirectory
 #'
-#' @inheritParams build_assets_params
+#' @inheritParams .shared-params
 #' @returns Character vector of relative paths to rendered HTML files for
 #'   successfully rendered Rmd files.
 #' @keywords internal
@@ -47,12 +47,12 @@ render_rmd_assets <- function(menu_subdir, output_dir, verbose) {
 #' in a temporary directory, and falls back to a writable output directory when
 #' needed.
 #'
-#' @param strInputPath `string` or `fs_path` Path to the template `Rmd` file.
-#' @param strOutputFile `string` Filename for the output.
-#' @param strOutputDir `string` or `fs_path` Path to the directory where the
+#' @param strInputPath (`string`) Path to the template `Rmd` file.
+#' @param strOutputFile (`string`) Filename for the output.
+#' @param strOutputDir (`string`) Path to the directory where the
 #'   output will be saved.
-#' @param lParams `list` Parameters to pass to the template `Rmd` file.
-#' @param quiet Logical. Passed to [rmarkdown::render()].
+#' @param lParams (`list`) Parameters to pass to the template `Rmd` file.
+#' @param quiet (`boolean`) Passed to [rmarkdown::render()].
 #'
 #' @return Rendered Rmarkdown file path (invisibly).
 #' @export

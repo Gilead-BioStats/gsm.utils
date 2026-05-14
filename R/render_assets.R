@@ -1,6 +1,6 @@
 #' Render Rmd and qmd files in a menu subdirectory
 #'
-#' @inheritParams build_assets_params
+#' @inheritParams .shared-params
 #' @returns Character vector of relative paths to rendered HTML files for
 #'   successfully rendered Rmd and qmd files.
 #' @keywords internal

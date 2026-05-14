@@ -13,20 +13,19 @@ build_assets(
 )
 }
 \arguments{
-\item{source_dir}{Character. Path to the directory containing subdirectories
+\item{source_dir}{(\code{string}) Path to the directory containing subdirectories
 with \code{.*md} files to render. Default is \code{"pkgdown/menus"}.}
 
-\item{assets_dir}{Character. Path to the directory where rendered \code{.html}
+\item{assets_dir}{(\code{string}) Path to the directory where rendered \code{.html}
 files should be saved. Default is \code{"pkgdown/assets"}.}
 
-\item{pkgdown_yml}{Character. Path to the \verb{_pkgdown.yml} file to update with
+\item{pkgdown_yml}{(\code{string}) Path to the \verb{_pkgdown.yml} file to update with
 new menu items, or from which to remove unused menu items.}
 
-\item{root_dir}{Character. Path to the root directory of the package, used to
+\item{root_dir}{(\code{string}) Path to the root directory of the package, used to
 construct absolute paths. Default is \code{"."}.}
 
-\item{verbose}{Logical. Whether to print messages about rendered assets and
-menu updates.}
+\item{verbose}{(\code{boolean}) Inform about changes? Default is \code{TRUE}.}
 }
 \value{
 \code{NULL} (invisibly). Called for the side effect of setting up

@@ -2,13 +2,13 @@
 #'
 #' Creates a new example `.Rmd` file from a standard template.
 #'
-#' @param strName Character. Display name of the example.
-#' @param strType Character. Type of example, either `"Example"` or
+#' @param strName (`string`) Display name of the example.
+#' @param strType (`string`) Type of example, either `"Example"` or
 #'   `"Cookbook"`.
-#' @param strDetails Character. Optional description for the example.
-#' @param intIndex Numeric. Optional ordering index for the examples menu.
-#' @param output_dir Character. Directory to write the example to.
-#' @param overwrite Logical. Whether to overwrite an existing file.
+#' @param strDetails (`string`) Optional description for the example.
+#' @param intIndex (`numeric`) Optional ordering index for the examples menu.
+#' @param output_dir (`string`) Directory to write the example to.
+#' @inheritParams .shared-params
 #'
 #' @returns Path to the created example file (invisibly).
 #' @export
@@ -46,8 +46,7 @@ make_example <- function(
 
 #' Build a safe example filename
 #'
-#' @param strName Character. Display name of the example.
-#' @param strType Character. Example type prefix.
+#' @inheritParams make_example
 #' @returns File name for the example.
 #' @keywords internal
 build_example_filename <- function(strName, strType) {
@@ -58,10 +57,7 @@ build_example_filename <- function(strName, strType) {
 
 #' Build template content for an example
 #'
-#' @param strName Character. Display name of the example.
-#' @param strType Character. Example type.
-#' @param strDetails Character. Optional description.
-#' @param intIndex Numeric. Optional ordering index.
+#' @inheritParams make_example
 #' @returns Character vector of template lines.
 #' @keywords internal
 build_example_template <- function(strName, strType, strDetails, intIndex) {
