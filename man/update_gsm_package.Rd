@@ -16,5 +16,5 @@ update_gsm_package(strPackageDir = ".", overwrite = TRUE, verbose = TRUE)
 \description{
 Add standard GSM issue templates (\code{\link[=add_gsm_issue_templates]{add_gsm_issue_templates()}}) and actions
 (\code{\link[=add_actions]{add_actions()}}), and remove deprecated versions of each
-(\code{\link[=remove_deprecated_issue_templates]{remove_deprecated_issue_templates()}} and \code{\link[=remove_deprecated_actions]{remove_deprecated_actions()}}.
+(\code{\link[=remove_deprecated_issue_templates]{remove_deprecated_issue_templates()}} and \code{\link[=remove_deprecated_actions]{remove_deprecated_actions()}}).
 }

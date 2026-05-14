@@ -1,5 +1,9 @@
 # gsm.utils 0.3.1
 
+This release includes the following user-facing changes:
+
+- Deprecates older user-facing workflow and template helpers; users should migrate to the current supported package setup and example-generation utilities (#111).
+
 # gsm.utils v0.3.0
 
 This update of the gsm.utils package introduces the following features:

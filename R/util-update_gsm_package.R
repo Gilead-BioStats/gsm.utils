@@ -2,7 +2,7 @@
 #'
 #' Add standard GSM issue templates ([add_gsm_issue_templates()]) and actions
 #' ([add_actions()]), and remove deprecated versions of each
-#' ([remove_deprecated_issue_templates()] and [remove_deprecated_actions()].
+#' ([remove_deprecated_issue_templates()] and [remove_deprecated_actions()]).
 #'
 #' @inheritParams .shared-params
 #' @returns NULL
@@ -145,7 +145,7 @@ remove_deprecated_issue_templates <- function(
 #'
 #' @export
 add_contributor_guidelines <- function(strPackageDir = ".", overwrite = TRUE) {
-  strDirPath <- .ensure_github_dir_exists(strPackageDir)
+  .ensure_github_dir_exists(strPackageDir)
   strFilePath <- .find_contributing(strPackageDir)
   if (fs::file_exists(strFilePath) && !overwrite) {
     cli::cli_abort(c(
