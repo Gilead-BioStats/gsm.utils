@@ -26,10 +26,10 @@ init_gsm_package <- function(
     open = FALSE,
     fields = lDescriptionFields
   )
-  withr::with_dir(strPackageDir, {
-    usethis::use_git()
-    usethis::use_github(organisation = strOrg)
-    usethis::use_pkgdown_github_pages()
+  # with_project vs withr::with_dir & force = TRUE to ensure that testthat uses
+  # the correct dir.
+  usethis::with_project(strPackageDir, force = TRUE, {
+    .initialize_git(strOrg)
     # This will also get rid of the baseline pkgdown.yaml added by
     # use_pkgdown_github_pages()
     update_gsm_package()
@@ -41,4 +41,13 @@ init_gsm_package <- function(
       fs::dir_create("inst/workflow/4_modules")
     }
   })
+}
+
+# Separated for mocking for tests.
+.initialize_git <- function(strOrg) {
+  # nocov start
+  usethis::use_git()
+  usethis::use_github(organisation = strOrg)
+  usethis::use_pkgdown_github_pages()
+  # nocov end
 }
