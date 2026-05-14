@@ -47,17 +47,9 @@ init_gsm_package(
   [`usethis::create_package()`](https://usethis.r-lib.org/reference/create_package.html)
 - Sets up pkgdown documentation with GitHub Pages
 - Configures testthat for unit testing
-- Installs GitHub issue templates with
-  [`add_gsm_issue_templates()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_gsm_issue_templates.md)
-- Removes deprecated issue templates with
-  [`remove_deprecated_issue_templates()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/remove_deprecated_issue_templates.md)
-- Installs GitHub Actions workflows from the [`actions-v1` branch of
-  this
-  repo](https://github.com/Gilead-BioStats/gsm.utils/tree/actions-v1/workflow_templates)
-  with
-  [`add_actions()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_actions.md)
-- Removes deprecated issue templates with
-  [`remove_deprecated_actions()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/remove_deprecated_actions.md)
+- Calls
+  [`update_gsm_package()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/update_gsm_package.md)
+  to update issue templates and GitHub Actions workflows
 
 ### `update_gsm_package()`
 
@@ -68,52 +60,35 @@ Updates an existing GSM package with the latest standardized templates:
 update_gsm_package(strPackageDir = ".")
 ```
 
-- Refreshes `.github/ISSUE_TEMPLATE/` with current issue templates (Bug,
-  Feature, Technical Task, Documentation Task)
-- Updates `.github/workflows/` with latest GitHub Actions workflow
-  definitions
+- Installs/updates GitHub issue templates with
+  [`add_gsm_issue_templates()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_gsm_issue_templates.md)
+- Removes deprecated issue templates with
+  [`remove_deprecated_issue_templates()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/remove_deprecated_issue_templates.md)
+- Installs/updates GitHub Actions workflows from the [`actions-v1`
+  branch of this
+  repo](https://github.com/Gilead-BioStats/gsm.utils/tree/actions-v1/workflow_templates)
+  with
+  [`add_actions()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_actions.md)
+- Removes deprecated issue templates with
+  [`remove_deprecated_actions()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/remove_deprecated_actions.md)
 
-Use this function to keep your package’s CI/CD infrastructure
-synchronized with the latest conventions. \###
-[`check_workflow_compliance()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/check_workflow_compliance.md)
+## GitHub Actions Workflows
 
-Checks if a package’s GitHub Actions workflows comply with gsm.utils
-templates:
+The [`actions-v1` branch of this
+repo](https://github.com/Gilead-BioStats/gsm.utils/tree/actions-v1/workflow_templates)
+contains standardized GitHub Actions workflow templates for Gilead
+packages:
 
-``` r
+- **`R-CMD-check.yaml`**: Runs R package checks on PRs to ensure package
+  integrity.
 
-check_workflow_compliance(strPackageDir = ".")
-```
-
-- Verifies that required workflow files are present
-- Checks version headers match the current gsm.utils version
-- Compares critical workflow content against templates
-- Provides detailed reporting of compliance issues
-- Can be used in CI/CD to enforce workflow standards \## GitHub Actions
-  Workflows
-
-The `inst/gha_templates/workflows` directory contains standardized
-GitHub Actions workflow templates for Gilead packages:
-
-- **`pkgdown-cleanup.yaml`**: Automatically removes pkgdown PR preview
-  directories from the gh-pages branch when pull requests are closed to
-  keep the repository clean.
-
-- **`pkgdown-with-assets.yaml`**: Builds and deploys pkgdown
-  documentation sites with automatic menu addition and asset creation
-  via
+- **`pkgdown-all.yaml`**: Builds and deploys pkgdown documentation sites
+  with automatic menu addition and asset creation via
   [`gsm.utils::build_assets()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/build_assets.md).
   Creates PR preview sites at `/pr/{number}` (or, depending on your
-  pkgdown configuration, `/pr/{number}/dev`), and deploys production
-  and/or `/dev` sites on push to `main` or `dev`.
-
-- **`R-CMD-check-dev.yaml`**: Lightweight R package check for PRs to
-  `dev` branch, running on Ubuntu with current and minimum supported R
-  versions for faster CI feedback during development.
-
-- **`R-CMD-check.yaml`**: Runs comprehensive R package checks on PRs to
-  `main` across multiple platforms (macOS, Windows, Ubuntu) and R
-  versions to ensure package integrity before release.
+  pkgdown configuration, `/pr/{number}/dev`) and deletes such sites once
+  the PR is closed, and deploys production and/or `/dev` sites on push
+  to `main` or `dev`.
 
 - **`r_releaser-caller.yaml`**: Reusable workflow for building and
   attaching R package source tarballs to GitHub releases, using the
@@ -129,10 +104,9 @@ GitHub Actions workflow templates for Gilead packages:
   `release: published` event.
 
 - **`workflow-template-check.yaml`**: Ensures workflow compliance by
-  checking that a package’s `.github/workflows` directory matches the
-  gsm.utils templates. Runs on pushes to `main` or `release` branches
-  and verifies file presence, version headers, and critical content to
-  maintain standardized CI/CD across GSM packages.
+  checking that a package’s `.github/workflows` directory matches these
+  templates. Runs on pull requests and verifies file presence and
+  version headers to maintain standardized CI/CD across GSM packages.
 
 ## Code of Conduct
 
