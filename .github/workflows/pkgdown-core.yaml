@@ -63,6 +63,7 @@ jobs:
           event-name: ${{ inputs.pr-number && 'pull_request' || github.event_name }}
           pr-number: ${{ inputs.pr-number || github.event.number }}
           pkgdown-dev-mode: ${{ inputs.pkgdown-dev-mode == true || (github.event_name != 'workflow_dispatch' && github.ref_name != 'main') }}
+          is-fork: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository }}
   clean-pr-preview:
     if: |
       (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository) ||
