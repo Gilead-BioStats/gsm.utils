@@ -1,7 +1,7 @@
 url: https://gilead-biostats.github.io/gsm.utils
 template:
   bootstrap: 5
-  bootswatch: yeti
+  bootswatch: minty
 
 navbar:
   structure:

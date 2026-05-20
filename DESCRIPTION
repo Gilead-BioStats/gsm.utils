@@ -1,6 +1,6 @@
 Package: gsm.utils
 Title: Utilities for gsm package developers
-Version: 0.3.1
+Version: 0.0.1
 Authors@R: c(
     person("Jeremy", "Wildfire", , "jwildfire@gmail.com", role = c("aut", "cre")),
     person("Jon", "Harmon", , "jon.harmon@atorusresearch.com", role = "aut",
