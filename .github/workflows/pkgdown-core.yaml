@@ -57,7 +57,7 @@ jobs:
           extra-packages: any::pkgdown gilead-biostats/gsm.utils${{ inputs.utils-ref }} local::.
           cache-version: '1'
       - name: Build and deploy site
-        uses: gilead-biostats/gsm.utils/pkgdown-deploy@actions-v1
+        uses: gilead-biostats/gsm.utils/pkgdown-deploy@fix-118-determine-ref
         with:
           token: ${{ secrets.token || github.token }}
           event-name: ${{ inputs.pr-number && 'pull_request' || github.event_name }}
