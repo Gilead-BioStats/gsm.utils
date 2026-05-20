@@ -37,8 +37,17 @@ jobs:
       contents: write
       pull-requests: write
     steps:
+      - name: Determine checkout ref
+        id: get-ref
+        if: inputs.event-name == 'workflow_dispatch'
+        uses: gilead-biostats/gsm.utils/determine-ref@actions-v1
+        with:
+          pr-number: ${{ inputs.pr-number }}
+          token: ${{ secrets.token || github.token }}
       - name: Check out repo
         uses: gilead-biostats/gsm.utils/checkout@actions-v1
+        with:
+          ref: ${{ steps.get-ref.outputs.ref }}
       - name: Install R and dependencies
         uses: gilead-biostats/gsm.utils/install@actions-v1
         with:
