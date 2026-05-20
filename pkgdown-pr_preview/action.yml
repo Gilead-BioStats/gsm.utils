@@ -28,7 +28,7 @@ runs:
   using: "composite"
   steps:
     - name: Deploy PR preview 🧪
-      if: inputs.event-name == 'pull_request' && inputs.is-fork == 'false'
+      if: (inputs.event-name == 'pull_request' && inputs.is-fork == 'false') || (inputs.event-name == 'workflow_dispatch' && inputs.pr-number != '')
       uses: JamesIves/github-pages-deploy-action@v4.8.0
       with:
         token: ${{ inputs.token }}
@@ -41,7 +41,7 @@ runs:
         target-folder: pr/${{ inputs.pr-number }}
     - name: PR site URL 🌐
       id: site-url
-      if: inputs.event-name == 'pull_request' && inputs.is-fork == 'false'
+      if: (inputs.event-name == 'pull_request' && inputs.is-fork == 'false') || (inputs.event-name == 'workflow_dispatch' && inputs.pr-number != '')
       shell: bash
       run: |
         DEV_SUFFIX=""
@@ -52,7 +52,7 @@ runs:
         echo "url=$SITE_URL" >> $GITHUB_OUTPUT
         echo "🌐 URL: $SITE_URL"
     - name: Comment with PR site URL 🌐
-      if: inputs.event-name == 'pull_request' && inputs.is-fork == 'false'
+      if: (inputs.event-name == 'pull_request' && inputs.is-fork == 'false') || (inputs.event-name == 'workflow_dispatch' && inputs.pr-number != '')
       uses: gilead-biostats/gsm.utils/comment-pr@actions-v1
       with:
         comment-id: 'pkgdown-preview-url'
