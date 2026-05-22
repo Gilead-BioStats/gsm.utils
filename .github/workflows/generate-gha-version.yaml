@@ -7,8 +7,6 @@ on:
   pull_request:
     branches:
       - 'actions-v1'
-    paths:
-      - 'workflow_templates/*.yaml'
 
 permissions:
   contents: write
