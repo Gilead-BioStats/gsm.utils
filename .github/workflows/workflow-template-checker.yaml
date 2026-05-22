@@ -24,7 +24,8 @@ jobs:
 
           BODY_FILE="comment_body.md"
           FIX_CMDS_FILE="fix_commands.txt"
-          touch "$BODY_FILE" "$FIX_CMDS_FILE"
+          : > "$BODY_FILE"
+          : > "$FIX_CMDS_FILE"
           HAS_ERRORS="false"
 
           # Use jq to iterate over workflows
