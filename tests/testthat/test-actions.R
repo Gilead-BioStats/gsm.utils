@@ -59,7 +59,7 @@ test_that("add_actions informs when nothing added (#90)", {
 
 ## add_action ----
 
-test_that("action helpers work (#90)", {
+test_that("action helpers work (#90, #106)", {
   local_mocked_bindings(
     .manifest_url = test_path("fixtures/actions/gha_version.json")
   )
@@ -100,6 +100,15 @@ test_that(".workflow_url constructs URLs correctly (#106)", {
       repo = "Gilead-BioStats/qcthat",
       ref = "actions",
       path_extra = NA
+    ),
+    "https://raw.githubusercontent.com/Gilead-BioStats/qcthat/actions/qcthat.yaml"
+  )
+  expect_equal(
+    .workflow_url(
+      "qcthat.yaml",
+      repo = "Gilead-BioStats/qcthat",
+      ref = "actions",
+      path_extra = ""
     ),
     "https://raw.githubusercontent.com/Gilead-BioStats/qcthat/actions/qcthat.yaml"
   )
