@@ -3,7 +3,7 @@
   "https://raw.githubusercontent.com",
   "Gilead-BioStats",
   "gsm.utils",
-  "full-manifest-for-106",
+  "actions-v1",
   "gha_version.json",
   sep = "/"
 )
