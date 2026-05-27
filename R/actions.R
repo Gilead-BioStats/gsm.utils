@@ -1,18 +1,32 @@
-# Update this when we move the source repo for actions (and, eventually, issue
-# templates, probably)
-.base_url <- paste(
+# Update this when the manifest moves to a new branch or repo.
+.manifest_url <- paste(
   "https://raw.githubusercontent.com",
   "Gilead-BioStats",
   "gsm.utils",
   "actions-v1",
+  "gha_version.json",
   sep = "/"
 )
 
+# Build a raw content URL for one workflow file. path_extra is omitted when
+# NULL, NA, or empty (e.g. workflows that live at the repo root).
+.workflow_url <- function(name, repo, ref, path_extra = NULL) {
+  parts <- c(
+    "https://raw.githubusercontent.com",
+    repo,
+    ref,
+    if (!is.null(path_extra) && !is.na(path_extra) && nzchar(path_extra)) {
+      path_extra
+    },
+    name
+  )
+  paste(parts, collapse = "/")
+}
+
 #' Add Gilead GitHub Actions to package
 #'
-#' Add the official Gilead GitHub Actions from
-#' <https://github.com/Gilead-BioStats/gsm.utils@actions-v1> to a package, and
-#' update existing Gilead GitHub Actions to the latest versions if necessary.
+#' Add the official Gilead GitHub Actions to a package, and update existing
+#' Gilead GitHub Actions to the latest versions if necessary.
 #'
 #' @inheritParams .shared-params
 #' @returns A character vector of added and updated action names, invisibly.
@@ -28,10 +42,13 @@ add_actions <- function(
     .ensure_dir_exists(workflows_path)
     results <- purrr::pmap(
       manifest,
-      function(name, description, version) {
+      function(name, version, repo, ref, path_extra = NULL, ...) {
         add_action(
           name,
           version,
+          repo = repo,
+          ref = ref,
+          path_extra = path_extra,
           workflows_path = workflows_path,
           overwrite = overwrite,
           verbose = verbose
@@ -61,18 +78,21 @@ add_actions <- function(
 }
 
 .read_github_manifest <- function() {
-  manifest_path <- paste(.base_url, "gha_version.json", sep = "/")
-  manifest <- jsonlite::fromJSON(manifest_path, simplifyVector = TRUE)
+  jsonlite::fromJSON(.manifest_url, simplifyVector = TRUE)
 }
 
 #' Add a Gilead GitHub Action to package
 #'
-#' Add an official Gilead GitHub Action from
-#' <https://github.com/Gilead-BioStats/gsm.utils@actions-v1> to a package, or
-#' update an existing Gilead GitHub Actions to the latest version if necessary.
+#' Add an official Gilead GitHub Action to a package, or update an existing
+#' Gilead GitHub Action to the latest version if necessary. The source location
+#' is determined by the manifest fields `repo`, `ref`, and `path_extra`.
 #'
 #' @param name (`string`) The action to install.
 #' @param version (`string`) The expected version of the action.
+#' @param repo (`string`) GitHub repository in `owner/repo` form.
+#' @param ref (`string`) Git ref (branch, tag, or SHA) in `repo`.
+#' @param path_extra (`string` or `NULL`) Optional subdirectory within the ref
+#'   where the workflow file lives.
 #' @param workflows_path (`string`) Path to the package workflows.
 #' @inheritParams .shared-params
 #' @inheritParams rlang::args_dots_empty
@@ -83,7 +103,10 @@ add_actions <- function(
 add_action <- function(
   name,
   version,
+  repo,
+  ref,
   ...,
+  path_extra = NULL,
   workflows_path = "./.github/workflows",
   overwrite = TRUE,
   verbose = TRUE
@@ -101,7 +124,13 @@ add_action <- function(
         "Creating or updating workflow file {.file {workflow_path}}."
       )
     }
-    return(.update_workflow(name, workflow_path))
+    return(.update_workflow(
+      name,
+      workflow_path,
+      repo = repo,
+      ref = ref,
+      path_extra = path_extra
+    ))
   }
   return(character())
 }
@@ -124,17 +153,33 @@ add_action <- function(
     isTRUE(name == existing_name)
 }
 
-.update_workflow <- function(name, workflow_path) {
-  workflow_contents <- .read_workflow_template(name)
-  # Use unlink instead of fs here because unlink doens't care if the file
+.update_workflow <- function(
+  name,
+  workflow_path,
+  repo,
+  ref,
+  path_extra = NULL
+) {
+  workflow_contents <- .read_workflow_template(
+    name,
+    repo = repo,
+    ref = ref,
+    path_extra = path_extra
+  )
+  # Use unlink instead of fs here because unlink doesn't care if the file
   # exists.
   unlink(workflow_path)
   writeLines(workflow_contents, workflow_path)
   return(name)
 }
 
-.read_workflow_template <- function(name) {
-  workflow_url <- paste(.base_url, "workflow_templates", name, sep = "/")
+.read_workflow_template <- function(name, repo, ref, path_extra = NULL) {
+  workflow_url <- .workflow_url(
+    name,
+    repo = repo,
+    ref = ref,
+    path_extra = path_extra
+  )
   readLines(workflow_url)
 }
 

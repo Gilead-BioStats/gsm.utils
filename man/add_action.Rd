@@ -7,7 +7,10 @@
 add_action(
   name,
   version,
+  repo,
+  ref,
   ...,
+  path_extra = NULL,
   workflows_path = "./.github/workflows",
   overwrite = TRUE,
   verbose = TRUE
@@ -18,7 +21,14 @@ add_action(
 
 \item{version}{(\code{string}) The expected version of the action.}
 
+\item{repo}{(\code{string}) GitHub repository in \code{owner/repo} form.}
+
+\item{ref}{(\code{string}) Git ref (branch, tag, or SHA) in \code{repo}.}
+
 \item{...}{These dots are for future extensions and must be empty.}
+
+\item{path_extra}{(\code{string} or \code{NULL}) Optional subdirectory within the ref
+where the workflow file lives.}
 
 \item{workflows_path}{(\code{string}) Path to the package workflows.}
 
@@ -31,7 +41,7 @@ The name of the workflow if it was updated, otherwise an empty
 character vector.
 }
 \description{
-Add an official Gilead GitHub Action from
-\url{https://github.com/Gilead-BioStats/gsm.utils@actions-v1} to a package, or
-update an existing Gilead GitHub Actions to the latest version if necessary.
+Add an official Gilead GitHub Action to a package, or update an existing
+Gilead GitHub Action to the latest version if necessary. The source location
+is determined by the manifest fields \code{repo}, \code{ref}, and \code{path_extra}.
 }
