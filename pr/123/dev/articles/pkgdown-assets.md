@@ -69,7 +69,7 @@ title: "My First Example"
 author: "[your.package] Example"
 description: "<<Fill in Example description here>>"
 index: 1
-date: "May 22, 2026 20:26:55 UTC"
+date: "May 27, 2026 15:45:12 UTC"
 output: html_document
 ---
 ```
