@@ -1,9 +1,9 @@
 # Add a Gilead GitHub Action to package
 
-Add an official Gilead GitHub Action from
-<https://github.com/Gilead-BioStats/gsm.utils@actions-v1> to a package,
-or update an existing Gilead GitHub Actions to the latest version if
-necessary.
+Add an official Gilead GitHub Action to a package, or update an existing
+Gilead GitHub Action to the latest version if necessary. The source
+location is determined by the manifest fields `repo`, `ref`, and
+`path_extra`.
 
 ## Usage
 
@@ -11,7 +11,10 @@ necessary.
 add_action(
   name,
   version,
+  repo,
+  ref,
   ...,
+  path_extra = NULL,
   workflows_path = "./.github/workflows",
   overwrite = TRUE,
   verbose = TRUE
@@ -28,9 +31,22 @@ add_action(
 
   (`string`) The expected version of the action.
 
+- repo:
+
+  (`string`) GitHub repository in `owner/repo` form.
+
+- ref:
+
+  (`string`) Git ref (branch, tag, or SHA) in `repo`.
+
 - ...:
 
   These dots are for future extensions and must be empty.
+
+- path_extra:
+
+  (`string` or `NULL`) Optional subdirectory within the ref where the
+  workflow file lives.
 
 - workflows_path:
 

@@ -1,9 +1,7 @@
 # Add Gilead GitHub Actions to package
 
-Add the official Gilead GitHub Actions from
-<https://github.com/Gilead-BioStats/gsm.utils@actions-v1> to a package,
-and update existing Gilead GitHub Actions to the latest versions if
-necessary.
+Add the official Gilead GitHub Actions to a package, and update existing
+Gilead GitHub Actions to the latest versions if necessary.
 
 ## Usage
 
