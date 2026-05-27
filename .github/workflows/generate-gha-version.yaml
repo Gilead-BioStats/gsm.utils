@@ -1,5 +1,5 @@
 # name: generate-gha-version.yaml
-# version: 0.1.0
+# version: 0.1.1
 # Description: Update gha_version.json with latest templates.
 name: Generate Workflow Version JSON
 
@@ -7,8 +7,6 @@ on:
   pull_request:
     branches:
       - 'actions-v1'
-    paths:
-      - 'workflow_templates/*.yaml'
 
 permissions:
   contents: write
@@ -28,13 +26,28 @@ jobs:
         run: |
           import os, json, re, glob
 
-          workflows = []
+          LOCAL_REPO = "Gilead-BioStats/gsm.utils"
+          LOCAL_REF = "actions-v1"
+          LOCAL_PATH_EXTRA = "workflow_templates"
+
           pattern_name = re.compile(r'^#\s*name:\s*(.*)', re.I)
           pattern_desc = re.compile(r'^#\s*description:\s*(.*)', re.I)
           pattern_version = re.compile(r'^#\s*version:\s*(.*)', re.I)
 
-          if os.path.isdir('workflow_templates'):
-              for filepath in sorted(glob.glob('workflow_templates/*.yaml')):
+          # Load existing entries from other repos to preserve them
+          existing_other = []
+          if os.path.isfile('gha_version.json'):
+              with open('gha_version.json', 'r') as f:
+                  existing = json.load(f)
+              existing_other = [
+                  w for w in existing.get('workflows', [])
+                  if w.get('repo') and w.get('repo') != LOCAL_REPO
+              ]
+
+          # Parse local workflow_templates
+          local_workflows = []
+          if os.path.isdir(LOCAL_PATH_EXTRA):
+              for filepath in sorted(glob.glob(f'{LOCAL_PATH_EXTRA}/*.yaml')):
                   with open(filepath, 'r') as f:
                       w_name, w_version, w_desc = None, None, None
 
@@ -49,12 +62,17 @@ jobs:
                           elif m := pattern_desc.match(line):
                               w_desc = m.group(1).strip()
 
-                      if w_name and w_version and w_desc:
-                          workflows.append({
-                              "name": w_name,
-                              "description": w_desc,
-                              "version": w_version
-                          })
+                  if w_name and w_version and w_desc:
+                      local_workflows.append({
+                          "name": w_name,
+                          "description": w_desc,
+                          "version": w_version,
+                          "repo": LOCAL_REPO,
+                          "ref": LOCAL_REF,
+                          "path_extra": LOCAL_PATH_EXTRA
+                      })
+
+          workflows = local_workflows + existing_other
 
           with open('gha_version.json', 'w') as f:
               json.dump({"workflows": workflows}, f, indent=2)

@@ -17,17 +17,16 @@ jobs:
       - name: Check compliance and build comment
         id: check
         run: |
-          BASE_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/actions-v1"
-          MANIFEST_URL="$BASE_URL/gha_version.json"
-          BLOB_BASE_URL="https://github.com/gilead-biostats/gsm.utils/blob/actions-v1/workflow_templates"
+          MANIFEST_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/actions-v1/gha_version.json"
 
           echo "Downloading manifest from $MANIFEST_URL..."
           curl -sL -f "$MANIFEST_URL" -o gha_version.json || { echo "::error::Failed to download manifest"; exit 1; }
 
           BODY_FILE="comment_body.md"
-          touch "$BODY_FILE"
+          FIX_CMDS_FILE="fix_commands.txt"
+          : > "$BODY_FILE"
+          : > "$FIX_CMDS_FILE"
           HAS_ERRORS="false"
-          FAILED_WORKFLOWS=""
 
           # Use jq to iterate over workflows
           jq -c '.workflows[]' gha_version.json > manifest_workflows.jsonl
@@ -35,7 +34,18 @@ jobs:
           while read -r item; do
             name=$(echo "$item" | jq -r '.name')
             target_version=$(echo "$item" | jq -r '.version')
+            repo=$(echo "$item" | jq -r '.repo // empty')
+            ref=$(echo "$item" | jq -r '.ref // empty')
+            path_extra=$(echo "$item" | jq -r '.path_extra // empty')
             local_file=".github/workflows/$name"
+
+            # Build the raw URL for this workflow
+            raw_base="https://raw.githubusercontent.com/$repo/$ref"
+            if [ -n "$path_extra" ]; then
+              raw_url="$raw_base/$path_extra/$name"
+            else
+              raw_url="$raw_base/$name"
+            fi
 
             ISSUE_FOUND="false"
 
@@ -74,8 +84,8 @@ jobs:
 
               # Add to the bulleted list
               echo "- \`$name\`" >> "$BODY_FILE"
-              # Append to the space-separated list for the bash loop later
-              FAILED_WORKFLOWS="$FAILED_WORKFLOWS $name"
+              # Accumulate per-workflow curl command
+              echo "  curl -sL \"$raw_url\" -o \".github/workflows/$name\"" >> "$FIX_CMDS_FILE"
             fi
           done < manifest_workflows.jsonl
 
@@ -85,9 +95,7 @@ jobs:
             echo "**Option 1: Terminal**" >> "$BODY_FILE"
             echo '```bash' >> "$BODY_FILE"
             echo "mkdir -p .github/workflows" >> "$BODY_FILE"
-            echo "for wf in$FAILED_WORKFLOWS; do" >> "$BODY_FILE"
-            echo "  curl -sL \"$BASE_URL/workflow_templates/\$wf\" -o \".github/workflows/\$wf\"" >> "$BODY_FILE"
-            echo "done" >> "$BODY_FILE"
+            cat "$FIX_CMDS_FILE" >> "$BODY_FILE"
             echo '```' >> "$BODY_FILE"
 
             echo "**Option 2: R Console**" >> "$BODY_FILE"
