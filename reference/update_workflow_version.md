@@ -1,38 +1,25 @@
 # Update version in GitHub Actions workflow `.yaml` files
 
-Update version in GitHub Actions workflow `.yaml` files
+**\[deprecated\]**
+
+This function has been replaced by a GitHub Action to handle versions
+more cleanly and automatically. Use
+`add_action("workflow-template-check.yaml")` (or, more generally,
+[`update_gsm_package()`](https://gilead-biostats.github.io/gsm.utils/reference/update_gsm_package.md))
+to replace this function.
 
 ## Usage
 
 ``` r
-update_workflow_version(
-  dir = "inst/gha_templates/workflows",
-  description_path = "DESCRIPTION",
-  label = "# gsm.utils GHA version",
-  recursive = TRUE,
-  add_if_missing = TRUE
-)
+update_workflow_version(...)
 ```
 
 ## Arguments
 
-- dir:
+- ...:
 
-  `string` path to directory containing GitHub Actions workflow `.yaml`
-  files
+  Placeholder to prevent other errors.
 
-- description_path:
+## Value
 
-  `string` path to `DESCRIPTION` file
-
-- label:
-
-  `string` label to identify version line in workflow files
-
-- recursive:
-
-  `boolean` whether to search directories recursively
-
-- add_if_missing:
-
-  `boolean` whether to add version line if missing
+An error with instructions for updating.

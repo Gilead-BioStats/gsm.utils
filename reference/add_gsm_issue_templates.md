@@ -5,16 +5,19 @@ Add GSM issue templates to package
 ## Usage
 
 ``` r
-add_gsm_issue_templates(strPackageDir = ".", overwrite = TRUE)
+add_gsm_issue_templates(strPackageDir = ".", overwrite = TRUE, verbose = TRUE)
 ```
 
 ## Arguments
 
 - strPackageDir:
 
-  path to package directory
+  (`string`) Path to the package directory.
 
 - overwrite:
 
-  `boolean` argument declaring whether or not to overwrite existing
-  files. Default is `TRUE`.
+  (`boolean`) Overwrite existing files? Default is `TRUE`.
+
+- verbose:
+
+  (`boolean`) Inform about changes? Default is `TRUE`.

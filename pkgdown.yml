@@ -1,8 +1,9 @@
-pandoc: 3.1.11
+pandoc: 3.8.3
 pkgdown: 2.2.0
 pkgdown_sha: ~
-articles: {}
-last_built: 2026-01-30T20:13Z
+articles:
+  pkgdown-assets: pkgdown-assets.html
+last_built: 2026-05-28T16:43Z
 urls:
   reference: https://gilead-biostats.github.io/gsm.utils/reference
   article: https://gilead-biostats.github.io/gsm.utils/articles
