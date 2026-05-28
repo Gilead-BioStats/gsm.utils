@@ -9,28 +9,27 @@ make_example(
   strType = c("Example", "Cookbook"),
   strDetails = "<<Fill in Example description here>>",
   intIndex = 999,
-  output_dir = "inst/examples",
+  output_dir = "pkgdown/menus/examples",
   overwrite = FALSE
 )
 }
 \arguments{
-\item{strName}{Character. Display name of the example.}
+\item{strName}{(\code{string}) Display name of the example.}
 
-\item{strType}{Character. Type of example, either \code{"Example"} or
+\item{strType}{(\code{string}) Type of example, either \code{"Example"} or
 \code{"Cookbook"}.}
 
-\item{strDetails}{Character. Optional description for the example.}
+\item{strDetails}{(\code{string}) Optional description for the example.}
 
-\item{intIndex}{Numeric. Optional ordering index for the examples menu.}
+\item{intIndex}{(\code{numeric}) Optional ordering index for the examples menu.}
 
-\item{output_dir}{Character. Directory to write the example to.}
+\item{output_dir}{(\code{string}) Directory to write the example to.}
 
-\item{overwrite}{Logical. Whether to overwrite an existing file.}
+\item{overwrite}{(\code{boolean}) Overwrite existing files? Default is \code{TRUE}.}
 }
 \value{
 Path to the created example file (invisibly).
 }
 \description{
-Creates a new example \code{.Rmd} file from a standard template in
-\code{inst/examples}.
+Creates a new example \code{.Rmd} file from a standard template.
 }

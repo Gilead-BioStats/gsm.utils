@@ -1,15 +1,14 @@
 #' Create an example R Markdown template
 #'
-#' Creates a new example `.Rmd` file from a standard template in
-#' `inst/examples`.
+#' Creates a new example `.Rmd` file from a standard template.
 #'
-#' @param strName Character. Display name of the example.
-#' @param strType Character. Type of example, either `"Example"` or
+#' @param strName (`string`) Display name of the example.
+#' @param strType (`string`) Type of example, either `"Example"` or
 #'   `"Cookbook"`.
-#' @param strDetails Character. Optional description for the example.
-#' @param intIndex Numeric. Optional ordering index for the examples menu.
-#' @param output_dir Character. Directory to write the example to.
-#' @param overwrite Logical. Whether to overwrite an existing file.
+#' @param strDetails (`string`) Optional description for the example.
+#' @param intIndex (`numeric`) Optional ordering index for the examples menu.
+#' @param output_dir (`string`) Directory to write the example to.
+#' @inheritParams .shared-params
 #'
 #' @returns Path to the created example file (invisibly).
 #' @export
@@ -18,7 +17,7 @@ make_example <- function(
   strType = c("Example", "Cookbook"),
   strDetails = "<<Fill in Example description here>>",
   intIndex = 999,
-  output_dir = "inst/examples",
+  output_dir = "pkgdown/menus/examples",
   overwrite = FALSE
 ) {
   rlang::check_required(strName)
@@ -47,8 +46,7 @@ make_example <- function(
 
 #' Build a safe example filename
 #'
-#' @param strName Character. Display name of the example.
-#' @param strType Character. Example type prefix.
+#' @inheritParams make_example
 #' @returns File name for the example.
 #' @keywords internal
 build_example_filename <- function(strName, strType) {
@@ -59,10 +57,7 @@ build_example_filename <- function(strName, strType) {
 
 #' Build template content for an example
 #'
-#' @param strName Character. Display name of the example.
-#' @param strType Character. Example type.
-#' @param strDetails Character. Optional description.
-#' @param intIndex Numeric. Optional ordering index.
+#' @inheritParams make_example
 #' @returns Character vector of template lines.
 #' @keywords internal
 build_example_template <- function(strName, strType, strDetails, intIndex) {
@@ -104,7 +99,7 @@ build_example_template <- function(strName, strType, strDetails, intIndex) {
     "  parent = environment()",
     ")",
     "child_report <- knitr::knit_child(",
-    "  system.file(\"report\", \"Report_Name.Rmd\", package = \"your.package\"),",
+    "  fs::path_package(\"your.package\", \"report\", \"Report_Name.Rmd\"),",
     "  envir = child_env,",
     "  quiet = TRUE",
     ")",
@@ -115,6 +110,7 @@ build_example_template <- function(strName, strType, strDetails, intIndex) {
 
 #' Helper for missing values
 #'
+#' @name or_pipe
 #' @param x Value to test.
 #' @param y Fallback value.
 #' @returns `x` if not `NULL`, otherwise `y`.

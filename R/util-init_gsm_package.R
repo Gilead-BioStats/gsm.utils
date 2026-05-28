@@ -1,44 +1,53 @@
 #' Initialize gsm Extension package
 #'
-#' @param strPackageDir path to package directory
-#' @param lDescriptionFields `list` of description fields, passed to
+#' @param lDescriptionFields (`list`) Description fields, passed to
 #'   [usethis::create_package()]. Default is `list()`.
-#' @param bIncludeWorkflowDir `boolean` argument declaring whether or not to
-#'   include the `inst/workflow` directory in the root of the package. Default
-#'   is `TRUE`.
+#' @param bIncludeWorkflowDir (`boolean`) Whether or not to include the
+#'   `inst/workflow` directory in the root of the package. Default is `TRUE`.
+#' @param strOrg (`string`) GitHub organization under which the repo should be
+#'   created. Set to `NULL` to create the package in your personal GitHub
+#'   account.
+#' @inheritParams .shared-params
 #'
 #' @export
 init_gsm_package <- function(
   strPackageDir,
   lDescriptionFields = list(),
-  bIncludeWorkflowDir = TRUE
+  bIncludeWorkflowDir = TRUE,
+  strOrg = "Gilead-BioStats"
 ) {
   rlang::check_installed("usethis", reason = "to create the package.")
   rlang::check_installed("withr", reason = "to work in the package directory.")
+  rlang::check_installed("testthat", reason = "to set up testthat.")
 
-  if (!dir.exists(strPackageDir)) {
-    dir.create(strPackageDir)
-    init_git <- TRUE
-  }
-  usethis::create_package(strPackageDir, open = F, fields = lDescriptionFields)
-  withr::with_dir(strPackageDir, {
-    usethis::use_pkgdown_github_pages()
+  fs::dir_create(strPackageDir)
+  usethis::create_package(
+    strPackageDir,
+    open = FALSE,
+    fields = lDescriptionFields
+  )
+  # with_project vs withr::with_dir & force = TRUE to ensure that testthat uses
+  # the correct dir.
+  usethis::with_project(strPackageDir, force = TRUE, {
+    .initialize_git(strOrg)
+    # This will also get rid of the baseline pkgdown.yaml added by
+    # use_pkgdown_github_pages()
+    update_gsm_package()
     usethis::use_testthat()
-    usethis::use_github_action("check-standard")
-    dir.create("inst")
-
-    # add gsm-specific GHA and issue template content to .github from `inst/gha_templates`
-    file.copy(
-      system.file("gha_templates", package = "gsm.utils"),
-      ".github",
-      recursive = T
-    )
     if (bIncludeWorkflowDir) {
-      dir.create("inst/workflow")
-      dir.create("inst/workflow/1_mappings")
-      dir.create("inst/workflow/2_metrics")
-      dir.create("inst/workflow/3_reporting")
-      dir.create("inst/workflow/4_modules")
+      fs::dir_create("inst/workflow/1_mappings")
+      fs::dir_create("inst/workflow/2_metrics")
+      fs::dir_create("inst/workflow/3_reporting")
+      fs::dir_create("inst/workflow/4_modules")
     }
   })
+}
+
+# Separated for mocking for tests.
+.initialize_git <- function(strOrg) {
+  # nocov start
+  usethis::use_git()
+  usethis::use_github(organisation = strOrg)
+  usethis::use_pkgdown_github_pages()
+  # nocov end
 }

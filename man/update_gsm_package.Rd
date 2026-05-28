@@ -4,11 +4,17 @@
 \alias{update_gsm_package}
 \title{Update GSM package with global issue templates and GH actions}
 \usage{
-update_gsm_package(strPackageDir = ".")
+update_gsm_package(strPackageDir = ".", overwrite = TRUE, verbose = TRUE)
 }
 \arguments{
-\item{strPackageDir}{path to package directory}
+\item{strPackageDir}{(\code{string}) Path to the package directory.}
+
+\item{overwrite}{(\code{boolean}) Overwrite existing files? Default is \code{TRUE}.}
+
+\item{verbose}{(\code{boolean}) Inform about changes? Default is \code{TRUE}.}
 }
 \description{
-Update GSM package with global issue templates and GH actions
+Add standard GSM issue templates (\code{\link[=add_gsm_issue_templates]{add_gsm_issue_templates()}}) and actions
+(\code{\link[=add_actions]{add_actions()}}), and remove deprecated versions of each
+(\code{\link[=remove_deprecated_issue_templates]{remove_deprecated_issue_templates()}} and \code{\link[=remove_deprecated_actions]{remove_deprecated_actions()}}).
 }

@@ -7,10 +7,9 @@
 add_contributor_guidelines(strPackageDir = ".", overwrite = TRUE)
 }
 \arguments{
-\item{strPackageDir}{path to package directory}
+\item{strPackageDir}{(\code{string}) Path to the package directory.}
 
-\item{overwrite}{\code{boolean} argument declaring whether or not to overwrite
-existing files. Default is \code{TRUE}.}
+\item{overwrite}{(\code{boolean}) Overwrite existing files? Default is \code{TRUE}.}
 }
 \description{
 Add GSM Contributor Guidelines markdown to package

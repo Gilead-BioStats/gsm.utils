@@ -1,3 +1,14 @@
+# gsm.utils 0.4.0
+
+This release standardizes actions and related functionality, and solidifies this package:
+
+- We now use the `fs` package for file manipulation (#25).
+- Actions have been standardized for gsm repos (#28, #31, #35, #40, #44, #45, #66, #67, #71, #73, #74, #75, #76, #77, #78, #90, #97, #106, #107, #114, #118).
+- New function `build_assets()` (used in the shared `pkgdown-all.yaml` workflow) automatically adds rmarkdown and quarto files in `pkgdown/menus/*` to the pkgdown site, with a menu for each `*` subfolder. See `vignette("pkgdown-assets")` for details (#67, #89, #103, #108).
+- `init_gsm_package()` and `update_gsm_package()` no longer install a "Requirement" issue template, and they remove Requirement issue templates from packages that already have them (#100).
+- `init_gsm_package()` and `update_gsm_package()` shared underlying functionality to avoid surprises (#110).
+- Unused experimental functionality has been removed (#111).
+
 # gsm.utils v0.3.0
 
 This update of the gsm.utils package introduces the following features:

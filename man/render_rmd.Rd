@@ -13,16 +13,16 @@ render_rmd(
 )
 }
 \arguments{
-\item{strInputPath}{\code{string} or \code{fs_path} Path to the template \code{Rmd} file.}
+\item{strInputPath}{(\code{string}) Path to the template \code{Rmd} file.}
 
-\item{strOutputFile}{\code{string} Filename for the output.}
+\item{strOutputFile}{(\code{string}) Filename for the output.}
 
-\item{strOutputDir}{\code{string} or \code{fs_path} Path to the directory where the
+\item{strOutputDir}{(\code{string}) Path to the directory where the
 output will be saved.}
 
-\item{lParams}{\code{list} Parameters to pass to the template \code{Rmd} file.}
+\item{lParams}{(\code{list}) Parameters to pass to the template \code{Rmd} file.}
 
-\item{quiet}{Logical. Passed to \code{rmarkdown::render()}.}
+\item{quiet}{(\code{boolean}) Passed to \code{\link[rmarkdown:render]{rmarkdown::render()}}.}
 }
 \value{
 Rendered Rmarkdown file path (invisibly).

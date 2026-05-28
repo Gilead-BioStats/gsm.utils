@@ -1,110 +1,171 @@
 #' Update GSM package with global issue templates and GH actions
 #'
-#' @param strPackageDir path to package directory
+#' Add standard GSM issue templates ([add_gsm_issue_templates()]) and actions
+#' ([add_actions()]), and remove deprecated versions of each
+#' ([remove_deprecated_issue_templates()] and [remove_deprecated_actions()]).
 #'
+#' @inheritParams .shared-params
 #' @returns NULL
 #' @export
-update_gsm_package <- function(strPackageDir = ".") {
-  if (!dir.exists(strPackageDir)) {
-    stop("The specified package directory does not exist.")
+update_gsm_package <- function(
+  strPackageDir = ".",
+  overwrite = TRUE,
+  verbose = TRUE
+) {
+  if (!fs::dir_exists(strPackageDir)) {
+    cli::cli_abort("The specified package directory does not exist.")
   }
-  ## add issue templates
-  add_gsm_issue_templates(strPackageDir = strPackageDir)
-
-  ## add github actions
-  add_gsm_actions(strPackageDir = strPackageDir)
+  add_gsm_issue_templates(
+    strPackageDir = strPackageDir,
+    overwrite = overwrite,
+    verbose = verbose
+  )
+  remove_deprecated_issue_templates(
+    strPackageDir = strPackageDir,
+    overwrite = overwrite,
+    verbose = verbose
+  )
+  add_actions(
+    strPackageDir = strPackageDir,
+    overwrite = overwrite,
+    verbose = verbose
+  )
+  remove_deprecated_actions(
+    strPackageDir = strPackageDir,
+    overwrite = overwrite,
+    verbose = verbose
+  )
 }
+
+# add_gsm_issue_templates ----
 
 #' Add GSM issue templates to package
 #'
-#' @param strPackageDir path to package directory
-#' @param overwrite `boolean` argument declaring whether or not to overwrite
-#'   existing files. Default is `TRUE`.
-#'
+#' @inheritParams .shared-params
 #' @export
-add_gsm_issue_templates <- function(strPackageDir = ".", overwrite = TRUE) {
-  issuePath <- paste0(strPackageDir, "/.github/ISSUE_TEMPLATE")
-  if (!dir.exists(issuePath)) {
-    dir.create(issuePath, recursive = TRUE)
-  } else if (!overwrite) {
-    stop(
-      "The .github/ISSUE_TEMPLATE directory already exists. Set overwrite = TRUE to overwrite it."
-    )
+add_gsm_issue_templates <- function(
+  strPackageDir = ".",
+  overwrite = TRUE,
+  verbose = TRUE
+) {
+  issuePath <- .find_issue_path(strPackageDir)
+  if (fs::dir_exists(issuePath) && !overwrite) {
+    cli::cli_abort(c(
+      x = "The .github/ISSUE_TEMPLATE directory already exists.",
+      "Set {.code overwrite = TRUE} to overwrite it."
+    ))
   }
-  file.copy(
-    system.file("gha_templates/ISSUE_TEMPLATE", package = "gsm.utils"),
-    paste0(strPackageDir, "/.github"),
-    recursive = TRUE
+  fs::dir_create(issuePath)
+  # Copy all issue template files to the target directory
+  source_files <- fs::dir_ls(
+    fs::path_package("gsm.utils", "github_templates", "ISSUE_TEMPLATE")
+  )
+  fs::file_copy(
+    source_files,
+    issuePath,
+    overwrite = overwrite
   )
 }
 
-#' Add GSM GitHub Actions to package
+#' A simple path constructor for mocking
 #'
-#' @param strPackageDir path to package directory
-#' @param overwrite `boolean` argument declaring whether or not to overwrite
-#'   existing files. Default is `TRUE`.
+#' @inheritParams add_gsm_issue_templates
 #'
-#' @export
-add_gsm_actions <- function(strPackageDir = ".", overwrite = TRUE) {
-  # Get version from manifest
-  manifest_path <- system.file("gha_templates/gha_version.json", package = "gsm.utils")
-  if (file.exists(manifest_path)) {
-    manifest <- jsonlite::fromJSON(manifest_path, simplifyVector = TRUE)
-    version <- manifest$version
-    cli::cli_alert_info("Installing gsm.utils GitHub Actions v{version}")
-  }
-
-  workflowsPath <- paste0(strPackageDir, "/.github/workflows")
-  if (!dir.exists(workflowsPath)) {
-    dir.create(workflowsPath, recursive = TRUE)
-  } else if (!overwrite) {
-    stop(
-      "The .github/workflows directory already exists. Set overwrite = TRUE to overwrite it."
-    )
-  }
-
-  result <- file.copy(
-    system.file("gha_templates/workflows", package = "gsm.utils"),
-    paste0(strPackageDir, "/.github"),
-    recursive = TRUE
-  )
-
-  if (result) {
-    workflow_files <- list.files(
-      system.file("gha_templates/workflows", package = "gsm.utils"),
-      pattern = "\\.ya?ml$"
-    )
-    cli::cli_alert_success(
-      "Installed {length(workflow_files)} workflow file{?s} to {.path {workflowsPath}}"
-    )
-  }
-
-  invisible(result)
+#' @returns The path to issue templates.
+#' @keywords internal
+.find_issue_path <- function(strPackageDir) {
+  fs::path(strPackageDir, ".github", "ISSUE_TEMPLATE") # nocov
 }
+
+# remove_deprecated_issue_templates ----
+
+#' Remove deprecated issue templates from package
+#'
+#' Removes issue templates that we no longer recommend nor support. Currently
+#' the only deprecated template is `1-requirement.md` — roadmap requirements
+#' now live exclusively in `gsm.roadmap`. New deprecations should be added to
+#' the hard-coded list below.
+#'
+#' @inheritParams .shared-params
+#' @returns A character vector of deleted template names, invisibly.
+#' @export
+remove_deprecated_issue_templates <- function(
+  strPackageDir = ".",
+  overwrite = TRUE,
+  verbose = TRUE
+) {
+  templates_path <- fs::path(strPackageDir, ".github", "ISSUE_TEMPLATE")
+  deprecated_templates <- c("1-requirement.md")
+  results <- purrr::map(deprecated_templates, \(name) {
+    .remove_issue_template(
+      name,
+      templates_path,
+      overwrite = overwrite,
+      verbose = verbose
+    )
+  }) |>
+    purrr::compact() |>
+    as.character()
+  if (!length(results) && verbose) {
+    cli::cli_inform("No deprecated issue templates found.")
+  }
+  return(invisible(results))
+}
+
+.remove_issue_template <- function(
+  name,
+  templates_path,
+  overwrite = TRUE,
+  verbose = TRUE
+) {
+  template_path <- fs::path(templates_path, name)
+  if (fs::file_exists(template_path)) {
+    if (!overwrite) {
+      cli::cli_abort(c(
+        x = "Deprecated issue template {.file {template_path}} found.",
+        i = "Set {.code overwrite = TRUE} to remove it."
+      ))
+    }
+    if (verbose) {
+      cli::cli_inform(
+        "Removing deprecated issue template {.file {template_path}}."
+      )
+    }
+    fs::file_delete(template_path)
+    return(name)
+  }
+  return(NULL)
+}
+
+# add_contributor_guidelines ----
 
 #' Add GSM Contributor Guidelines markdown to package
 #'
-#' @param strPackageDir path to package directory
-#' @param overwrite `boolean` argument declaring whether or not to overwrite
-#'   existing files. Default is `TRUE`.
+#' @inheritParams .shared-params
 #'
 #' @export
 add_contributor_guidelines <- function(strPackageDir = ".", overwrite = TRUE) {
-  strDirPath <- paste0(strPackageDir, "/.github")
-  if (!dir.exists(strDirPath)) {
-    dir.create(strDirPath, recursive = TRUE)
+  .ensure_github_dir_exists(strPackageDir)
+  strFilePath <- .find_contributing(strPackageDir)
+  if (fs::file_exists(strFilePath) && !overwrite) {
+    cli::cli_abort(c(
+      x = "The .github/CONTRIBUTING.md file already exists.",
+      i = "Set {.code overwrite = TRUE} to overwrite it."
+    ))
   }
 
-  strFilePath <- paste0(strDirPath, "/CONTRIBUTING.md")
-  if (file.exists(strFilePath) && !overwrite) {
-    stop(
-      "The .github/CONTRIBUTING.md directory already exists. Set overwrite = TRUE to overwrite it."
-    )
-  }
-
-  file.copy(
-    system.file("gha_templates/CONTRIBUTING.md", package = "gsm.utils"),
+  fs::file_copy(
+    fs::path_package("gsm.utils", "github_templates", "CONTRIBUTING.md"),
     strFilePath,
-    recursive = TRUE
+    overwrite = overwrite
   )
+}
+
+.ensure_github_dir_exists <- function(strPackageDir) {
+  strDirPath <- fs::path(strPackageDir, ".github")
+  fs::dir_create(strDirPath)
+}
+
+.find_contributing <- function(strPackageDir) {
+  fs::path(strPackageDir, ".github", "CONTRIBUTING.md") # nocov
 }
