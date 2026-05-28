@@ -6,6 +6,9 @@ inputs:
     description: "GitHub token (usually secrets.GITHUB_TOKEN)"
     required: true
     default: ${{ github.token }}
+  utils-ref:
+    description: "Ref for gsm.utils to install"
+    default: '@*release'
 
 runs:
   using: "composite"
@@ -17,7 +20,7 @@ runs:
       uses: gilead-biostats/gsm.utils/install@actions-v1
       with:
         token: ${{ inputs.token }}
-        extra-packages: any::covr any::xml2 any::jsonlite gilead-bioStats/gsm.utils@dev local::.
+        extra-packages: any::covr any::xml2 any::jsonlite gilead-biostats/gsm.utils${{ inputs.utils-ref }} local::.
         needs: coverage
 
     - name: Compute coverage

@@ -19,7 +19,7 @@ on:
       utils-ref:
         description: "Ref for gsm.utils to install"
         type: string
-        default: '@dev'
+        default: '@*release'
     secrets:
       token:
         description: "GitHub token, set to secrets.GITHUB_TOKEN"
