@@ -76,7 +76,7 @@ test_that("add_gsm_issue_templates copies expected files to issue path", {
 
 # remove_deprecated_issue_templates ----
 
-test_that("remove_deprecated_issue_templates informs when nothing removed and verbose", {
+test_that("remove_deprecated_issue_templates informs when nothing removed and verbose (#100)", {
   local_mocked_bindings(
     .remove_issue_template = function(...) character()
   )
@@ -90,14 +90,14 @@ test_that("remove_deprecated_issue_templates informs when nothing removed and ve
 
 ## .remove_issue_template
 
-test_that(".remove_issue_template returns silently when file doesn't exist", {
+test_that(".remove_issue_template returns silently when file doesn't exist (#100)", {
   templates_path <- withr::local_tempdir("templates")
   .remove_issue_template("does-not-exist.md", templates_path) |>
     expect_equal(NULL) |>
     expect_no_message()
 })
 
-test_that(".remove_issue_template errors when file exists but overwrite is false", {
+test_that(".remove_issue_template errors when file exists but overwrite is false (#100)", {
   templates_path <- withr::local_tempdir("templates")
   template_name <- "1-requirement.md"
   template_path <- fs::path(templates_path, template_name)
@@ -110,7 +110,7 @@ test_that(".remove_issue_template errors when file exists but overwrite is false
     expect_error("Deprecated issue template .+ found")
 })
 
-test_that(".remove_issue_template removes deprecated templates", {
+test_that(".remove_issue_template removes deprecated templates (#100)", {
   templates_path <- withr::local_tempdir("templates")
   template_name <- "1-requirement.md"
   template_path <- fs::path(templates_path, template_name)

@@ -1,4 +1,4 @@
-test_that("init_gsm_package initializes a GSM package", {
+test_that("init_gsm_package initializes a GSM package (#110)", {
   skip_if_not_installed("usethis")
   local_mocked_bindings(
     .initialize_git = function(strOrg) TRUE
