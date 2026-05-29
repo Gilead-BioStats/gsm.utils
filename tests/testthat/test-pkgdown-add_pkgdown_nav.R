@@ -1,4 +1,4 @@
-test_that("ensure_pkgdown_menu_section adds menu to components (#67)", {
+test_that("ensure_pkgdown_menu_section adds menu to components (#67, #89)", {
   test_result <- ensure_pkgdown_menu_section(list(), "testMenu")
   expect_equal(
     test_result$navbar$components,
@@ -6,7 +6,7 @@ test_that("ensure_pkgdown_menu_section adds menu to components (#67)", {
   )
 })
 
-test_that("ensure_pkgdown_menu_section adds menu to missing left (#67)", {
+test_that("ensure_pkgdown_menu_section adds menu to missing left (#67, #89)", {
   test_result <- ensure_pkgdown_menu_section(list(), "testMenu")
   expect_equal(
     test_result$navbar$structure$left,
@@ -14,7 +14,7 @@ test_that("ensure_pkgdown_menu_section adds menu to missing left (#67)", {
   )
 })
 
-test_that("ensure_pkgdown_menu_section errors informatively for weird pkgdown (#67)", {
+test_that("ensure_pkgdown_menu_section errors informatively for weird pkgdown (#67, #89)", {
   expect_error(
     {
       ensure_pkgdown_menu_section(
@@ -26,7 +26,7 @@ test_that("ensure_pkgdown_menu_section errors informatively for weird pkgdown (#
   )
 })
 
-test_that("ensure_pkgdown_menu_section adds menu to left (#67)", {
+test_that("ensure_pkgdown_menu_section adds menu to left (#67, #89)", {
   test_result <- ensure_pkgdown_menu_section(
     list(navbar = list(structure = list(left = "reference"))),
     "testMenu"
