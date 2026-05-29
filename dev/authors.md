@@ -23,12 +23,12 @@ Source:
 
 Wildfire J, Harmon J, Maxwell L, Andriychuk N, Zheng A, Childress S
 (2026). *gsm.utils: Utilities for gsm package developers*. R package
-version 0.3.1, <https://gilead-biostats.github.io/gsm.utils>.
+version 0.4.0, <https://gilead-biostats.github.io/gsm.utils>.
 
     @Manual{,
       title = {gsm.utils: Utilities for gsm package developers},
       author = {Jeremy Wildfire and Jon Harmon and Laura Maxwell and Natalia Andriychuk and Anne Zheng and Spencer Childress},
       year = {2026},
-      note = {R package version 0.3.1},
+      note = {R package version 0.4.0},
       url = {https://gilead-biostats.github.io/gsm.utils},
     }

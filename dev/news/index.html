@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">gsm.utils</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.1</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,9 +42,16 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.3.1" id="gsmutils-031">gsm.utils 0.3.1<a class="anchor" aria-label="anchor" href="#gsmutils-031"></a></h2>
-<p>This release includes the following user-facing changes:</p>
-<ul><li>Deprecates older user-facing workflow and template helpers; users should migrate to the current supported package setup and example-generation utilities (<a href="https://github.com/Gilead-BioStats/gsm.utils/issues/111" class="external-link">#111</a>).</li>
+<h2 class="pkg-version" data-toc-text="0.4.0" id="gsmutils-040">gsm.utils 0.4.0<a class="anchor" aria-label="anchor" href="#gsmutils-040"></a></h2>
+<p>This release standardizes actions and related functionality, and solidifies this package:</p>
+<ul><li>We now use the <code>fs</code> package for file manipulation (<a href="https://github.com/Gilead-BioStats/gsm.utils/issues/25" class="external-link">#25</a>).</li>
+<li>Actions have been standardized for gsm repos (<a href="https://github.com/Gilead-BioStats/gsm.utils/issues/28" class="external-link">#28</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/31" class="external-link">#31</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/35" class="external-link">#35</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/40" class="external-link">#40</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/44" class="external-link">#44</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/45" class="external-link">#45</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/66" class="external-link">#66</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/67" class="external-link">#67</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/71" class="external-link">#71</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/73" class="external-link">#73</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/74" class="external-link">#74</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/75" class="external-link">#75</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/76" class="external-link">#76</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/77" class="external-link">#77</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/78" class="external-link">#78</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/90" class="external-link">#90</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/97" class="external-link">#97</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/106" class="external-link">#106</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/107" class="external-link">#107</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/114" class="external-link">#114</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/118" class="external-link">#118</a>).</li>
+<li>New function <code><a href="../reference/build_assets.html">build_assets()</a></code> (used in the shared <code>pkgdown-all.yaml</code> workflow) automatically adds rmarkdown and quarto files in <code>pkgdown/menus/*</code> to the pkgdown site, with a menu for each <code>*</code> subfolder. See <code><a href="../articles/pkgdown-assets.html">vignette("pkgdown-assets")</a></code> for details (<a href="https://github.com/Gilead-BioStats/gsm.utils/issues/67" class="external-link">#67</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/89" class="external-link">#89</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/103" class="external-link">#103</a>, <a href="https://github.com/Gilead-BioStats/gsm.utils/issues/108" class="external-link">#108</a>).</li>
+<li>
+<code><a href="../reference/init_gsm_package.html">init_gsm_package()</a></code> and <code><a href="../reference/update_gsm_package.html">update_gsm_package()</a></code> no longer install a “Requirement” issue template, and they remove Requirement issue templates from packages that already have them (<a href="https://github.com/Gilead-BioStats/gsm.utils/issues/100" class="external-link">#100</a>).</li>
+<li>
+<code><a href="../reference/init_gsm_package.html">init_gsm_package()</a></code> and <code><a href="../reference/update_gsm_package.html">update_gsm_package()</a></code> shared underlying functionality to avoid surprises (<a href="https://github.com/Gilead-BioStats/gsm.utils/issues/110" class="external-link">#110</a>).</li>
+<li>Unused experimental functionality has been removed (<a href="https://github.com/Gilead-BioStats/gsm.utils/issues/111" class="external-link">#111</a>).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="gsmutils-v030">gsm.utils v0.3.0<a class="anchor" aria-label="anchor" href="#gsmutils-v030"></a></h2>
