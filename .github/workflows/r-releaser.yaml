@@ -1,5 +1,5 @@
 # name: r-releaser.yaml
-# version: 0.3.7
+# version: 0.4.0
 # Description: Reusable R package release workflow designed to be invoked by
 # other gsm packages via r-releaser-caller.yaml workflow
 name: R Release
@@ -10,9 +10,17 @@ on:
         description: Tag to release
         required: true
         type: string
+      use-app:
+        description: "Whether to generate a GitHub App token instead of using the default token."
+        type: boolean
+        default: false
     secrets:
       token:
         description: "GitHub token, set to secrets.GITHUB_TOKEN"
+        required: false
+      CM_BOT_APP_ID:
+        required: false
+      CM_BOT_PRIVATE_KEY:
         required: false
 jobs:
   release:
@@ -20,9 +28,18 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    env:
-      GITHUB_PAT: ${{ secrets.token || github.token }}
     steps:
+      - name: Generate token
+        uses: gilead-biostats/gsm.utils/generate-token@actions-v1
+        id: token
+        with:
+          use-app: ${{ inputs.use-app && 'true' || 'false' }}
+          app-id: ${{ secrets.CM_BOT_APP_ID }}
+          private-key: ${{ secrets.CM_BOT_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          fallback-token: ${{ secrets.token || github.token }}
+      - name: Set GITHUB_PAT
+        run: echo "GITHUB_PAT=${{ steps.token.outputs.token }}" >> $GITHUB_ENV
       - name: Check out repo
         uses: gilead-biostats/gsm.utils/checkout@actions-v1
         with:
@@ -32,7 +49,7 @@ jobs:
         with:
           use-public-rspm: true
           dependencies: '"hard"'
-          token: ${{ secrets.token || github.token }}
+          token: ${{ steps.token.outputs.token }}
       - name: get library path
         id: library
         run: |
@@ -54,7 +71,7 @@ jobs:
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
-          repo_token: ${{ secrets.token || github.token }}
+          repo_token: ${{ steps.token.outputs.token }}
           file: ${{ steps.releaser.outputs.tarball_path }}
           asset_name: ${{ steps.releaser.outputs.tarball_name }}
           tag: ${{ inputs.tag }}
