@@ -28,7 +28,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Generate token
-        uses: gilead-biostats/gsm.utils/generate-token@actions-v1
+        uses: gilead-biostats/gsm.utils/generate-token@fix-130-app-tokens
         id: token
         with:
           use-app: ${{ inputs.use-app && 'true' || 'false' }}
