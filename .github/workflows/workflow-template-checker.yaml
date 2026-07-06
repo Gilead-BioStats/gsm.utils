@@ -1,23 +1,42 @@
 # name: workflow-template-checker.yaml
-# version: 0.3.6
+# version: 0.4.0
 # Description: Reusable workflow template checker designed to be invoked via workflow-template-check.yaml
 name: Workflow Template Compliance Checker
 
 on:
   workflow_call:
+    inputs:
+      use-app:
+        description: "Whether to generate a GitHub App token instead of using the default token."
+        type: boolean
+        default: false
+    secrets:
+      CM_BOT_APP_ID:
+        required: false
+      CM_BOT_PRIVATE_KEY:
+        required: false
 
 jobs:
   check-workflows:
     runs-on: ubuntu-latest
     name: Check Workflow Templates
     steps:
+      - name: Generate token
+        uses: gilead-biostats/gsm.utils/generate-token@fix-130-app-tokens
+        id: token
+        with:
+          use-app: ${{ inputs.use-app && 'true' || 'false' }}
+          app-id: ${{ secrets.CM_BOT_APP_ID }}
+          private-key: ${{ secrets.CM_BOT_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
       - name: Check out repo
         uses: gilead-biostats/gsm.utils/checkout@actions-v1
 
       - name: Check compliance and build comment
         id: check
         run: |
-          MANIFEST_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/actions-v1/gha_version.json"
+          MANIFEST_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-130-app-tokens/gha_version.json"
 
           echo "Downloading manifest from $MANIFEST_URL..."
           curl -sL -f "$MANIFEST_URL" -o gha_version.json || { echo "::error::Failed to download manifest"; exit 1; }
@@ -114,7 +133,7 @@ jobs:
         with:
           comment-id: 'workflow-template-check'
           body-path: comment_body.md
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.token.outputs.token }}
 
       - name: Fail check if updates required
         if: ${{ steps.check.outputs.has_errors == 'true' }}
