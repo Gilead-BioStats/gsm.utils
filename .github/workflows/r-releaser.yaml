@@ -48,7 +48,6 @@ jobs:
         uses: gilead-biostats/gsm.utils/install@actions-v1
         with:
           use-public-rspm: true
-          dependencies: '"hard"'
           token: ${{ steps.token.outputs.token }}
       - name: get library path
         id: library

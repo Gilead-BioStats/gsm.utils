@@ -23,6 +23,14 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Validate app inputs
+      if: inputs.use-app == 'true'
+      shell: bash
+      run: |
+        if [ -z "${{ inputs.app-id }}" ] || [ -z "${{ inputs.private-key }}" ]; then
+          echo "::error::use-app is 'true' but app-id and/or private-key are not set. Ensure CM_BOT_APP_ID and CM_BOT_PRIVATE_KEY secrets are configured."
+          exit 1
+        fi
     - name: Generate app token
       if: inputs.use-app == 'true'
       uses: actions/create-github-app-token@v1

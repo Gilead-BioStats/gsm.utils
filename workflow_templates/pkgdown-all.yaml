@@ -37,4 +37,7 @@ jobs:
       pr-number: ${{ inputs.pr-number }}
       pkgdown-dev-mode: ${{ inputs.pkgdown-dev-mode == true }}
       use-app: false
-    secrets: inherit
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+      CM_BOT_APP_ID: ${{ secrets.CM_BOT_APP_ID }}
+      CM_BOT_PRIVATE_KEY: ${{ secrets.CM_BOT_PRIVATE_KEY }}

@@ -21,4 +21,7 @@ jobs:
     with:
       tag: ${{ github.event.release.tag_name || inputs.tag }}
       use-app: false
-    secrets: inherit
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+      CM_BOT_APP_ID: ${{ secrets.CM_BOT_APP_ID }}
+      CM_BOT_PRIVATE_KEY: ${{ secrets.CM_BOT_PRIVATE_KEY }}

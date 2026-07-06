@@ -21,4 +21,7 @@ jobs:
     uses: Gilead-BioStats/gsm.utils/.github/workflows/test-coverage-core.yaml@fix-130-app-tokens
     with:
       use-app: false
-    secrets: inherit
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+      CM_BOT_APP_ID: ${{ secrets.CM_BOT_APP_ID }}
+      CM_BOT_PRIVATE_KEY: ${{ secrets.CM_BOT_PRIVATE_KEY }}
