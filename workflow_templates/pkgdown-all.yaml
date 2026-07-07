@@ -38,5 +38,5 @@ jobs:
       pkgdown-dev-mode: ${{ inputs.pkgdown-dev-mode == true }}
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
-      CM_BOT_APP_ID: ${{ secrets.CM_BOT_APP_ID }}
-      CM_BOT_PRIVATE_KEY: ${{ secrets.CM_BOT_PRIVATE_KEY }}
+      app-id: ${{ secrets.CM_BOT_APP_ID }}
+      app-private-key: ${{ secrets.CM_BOT_PRIVATE_KEY }}

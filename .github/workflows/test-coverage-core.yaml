@@ -10,9 +10,9 @@ on:
       token:
         description: "GitHub token, set to secrets.GITHUB_TOKEN"
         required: false
-      CM_BOT_APP_ID:
+      app-id:
         required: false
-      CM_BOT_PRIVATE_KEY:
+      app-private-key:
         required: false
 
 jobs:
@@ -26,8 +26,8 @@ jobs:
         uses: gilead-biostats/gsm.utils/generate-token@fix-130-app-tokens
         id: token
         with:
-          app-id: ${{ secrets.CM_BOT_APP_ID }}
-          private-key: ${{ secrets.CM_BOT_PRIVATE_KEY }}
+          app-id: ${{ secrets.app-id }}
+          private-key: ${{ secrets.app-private-key }}
           owner: ${{ github.repository_owner }}
           fallback-token: ${{ secrets.token || github.token }}
       - name: Compute test coverage

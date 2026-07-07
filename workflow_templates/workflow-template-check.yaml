@@ -14,5 +14,5 @@ jobs:
   check-workflows:
     uses: Gilead-BioStats/gsm.utils/.github/workflows/workflow-template-checker.yaml@fix-130-app-tokens
     secrets:
-      CM_BOT_APP_ID: ${{ secrets.CM_BOT_APP_ID }}
-      CM_BOT_PRIVATE_KEY: ${{ secrets.CM_BOT_PRIVATE_KEY }}
+      app-id: ${{ secrets.CM_BOT_APP_ID }}
+      app-private-key: ${{ secrets.CM_BOT_PRIVATE_KEY }}
