@@ -23,7 +23,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Generate token
-        uses: gilead-biostats/gsm.utils/generate-token@fix-132-update-comment
+        uses: gilead-biostats/gsm.utils/generate-token@actions-v1
         id: token
         with:
           app-id: ${{ secrets.app-id }}
@@ -31,6 +31,6 @@ jobs:
           owner: ${{ github.repository_owner }}
           fallback-token: ${{ secrets.token || github.token }}
       - name: Compute test coverage
-        uses: gilead-biostats/gsm.utils/coverage@fix-132-update-comment
+        uses: gilead-biostats/gsm.utils/coverage@actions-v1
         with:
           token: ${{ steps.token.outputs.token }}

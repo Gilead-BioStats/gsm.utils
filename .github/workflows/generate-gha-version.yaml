@@ -6,7 +6,7 @@ name: Generate Workflow Version JSON
 on:
   pull_request:
     branches:
-      - 'fix-132-update-comment'
+      - 'actions-v1'
 
 permissions:
   contents: write
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repo
-        uses: gilead-biostats/gsm.utils/checkout@fix-132-update-comment
+        uses: gilead-biostats/gsm.utils/checkout@actions-v1
         with:
           ref: ${{ github.head_ref || github.ref_name }}
 
@@ -27,7 +27,7 @@ jobs:
           import os, json, re, glob
 
           LOCAL_REPO = "Gilead-BioStats/gsm.utils"
-          LOCAL_REF = "fix-132-update-comment"
+          LOCAL_REF = "actions-v1"
           LOCAL_PATH_EXTRA = "workflow_templates"
 
           pattern_name = re.compile(r'^#\s*name:\s*(.*)', re.I)

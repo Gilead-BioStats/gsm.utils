@@ -12,7 +12,7 @@ permissions:
   contents: read
 jobs:
   check-workflows:
-    uses: Gilead-BioStats/gsm.utils/.github/workflows/workflow-template-checker.yaml@fix-132-update-comment
+    uses: Gilead-BioStats/gsm.utils/.github/workflows/workflow-template-checker.yaml@actions-v1
     secrets:
       app-id: ${{ secrets.CM_BOT_APP_ID }}
       app-private-key: ${{ secrets.CM_BOT_PRIVATE_KEY }}
