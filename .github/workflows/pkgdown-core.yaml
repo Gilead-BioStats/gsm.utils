@@ -1,5 +1,5 @@
 # name: pkgdown-core.yaml
-# version: 0.4.0.9000
+# version: 0.4.1
 # Description: Reusable workflow to deploy pkgdown site with assets and clean up PR previews.
 name: pkgdown-core
 on:
@@ -40,7 +40,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Generate token
-        uses: gilead-biostats/gsm.utils/generate-token@fix-130-app-tokens
+        uses: gilead-biostats/gsm.utils/generate-token@actions-v1
         id: token
         with:
           app-id: ${{ secrets.app-id }}
@@ -85,7 +85,7 @@ jobs:
       contents: write
     steps:
       - name: Generate token
-        uses: gilead-biostats/gsm.utils/generate-token@fix-130-app-tokens
+        uses: gilead-biostats/gsm.utils/generate-token@actions-v1
         id: token
         with:
           app-id: ${{ secrets.app-id }}

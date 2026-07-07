@@ -1,5 +1,5 @@
 # name: r-releaser.yaml
-# version: 0.4.0.9000
+# version: 0.4.1
 # Description: Reusable R package release workflow designed to be invoked by
 # other gsm packages via r-releaser-caller.yaml workflow
 name: R Release
@@ -26,7 +26,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Generate token
-        uses: gilead-biostats/gsm.utils/generate-token@fix-130-app-tokens
+        uses: gilead-biostats/gsm.utils/generate-token@actions-v1
         id: token
         with:
           app-id: ${{ secrets.app-id }}
