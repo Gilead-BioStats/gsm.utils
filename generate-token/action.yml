@@ -24,7 +24,7 @@ runs:
       id: strategy
       shell: bash
       run: |
-        if [ -n "${{ inputs.app-id }}" ] && [ -n "${{ inputs.private-key }}" ]; then
+        if [ -n "${{ inputs.app-id }}" ] && [ -n "${{ inputs.app-private-key }}" ]; then
           echo "use-app=true" >> "$GITHUB_OUTPUT"
         else
           echo "use-app=false" >> "$GITHUB_OUTPUT"
