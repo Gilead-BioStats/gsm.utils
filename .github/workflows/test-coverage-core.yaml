@@ -1,5 +1,5 @@
 # name: test-coverage-core.yaml
-# version: 0.3.7
+# version: 0.4.1
 # Description: Reusable workflow to compute test coverage and publish coverage-summary.json artifact
 
 name: test-coverage-core
@@ -10,6 +10,10 @@ on:
       token:
         description: "GitHub token, set to secrets.GITHUB_TOKEN"
         required: false
+      app-id:
+        required: false
+      app-private-key:
+        required: false
 
 jobs:
   coverage:
@@ -18,7 +22,15 @@ jobs:
       contents: write
       pull-requests: write
     steps:
+      - name: Generate token
+        uses: gilead-biostats/gsm.utils/generate-token@actions-v1
+        id: token
+        with:
+          app-id: ${{ secrets.app-id }}
+          app-private-key: ${{ secrets.app-private-key }}
+          owner: ${{ github.repository_owner }}
+          fallback-token: ${{ secrets.token || github.token }}
       - name: Compute test coverage
         uses: gilead-biostats/gsm.utils/coverage@actions-v1
         with:
-          token: ${{ secrets.token || github.token }}
+          token: ${{ steps.token.outputs.token }}

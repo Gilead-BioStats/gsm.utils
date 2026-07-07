@@ -1,5 +1,5 @@
 # name: pkgdown-core.yaml
-# version: 0.3.7
+# version: 0.4.1
 # Description: Reusable workflow to deploy pkgdown site with assets and clean up PR previews.
 name: pkgdown-core
 on:
@@ -24,6 +24,10 @@ on:
       token:
         description: "GitHub token, set to secrets.GITHUB_TOKEN"
         required: false
+      app-id:
+        required: false
+      app-private-key:
+        required: false
 jobs:
   pkgdown-assets:
     if: |
@@ -31,19 +35,27 @@ jobs:
       (github.event_name == 'pull_request' && github.event.action != 'closed') ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'deploy')
     runs-on: ubuntu-latest
-    env:
-      GITHUB_PAT: ${{ secrets.token || github.token }}
     permissions:
       contents: write
       pull-requests: write
     steps:
+      - name: Generate token
+        uses: gilead-biostats/gsm.utils/generate-token@actions-v1
+        id: token
+        with:
+          app-id: ${{ secrets.app-id }}
+          app-private-key: ${{ secrets.app-private-key }}
+          owner: ${{ github.repository_owner }}
+          fallback-token: ${{ secrets.token || github.token }}
+      - name: Set GITHUB_PAT
+        run: echo "GITHUB_PAT=${{ steps.token.outputs.token }}" >> $GITHUB_ENV
       - name: Determine checkout ref
         id: get-ref
         if: github.event_name == 'workflow_dispatch'
         uses: gilead-biostats/gsm.utils/determine-ref@actions-v1
         with:
           pr-number: ${{ inputs.pr-number }}
-          token: ${{ secrets.token || github.token }}
+          token: ${{ steps.token.outputs.token }}
       - name: Check out repo
         uses: gilead-biostats/gsm.utils/checkout@actions-v1
         with:
@@ -51,7 +63,7 @@ jobs:
       - name: Install R and dependencies
         uses: gilead-biostats/gsm.utils/install@actions-v1
         with:
-          token: ${{ secrets.token || github.token }}
+          token: ${{ steps.token.outputs.token }}
           r-version: release
           needs: website
           extra-packages: any::pkgdown gilead-biostats/gsm.utils${{ inputs.utils-ref }} local::.
@@ -59,7 +71,7 @@ jobs:
       - name: Build and deploy site
         uses: gilead-biostats/gsm.utils/pkgdown-deploy@actions-v1
         with:
-          token: ${{ secrets.token || github.token }}
+          token: ${{ steps.token.outputs.token }}
           event-name: ${{ inputs.pr-number && 'pull_request' || github.event_name }}
           pr-number: ${{ inputs.pr-number || github.event.number }}
           pkgdown-dev-mode: ${{ inputs.pkgdown-dev-mode == true || (github.event_name != 'workflow_dispatch' && github.ref_name != 'main') }}
@@ -72,8 +84,16 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Generate token
+        uses: gilead-biostats/gsm.utils/generate-token@actions-v1
+        id: token
+        with:
+          app-id: ${{ secrets.app-id }}
+          app-private-key: ${{ secrets.app-private-key }}
+          owner: ${{ github.repository_owner }}
+          fallback-token: ${{ secrets.token || github.token }}
       - name: Clean up PR preview
         uses: gilead-biostats/gsm.utils/pkgdown-cleanup@actions-v1
         with:
-          token: ${{ secrets.token || github.token }}
+          token: ${{ steps.token.outputs.token }}
           pr-number: ${{ inputs.pr-number || github.event.number }}

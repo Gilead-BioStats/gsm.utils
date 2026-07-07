@@ -1,16 +1,29 @@
 # name: workflow-template-checker.yaml
-# version: 0.3.6
+# version: 0.4.1
 # Description: Reusable workflow template checker designed to be invoked via workflow-template-check.yaml
 name: Workflow Template Compliance Checker
 
 on:
   workflow_call:
+    secrets:
+      app-id:
+        required: false
+      app-private-key:
+        required: false
 
 jobs:
   check-workflows:
     runs-on: ubuntu-latest
     name: Check Workflow Templates
     steps:
+      - name: Generate token
+        uses: gilead-biostats/gsm.utils/generate-token@actions-v1
+        id: token
+        with:
+          app-id: ${{ secrets.app-id }}
+          app-private-key: ${{ secrets.app-private-key }}
+          owner: ${{ github.repository_owner }}
+
       - name: Check out repo
         uses: gilead-biostats/gsm.utils/checkout@actions-v1
 
@@ -114,7 +127,7 @@ jobs:
         with:
           comment-id: 'workflow-template-check'
           body-path: comment_body.md
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.token.outputs.token }}
 
       - name: Fail check if updates required
         if: ${{ steps.check.outputs.has_errors == 'true' }}
