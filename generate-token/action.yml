@@ -1,17 +1,17 @@
 name: "Generate Token"
-description: "Generates a GitHub App token when app-id and private-key are provided, otherwise falls back to the default token."
+description: "Generates a GitHub App token when app-id and app-private-key are provided, otherwise falls back to the default token."
 inputs:
   app-id:
-    description: "GitHub App ID. When both app-id and private-key are provided, an app token is generated."
+    description: "GitHub App ID. When both app-id and app-private-key are provided, an app token is generated."
     default: ""
-  private-key:
-    description: "GitHub App private key. When both app-id and private-key are provided, an app token is generated."
+  app-private-key:
+    description: "GitHub App private key. When both app-id and app-private-key are provided, an app token is generated."
     default: ""
   owner:
     description: "Owner for the app token (typically github.repository_owner)."
     default: ${{ github.repository_owner }}
   fallback-token:
-    description: "Token to use when app-id/private-key are not provided."
+    description: "Token to use when app-id/app-private-key are not provided."
     default: ${{ github.token }}
 outputs:
   token:
@@ -35,7 +35,7 @@ runs:
       id: app-token
       with:
         app-id: ${{ inputs.app-id }}
-        private-key: ${{ inputs.private-key }}
+        app-private-key: ${{ inputs.app-private-key }}
         owner: ${{ inputs.owner }}
     - name: Select token
       id: select

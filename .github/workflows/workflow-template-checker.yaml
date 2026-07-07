@@ -21,7 +21,7 @@ jobs:
         id: token
         with:
           app-id: ${{ secrets.app-id }}
-          private-key: ${{ secrets.app-private-key }}
+          app-private-key: ${{ secrets.app-private-key }}
           owner: ${{ github.repository_owner }}
 
       - name: Check out repo
