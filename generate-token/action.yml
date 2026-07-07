@@ -35,7 +35,7 @@ runs:
       id: app-token
       with:
         app-id: ${{ inputs.app-id }}
-        app-private-key: ${{ inputs.app-private-key }}
+        private-key: ${{ inputs.app-private-key }}
         owner: ${{ inputs.owner }}
     - name: Select token
       id: select
