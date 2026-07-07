@@ -11,7 +11,7 @@
     {
       "name": "pkgdown-all.yaml",
       "description": "Triggers the core pkgdown deployment and cleanup workflows.",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "repo": "Gilead-BioStats/gsm.utils",
       "ref": "fix-130-app-tokens",
       "path_extra": "workflow_templates"
