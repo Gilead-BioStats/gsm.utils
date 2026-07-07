@@ -1,20 +1,17 @@
 name: "Generate Token"
-description: "Conditionally generates a GitHub App token or falls back to the default token."
+description: "Generates a GitHub App token when app-id and private-key are provided, otherwise falls back to the default token."
 inputs:
-  use-app:
-    description: "Whether to generate an app token. When 'false', outputs the default github.token."
-    default: "false"
   app-id:
-    description: "GitHub App ID. Required when use-app is 'true'."
+    description: "GitHub App ID. When both app-id and private-key are provided, an app token is generated."
     default: ""
   private-key:
-    description: "GitHub App private key. Required when use-app is 'true'."
+    description: "GitHub App private key. When both app-id and private-key are provided, an app token is generated."
     default: ""
   owner:
     description: "Owner for the app token (typically github.repository_owner)."
     default: ${{ github.repository_owner }}
   fallback-token:
-    description: "Token to use when use-app is 'false'."
+    description: "Token to use when app-id/private-key are not provided."
     default: ${{ github.token }}
 outputs:
   token:
@@ -23,16 +20,17 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Validate app inputs
-      if: inputs.use-app == 'true'
+    - name: Determine token strategy
+      id: strategy
       shell: bash
       run: |
-        if [ -z "${{ inputs.app-id }}" ] || [ -z "${{ inputs.private-key }}" ]; then
-          echo "::error::use-app is 'true' but app-id and/or private-key are not set. Ensure CM_BOT_APP_ID and CM_BOT_PRIVATE_KEY secrets are configured."
-          exit 1
+        if [ -n "${{ inputs.app-id }}" ] && [ -n "${{ inputs.private-key }}" ]; then
+          echo "use-app=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "use-app=false" >> "$GITHUB_OUTPUT"
         fi
     - name: Generate app token
-      if: inputs.use-app == 'true'
+      if: steps.strategy.outputs.use-app == 'true'
       uses: actions/create-github-app-token@v1
       id: app-token
       with:
@@ -43,7 +41,7 @@ runs:
       id: select
       shell: bash
       run: |
-        if [ "${{ inputs.use-app }}" = "true" ]; then
+        if [ "${{ steps.strategy.outputs.use-app }}" = "true" ]; then
           echo "token=${{ steps.app-token.outputs.token }}" >> "$GITHUB_OUTPUT"
         else
           echo "token=${{ inputs.fallback-token }}" >> "$GITHUB_OUTPUT"

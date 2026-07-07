@@ -35,7 +35,6 @@ jobs:
         uses: gilead-biostats/gsm.utils/generate-token@fix-130-app-tokens
         id: token
         with:
-          use-app: 'false'
           app-id: ${{ secrets.CM_BOT_APP_ID }}
           private-key: ${{ secrets.CM_BOT_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}

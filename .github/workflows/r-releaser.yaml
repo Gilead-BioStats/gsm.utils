@@ -10,10 +10,6 @@ on:
         description: Tag to release
         required: true
         type: string
-      use-app:
-        description: "Whether to generate a GitHub App token instead of using the default token."
-        type: boolean
-        default: false
     secrets:
       token:
         description: "GitHub token, set to secrets.GITHUB_TOKEN"
@@ -33,7 +29,6 @@ jobs:
         uses: gilead-biostats/gsm.utils/generate-token@fix-130-app-tokens
         id: token
         with:
-          use-app: ${{ inputs.use-app && 'true' || 'false' }}
           app-id: ${{ secrets.CM_BOT_APP_ID }}
           private-key: ${{ secrets.CM_BOT_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
