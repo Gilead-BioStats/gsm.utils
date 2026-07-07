@@ -87,12 +87,20 @@ runs:
           const repoName = context.repo.repo;
 
           // 5. Determine authenticated user login
-          let botLogin = 'github-actions[bot]';
+          let botLogin;
           try {
             const { data: user } = await github.rest.users.getAuthenticated();
             botLogin = user.login;
           } catch (e) {
-            core.info(`Could not fetch authenticated user from token (expected for standard GITHUB_TOKEN). Defaulting to '${botLogin}'.`);
+            // Not a user token — try the Apps endpoint for GitHub App installation tokens
+            try {
+              const { data: app } = await github.rest.apps.getAuthenticated();
+              botLogin = `${app.slug}[bot]`;
+              core.info(`Authenticated as GitHub App: '${botLogin}'.`);
+            } catch (e2) {
+              botLogin = 'github-actions[bot]';
+              core.info(`Could not determine authenticated identity. Defaulting to '${botLogin}'.`);
+            }
           }
 
           // 6. Check for existing comment

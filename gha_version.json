@@ -5,7 +5,7 @@
       "description": "R CMD check for PRs",
       "version": "0.4.1",
       "repo": "Gilead-BioStats/gsm.utils",
-      "ref": "actions-v1",
+      "ref": "fix-132-update-comment",
       "path_extra": "workflow_templates"
     },
     {
@@ -13,7 +13,7 @@
       "description": "Triggers the core pkgdown deployment and cleanup workflows.",
       "version": "0.4.1",
       "repo": "Gilead-BioStats/gsm.utils",
-      "ref": "actions-v1",
+      "ref": "fix-132-update-comment",
       "path_extra": "workflow_templates"
     },
     {
@@ -21,7 +21,7 @@
       "description": "R package release workflow",
       "version": "0.4.1",
       "repo": "Gilead-BioStats/gsm.utils",
-      "ref": "actions-v1",
+      "ref": "fix-132-update-comment",
       "path_extra": "workflow_templates"
     },
     {
@@ -29,7 +29,7 @@
       "description": "Compute test coverage and publish coverage-summary.json artifact",
       "version": "0.4.1",
       "repo": "Gilead-BioStats/gsm.utils",
-      "ref": "actions-v1",
+      "ref": "fix-132-update-comment",
       "path_extra": "workflow_templates"
     },
     {
@@ -37,7 +37,7 @@
       "description": "Check if GitHub Actions workflows match gsm.utils templates",
       "version": "0.4.1",
       "repo": "Gilead-BioStats/gsm.utils",
-      "ref": "actions-v1",
+      "ref": "fix-132-update-comment",
       "path_extra": "workflow_templates"
     },
     {
