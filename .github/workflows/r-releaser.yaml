@@ -1,5 +1,5 @@
 # name: r-releaser.yaml
-# version: 0.4.0
+# version: 0.4.0.9000
 # Description: Reusable R package release workflow designed to be invoked by
 # other gsm packages via r-releaser-caller.yaml workflow
 name: R Release

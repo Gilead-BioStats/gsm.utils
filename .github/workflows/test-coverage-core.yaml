@@ -1,5 +1,5 @@
 # name: test-coverage-core.yaml
-# version: 0.4.0
+# version: 0.4.0.9000
 # Description: Reusable workflow to compute test coverage and publish coverage-summary.json artifact
 
 name: test-coverage-core
