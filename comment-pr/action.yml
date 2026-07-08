@@ -86,27 +86,49 @@ runs:
           const repoOwner = context.repo.owner;
           const repoName = context.repo.repo;
 
-          // 5. Determine authenticated user login
-          let botLogin = 'github-actions[bot]';
+          // 5. Determine who we are
+          let authLogin = null;
+          let authIsBot = true;
           try {
             const { data: user } = await github.rest.users.getAuthenticated();
-            botLogin = user.login;
+            authLogin = user.login;
+            authIsBot = false;
+            core.info(`Authenticated as user '${authLogin}'.`);
           } catch (e) {
-            core.info(`Could not fetch authenticated user from token (expected for standard GITHUB_TOKEN). Defaulting to '${botLogin}'.`);
+            core.info('Token is not a user token; will match any Bot-authored comment.');
           }
 
-          // 6. Check for existing comment
+          // 6. Find existing comments with our marker
           const comments = await github.paginate(github.rest.issues.listComments, {
             owner: repoOwner,
             repo: repoName,
             issue_number: issueNumber,
           });
 
-          const existing = comments.find(c =>
-            c.user?.login === botLogin && c.body.includes(marker)
-          );
+          const matches = comments.filter(c => {
+            if (!c.body?.startsWith(marker)) return false;
+            if (authLogin) return c.user?.login === authLogin;
+            return c.user?.type === 'Bot';
+          });
 
-          // 7. Create or Update
+          // 7. Best-effort cleanup of duplicates
+          if (matches.length > 1) {
+            for (const dup of matches.slice(1)) {
+              try {
+                await github.rest.issues.deleteComment({
+                  owner: repoOwner,
+                  repo: repoName,
+                  comment_id: dup.id,
+                });
+                core.info(`Deleted duplicate comment ${dup.id}`);
+              } catch (e) {
+                core.warning(`Could not delete duplicate comment ${dup.id}: ${e.message}`);
+              }
+            }
+          }
+
+          // 8. Create or update
+          const existing = matches[0];
           if (existing) {
             await github.rest.issues.updateComment({
               owner: repoOwner,
