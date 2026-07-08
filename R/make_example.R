@@ -18,30 +18,24 @@ make_example <- function(
   strDetails = "<<Fill in Example description here>>",
   intIndex = 999,
   output_dir = "pkgdown/menus/examples",
-  overwrite = FALSE
+  overwrite = FALSE,
+  verbose = TRUE
 ) {
   rlang::check_required(strName)
   strType <- rlang::arg_match(strType, c("Example", "Cookbook"))
-
-  fs::dir_create(output_dir)
-
-  file_name <- build_example_filename(strName, strType)
-  output_path <- fs::path(output_dir, file_name)
-
-  if (fs::file_exists(output_path) && !isTRUE(overwrite)) {
-    cli::cli_abort("File already exists: {.path {output_path}}")
-  }
-
-  template <- build_example_template(
-    strName = strName,
-    strType = strType,
-    strDetails = strDetails,
-    intIndex = intIndex
+  make_asset(
+    strFilename = build_example_filename(strName, strType),
+    strMenu = basename(output_dir),
+    strTemplate = build_example_template(
+      strName = strName,
+      strType = strType,
+      strDetails = strDetails,
+      intIndex = intIndex
+    ),
+    strMenuDir = dirname(output_dir),
+    overwrite = overwrite,
+    verbose = verbose
   )
-
-  writeLines(template, output_path)
-  cli::cli_inform("Created example template at {.path {output_path}}.")
-  invisible(output_path)
 }
 
 #' Build a safe example filename

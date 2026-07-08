@@ -1,3 +1,7 @@
+# gsm.utils (development version)
+
+- `make_asset()` is a new generic function for creating pkgdown menu asset files. `make_slides()` is a new function for creating RevealJS slide deck templates (#136).
+
 # gsm.utils 0.4.0
 
 This release standardizes actions and related functionality, and solidifies this package:
