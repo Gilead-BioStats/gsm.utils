@@ -15,6 +15,11 @@ to make them easier to import and to find.
   List. Existing menu items from the pkgdown YAML contents, if any, to
   preserve when adding new menu items for rendered assets.
 
+- intIndex:
+
+  (`numeric`) Sort-order index. `NULL`, `NA`, and length-0 vectors are
+  treated as absent.
+
 - menu:
 
   (`string`) Menu folder name.
@@ -26,7 +31,7 @@ to make them easier to import and to find.
 
 - output_dir:
 
-  (`string`) Directory to write the example to.
+  (`string`) Directory to write the asset to.
 
 - output_file:
 
@@ -34,7 +39,7 @@ to make them easier to import and to find.
 
 - overwrite:
 
-  (`boolean`) Overwrite existing files? Default is `TRUE`.
+  (`boolean`) Overwrite existing files?
 
 - params:
 
@@ -73,6 +78,10 @@ to make them easier to import and to find.
 - strPackageDir:
 
   (`string`) Path to the package directory.
+
+- strTitle:
+
+  (`string`) Display title.
 
 - verbose:
 

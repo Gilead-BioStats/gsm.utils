@@ -17,7 +17,7 @@ add_actions(strPackageDir = ".", overwrite = TRUE, verbose = TRUE)
 
 - overwrite:
 
-  (`boolean`) Overwrite existing files? Default is `TRUE`.
+  (`boolean`) Overwrite existing files?
 
 - verbose:
 

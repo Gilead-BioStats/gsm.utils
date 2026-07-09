@@ -18,19 +18,20 @@ make_slides(
 
 - strTitle:
 
-  (`string`) Title for the slide deck.
+  (`string`) Display title.
 
 - intIndex:
 
-  (`numeric`) Optional ordering index for the slides menu.
+  (`numeric`) Sort-order index. `NULL`, `NA`, and length-0 vectors are
+  treated as absent.
 
 - output_dir:
 
-  (`string`) Directory to write the slide deck to.
+  (`string`) Directory to write the asset to.
 
 - overwrite:
 
-  (`boolean`) Overwrite existing files? Default is `TRUE`.
+  (`boolean`) Overwrite existing files?
 
 - verbose:
 
