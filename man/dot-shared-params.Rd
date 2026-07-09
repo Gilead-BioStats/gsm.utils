@@ -20,7 +20,7 @@ files to render and add to pkgdown.}
 
 \item{output_file}{(\code{string}) Path to output HTML file to create.}
 
-\item{overwrite}{(\code{boolean}) Overwrite existing files? Default is \code{TRUE}.}
+\item{overwrite}{(\code{boolean}) Overwrite existing files?}
 
 \item{params}{List. Optional list of parameters to pass to
 \code{\link[quarto:quarto_render]{quarto::quarto_render()}}.}

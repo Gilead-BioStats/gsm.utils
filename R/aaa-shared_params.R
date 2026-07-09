@@ -13,7 +13,7 @@
 #'   files to render and add to pkgdown.
 #' @param output_dir (`string`) Directory to write the example to.
 #' @param output_file (`string`) Path to output HTML file to create.
-#' @param overwrite (`boolean`) Overwrite existing files? Default is `TRUE`.
+#' @param overwrite (`boolean`) Overwrite existing files?
 #' @param params List. Optional list of parameters to pass to
 #'   [quarto::quarto_render()].
 #' @param pkgdown_contents List. The contents of `_pkgdown.yml`, as loaded by

@@ -32,7 +32,7 @@ where the workflow file lives.}
 
 \item{workflows_path}{(\code{string}) Path to the package workflows.}
 
-\item{overwrite}{(\code{boolean}) Overwrite existing files? Default is \code{TRUE}.}
+\item{overwrite}{(\code{boolean}) Overwrite existing files?}
 
 \item{verbose}{(\code{boolean}) Inform about changes? Default is \code{TRUE}.}
 }
