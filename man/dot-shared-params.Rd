@@ -11,12 +11,15 @@ files should be saved. Default is \code{"pkgdown/assets"}.}
 contents, if any, to preserve when adding new menu items for rendered
 assets.}
 
+\item{intIndex}{(\code{numeric}) Sort-order index. \code{NULL}, \code{NA}, and length-0
+vectors are treated as absent.}
+
 \item{menu}{(\code{string}) Menu folder name.}
 
 \item{menu_subdir}{(\code{string}) Path to the subdirectory containing \code{.*md}
 files to render and add to pkgdown.}
 
-\item{output_dir}{(\code{string}) Directory to write the example to.}
+\item{output_dir}{(\code{string}) Directory to write the asset to.}
 
 \item{output_file}{(\code{string}) Path to output HTML file to create.}
 
@@ -43,6 +46,8 @@ construct absolute paths. Default is \code{"."}.}
 with \code{.*md} files to render. Default is \code{"pkgdown/menus"}.}
 
 \item{strPackageDir}{(\code{string}) Path to the package directory.}
+
+\item{strTitle}{(\code{string}) Display title.}
 
 \item{verbose}{(\code{boolean}) Inform about changes? Default is \code{TRUE}.}
 }

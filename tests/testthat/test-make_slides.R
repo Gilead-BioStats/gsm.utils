@@ -1,27 +1,27 @@
-# build_slides_filename ----
+# .build_slides_filename ----
 
-test_that("build_slides_filename creates lowercase hyphenated filename (#136)", {
-  build_slides_filename("My Slide Deck") |>
+test_that(".build_slides_filename creates lowercase hyphenated filename (#136)", {
+  .build_slides_filename("My Slide Deck") |>
     expect_equal("my-slide-deck.qmd")
 })
 
-test_that("build_slides_filename sanitizes special characters (#136)", {
-  build_slides_filename("foo--bar!!baz") |>
+test_that(".build_slides_filename sanitizes special characters (#136)", {
+  .build_slides_filename("foo--bar!!baz") |>
     expect_equal("foo-bar-baz.qmd")
-  build_slides_filename("--leading") |>
+  .build_slides_filename("--leading") |>
     expect_equal("leading.qmd")
 })
 
-# build_slides_template ----
+# .build_slides_template ----
 
-test_that("build_slides_template includes title and index (#136)", {
-  build_slides_template(strTitle = "Test Deck", intIndex = 3) |>
+test_that(".build_slides_template includes title and index (#136)", {
+  .build_slides_template(strTitle = "Test Deck", intIndex = 3) |>
     expect_contains("title: \"Test Deck\"") |>
     expect_contains("index: 3")
 })
 
-test_that("build_slides_template omits index line when intIndex is NA (#136)", {
-  build_slides_template(strTitle = "Test Deck", intIndex = NA) |>
+test_that(".build_slides_template omits index line when intIndex is NA (#136)", {
+  .build_slides_template(strTitle = "Test Deck", intIndex = NA) |>
     expect_no_match("^index:")
 })
 

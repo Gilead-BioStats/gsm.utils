@@ -13,11 +13,12 @@ make_slides(
 )
 }
 \arguments{
-\item{strTitle}{(\code{string}) Title for the slide deck.}
+\item{strTitle}{(\code{string}) Display title.}
 
-\item{intIndex}{(\code{numeric}) Optional ordering index for the slides menu.}
+\item{intIndex}{(\code{numeric}) Sort-order index. \code{NULL}, \code{NA}, and length-0
+vectors are treated as absent.}
 
-\item{output_dir}{(\code{string}) Directory to write the slide deck to.}
+\item{output_dir}{(\code{string}) Directory to write the asset to.}
 
 \item{overwrite}{(\code{boolean}) Overwrite existing files?}
 

@@ -22,9 +22,10 @@ make_example(
 
 \item{strDetails}{(\code{string}) Optional description for the example.}
 
-\item{intIndex}{(\code{numeric}) Optional ordering index for the examples menu.}
+\item{intIndex}{(\code{numeric}) Sort-order index. \code{NULL}, \code{NA}, and length-0
+vectors are treated as absent.}
 
-\item{output_dir}{(\code{string}) Directory to write the example to.}
+\item{output_dir}{(\code{string}) Directory to write the asset to.}
 
 \item{overwrite}{(\code{boolean}) Overwrite existing files?}
 

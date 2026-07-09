@@ -10,7 +10,7 @@ render_qmd_assets(menu_subdir, output_dir, verbose)
 \item{menu_subdir}{(\code{string}) Path to the subdirectory containing \code{.*md}
 files to render and add to pkgdown.}
 
-\item{output_dir}{(\code{string}) Directory to write the example to.}
+\item{output_dir}{(\code{string}) Directory to write the asset to.}
 
 \item{verbose}{(\code{boolean}) Inform about changes? Default is \code{TRUE}.}
 }
