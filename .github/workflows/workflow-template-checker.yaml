@@ -150,14 +150,6 @@ jobs:
 
           # Determine target branch
           if [ "$EVENT_NAME" = "pull_request" ] && [ -n "$PR_NUMBER" ] && [ "$PR_NUMBER" != "0" ]; then
-            # Detect fork PRs — we can't push to forks
-            IS_FORK=$(gh pr view "$PR_NUMBER" --json isCrossRepository -q '.isCrossRepository')
-            if [ "$IS_FORK" = "true" ]; then
-              echo "PR is from a fork. Skipping auto-update."
-              echo "result=fork-pr" >> $GITHUB_OUTPUT
-              exit 0
-            fi
-
             TARGET_BRANCH=$(gh pr view "$PR_NUMBER" --json headRefName -q '.headRefName')
             PR_BRANCH="auto-update-workflows-${PR_NUMBER}"
           else
