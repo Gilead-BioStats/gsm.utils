@@ -30,7 +30,7 @@ jobs:
     name: Check Workflow Templates
     steps:
       - name: Generate token
-        uses: gilead-biostats/gsm.utils/generate-token@actions-v1
+        uses: gilead-biostats/gsm.utils/generate-token@fix-117-auto-update-workflows
         id: token
         with:
           app-id: ${{ secrets.app-id }}
@@ -38,14 +38,14 @@ jobs:
           owner: ${{ github.repository_owner }}
 
       - name: Check out repo
-        uses: gilead-biostats/gsm.utils/checkout@actions-v1
+        uses: gilead-biostats/gsm.utils/checkout@fix-117-auto-update-workflows
         with:
           token: ${{ steps.token.outputs.token }}
 
       - name: Check compliance and build comment
         id: check
         run: |
-          MANIFEST_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/actions-v1/gha_version.json"
+          MANIFEST_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-117-auto-update-workflows/gha_version.json"
 
           echo "Downloading manifest from $MANIFEST_URL..."
           curl -sL -f "$MANIFEST_URL" -o gha_version.json || { echo "::error::Failed to download manifest"; exit 1; }
@@ -150,6 +150,15 @@ jobs:
 
           # Determine target branch
           if [ "$EVENT_NAME" = "pull_request" ] && [ -n "$PR_NUMBER" ] && [ "$PR_NUMBER" != "0" ]; then
+            # Detect fork PRs — we can't push to forks
+            PR_HEAD_REPO=$(gh pr view "$PR_NUMBER" --json headRepository -q '.headRepository.owner.login')
+            BASE_REPO_OWNER=$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f1)
+            if [ "$PR_HEAD_REPO" != "$BASE_REPO_OWNER" ]; then
+              echo "PR is from a fork ($PR_HEAD_REPO). Skipping auto-update."
+              echo "result=fork-pr" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+
             TARGET_BRANCH=$(gh pr view "$PR_NUMBER" --json headRefName -q '.headRefName')
             PR_BRANCH="auto-update-workflows-${PR_NUMBER}"
           else
@@ -177,6 +186,14 @@ jobs:
           git checkout -B "$PR_BRANCH" "origin/$TARGET_BRANCH"
           echo "::endgroup::"
 
+          # Validate fix_commands.txt only contains expected curl commands
+          if grep -qvE '^\s*curl -sL "https://raw\.githubusercontent\.com/[^"]*" -o "\.github/workflows/[^"]*"\s*$' fix_commands.txt; then
+            echo "::error::fix_commands.txt contains unexpected commands. Skipping auto-update."
+            cat fix_commands.txt
+            echo "result=unsafe-commands" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
           # Apply fixes
           mkdir -p .github/workflows
 
@@ -191,7 +208,6 @@ jobs:
           echo "---"
           git diff --stat
           echo "---"
-          # Show first 50 lines of each changed file's diff for debugging
           git diff | head -100
           echo "::endgroup::"
 
@@ -213,7 +229,7 @@ jobs:
 
           # Attempt to push
           echo "Pushing $PR_BRANCH to origin..."
-          git push origin "$PR_BRANCH" --force 2>push_error.txt
+          git push origin "$PR_BRANCH" --force-with-lease 2>push_error.txt
           PUSH_EXIT=$?
 
           if [ $PUSH_EXIT -ne 0 ]; then
@@ -228,7 +244,7 @@ jobs:
           echo "Push succeeded."
 
           # Check for existing PR
-          EXISTING_PR=$(gh pr list --head "$PR_BRANCH" --base "$TARGET_BRANCH" --state open --json number -q '.[0].number')
+          EXISTING_PR=$(gh pr list --head "$PR_BRANCH" --base "$TARGET_BRANCH" --state open --json number -q '.[0].number // empty')
 
           echo "::group::Debug: PR lookup"
           echo "Looking for open PR: head=$PR_BRANCH base=$TARGET_BRANCH"
@@ -265,7 +281,7 @@ jobs:
 
       - name: Comment with auto-update PR link
         if: ${{ steps.auto-update.outcome == 'success' && inputs.event-name == 'pull_request' && inputs.pr-number != '' && inputs.pr-number != '0' && (steps.auto-update.outputs.result == 'created' || steps.auto-update.outputs.result == 'updated') }}
-        uses: gilead-biostats/gsm.utils/comment-pr@actions-v1
+        uses: gilead-biostats/gsm.utils/comment-pr@fix-117-auto-update-workflows
         with:
           comment-id: 'workflow-template-check'
           body: |
@@ -278,8 +294,8 @@ jobs:
           token: ${{ steps.token.outputs.token }}
 
       - name: Post PR Comment (fallback)
-        if: ${{ inputs.event-name == 'pull_request' && inputs.pr-number != '' && inputs.pr-number != '0' && (steps.auto-update.outputs.result == 'push-failed' || steps.auto-update.outputs.result == 'pr-create-failed' || steps.auto-update.outcome == 'failure') }}
-        uses: gilead-biostats/gsm.utils/comment-pr@actions-v1
+        if: ${{ inputs.event-name == 'pull_request' && inputs.pr-number != '' && inputs.pr-number != '0' && steps.check.outputs.has_errors == 'true' && steps.auto-update.outputs.result != 'created' && steps.auto-update.outputs.result != 'updated' }}
+        uses: gilead-biostats/gsm.utils/comment-pr@fix-117-auto-update-workflows
         with:
           comment-id: 'workflow-template-check'
           body-path: comment_body.md
@@ -287,7 +303,7 @@ jobs:
 
       - name: Post PR Comment (up to date)
         if: ${{ inputs.event-name == 'pull_request' && inputs.pr-number != '' && inputs.pr-number != '0' && steps.check.outputs.has_errors == 'false' }}
-        uses: gilead-biostats/gsm.utils/comment-pr@actions-v1
+        uses: gilead-biostats/gsm.utils/comment-pr@fix-117-auto-update-workflows
         with:
           comment-id: 'workflow-template-check'
           body-path: comment_body.md
