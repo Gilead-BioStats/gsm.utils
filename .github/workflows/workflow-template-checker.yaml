@@ -148,7 +148,7 @@ jobs:
         run: |
           set +e
 
-          # Determine target branch
+          # Determine target branch and PR branch name
           if [ "$EVENT_NAME" = "pull_request" ] && [ -n "$PR_NUMBER" ] && [ "$PR_NUMBER" != "0" ]; then
             TARGET_BRANCH=$(gh pr view "$PR_NUMBER" --json headRefName -q '.headRefName')
             PR_BRANCH="auto-update-workflows-${PR_NUMBER}"
@@ -169,12 +169,27 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Fetch and create/reset the PR branch from target
-          echo "::group::Debug: Git operations"
-          echo "Fetching origin/$TARGET_BRANCH..."
+          # Check if PR branch already exists on remote
           git fetch origin "$TARGET_BRANCH"
-          echo "Creating/resetting branch $PR_BRANCH from origin/$TARGET_BRANCH..."
-          git checkout -B "$PR_BRANCH" "origin/$TARGET_BRANCH"
+          EXISTING_PR=""
+          if git ls-remote --exit-code origin "refs/heads/$PR_BRANCH" >/dev/null 2>&1; then
+            echo "PR branch $PR_BRANCH already exists on remote."
+            git fetch origin "$PR_BRANCH"
+
+            # Check for existing open PR
+            EXISTING_PR=$(gh pr list --head "$PR_BRANCH" --base "$TARGET_BRANCH" --state open --json number -q '.[0].number // empty')
+
+            # Start from the existing branch, then reset to target to get a clean slate
+            # but keep the remote tracking info so --force-with-lease works
+            git checkout -B "$PR_BRANCH" "origin/$PR_BRANCH"
+            git reset --hard "origin/$TARGET_BRANCH"
+          else
+            echo "PR branch $PR_BRANCH does not exist on remote. Creating fresh."
+            git checkout -B "$PR_BRANCH" "origin/$TARGET_BRANCH"
+          fi
+
+          echo "::group::Debug: Existing PR"
+          echo "EXISTING_PR: ${EXISTING_PR:-<none>}"
           echo "::endgroup::"
 
           # Validate fix_commands.txt only contains expected curl commands
@@ -233,9 +248,6 @@ jobs:
           fi
 
           echo "Push succeeded."
-
-          # Check for existing PR
-          EXISTING_PR=$(gh pr list --head "$PR_BRANCH" --base "$TARGET_BRANCH" --state open --json number -q '.[0].number // empty')
 
           echo "::group::Debug: PR lookup"
           echo "Looking for open PR: head=$PR_BRANCH base=$TARGET_BRANCH"
