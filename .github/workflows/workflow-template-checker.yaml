@@ -18,6 +18,10 @@ on:
         type: string
         required: false
         default: 'pull_request'
+      is-fork:
+        type: boolean
+        required: false
+        default: false
     secrets:
       app-id:
         required: false
@@ -150,7 +154,14 @@ jobs:
 
           # Determine target branch and PR branch name
           if [ "$EVENT_NAME" = "pull_request" ] && [ -n "$PR_NUMBER" ] && [ "$PR_NUMBER" != "0" ]; then
-            TARGET_BRANCH=$(gh pr view "$PR_NUMBER" --json headRefName -q '.headRefName')
+            # Skip fork PRs — we can't push to forks
+            if [ "${{ inputs.is-fork }}" = "true" ]; then
+              echo "PR is from a fork. Skipping auto-update."
+              echo "result=fork-pr" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+
+            TARGET_BRANCH=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" --jq '.head.ref')
             PR_BRANCH="auto-update-workflows-${PR_NUMBER}"
           else
             TARGET_BRANCH="$DEFAULT_BRANCH"
