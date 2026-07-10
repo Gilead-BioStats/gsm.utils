@@ -137,38 +137,6 @@ jobs:
 
           echo "has_errors=$HAS_ERRORS" >> $GITHUB_OUTPUT
 
-      - name: Check token permissions
-        id: check-permissions
-        if: ${{ steps.check.outputs.has_errors == 'true' }}
-        env:
-          GH_TOKEN: ${{ steps.token.outputs.token }}
-        run: |
-          echo "::group::Token permission details"
-          # Check what permissions the token has via the API response headers
-          RESPONSE=$(gh api -i /repos/${{ github.repository }} 2>&1 | head -30)
-          echo "$RESPONSE"
-
-          # Extract X-OAuth-Scopes or X-Accepted-OAuth-Scopes headers if present
-          echo ""
-          echo "--- Relevant headers ---"
-          echo "$RESPONSE" | grep -i "x-oauth-scopes\|x-accepted\|x-github"
-
-          # Also check the installation permissions if this is a GitHub App
-          echo ""
-          echo "--- App installation permissions (if app token) ---"
-          gh api /installation/repositories --jq '.total_count' 2>&1 || true
-          echo ""
-
-          # Try to determine if we have workflows permission by checking the token type
-          # GitHub App tokens show permissions in the token metadata
-          echo "--- Token metadata ---"
-          gh api /rate_limit -i 2>&1 | head -20
-          echo "::endgroup::"
-
-          # The real test: can we push workflow files?
-          # We can't easily pre-check this without actually trying, but we log what we know.
-          echo "has_errors=true" >> $GITHUB_OUTPUT
-
       - name: Auto-update workflows via PR
         id: auto-update
         if: ${{ steps.check.outputs.has_errors == 'true' }}
