@@ -38,6 +38,7 @@ jobs:
       - name: Check out repo
         uses: gilead-biostats/gsm.utils/checkout@fix-117-auto-update-workflows
         with:
+          token: ${{ steps.token.outputs.token }}
           fetch-depth: 0
       - name: Install R and dependencies
         uses: gilead-biostats/gsm.utils/install@fix-117-auto-update-workflows
