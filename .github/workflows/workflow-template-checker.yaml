@@ -135,6 +135,38 @@ jobs:
 
           echo "has_errors=$HAS_ERRORS" >> $GITHUB_OUTPUT
 
+      - name: Check token permissions
+        id: check-permissions
+        if: ${{ steps.check.outputs.has_errors == 'true' }}
+        env:
+          GH_TOKEN: ${{ steps.token.outputs.token }}
+        run: |
+          echo "::group::Token permission details"
+          # Check what permissions the token has via the API response headers
+          RESPONSE=$(gh api -i /repos/${{ github.repository }} 2>&1 | head -30)
+          echo "$RESPONSE"
+
+          # Extract X-OAuth-Scopes or X-Accepted-OAuth-Scopes headers if present
+          echo ""
+          echo "--- Relevant headers ---"
+          echo "$RESPONSE" | grep -i "x-oauth-scopes\|x-accepted\|x-github"
+
+          # Also check the installation permissions if this is a GitHub App
+          echo ""
+          echo "--- App installation permissions (if app token) ---"
+          gh api /installation/repositories --jq '.total_count' 2>&1 || true
+          echo ""
+
+          # Try to determine if we have workflows permission by checking the token type
+          # GitHub App tokens show permissions in the token metadata
+          echo "--- Token metadata ---"
+          gh api /rate_limit -i 2>&1 | head -20
+          echo "::endgroup::"
+
+          # The real test: can we push workflow files?
+          # We can't easily pre-check this without actually trying, but we log what we know.
+          echo "has_errors=true" >> $GITHUB_OUTPUT
+
       - name: Auto-update workflows via PR
         id: auto-update
         if: ${{ steps.check.outputs.has_errors == 'true' }}
@@ -155,20 +187,43 @@ jobs:
             PR_BRANCH="auto-update-workflows"
           fi
 
-          echo "Target branch: $TARGET_BRANCH"
-          echo "PR branch: $PR_BRANCH"
+          echo "::group::Debug: Branch resolution"
+          echo "EVENT_NAME: $EVENT_NAME"
+          echo "PR_NUMBER: $PR_NUMBER"
+          echo "DEFAULT_BRANCH: $DEFAULT_BRANCH"
+          echo "TARGET_BRANCH: $TARGET_BRANCH"
+          echo "PR_BRANCH: $PR_BRANCH"
+          echo "::endgroup::"
 
           # Configure git
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           # Fetch and create/reset the PR branch from target
+          echo "::group::Debug: Git operations"
+          echo "Fetching origin/$TARGET_BRANCH..."
           git fetch origin "$TARGET_BRANCH"
+          echo "Creating/resetting branch $PR_BRANCH from origin/$TARGET_BRANCH..."
           git checkout -B "$PR_BRANCH" "origin/$TARGET_BRANCH"
+          echo "::endgroup::"
 
           # Apply fixes
           mkdir -p .github/workflows
+
+          echo "::group::Debug: Fix commands to apply"
+          cat fix_commands.txt
+          echo "::endgroup::"
+
           bash fix_commands.txt
+
+          echo "::group::Debug: Changes after applying fixes"
+          git status
+          echo "---"
+          git diff --stat
+          echo "---"
+          # Show first 50 lines of each changed file's diff for debugging
+          git diff | head -100
+          echo "::endgroup::"
 
           # Check for actual changes
           if git diff --quiet; then
@@ -181,19 +236,34 @@ jobs:
           git add .github/workflows/
           git commit -m "chore: auto-update workflow templates"
 
+          echo "::group::Debug: Commit details"
+          git log --oneline -3
+          git diff --stat HEAD~1
+          echo "::endgroup::"
+
           # Attempt to push
+          echo "Pushing $PR_BRANCH to origin..."
           git push origin "$PR_BRANCH" --force 2>push_error.txt
           PUSH_EXIT=$?
 
           if [ $PUSH_EXIT -ne 0 ]; then
-            echo "Push failed (likely missing workflows:write permission):"
+            echo "::error::Push failed with exit code $PUSH_EXIT"
+            echo "::group::Push error details"
             cat push_error.txt
+            echo "::endgroup::"
             echo "result=push-failed" >> $GITHUB_OUTPUT
             exit 0
           fi
 
+          echo "Push succeeded."
+
           # Check for existing PR
           EXISTING_PR=$(gh pr list --head "$PR_BRANCH" --base "$TARGET_BRANCH" --state open --json number -q '.[0].number')
+
+          echo "::group::Debug: PR lookup"
+          echo "Looking for open PR: head=$PR_BRANCH base=$TARGET_BRANCH"
+          echo "Found: ${EXISTING_PR:-<none>}"
+          echo "::endgroup::"
 
           if [ -n "$EXISTING_PR" ]; then
             echo "Existing PR #$EXISTING_PR already open and updated via force-push."
@@ -212,7 +282,8 @@ jobs:
             CREATE_EXIT=$?
 
             if [ $CREATE_EXIT -ne 0 ]; then
-              echo "PR creation failed: $NEW_PR_URL"
+              echo "::error::PR creation failed with exit code $CREATE_EXIT"
+              echo "PR creation output: $NEW_PR_URL"
               echo "result=pr-create-failed" >> $GITHUB_OUTPUT
               exit 0
             fi
