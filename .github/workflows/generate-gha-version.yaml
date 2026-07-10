@@ -6,7 +6,7 @@ name: Generate Workflow Version JSON
 on:
   pull_request:
     branches:
-      - 'fix-117-auto-update-workflows'
+      - 'NOTHING' # This is a placeholder to prevent PR triggers
 
 permissions:
   contents: write
