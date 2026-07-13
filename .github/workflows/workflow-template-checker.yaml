@@ -1,10 +1,27 @@
 # name: workflow-template-checker.yaml
-# version: 0.4.1
+# version: 0.5.0
 # Description: Reusable workflow template checker designed to be invoked via workflow-template-check.yaml
 name: Workflow Template Compliance Checker
 
 on:
   workflow_call:
+    inputs:
+      default-branch:
+        type: string
+        required: false
+        default: 'dev'
+      pr-number:
+        type: string
+        required: false
+        default: ''
+      event-name:
+        type: string
+        required: false
+        default: 'pull_request'
+      is-fork:
+        type: boolean
+        required: false
+        default: false
     secrets:
       app-id:
         required: false
@@ -17,7 +34,7 @@ jobs:
     name: Check Workflow Templates
     steps:
       - name: Generate token
-        uses: gilead-biostats/gsm.utils/generate-token@actions-v1
+        uses: gilead-biostats/gsm.utils/generate-token@fix-117-auto-update-workflows
         id: token
         with:
           app-id: ${{ secrets.app-id }}
@@ -25,12 +42,14 @@ jobs:
           owner: ${{ github.repository_owner }}
 
       - name: Check out repo
-        uses: gilead-biostats/gsm.utils/checkout@actions-v1
+        uses: gilead-biostats/gsm.utils/checkout@fix-117-auto-update-workflows
+        with:
+          token: ${{ steps.token.outputs.token }}
 
       - name: Check compliance and build comment
         id: check
         run: |
-          MANIFEST_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/actions-v1/gha_version.json"
+          MANIFEST_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-117-auto-update-workflows/gha_version.json"
 
           echo "Downloading manifest from $MANIFEST_URL..."
           curl -sL -f "$MANIFEST_URL" -o gha_version.json || { echo "::error::Failed to download manifest"; exit 1; }
@@ -122,8 +141,183 @@ jobs:
 
           echo "has_errors=$HAS_ERRORS" >> $GITHUB_OUTPUT
 
-      - name: Post PR Comment
-        uses: gilead-biostats/gsm.utils/comment-pr@actions-v1
+      - name: Auto-update workflows via PR
+        id: auto-update
+        if: ${{ steps.check.outputs.has_errors == 'true' }}
+        env:
+          GH_TOKEN: ${{ steps.token.outputs.token }}
+          EVENT_NAME: ${{ inputs.event-name }}
+          DEFAULT_BRANCH: ${{ inputs.default-branch }}
+          PR_NUMBER: ${{ inputs.pr-number }}
+        run: |
+          set +e
+
+          # Determine target branch and PR branch name
+          if [ "$EVENT_NAME" = "pull_request" ] && [ -n "$PR_NUMBER" ] && [ "$PR_NUMBER" != "0" ]; then
+            # Skip fork PRs — we can't push to forks
+            if [ "${{ inputs.is-fork }}" = "true" ]; then
+              echo "PR is from a fork. Skipping auto-update."
+              echo "result=fork-pr" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+
+            TARGET_BRANCH=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" --jq '.head.ref')
+            PR_BRANCH="auto-update-workflows-${PR_NUMBER}"
+          else
+            TARGET_BRANCH="$DEFAULT_BRANCH"
+            PR_BRANCH="auto-update-workflows"
+          fi
+
+          echo "::group::Debug: Branch resolution"
+          echo "EVENT_NAME: $EVENT_NAME"
+          echo "PR_NUMBER: $PR_NUMBER"
+          echo "DEFAULT_BRANCH: $DEFAULT_BRANCH"
+          echo "TARGET_BRANCH: $TARGET_BRANCH"
+          echo "PR_BRANCH: $PR_BRANCH"
+          echo "::endgroup::"
+
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Check if PR branch already exists on remote
+          git fetch origin "$TARGET_BRANCH"
+          EXISTING_PR=""
+          if git ls-remote --exit-code origin "refs/heads/$PR_BRANCH" >/dev/null 2>&1; then
+            echo "PR branch $PR_BRANCH already exists on remote."
+            git fetch origin "$PR_BRANCH"
+
+            # Check for existing open PR
+            EXISTING_PR=$(gh pr list --head "$PR_BRANCH" --base "$TARGET_BRANCH" --state open --json number -q '.[0].number // empty')
+
+            # Start from the existing branch, then reset to target to get a clean slate
+            # but keep the remote tracking info so --force-with-lease works
+            git checkout -B "$PR_BRANCH" "origin/$PR_BRANCH"
+            git reset --hard "origin/$TARGET_BRANCH"
+          else
+            echo "PR branch $PR_BRANCH does not exist on remote. Creating fresh."
+            git checkout -B "$PR_BRANCH" "origin/$TARGET_BRANCH"
+          fi
+
+          echo "::group::Debug: Existing PR"
+          echo "EXISTING_PR: ${EXISTING_PR:-<none>}"
+          echo "::endgroup::"
+
+          # Validate fix_commands.txt only contains expected curl commands
+          if grep -qvE '^\s*curl -sL "https://raw\.githubusercontent\.com/[^"]*" -o "\.github/workflows/[^"]*"\s*$' fix_commands.txt; then
+            echo "::error::fix_commands.txt contains unexpected commands. Skipping auto-update."
+            cat fix_commands.txt
+            echo "result=unsafe-commands" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Apply fixes
+          mkdir -p .github/workflows
+
+          echo "::group::Debug: Fix commands to apply"
+          cat fix_commands.txt
+          echo "::endgroup::"
+
+          bash fix_commands.txt
+
+          echo "::group::Debug: Changes after applying fixes"
+          git status
+          echo "---"
+          git diff --stat
+          echo "---"
+          git diff | head -100
+          echo "::endgroup::"
+
+          # Check for actual changes
+          if git diff --quiet; then
+            echo "No changes detected after applying fixes."
+            echo "result=no-changes" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Commit
+          git add .github/workflows/
+          git commit -m "chore: auto-update workflow templates"
+
+          echo "::group::Debug: Commit details"
+          git log --oneline -3
+          git diff --stat HEAD~1
+          echo "::endgroup::"
+
+          # Attempt to push
+          echo "Pushing $PR_BRANCH to origin..."
+          git push origin "$PR_BRANCH" --force-with-lease 2>push_error.txt
+          PUSH_EXIT=$?
+
+          if [ $PUSH_EXIT -ne 0 ]; then
+            echo "::error::Push failed with exit code $PUSH_EXIT"
+            echo "::group::Push error details"
+            cat push_error.txt
+            echo "::endgroup::"
+            echo "result=push-failed" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "Push succeeded."
+
+          echo "::group::Debug: PR lookup"
+          echo "Looking for open PR: head=$PR_BRANCH base=$TARGET_BRANCH"
+          echo "Found: ${EXISTING_PR:-<none>}"
+          echo "::endgroup::"
+
+          if [ -n "$EXISTING_PR" ]; then
+            echo "Existing PR #$EXISTING_PR already open and updated via force-push."
+            echo "result=updated" >> $GITHUB_OUTPUT
+            echo "pr-number=$EXISTING_PR" >> $GITHUB_OUTPUT
+            echo "pr-url=$(gh pr view "$EXISTING_PR" --json url -q '.url')" >> $GITHUB_OUTPUT
+          else
+            # Create new PR
+            NEW_PR_URL=$(gh pr create \
+              --base "$TARGET_BRANCH" \
+              --head "$PR_BRANCH" \
+              --title "chore: auto-update workflow templates" \
+              --body "Automated PR to update workflow templates to match the canonical versions from \`Gilead-BioStats/gsm.utils\`.
+
+          Created by the Workflow Template Compliance Checker." 2>&1)
+            CREATE_EXIT=$?
+
+            if [ $CREATE_EXIT -ne 0 ]; then
+              echo "::error::PR creation failed with exit code $CREATE_EXIT"
+              echo "PR creation output: $NEW_PR_URL"
+              echo "result=pr-create-failed" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+
+            echo "Created PR: $NEW_PR_URL"
+            echo "result=created" >> $GITHUB_OUTPUT
+            echo "pr-url=$NEW_PR_URL" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Comment with auto-update PR link
+        if: ${{ steps.auto-update.outcome == 'success' && inputs.event-name == 'pull_request' && inputs.pr-number != '' && inputs.pr-number != '0' && (steps.auto-update.outputs.result == 'created' || steps.auto-update.outputs.result == 'updated') }}
+        uses: gilead-biostats/gsm.utils/comment-pr@fix-117-auto-update-workflows
+        with:
+          comment-id: 'workflow-template-check'
+          body: |
+            ## ⚠️ Workflow Template Compliance Issues
+
+            Workflows are out of date. An automated PR has been created to fix them:
+            **${{ steps.auto-update.outputs.pr-url }}**
+
+            Please merge that PR into this branch to resolve the compliance check.
+          token: ${{ steps.token.outputs.token }}
+
+      - name: Post PR Comment (fallback)
+        if: ${{ inputs.event-name == 'pull_request' && inputs.pr-number != '' && inputs.pr-number != '0' && steps.check.outputs.has_errors == 'true' && steps.auto-update.outputs.result != 'created' && steps.auto-update.outputs.result != 'updated' }}
+        uses: gilead-biostats/gsm.utils/comment-pr@fix-117-auto-update-workflows
+        with:
+          comment-id: 'workflow-template-check'
+          body-path: comment_body.md
+          token: ${{ steps.token.outputs.token }}
+
+      - name: Post PR Comment (up to date)
+        if: ${{ inputs.event-name == 'pull_request' && inputs.pr-number != '' && inputs.pr-number != '0' && steps.check.outputs.has_errors == 'false' }}
+        uses: gilead-biostats/gsm.utils/comment-pr@fix-117-auto-update-workflows
         with:
           comment-id: 'workflow-template-check'
           body-path: comment_body.md

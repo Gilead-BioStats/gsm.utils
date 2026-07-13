@@ -23,7 +23,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Generate token
-        uses: gilead-biostats/gsm.utils/generate-token@actions-v1
+        uses: gilead-biostats/gsm.utils/generate-token@fix-117-auto-update-workflows
         id: token
         with:
           app-id: ${{ secrets.app-id }}
@@ -31,6 +31,6 @@ jobs:
           owner: ${{ github.repository_owner }}
           fallback-token: ${{ secrets.token || github.token }}
       - name: Compute test coverage
-        uses: gilead-biostats/gsm.utils/coverage@actions-v1
+        uses: gilead-biostats/gsm.utils/coverage@fix-117-auto-update-workflows
         with:
           token: ${{ steps.token.outputs.token }}
