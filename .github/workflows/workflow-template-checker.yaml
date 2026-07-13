@@ -34,7 +34,7 @@ jobs:
     name: Check Workflow Templates
     steps:
       - name: Generate token
-        uses: gilead-biostats/gsm.utils/generate-token@fix-117-auto-update-workflows
+        uses: gilead-biostats/gsm.utils/generate-token@actions-v1
         id: token
         with:
           app-id: ${{ secrets.app-id }}
@@ -42,14 +42,14 @@ jobs:
           owner: ${{ github.repository_owner }}
 
       - name: Check out repo
-        uses: gilead-biostats/gsm.utils/checkout@fix-117-auto-update-workflows
+        uses: gilead-biostats/gsm.utils/checkout@actions-v1
         with:
           token: ${{ steps.token.outputs.token }}
 
       - name: Check compliance and build comment
         id: check
         run: |
-          MANIFEST_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/fix-117-auto-update-workflows/gha_version.json"
+          MANIFEST_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/actions-v1/gha_version.json"
 
           echo "Downloading manifest from $MANIFEST_URL..."
           curl -sL -f "$MANIFEST_URL" -o gha_version.json || { echo "::error::Failed to download manifest"; exit 1; }
@@ -295,7 +295,7 @@ jobs:
 
       - name: Comment with auto-update PR link
         if: ${{ steps.auto-update.outcome == 'success' && inputs.event-name == 'pull_request' && inputs.pr-number != '' && inputs.pr-number != '0' && (steps.auto-update.outputs.result == 'created' || steps.auto-update.outputs.result == 'updated') }}
-        uses: gilead-biostats/gsm.utils/comment-pr@fix-117-auto-update-workflows
+        uses: gilead-biostats/gsm.utils/comment-pr@actions-v1
         with:
           comment-id: 'workflow-template-check'
           body: |
@@ -309,7 +309,7 @@ jobs:
 
       - name: Post PR Comment (fallback)
         if: ${{ inputs.event-name == 'pull_request' && inputs.pr-number != '' && inputs.pr-number != '0' && steps.check.outputs.has_errors == 'true' && steps.auto-update.outputs.result != 'created' && steps.auto-update.outputs.result != 'updated' }}
-        uses: gilead-biostats/gsm.utils/comment-pr@fix-117-auto-update-workflows
+        uses: gilead-biostats/gsm.utils/comment-pr@actions-v1
         with:
           comment-id: 'workflow-template-check'
           body-path: comment_body.md
@@ -317,7 +317,7 @@ jobs:
 
       - name: Post PR Comment (up to date)
         if: ${{ inputs.event-name == 'pull_request' && inputs.pr-number != '' && inputs.pr-number != '0' && steps.check.outputs.has_errors == 'false' }}
-        uses: gilead-biostats/gsm.utils/comment-pr@fix-117-auto-update-workflows
+        uses: gilead-biostats/gsm.utils/comment-pr@actions-v1
         with:
           comment-id: 'workflow-template-check'
           body-path: comment_body.md

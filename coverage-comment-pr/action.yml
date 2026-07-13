@@ -36,7 +36,7 @@ runs:
     - name: Comment coverage on PR
       if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
       continue-on-error: true
-      uses: gilead-biostats/gsm.utils/comment-pr@fix-117-auto-update-workflows
+      uses: gilead-biostats/gsm.utils/comment-pr@actions-v1
       with:
         comment-id: 'coverage-comment'
         body-path: 'pr_comment.md'
