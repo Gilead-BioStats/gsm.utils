@@ -1,0 +1,42 @@
+---
+title: "Test Deck"
+index: 999
+execute:
+  eval: false
+  echo: true
+format:
+  revealjs:
+    theme: dark
+    link-external-newwindow: true
+    transition: slide
+    incremental: false
+---
+
+## First Slide Title
+
+- Bullet point
+- Another point
+
+## Slide with Two Columns
+
+:::: columns
+
+::: {.column width="60%"}
+
+Content for the left column.
+
+:::
+
+::: {.column width="40%"}
+
+Content for the right column.
+
+:::
+
+::::
+
+# Section Header Slide
+
+## Another Slide
+
+Content here.

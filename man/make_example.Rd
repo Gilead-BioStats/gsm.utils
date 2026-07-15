@@ -10,7 +10,8 @@ make_example(
   strDetails = "<<Fill in Example description here>>",
   intIndex = 999,
   output_dir = "pkgdown/menus/examples",
-  overwrite = FALSE
+  overwrite = FALSE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -21,11 +22,14 @@ make_example(
 
 \item{strDetails}{(\code{string}) Optional description for the example.}
 
-\item{intIndex}{(\code{numeric}) Optional ordering index for the examples menu.}
+\item{intIndex}{(\code{numeric}) Sort-order index. \code{NULL}, \code{NA}, and length-0
+vectors are treated as absent.}
 
-\item{output_dir}{(\code{string}) Directory to write the example to.}
+\item{output_dir}{(\code{string}) Directory to write the asset to.}
 
-\item{overwrite}{(\code{boolean}) Overwrite existing files? Default is \code{TRUE}.}
+\item{overwrite}{(\code{boolean}) Overwrite existing files?}
+
+\item{verbose}{(\code{boolean}) Inform about changes? Default is \code{TRUE}.}
 }
 \value{
 Path to the created example file (invisibly).

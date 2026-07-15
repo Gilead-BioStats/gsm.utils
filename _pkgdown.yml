@@ -2,40 +2,43 @@ url: https://gilead-biostats.github.io/gsm.utils
 template:
   bootstrap: 5
   bootswatch: yeti
-
 navbar:
   structure:
-    left: [reference, articles]
-    right: [search, github]
+    left:
+    - reference
+    - articles
+    right:
+    - search
+    - github
   components:
     github:
       icon: fab fa-github
       aria-label: GitHub
       href: https://github.com/Gilead-BioStats/gsm.utils
-
 reference:
-  - title: Package setup
-    contents:
-      - init_gsm_package
-      - update_gsm_package
-  - title: GitHub tooling
-    contents:
-      - add_actions
-      - add_action
-      - add_gsm_issue_templates
-      - add_contributor_guidelines
-      - emit_coverage_summary
-      - remove_deprecated_actions
-      - remove_deprecated_issue_templates
-  - title: Menu rendering
-    contents:
-      - build_assets
-      - render_rmd
-      - make_example
-  - title: Deprecated
-    contents:
-      - update_workflow_version
-      - create_gha_manifest
-      - check_gha_version
-      - check_workflow_compliance
-
+- title: Package setup
+  contents:
+  - init_gsm_package
+  - update_gsm_package
+- title: GitHub tooling
+  contents:
+  - add_actions
+  - add_action
+  - add_gsm_issue_templates
+  - add_contributor_guidelines
+  - emit_coverage_summary
+  - remove_deprecated_actions
+  - remove_deprecated_issue_templates
+- title: Menu rendering
+  contents:
+  - build_assets
+  - make_asset
+  - make_example
+  - make_slides
+  - render_rmd
+- title: Deprecated
+  contents:
+  - update_workflow_version
+  - create_gha_manifest
+  - check_gha_version
+  - check_workflow_compliance

@@ -9,7 +9,7 @@ update_gsm_package(strPackageDir = ".", overwrite = TRUE, verbose = TRUE)
 \arguments{
 \item{strPackageDir}{(\code{string}) Path to the package directory.}
 
-\item{overwrite}{(\code{boolean}) Overwrite existing files? Default is \code{TRUE}.}
+\item{overwrite}{(\code{boolean}) Overwrite existing files?}
 
 \item{verbose}{(\code{boolean}) Inform about changes? Default is \code{TRUE}.}
 }

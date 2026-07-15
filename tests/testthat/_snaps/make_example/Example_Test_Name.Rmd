@@ -1,0 +1,39 @@
+---
+title: "Test_Name"
+index: 999
+author: '[gsm.utils](https://gilead-biostats.github.io/gsm.utils) Example'
+description: <<Fill in Example description here>>
+date: '`r format(Sys.time(), ''%B %d, %Y %H:%M:%S %Z'')`'
+output: html_document
+---
+
+# Set Up
+
+Describe the example and any setup steps here.
+
+<details>
+<summary>Setup</summary>
+
+```{r}
+# Load libraries and prepare data
+```
+
+</details>
+
+# Report
+
+Use `knitr::knit_child()` to embed an existing report Rmd (for example,
+from `inst/report`) into this example:
+
+```{r, echo=FALSE, results='asis'}
+child_env <- list2env(
+  list(params = list()),
+  parent = environment()
+)
+child_report <- knitr::knit_child(
+  fs::path_package("your.package", "report", "Report_Name.Rmd"),
+  envir = child_env,
+  quiet = TRUE
+)
+cat(child_report, sep = "\n")
+```
