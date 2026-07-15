@@ -145,10 +145,14 @@ By contributing to this project, you agree to abide by its terms.
 
 - [`build_assets()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/build_assets.md)
   : Build additional pkgdown assets
-- [`render_rmd()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/render_rmd.md)
-  : Custom Rmarkdown render function
+- [`make_asset()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/make_asset.md)
+  : Create a pkgdown menu asset file
 - [`make_example()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/make_example.md)
   : Create an example R Markdown template
+- [`make_slides()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/make_slides.md)
+  : Create a slide deck template
+- [`render_rmd()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/render_rmd.md)
+  : Custom Rmarkdown render function
 
 ## Deprecated
 

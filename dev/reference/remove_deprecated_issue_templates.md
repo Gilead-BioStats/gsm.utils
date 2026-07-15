@@ -23,7 +23,7 @@ remove_deprecated_issue_templates(
 
 - overwrite:
 
-  (`boolean`) Overwrite existing files? Default is `TRUE`.
+  (`boolean`) Overwrite existing files?
 
 - verbose:
 

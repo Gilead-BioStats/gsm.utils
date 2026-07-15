@@ -5,7 +5,7 @@ Build a safe example filename
 ## Usage
 
 ``` r
-build_example_filename(strName, strType)
+.build_example_filename(strName, strType)
 ```
 
 ## Arguments

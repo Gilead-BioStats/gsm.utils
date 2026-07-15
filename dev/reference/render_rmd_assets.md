@@ -17,7 +17,7 @@ render_rmd_assets(menu_subdir, output_dir, verbose)
 
 - output_dir:
 
-  (`string`) Directory to write the example to.
+  (`string`) Directory to write the asset to.
 
 - verbose:
 

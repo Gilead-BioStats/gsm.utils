@@ -1,5 +1,13 @@
 # Changelog
 
+## gsm.utils (development version)
+
+- [`make_asset()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/make_asset.md)
+  is a new generic function for creating pkgdown menu asset files.
+  [`make_slides()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/make_slides.md)
+  is a new function for creating RevealJS slide deck templates
+  ([\#136](https://github.com/Gilead-BioStats/gsm.utils/issues/136)).
+
 ## gsm.utils 0.4.0
 
 This release standardizes actions and related functionality, and

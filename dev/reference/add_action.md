@@ -54,7 +54,7 @@ add_action(
 
 - overwrite:
 
-  (`boolean`) Overwrite existing files? Default is `TRUE`.
+  (`boolean`) Overwrite existing files?
 
 - verbose:
 

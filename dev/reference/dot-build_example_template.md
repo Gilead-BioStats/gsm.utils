@@ -5,7 +5,7 @@ Build template content for an example
 ## Usage
 
 ``` r
-build_example_template(strName, strType, strDetails, intIndex)
+.build_example_template(strName, strType, strDetails, intIndex)
 ```
 
 ## Arguments
@@ -24,7 +24,8 @@ build_example_template(strName, strType, strDetails, intIndex)
 
 - intIndex:
 
-  (`numeric`) Optional ordering index for the examples menu.
+  (`numeric`) Sort-order index. `NULL`, `NA`, and length-0 vectors are
+  treated as absent.
 
 ## Value
 

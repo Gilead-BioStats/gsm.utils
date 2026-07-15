@@ -16,4 +16,4 @@ add_contributor_guidelines(strPackageDir = ".", overwrite = TRUE)
 
 - overwrite:
 
-  (`boolean`) Overwrite existing files? Default is `TRUE`.
+  (`boolean`) Overwrite existing files?

@@ -11,7 +11,8 @@ make_example(
   strDetails = "<<Fill in Example description here>>",
   intIndex = 999,
   output_dir = "pkgdown/menus/examples",
-  overwrite = FALSE
+  overwrite = FALSE,
+  verbose = TRUE
 )
 ```
 
@@ -31,15 +32,20 @@ make_example(
 
 - intIndex:
 
-  (`numeric`) Optional ordering index for the examples menu.
+  (`numeric`) Sort-order index. `NULL`, `NA`, and length-0 vectors are
+  treated as absent.
 
 - output_dir:
 
-  (`string`) Directory to write the example to.
+  (`string`) Directory to write the asset to.
 
 - overwrite:
 
-  (`boolean`) Overwrite existing files? Default is `TRUE`.
+  (`boolean`) Overwrite existing files?
+
+- verbose:
+
+  (`boolean`) Inform about changes? Default is `TRUE`.
 
 ## Value
 
