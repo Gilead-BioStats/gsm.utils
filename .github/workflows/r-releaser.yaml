@@ -1,5 +1,5 @@
 # name: r-releaser.yaml
-# version: 0.4.1
+# version: 0.4.2
 # Description: Reusable R package release workflow designed to be invoked by
 # other gsm packages via r-releaser-caller.yaml workflow
 name: R Release
@@ -34,6 +34,7 @@ jobs:
           owner: ${{ github.repository_owner }}
           fallback-token: ${{ secrets.token || github.token }}
       - name: Set GITHUB_PAT
+        shell: bash
         run: echo "GITHUB_PAT=${{ steps.token.outputs.token }}" >> $GITHUB_ENV
       - name: Check out repo
         uses: gilead-biostats/gsm.utils/checkout@actions-v1
@@ -47,6 +48,7 @@ jobs:
           token: ${{ steps.token.outputs.token }}
       - name: get library path
         id: library
+        shell: bash
         run: |
           OUTPUT=$(Rscript -e "cat(.libPaths()[1])")
           echo "result=$OUTPUT" >> $GITHUB_OUTPUT
@@ -60,6 +62,7 @@ jobs:
           md5: true
           build-vignettes: false
       - name: echo output
+        shell: bash
         run: |
           echo ${{ steps.releaser.outputs.tarball_path }}
           echo ${{ steps.releaser.outputs.tarball_name }}

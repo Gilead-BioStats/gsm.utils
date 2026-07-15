@@ -1,5 +1,5 @@
 # name: pkgdown-core.yaml
-# version: 0.4.1
+# version: 0.4.2
 # Description: Reusable workflow to deploy pkgdown site with assets and clean up PR previews.
 name: pkgdown-core
 on:
@@ -48,6 +48,7 @@ jobs:
           owner: ${{ github.repository_owner }}
           fallback-token: ${{ secrets.token || github.token }}
       - name: Set GITHUB_PAT
+        shell: bash
         run: echo "GITHUB_PAT=${{ steps.token.outputs.token }}" >> $GITHUB_ENV
       - name: Determine checkout ref
         id: get-ref
