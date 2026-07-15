@@ -6,7 +6,7 @@ name: Generate Workflow Version JSON
 on:
   pull_request:
     branches:
-      - 'NOTHING' # This is a placeholder to prevent PR triggers
+      - 'actions-v1'
 
 permissions:
   contents: write
