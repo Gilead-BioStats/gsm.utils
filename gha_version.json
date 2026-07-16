@@ -43,9 +43,9 @@
     {
       "name": "qcthat.yaml",
       "description": "Generate qcthat quality control reports for pull requests and releases and manage user acceptance testing.",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "repo": "Gilead-BioStats/qcthat",
-      "ref": "actions"
+      "ref": "shell-and-main"
     }
   ]
 }
