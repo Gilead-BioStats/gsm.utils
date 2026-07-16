@@ -6,6 +6,11 @@ name: test-coverage-core
 
 on:
   workflow_call:
+    inputs:
+      utils-ref:
+        description: "Ref for gsm.utils to install"
+        type: string
+        default: '@*release'
     secrets:
       token:
         description: "GitHub token, set to secrets.GITHUB_TOKEN"
@@ -33,4 +38,5 @@ jobs:
       - name: Compute test coverage
         uses: gilead-biostats/gsm.utils/coverage@fix-bash-runner
         with:
+          utils-ref: ${{ inputs.utils-ref }}
           token: ${{ steps.token.outputs.token }}
