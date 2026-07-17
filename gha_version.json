@@ -3,7 +3,7 @@
     {
       "name": "R-CMD-check.yaml",
       "description": "R CMD check for PRs",
-      "version": "0.4.1",
+      "version": "0.4.2",
       "repo": "Gilead-BioStats/gsm.utils",
       "ref": "actions-v1",
       "path_extra": "workflow_templates"

@@ -1,12 +1,12 @@
 # name: generate-gha-version.yaml
-# version: 0.1.1
+# version: 0.1.2
 # Description: Update gha_version.json with latest templates.
 name: Generate Workflow Version JSON
 
 on:
   pull_request:
     branches:
-      - 'NOTHING' # This is a placeholder to prevent PR triggers
+      - 'actions-v1'
 
 permissions:
   contents: write
@@ -79,6 +79,7 @@ jobs:
               f.write('\n')
 
       - name: Check for changes
+        shell: bash
         id: check
         run: |
           if [ -n "$(git status --porcelain gha_version.json)" ]; then
@@ -89,6 +90,7 @@ jobs:
 
       - name: Commit fixes
         if: ${{ steps.check.outputs.has_changes == 'true' }}
+        shell: bash
         run: |
           git config --local user.name "$GITHUB_ACTOR"
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"

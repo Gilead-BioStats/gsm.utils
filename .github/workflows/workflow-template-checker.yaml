@@ -1,5 +1,5 @@
 # name: workflow-template-checker.yaml
-# version: 0.5.0
+# version: 0.5.1
 # Description: Reusable workflow template checker designed to be invoked via workflow-template-check.yaml
 name: Workflow Template Compliance Checker
 
@@ -48,6 +48,7 @@ jobs:
 
       - name: Check compliance and build comment
         id: check
+        shell: bash
         run: |
           MANIFEST_URL="https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/actions-v1/gha_version.json"
 
@@ -149,6 +150,7 @@ jobs:
           EVENT_NAME: ${{ inputs.event-name }}
           DEFAULT_BRANCH: ${{ inputs.default-branch }}
           PR_NUMBER: ${{ inputs.pr-number }}
+        shell: bash
         run: |
           set +e
 
@@ -325,6 +327,7 @@ jobs:
 
       - name: Fail check if updates required
         if: ${{ steps.check.outputs.has_errors == 'true' }}
+        shell: bash
         run: |
           echo "One or more workflows require an update. See the PR comments for details."
           exit 1
