@@ -26,7 +26,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Generate token
-        uses: gilead-biostats/gsm.utils/generate-token@actions-v1
+        uses: gilead-biostats/gsm.utils/generate-token@pak-fixed
         id: token
         with:
           app-id: ${{ secrets.app-id }}
@@ -37,12 +37,12 @@ jobs:
         shell: bash
         run: echo "GITHUB_PAT=${{ steps.token.outputs.token }}" >> $GITHUB_ENV
       - name: Check out repo
-        uses: gilead-biostats/gsm.utils/checkout@actions-v1
+        uses: gilead-biostats/gsm.utils/checkout@pak-fixed
         with:
           token: ${{ steps.token.outputs.token }}
           fetch-depth: 0
       - name: Install R and dependencies
-        uses: gilead-biostats/gsm.utils/install@actions-v1
+        uses: gilead-biostats/gsm.utils/install@pak-fixed
         with:
           use-public-rspm: true
           token: ${{ steps.token.outputs.token }}

@@ -14,30 +14,30 @@ runs:
   using: "composite"
   steps:
     - name: Check out repo
-      uses: gilead-biostats/gsm.utils/checkout@actions-v1
+      uses: gilead-biostats/gsm.utils/checkout@pak-fixed
       with:
         token: ${{ inputs.token }}
 
     - name: Install R and dependencies
-      uses: gilead-biostats/gsm.utils/install@actions-v1
+      uses: gilead-biostats/gsm.utils/install@pak-fixed
       with:
         token: ${{ inputs.token }}
         extra-packages: any::covr any::xml2 any::jsonlite gilead-biostats/gsm.utils${{ inputs.utils-ref }} local::.
         needs: coverage
 
     - name: Compute coverage
-      uses: gilead-biostats/gsm.utils/coverage-compute@actions-v1
+      uses: gilead-biostats/gsm.utils/coverage-compute@pak-fixed
       with:
         token: ${{ inputs.token }}
 
     - name: Handle PR Coverage Comments
       if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-      uses: gilead-biostats/gsm.utils/coverage-comment-pr@actions-v1
+      uses: gilead-biostats/gsm.utils/coverage-comment-pr@pak-fixed
       with:
         token: ${{ inputs.token }}
 
     - name: Handle Release Summaries
       if: github.event_name == 'release'
-      uses: gilead-biostats/gsm.utils/coverage-release@actions-v1
+      uses: gilead-biostats/gsm.utils/coverage-release@pak-fixed
       with:
         token: ${{ inputs.token }}
