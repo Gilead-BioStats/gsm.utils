@@ -40,7 +40,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Generate token
-        uses: gilead-biostats/gsm.utils/generate-token@pak-fixed
+        uses: gilead-biostats/gsm.utils/generate-token@actions-v1
         id: token
         with:
           app-id: ${{ secrets.app-id }}
@@ -53,17 +53,17 @@ jobs:
       - name: Determine checkout ref
         id: get-ref
         if: github.event_name == 'workflow_dispatch'
-        uses: gilead-biostats/gsm.utils/determine-ref@pak-fixed
+        uses: gilead-biostats/gsm.utils/determine-ref@actions-v1
         with:
           pr-number: ${{ inputs.pr-number }}
           token: ${{ steps.token.outputs.token }}
       - name: Check out repo
-        uses: gilead-biostats/gsm.utils/checkout@pak-fixed
+        uses: gilead-biostats/gsm.utils/checkout@actions-v1
         with:
           token: ${{ steps.token.outputs.token }}
           ref: ${{ steps.get-ref.outputs.ref }}
       - name: Install R and dependencies
-        uses: gilead-biostats/gsm.utils/install@pak-fixed
+        uses: gilead-biostats/gsm.utils/install@actions-v1
         with:
           token: ${{ steps.token.outputs.token }}
           r-version: release
@@ -71,7 +71,7 @@ jobs:
           extra-packages: any::pkgdown gilead-biostats/gsm.utils${{ inputs.utils-ref }} local::.
           cache-version: '1'
       - name: Build and deploy site
-        uses: gilead-biostats/gsm.utils/pkgdown-deploy@pak-fixed
+        uses: gilead-biostats/gsm.utils/pkgdown-deploy@actions-v1
         with:
           token: ${{ steps.token.outputs.token }}
           event-name: ${{ inputs.pr-number && 'pull_request' || github.event_name }}
@@ -87,7 +87,7 @@ jobs:
       contents: write
     steps:
       - name: Generate token
-        uses: gilead-biostats/gsm.utils/generate-token@pak-fixed
+        uses: gilead-biostats/gsm.utils/generate-token@actions-v1
         id: token
         with:
           app-id: ${{ secrets.app-id }}
@@ -95,7 +95,7 @@ jobs:
           owner: ${{ github.repository_owner }}
           fallback-token: ${{ secrets.token || github.token }}
       - name: Clean up PR preview
-        uses: gilead-biostats/gsm.utils/pkgdown-cleanup@pak-fixed
+        uses: gilead-biostats/gsm.utils/pkgdown-cleanup@actions-v1
         with:
           token: ${{ steps.token.outputs.token }}
           pr-number: ${{ inputs.pr-number || github.event.number }}
