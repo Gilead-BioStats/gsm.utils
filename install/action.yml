@@ -38,11 +38,6 @@ runs:
         r-version: ${{ inputs.r-version }}
         http-user-agent: ${{ inputs.http-user-agent }}
         use-public-rspm: ${{ inputs.use-public-rspm }}
-    - name: Install working version of pak
-      shell: Rscript {0}
-      run: |
-        install.packages("remotes")
-        remotes::install_version("pak", "0.10.0")
     - uses: r-lib/actions/setup-r-dependencies@v2
       env:
         GITHUB_PAT: ${{ inputs.token }}
