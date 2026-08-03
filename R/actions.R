@@ -1,7 +1,7 @@
 # Update this when the manifest moves to a new branch or repo.
 .manifest_url <- paste(
   "https://raw.githubusercontent.com",
-  "Gilead-BioStats",
+  "Gilead-Public",
   "gsm.utils",
   "actions-v1",
   "gha_version.json",

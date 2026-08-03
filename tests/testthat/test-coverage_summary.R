@@ -7,7 +7,7 @@ test_that("writes JSON with all required fields (#31)", {
 
   emit_coverage_summary(
     output_path = tmp,
-    repo = "Gilead-BioStats/gsm.utils",
+    repo = "Gilead-Public/gsm.utils",
     sha = "abc1234",
     ref = "refs/heads/main",
     runner_os = "Linux",
@@ -19,7 +19,7 @@ test_that("writes JSON with all required fields (#31)", {
   expect_true(file.exists(tmp))
 
   json <- jsonlite::read_json(tmp)
-  expect_equal(json$repo, "Gilead-BioStats/gsm.utils")
+  expect_equal(json$repo, "Gilead-Public/gsm.utils")
   expect_equal(json$sha, "abc1234")
   expect_equal(json$ref, "refs/heads/main")
   expect_equal(json$runner_os, "Linux")

@@ -4,7 +4,7 @@
       "name": "action1.yaml",
       "description": "Description 1",
       "version": "1.0.0",
-      "repo": "Gilead-BioStats/gsm.utils",
+      "repo": "Gilead-Public/gsm.utils",
       "ref": "actions-v1",
       "path_extra": "workflow_templates"
     },
@@ -12,7 +12,7 @@
       "name": "action2.yaml",
       "description": "Description 2",
       "version": "2.2.0",
-      "repo": "Gilead-BioStats/gsm.utils",
+      "repo": "Gilead-Public/gsm.utils",
       "ref": "actions-v1",
       "path_extra": "workflow_templates"
     },
@@ -20,7 +20,7 @@
       "name": "action3.yaml",
       "description": "Description 3",
       "version": "3.3.3",
-      "repo": "Gilead-BioStats/gsm.utils",
+      "repo": "Gilead-Public/gsm.utils",
       "ref": "actions-v1",
       "path_extra": "workflow_templates"
     },
@@ -28,7 +28,7 @@
       "name": "action-external.yaml",
       "description": "External repo action without path_extra",
       "version": "0.1.0",
-      "repo": "Gilead-BioStats/other-pkg",
+      "repo": "Gilead-Public/other-pkg",
       "ref": "actions"
     }
   ]

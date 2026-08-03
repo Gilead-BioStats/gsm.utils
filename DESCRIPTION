@@ -14,9 +14,9 @@ Authors@R: c(
 Description: Provides utility functions and file templates to be used for
     the set-up and development of gsm packages.
 License: Apache License (>= 2)
-URL: https://gilead-biostats.github.io/gsm.utils,
-    https://github.com/Gilead-BioStats/gsm.utils
-BugReports: https://github.com/Gilead-BioStats/gsm.utils/issues
+URL: https://gilead-public.github.io/gsm.utils,
+    https://github.com/Gilead-Public/gsm.utils
+BugReports: https://github.com/Gilead-Public/gsm.utils/issues
 Depends:
     R (>= 4.1.0)
 Imports:

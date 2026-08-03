@@ -1,7 +1,7 @@
 ---
 title: "Test_Name"
 index: 999
-author: '[gsm.utils](https://gilead-biostats.github.io/gsm.utils) Example'
+author: '[gsm.utils](https://gilead-public.github.io/gsm.utils) Example'
 description: <<Fill in Example description here>>
 date: '`r format(Sys.time(), ''%B %d, %Y %H:%M:%S %Z'')`'
 output: html_document

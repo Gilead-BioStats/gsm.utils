@@ -11,9 +11,9 @@ Provides utility functions and file templates to be used for the set-up and deve
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://gilead-biostats.github.io/gsm.utils}
-  \item \url{https://github.com/Gilead-BioStats/gsm.utils}
-  \item Report bugs at \url{https://github.com/Gilead-BioStats/gsm.utils/issues}
+  \item \url{https://gilead-public.github.io/gsm.utils}
+  \item \url{https://github.com/Gilead-Public/gsm.utils}
+  \item Report bugs at \url{https://github.com/Gilead-Public/gsm.utils/issues}
 }
 
 }
