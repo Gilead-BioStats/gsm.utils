@@ -3,7 +3,7 @@
   "https://raw.githubusercontent.com",
   "Gilead-Public",
   "gsm.utils",
-  "fix-145b-public-actions",
+  "actions-v1",
   "gha_version.json",
   sep = "/"
 )

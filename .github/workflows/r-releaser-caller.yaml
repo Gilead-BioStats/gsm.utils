@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   call-release-workflow:
-    uses: Gilead-Public/gsm.utils/.github/workflows/r-releaser.yaml@fix-145b-public-actions
+    uses: Gilead-Public/gsm.utils/.github/workflows/r-releaser.yaml@actions-v1
     with:
       tag: ${{ github.event.release.tag_name || inputs.tag }}
     secrets:

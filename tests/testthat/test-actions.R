@@ -20,7 +20,7 @@ test_that("add_actions adds each action in the manifest (#90)", {
         description = "This isn't used yet so I'm repeating",
         version = c("1.0.0", "2.2.0", "3.3.3"),
         repo = "Gilead-Public/gsm.utils",
-        ref = "fix-145b-public-actions",
+        ref = "actions-v1",
         path_extra = "workflow_templates"
       )
     },
@@ -45,7 +45,7 @@ test_that("add_actions informs when nothing added (#90)", {
         description = "This isn't used yet so I'm repeating",
         version = c("1.0.0", "2.2.0", "3.3.3"),
         repo = "Gilead-Public/gsm.utils",
-        ref = "fix-145b-public-actions",
+        ref = "actions-v1",
         path_extra = "workflow_templates"
       )
     },
@@ -79,10 +79,10 @@ test_that(".workflow_url constructs URLs correctly (#106)", {
     .workflow_url(
       "R-CMD-check.yaml",
       repo = "Gilead-Public/gsm.utils",
-      ref = "fix-145b-public-actions",
+      ref = "actions-v1",
       path_extra = "workflow_templates"
     ),
-    "https://raw.githubusercontent.com/Gilead-Public/gsm.utils/fix-145b-public-actions/workflow_templates/R-CMD-check.yaml"
+    "https://raw.githubusercontent.com/Gilead-Public/gsm.utils/actions-v1/workflow_templates/R-CMD-check.yaml"
   )
   # without path_extra (NULL, NA, or empty string all omit it)
   expect_equal(
@@ -141,7 +141,7 @@ test_that(".read_workflow_template reads from correct URL (#106)", {
   action1 <- .read_workflow_template(
     "action1.yaml",
     repo = "Gilead-Public/gsm.utils",
-    ref = "fix-145b-public-actions",
+    ref = "actions-v1",
     path_extra = "workflow_templates"
   )
   expect_equal(
@@ -163,7 +163,7 @@ test_that("add_action errors when workflow needs an update but overwrite is FALS
     "action1.yaml",
     "2.0.0",
     repo = "Gilead-Public/gsm.utils",
-    ref = "fix-145b-public-actions",
+    ref = "actions-v1",
     path_extra = "workflow_templates",
     workflows_path = test_path("fixtures/actions/installed_workflows"),
     overwrite = FALSE
@@ -180,7 +180,7 @@ test_that("add_action returns an empty vector when workflow is already up-to-dat
       "action1.yaml",
       "2.0.0",
       repo = "Gilead-Public/gsm.utils",
-      ref = "fix-145b-public-actions",
+      ref = "actions-v1",
       workflows_path = test_path("fixtures/actions/installed_workflows")
     ),
     character()
@@ -196,7 +196,7 @@ test_that("add_action informs when verbose is TRUE (#90)", {
     "action1.yaml",
     "2.0.0",
     repo = "Gilead-Public/gsm.utils",
-    ref = "fix-145b-public-actions",
+    ref = "actions-v1",
     workflows_path = test_path("fixtures/actions/installed_workflows")
   ) |>
     expect_message("Creating or updating workflow file .+")
@@ -212,7 +212,7 @@ test_that("add_action updates when appropriate (#90)", {
     "action1.yaml",
     "2.0.0",
     repo = "Gilead-Public/gsm.utils",
-    ref = "fix-145b-public-actions",
+    ref = "actions-v1",
     workflows_path = workflows_path
   ) |>
     expect_equal("action1.yaml") |>
