@@ -1,5 +1,5 @@
 # name: generate-gha-version.yaml
-# version: 0.1.2
+# version: 1.0.0
 # Description: Update gha_version.json with latest templates.
 name: Generate Workflow Version JSON
 
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repo
-        uses: gilead-biostats/gsm.utils/checkout@actions-v1
+        uses: $/checkout
         with:
           ref: ${{ github.head_ref || github.ref_name }}
 
@@ -26,7 +26,7 @@ jobs:
         run: |
           import os, json, re, glob
 
-          LOCAL_REPO = "Gilead-BioStats/gsm.utils"
+          LOCAL_REPO = "gilead-public/gsm.utils"
           LOCAL_REF = "actions-v1"
           LOCAL_PATH_EXTRA = "workflow_templates"
 

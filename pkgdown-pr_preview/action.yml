@@ -53,7 +53,7 @@ runs:
         echo "🌐 URL: $SITE_URL"
     - name: Comment with PR site URL 🌐
       if: (inputs.event-name == 'pull_request' && inputs.is-fork == 'false') || (inputs.event-name == 'workflow_dispatch' && inputs.pr-number != '')
-      uses: gilead-biostats/gsm.utils/comment-pr@actions-v1
+      uses: $/comment-pr
       with:
         comment-id: 'pkgdown-preview-url'
         body: |

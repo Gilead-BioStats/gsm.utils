@@ -6,5 +6,5 @@ This branch contains only the shared actions for {gsm.utils}. Do not develop oth
 
 Please note that the gsm.utils project is released with a [Contributor
 Code of
-Conduct](https://gilead-biostats.github.io/gsm.utils/CODE_OF_CONDUCT.html).
+Conduct](https://gilead-public.github.io/gsm.utils/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
