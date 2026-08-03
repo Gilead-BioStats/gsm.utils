@@ -2,7 +2,7 @@
 
 Writes a completed template to the appropriate subdirectory under
 `strMenuDir`. This is the generic engine behind
-[`make_example()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/make_example.md)
+[`make_example()`](https://gilead-public.github.io/gsm.utils/dev/reference/make_example.md)
 and similar helpers.
 
 ## Usage

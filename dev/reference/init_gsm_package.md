@@ -9,7 +9,7 @@ init_gsm_package(
   strPackageDir,
   lDescriptionFields = list(),
   bIncludeWorkflowDir = TRUE,
-  strOrg = "Gilead-BioStats"
+  strOrg = "Gilead-Public"
 )
 ```
 

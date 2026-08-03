@@ -3,7 +3,7 @@
 GSM packages frequently ship runnable example reports alongside their
 pkgdown reference docs. `gsm.utils` standardizes that workflow: drop
 `.Rmd` or `.qmd` files into a subdirectory of `pkgdown/menus/`, call
-[`build_assets()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/build_assets.md),
+[`build_assets()`](https://gilead-public.github.io/gsm.utils/dev/reference/build_assets.md),
 and you get rendered HTML plus a matching menu in the navbar of your
 pkgdown site.
 
@@ -24,7 +24,7 @@ Three locations stay in lockstep:
 The subdirectory name under `pkgdown/menus/` is the menu name. A folder
 called `examples/` becomes an “Examples” dropdown, a folder called
 `slides/` becomes a “Slides” dropdown, etc.
-[`build_assets()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/build_assets.md)
+[`build_assets()`](https://gilead-public.github.io/gsm.utils/dev/reference/build_assets.md)
 discovers them automatically. No per-menu configuration is required.
 
 ## Quick start
@@ -57,10 +57,10 @@ After step 2 you should see:
 
 ## Authoring an example
 
-[`make_example()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/make_example.md)
+[`make_example()`](https://gilead-public.github.io/gsm.utils/dev/reference/make_example.md)
 writes a standard template to `pkgdown/menus/examples/` by default. The
 template includes the YAML front matter that
-[`build_assets()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/build_assets.md)
+[`build_assets()`](https://gilead-public.github.io/gsm.utils/dev/reference/build_assets.md)
 reads when constructing the menu:
 
 ``` yaml
@@ -69,7 +69,7 @@ title: "My First Example"
 author: "[your.package] Example"
 description: "<<Fill in Example description here>>"
 index: 1
-date: "July 20, 2026 14:43:38 UTC"
+date: "August 03, 2026 18:42:48 UTC"
 output: html_document
 ---
 ```
@@ -111,12 +111,12 @@ parameterize the embedded report without touching its source.
 
 ## What `build_assets()` does
 
-[`build_assets()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/build_assets.md)
+[`build_assets()`](https://gilead-public.github.io/gsm.utils/dev/reference/build_assets.md)
 is an orchestrator. Here’s what it does:
 
 1.  Walks every subdirectory of `source_dir` (default `pkgdown/menus/`).
 2.  For each subdirectory, renders all `.Rmd` files via
-    [`render_rmd()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/render_rmd.md)
+    [`render_rmd()`](https://gilead-public.github.io/gsm.utils/dev/reference/render_rmd.md)
     and all `.qmd` files via
     [`quarto::quarto_render()`](https://quarto-dev.github.io/quarto-r/reference/quarto_render.html),
     writing the HTML to `pkgdown/assets/<menu>/`.
@@ -146,8 +146,8 @@ Install the `pkgdown-all` workflow with
 `gsm.utils::add_action("pkgdown-all.yaml")`. The `pkgdown-all` workflow
 runs the same pipeline on every push and pull request via the shared
 composite action
-`gilead-biostats/gsm.utils/actions/pkgdown-deploy@actions-v1`. To adopt
-it in a downstream package, run:
+`gilead-public/gsm.utils/actions/pkgdown-deploy@actions-v1`. To adopt it
+in a downstream package, run:
 
 ``` r
 
@@ -191,7 +191,7 @@ directory, with one or more `.qmd` slide decks:
           deep-dive.qmd
 
 Run
-[`build_assets()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/build_assets.md)
+[`build_assets()`](https://gilead-public.github.io/gsm.utils/dev/reference/build_assets.md)
 and you get a “Slides” dropdown alongside “Examples”, with each `.qmd`
 rendered to a self-contained HTML file (Quarto renders are forced to
 `embed-resources: true` so no supporting assets need to be copied).
@@ -199,13 +199,13 @@ rendered to a self-contained HTML file (Quarto renders are forced to
 A couple of practical notes:
 
 - Slide title labels can include inline HTML in the YAML `title:` field.
-  [`build_assets()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/build_assets.md)
+  [`build_assets()`](https://gilead-public.github.io/gsm.utils/dev/reference/build_assets.md)
   strips tags before writing the navbar entry.
 - For pre-rendered or third-party HTML you want to host without
   re-rendering, drop it directly into `pkgdown/assets/<menu>/` and add
   the entry manually to `_pkgdown.yml`. As long as the target file
   exists, subsequent
-  [`build_assets()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/build_assets.md)
+  [`build_assets()`](https://gilead-public.github.io/gsm.utils/dev/reference/build_assets.md)
   runs will preserve it.
 - Any subdirectory name works (`tutorials/`, `whitepapers/`, etc). The
   menu label is derived by title-casing the directory name with acronyms
@@ -216,7 +216,7 @@ A couple of practical notes:
 
 - **Menu didn’t appear.** Confirm that `pkgdown/assets/<menu>/` contains
   at least one non-`index.html` file after
-  [`build_assets()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/build_assets.md)
+  [`build_assets()`](https://gilead-public.github.io/gsm.utils/dev/reference/build_assets.md)
   runs. An empty asset directory causes the menu to be removed from
   `_pkgdown.yml`.
 - **Wrong title or order.** Check the YAML front matter of the source
@@ -224,11 +224,11 @@ A couple of practical notes:
   non-numeric `index` sorts to the end.
 - **Render failures in CI but not locally.** Render errors are warnings,
   not errors, so
-  [`build_assets()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/build_assets.md)
+  [`build_assets()`](https://gilead-public.github.io/gsm.utils/dev/reference/build_assets.md)
   returns successfully even when individual files fail. Inspect the
   workflow logs for the `gsm.utils-render_failure` warnings.
 - **Quarto path errors.**
-  [`render_qmd_assets()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/render_qmd_assets.md)
+  [`render_qmd_assets()`](https://gilead-public.github.io/gsm.utils/dev/reference/render_qmd_assets.md)
   copies sources into a space-free temp directory before rendering to
   avoid Quarto’s long-standing issues with spaces in paths. If you see
   “file not found” errors referencing a path with spaces, upgrade to the
@@ -236,6 +236,6 @@ A couple of practical notes:
 
 ## See also
 
-- [`?gsm.utils::make_example`](https://gilead-biostats.github.io/gsm.utils/dev/reference/make_example.md)
-- [`?gsm.utils::build_assets`](https://gilead-biostats.github.io/gsm.utils/dev/reference/build_assets.md)
-- [`?gsm.utils::add_action`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_action.md)
+- [`?gsm.utils::make_example`](https://gilead-public.github.io/gsm.utils/dev/reference/make_example.md)
+- [`?gsm.utils::build_assets`](https://gilead-public.github.io/gsm.utils/dev/reference/build_assets.md)
+- [`?gsm.utils::add_action`](https://gilead-public.github.io/gsm.utils/dev/reference/add_action.md)

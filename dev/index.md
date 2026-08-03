@@ -11,7 +11,7 @@ You can install the latest release of gsm.utils from
 ``` r
 
 # install.packages("pak")
-pak::pak("Gilead-BioStats/gsm.utils@*release")
+pak::pak("Gilead-Public/gsm.utils@*release")
 ```
 
 You can install the development version of gsm.utils from
@@ -20,7 +20,7 @@ You can install the development version of gsm.utils from
 ``` r
 
 # install.packages("pak")
-pak::pak("Gilead-BioStats/gsm.utils")
+pak::pak("Gilead-Public/gsm.utils")
 ```
 
 ## Package Setup Utilities
@@ -39,7 +39,7 @@ init_gsm_package(
   strPackageDir = "path/to/new/package",
   lDescriptionFields = list(),
   bIncludeWorkflowDir = TRUE,
-  strOrg = "Gilead-BioStats"
+  strOrg = "Gilead-Public"
 )
 ```
 
@@ -48,7 +48,7 @@ init_gsm_package(
 - Sets up pkgdown documentation with GitHub Pages
 - Configures testthat for unit testing
 - Calls
-  [`update_gsm_package()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/update_gsm_package.md)
+  [`update_gsm_package()`](https://gilead-public.github.io/gsm.utils/dev/reference/update_gsm_package.md)
   to update issue templates and GitHub Actions workflows
 
 ### `update_gsm_package()`
@@ -61,21 +61,21 @@ update_gsm_package(strPackageDir = ".")
 ```
 
 - Installs/updates GitHub issue templates with
-  [`add_gsm_issue_templates()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_gsm_issue_templates.md)
+  [`add_gsm_issue_templates()`](https://gilead-public.github.io/gsm.utils/dev/reference/add_gsm_issue_templates.md)
 - Removes deprecated issue templates with
-  [`remove_deprecated_issue_templates()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/remove_deprecated_issue_templates.md)
+  [`remove_deprecated_issue_templates()`](https://gilead-public.github.io/gsm.utils/dev/reference/remove_deprecated_issue_templates.md)
 - Installs/updates GitHub Actions workflows from the [`actions-v1`
   branch of this
-  repo](https://github.com/Gilead-BioStats/gsm.utils/tree/actions-v1/workflow_templates)
+  repo](https://github.com/Gilead-Public/gsm.utils/tree/actions-v1/workflow_templates)
   with
-  [`add_actions()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_actions.md)
+  [`add_actions()`](https://gilead-public.github.io/gsm.utils/dev/reference/add_actions.md)
 - Removes deprecated issue templates with
-  [`remove_deprecated_actions()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/remove_deprecated_actions.md)
+  [`remove_deprecated_actions()`](https://gilead-public.github.io/gsm.utils/dev/reference/remove_deprecated_actions.md)
 
 ## GitHub Actions Workflows
 
 The [`actions-v1` branch of this
-repo](https://github.com/Gilead-BioStats/gsm.utils/tree/actions-v1/workflow_templates)
+repo](https://github.com/Gilead-Public/gsm.utils/tree/actions-v1/workflow_templates)
 contains standardized GitHub Actions workflow templates for Gilead
 packages:
 
@@ -84,7 +84,7 @@ packages:
 
 - **`pkgdown-all.yaml`**: Builds and deploys pkgdown documentation sites
   with automatic menu addition and asset creation via
-  [`gsm.utils::build_assets()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/build_assets.md).
+  [`gsm.utils::build_assets()`](https://gilead-public.github.io/gsm.utils/dev/reference/build_assets.md).
   Creates PR preview sites at `/pr/{number}` (or, depending on your
   pkgdown configuration, `/pr/{number}/dev`) and deletes such sites once
   the PR is closed, and deploys production and/or `/dev` sites on push
@@ -99,7 +99,7 @@ packages:
   the result on every run. On pull requests, coverage is posted as a
   sticky comment that updates on each push. `coverage-summary.json`
   (written via
-  [`gsm.utils::emit_coverage_summary()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/emit_coverage_summary.md))
+  [`gsm.utils::emit_coverage_summary()`](https://gilead-public.github.io/gsm.utils/dev/reference/emit_coverage_summary.md))
   is attached as a release asset when triggered by a
   `release: published` event.
 
@@ -112,5 +112,5 @@ packages:
 
 Please note that the gsm.utils project is released with a [Contributor
 Code of
-Conduct](https://gilead-biostats.github.io/gsm.utils/CODE_OF_CONDUCT.html).
+Conduct](https://gilead-public.github.io/gsm.utils/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.

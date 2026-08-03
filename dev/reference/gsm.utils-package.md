@@ -7,11 +7,11 @@ and development of gsm packages.
 
 Useful links:
 
-- <https://gilead-biostats.github.io/gsm.utils>
+- <https://gilead-public.github.io/gsm.utils>
 
-- <https://github.com/Gilead-BioStats/gsm.utils>
+- <https://github.com/Gilead-Public/gsm.utils>
 
-- Report bugs at <https://github.com/Gilead-BioStats/gsm.utils/issues>
+- Report bugs at <https://github.com/Gilead-Public/gsm.utils/issues>
 
 ## Author
 

@@ -52,7 +52,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/Gilead-BioStats/gsm.utils" aria-label="GitHub"><span class="fa fab fa-github"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/Gilead-Public/gsm.utils" aria-label="GitHub"><span class="fa fab fa-github"></span></a></li>
       </ul>
 </div>
 
@@ -74,12 +74,12 @@
 <p>You can install the latest release of gsm.utils from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"Gilead-BioStats/gsm.utils@*release"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"Gilead-Public/gsm.utils@*release"</span><span class="op">)</span></span></code></pre></div>
 <div class="pkgdown-devel">
 <p>You can install the development version of gsm.utils from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"Gilead-BioStats/gsm.utils"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"Gilead-Public/gsm.utils"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -96,7 +96,7 @@
 <span>  strPackageDir <span class="op">=</span> <span class="st">"path/to/new/package"</span>,</span>
 <span>  lDescriptionFields <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  bIncludeWorkflowDir <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  strOrg <span class="op">=</span> <span class="st">"Gilead-BioStats"</span></span>
+<span>  strOrg <span class="op">=</span> <span class="st">"Gilead-Public"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <ul>
 <li>Creates package skeleton using <code><a href="https://usethis.r-lib.org/reference/create_package.html" class="external-link">usethis::create_package()</a></code>
@@ -118,7 +118,7 @@
 </li>
 <li>Removes deprecated issue templates with <code><a href="reference/remove_deprecated_issue_templates.html">remove_deprecated_issue_templates()</a></code>
 </li>
-<li>Installs/updates GitHub Actions workflows from the <a href="https://github.com/Gilead-BioStats/gsm.utils/tree/actions-v1/workflow_templates" class="external-link"><code>actions-v1</code> branch of this repo</a> with <code><a href="reference/add_actions.html">add_actions()</a></code>
+<li>Installs/updates GitHub Actions workflows from the <a href="https://github.com/Gilead-Public/gsm.utils/tree/actions-v1/workflow_templates" class="external-link"><code>actions-v1</code> branch of this repo</a> with <code><a href="reference/add_actions.html">add_actions()</a></code>
 </li>
 <li>Removes deprecated issue templates with <code><a href="reference/remove_deprecated_actions.html">remove_deprecated_actions()</a></code>
 </li>
@@ -128,7 +128,7 @@
 <div class="section level2">
 <h2 id="github-actions-workflows">GitHub Actions Workflows<a class="anchor" aria-label="anchor" href="#github-actions-workflows"></a>
 </h2>
-<p>The <a href="https://github.com/Gilead-BioStats/gsm.utils/tree/actions-v1/workflow_templates" class="external-link"><code>actions-v1</code> branch of this repo</a> contains standardized GitHub Actions workflow templates for Gilead packages:</p>
+<p>The <a href="https://github.com/Gilead-Public/gsm.utils/tree/actions-v1/workflow_templates" class="external-link"><code>actions-v1</code> branch of this repo</a> contains standardized GitHub Actions workflow templates for Gilead packages:</p>
 <ul>
 <li><p><strong><code>R-CMD-check.yaml</code></strong>: Runs R package checks on PRs to ensure package integrity.</p></li>
 <li><p><strong><code>pkgdown-all.yaml</code></strong>: Builds and deploys pkgdown documentation sites with automatic menu addition and asset creation via <code><a href="reference/build_assets.html">gsm.utils::build_assets()</a></code>. Creates PR preview sites at <code>/pr/{number}</code> (or, depending on your pkgdown configuration, <code>/pr/{number}/dev</code>) and deletes such sites once the PR is closed, and deploys production and/or <code>/dev</code> sites on push to <code>main</code> or <code>dev</code>.</p></li>
@@ -140,14 +140,14 @@
 <div class="section level2">
 <h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
 </h2>
-<p>Please note that the gsm.utils project is released with a <a href="https://gilead-biostats.github.io/gsm.utils/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>Please note that the gsm.utils project is released with a <a href="https://gilead-public.github.io/gsm.utils/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/Gilead-BioStats/gsm.utils/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/Gilead-BioStats/gsm.utils/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/Gilead-Public/gsm.utils/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/Gilead-Public/gsm.utils/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -189,9 +189,9 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/R-CMD-check.yaml/badge.svg?branch=dev" alt="R-CMD-check"></a></li>
-<li><a href="https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/test-coverage.yaml" class="external-link"><img src="https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/test-coverage.yaml/badge.svg?branch=dev" alt="test-coverage"></a></li>
-<li><a href="https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/pkgdown-all.yaml" class="external-link"><img src="https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/pkgdown-all.yaml/badge.svg?branch=dev" alt="pkgdown-all"></a></li>
+<li><a href="https://github.com/Gilead-Public/gsm.utils/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/Gilead-Public/gsm.utils/actions/workflows/R-CMD-check.yaml/badge.svg?branch=dev" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/Gilead-Public/gsm.utils/actions/workflows/test-coverage.yaml" class="external-link"><img src="https://github.com/Gilead-Public/gsm.utils/actions/workflows/test-coverage.yaml/badge.svg?branch=dev" alt="test-coverage"></a></li>
+<li><a href="https://github.com/Gilead-Public/gsm.utils/actions/workflows/pkgdown-all.yaml" class="external-link"><img src="https://github.com/Gilead-Public/gsm.utils/actions/workflows/pkgdown-all.yaml/badge.svg?branch=dev" alt="pkgdown-all"></a></li>
 </ul>
 </div>
 

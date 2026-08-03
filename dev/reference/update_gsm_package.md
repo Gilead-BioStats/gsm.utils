@@ -1,13 +1,13 @@
 # Update GSM package with global issue templates and GH actions
 
 Add standard GSM issue templates
-([`add_gsm_issue_templates()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_gsm_issue_templates.md))
+([`add_gsm_issue_templates()`](https://gilead-public.github.io/gsm.utils/dev/reference/add_gsm_issue_templates.md))
 and actions
-([`add_actions()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/add_actions.md)),
+([`add_actions()`](https://gilead-public.github.io/gsm.utils/dev/reference/add_actions.md)),
 and remove deprecated versions of each
-([`remove_deprecated_issue_templates()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/remove_deprecated_issue_templates.md)
+([`remove_deprecated_issue_templates()`](https://gilead-public.github.io/gsm.utils/dev/reference/remove_deprecated_issue_templates.md)
 and
-[`remove_deprecated_actions()`](https://gilead-biostats.github.io/gsm.utils/dev/reference/remove_deprecated_actions.md)).
+[`remove_deprecated_actions()`](https://gilead-public.github.io/gsm.utils/dev/reference/remove_deprecated_actions.md)).
 
 ## Usage
 
