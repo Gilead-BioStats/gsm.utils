@@ -60,7 +60,7 @@ make_example <- function(
     strTitle = strName,
     intIndex = intIndex,
     lHeaders = list(
-      author = "[gsm.utils](https://gilead-biostats.github.io/gsm.utils) Example",
+      author = "[gsm.utils](https://gilead-public.github.io/gsm.utils) Example",
       description = description,
       date = "`r format(Sys.time(), '%B %d, %Y %H:%M:%S %Z')`",
       output = "html_document"

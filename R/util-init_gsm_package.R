@@ -14,7 +14,7 @@ init_gsm_package <- function(
   strPackageDir,
   lDescriptionFields = list(),
   bIncludeWorkflowDir = TRUE,
-  strOrg = "Gilead-BioStats"
+  strOrg = "Gilead-Public"
 ) {
   rlang::check_installed("usethis", reason = "to create the package.")
   rlang::check_installed("withr", reason = "to work in the package directory.")
