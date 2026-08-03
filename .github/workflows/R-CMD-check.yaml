@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Define matrix based on target branch
         id: set-matrix
-        uses: gilead-public/gsm.utils/setup-matrix-with-dev@actions-v1
+        uses: gilead-public/gsm.utils/setup-matrix-with-dev@fix-145b-public-actions
         with:
           pkg-use: 'public'
   R-CMD-check:
@@ -32,18 +32,18 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
     steps:
       - name: Generate token
-        uses: gilead-public/gsm.utils/generate-token@actions-v1
+        uses: gilead-public/gsm.utils/generate-token@fix-145b-public-actions
         id: token
         with:
           app-id: ${{ secrets.CM_BOT_APP_ID }}
           app-private-key: ${{ secrets.CM_BOT_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
       - name: Check out repo
-        uses: gilead-public/gsm.utils/checkout@actions-v1
+        uses: gilead-public/gsm.utils/checkout@fix-145b-public-actions
         with:
           token: ${{ steps.token.outputs.token }}
       - name: Install R and dependencies
-        uses: gilead-public/gsm.utils/install@actions-v1
+        uses: gilead-public/gsm.utils/install@fix-145b-public-actions
         with:
           token: ${{ steps.token.outputs.token }}
           r-version: ${{ matrix.config.r }}
@@ -55,6 +55,6 @@ jobs:
         shell: bash
         run: echo "GITHUB_PAT=${{ steps.token.outputs.token }}" >> $GITHUB_ENV
       - name: Check package
-        uses: gilead-public/gsm.utils/check-r-package@actions-v1
+        uses: gilead-public/gsm.utils/check-r-package@fix-145b-public-actions
         with:
           error-on: ${{ matrix.config.error-on || '"warning"' }}

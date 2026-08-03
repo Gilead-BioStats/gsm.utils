@@ -75,12 +75,12 @@ update_gsm_package(strPackageDir = ".")
 
 - Installs/updates GitHub issue templates with `add_gsm_issue_templates()`
 - Removes deprecated issue templates with `remove_deprecated_issue_templates()`
-- Installs/updates GitHub Actions workflows from the [`actions-v1` branch of this repo](https://github.com/Gilead-Public/gsm.utils/tree/actions-v1/workflow_templates) with `add_actions()`
+- Installs/updates GitHub Actions workflows from the [`fix-145b-public-actions` branch of this repo](https://github.com/Gilead-Public/gsm.utils/tree/fix-145b-public-actions/workflow_templates) with `add_actions()`
 - Removes deprecated issue templates with `remove_deprecated_actions()`
 
 ## GitHub Actions Workflows
 
-The [`actions-v1` branch of this repo](https://github.com/Gilead-Public/gsm.utils/tree/actions-v1/workflow_templates) contains standardized GitHub Actions workflow templates for Gilead packages:
+The [`fix-145b-public-actions` branch of this repo](https://github.com/Gilead-Public/gsm.utils/tree/fix-145b-public-actions/workflow_templates) contains standardized GitHub Actions workflow templates for Gilead packages:
 
 - **`R-CMD-check.yaml`**: Runs R package checks on PRs to ensure package integrity.
 

@@ -5,7 +5,7 @@
       "description": "Description 1",
       "version": "1.0.0",
       "repo": "Gilead-Public/gsm.utils",
-      "ref": "actions-v1",
+      "ref": "fix-145b-public-actions",
       "path_extra": "workflow_templates"
     },
     {
@@ -13,7 +13,7 @@
       "description": "Description 2",
       "version": "2.2.0",
       "repo": "Gilead-Public/gsm.utils",
-      "ref": "actions-v1",
+      "ref": "fix-145b-public-actions",
       "path_extra": "workflow_templates"
     },
     {
@@ -21,7 +21,7 @@
       "description": "Description 3",
       "version": "3.3.3",
       "repo": "Gilead-Public/gsm.utils",
-      "ref": "actions-v1",
+      "ref": "fix-145b-public-actions",
       "path_extra": "workflow_templates"
     },
     {
