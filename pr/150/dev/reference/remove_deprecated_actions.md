@@ -1,0 +1,33 @@
+# Remove deprecated Gilead GitHub Actions from package
+
+Remove old workflows that we no longer recommend nor support:
+"R-CMD-check-dev.yaml", "pkgdown-cleanup.yaml",
+"pkgdown-with-examples.yaml", "r-releaser.yaml", and "r_releaser.yaml".
+
+## Usage
+
+``` r
+remove_deprecated_actions(
+  strPackageDir = ".",
+  overwrite = TRUE,
+  verbose = TRUE
+)
+```
+
+## Arguments
+
+- strPackageDir:
+
+  (`string`) Path to the package directory.
+
+- overwrite:
+
+  (`boolean`) Overwrite existing files?
+
+- verbose:
+
+  (`boolean`) Inform about changes? Default is `TRUE`.
+
+## Value
+
+A character vector of deleted action names, invisibly.
