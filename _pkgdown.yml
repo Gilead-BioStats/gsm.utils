@@ -1,4 +1,4 @@
-url: https://gilead-biostats.github.io/gsm.utils
+url: https://gilead-public.github.io/gsm.utils
 template:
   bootstrap: 5
   bootswatch: yeti
@@ -14,7 +14,7 @@ navbar:
     github:
       icon: fab fa-github
       aria-label: GitHub
-      href: https://github.com/Gilead-BioStats/gsm.utils
+      href: https://github.com/Gilead-Public/gsm.utils
 reference:
 - title: Package setup
   contents:

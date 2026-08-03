@@ -121,7 +121,7 @@ The offending file is skipped and the rest of the menu is built normally.
 
 Install the `pkgdown-all` workflow with `gsm.utils::add_action("pkgdown-all.yaml")`.
 The `pkgdown-all` workflow runs the same pipeline on every push and pull request via the
-shared composite action `gilead-biostats/gsm.utils/actions/pkgdown-deploy@actions-v1`. 
+shared composite action `gilead-public/gsm.utils/actions/pkgdown-deploy@actions-v1`. 
 To adopt it in a downstream package, run:
 
 ```{r}

@@ -4,17 +4,17 @@
 
 <div class="pkgdown-release">
 
-[![R-CMD-check](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main)](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/R-CMD-check.yaml)
-[![test-coverage](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/test-coverage.yaml/badge.svg?branch=main)](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/test-coverage.yaml)
-[![pkgdown-all](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/pkgdown-all.yaml/badge.svg?branch=main)](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/pkgdown-all.yaml)
+[![R-CMD-check](https://github.com/Gilead-Public/gsm.utils/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main)](https://github.com/Gilead-Public/gsm.utils/actions/workflows/R-CMD-check.yaml)
+[![test-coverage](https://github.com/Gilead-Public/gsm.utils/actions/workflows/test-coverage.yaml/badge.svg?branch=main)](https://github.com/Gilead-Public/gsm.utils/actions/workflows/test-coverage.yaml)
+[![pkgdown-all](https://github.com/Gilead-Public/gsm.utils/actions/workflows/pkgdown-all.yaml/badge.svg?branch=main)](https://github.com/Gilead-Public/gsm.utils/actions/workflows/pkgdown-all.yaml)
 
 </div>
 
 <div class="pkgdown-devel">
 
-[![R-CMD-check](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/R-CMD-check.yaml/badge.svg?branch=dev)](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/R-CMD-check.yaml)
-[![test-coverage](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/test-coverage.yaml/badge.svg?branch=dev)](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/test-coverage.yaml)
-[![pkgdown-all](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/pkgdown-all.yaml/badge.svg?branch=dev)](https://github.com/Gilead-BioStats/gsm.utils/actions/workflows/pkgdown-all.yaml)
+[![R-CMD-check](https://github.com/Gilead-Public/gsm.utils/actions/workflows/R-CMD-check.yaml/badge.svg?branch=dev)](https://github.com/Gilead-Public/gsm.utils/actions/workflows/R-CMD-check.yaml)
+[![test-coverage](https://github.com/Gilead-Public/gsm.utils/actions/workflows/test-coverage.yaml/badge.svg?branch=dev)](https://github.com/Gilead-Public/gsm.utils/actions/workflows/test-coverage.yaml)
+[![pkgdown-all](https://github.com/Gilead-Public/gsm.utils/actions/workflows/pkgdown-all.yaml/badge.svg?branch=dev)](https://github.com/Gilead-Public/gsm.utils/actions/workflows/pkgdown-all.yaml)
 
 </div>
 
@@ -28,7 +28,7 @@ You can install the latest release of gsm.utils from [GitHub](https://github.com
 
 ``` r
 # install.packages("pak")
-pak::pak("Gilead-BioStats/gsm.utils@*release")
+pak::pak("Gilead-Public/gsm.utils@*release")
 ```
 
 <div class="pkgdown-devel">
@@ -38,7 +38,7 @@ You can install the development version of gsm.utils from
 
 ``` r
 # install.packages("pak")
-pak::pak("Gilead-BioStats/gsm.utils")
+pak::pak("Gilead-Public/gsm.utils")
 ```
 
 </div>
@@ -75,12 +75,12 @@ update_gsm_package(strPackageDir = ".")
 
 - Installs/updates GitHub issue templates with `add_gsm_issue_templates()`
 - Removes deprecated issue templates with `remove_deprecated_issue_templates()`
-- Installs/updates GitHub Actions workflows from the [`actions-v1` branch of this repo](https://github.com/Gilead-BioStats/gsm.utils/tree/actions-v1/workflow_templates) with `add_actions()`
+- Installs/updates GitHub Actions workflows from the [`actions-v1` branch of this repo](https://github.com/Gilead-Public/gsm.utils/tree/actions-v1/workflow_templates) with `add_actions()`
 - Removes deprecated issue templates with `remove_deprecated_actions()`
 
 ## GitHub Actions Workflows
 
-The [`actions-v1` branch of this repo](https://github.com/Gilead-BioStats/gsm.utils/tree/actions-v1/workflow_templates) contains standardized GitHub Actions workflow templates for Gilead packages:
+The [`actions-v1` branch of this repo](https://github.com/Gilead-Public/gsm.utils/tree/actions-v1/workflow_templates) contains standardized GitHub Actions workflow templates for Gilead packages:
 
 - **`R-CMD-check.yaml`**: Runs R package checks on PRs to ensure package integrity.
 
@@ -97,5 +97,5 @@ The [`actions-v1` branch of this repo](https://github.com/Gilead-BioStats/gsm.ut
 
 ## Code of Conduct
 
-Please note that the gsm.utils project is released with a [Contributor Code of Conduct](https://gilead-biostats.github.io/gsm.utils/CODE_OF_CONDUCT.html). 
+Please note that the gsm.utils project is released with a [Contributor Code of Conduct](https://gilead-public.github.io/gsm.utils/CODE_OF_CONDUCT.html). 
 By contributing to this project, you agree to abide by its terms.

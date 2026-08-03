@@ -65,7 +65,7 @@ emit_coverage_summary()
 # Override context fields for local testing
 emit_coverage_summary(
   output_path = tempfile(fileext = ".json"),
-  repo        = "Gilead-BioStats/gsm.utils",
+  repo        = "Gilead-Public/gsm.utils",
   sha         = "abc1234"
 )
 }
