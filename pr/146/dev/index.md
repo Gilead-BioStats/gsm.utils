@@ -64,9 +64,9 @@ update_gsm_package(strPackageDir = ".")
   [`add_gsm_issue_templates()`](https://gilead-public.github.io/gsm.utils/dev/reference/add_gsm_issue_templates.md)
 - Removes deprecated issue templates with
   [`remove_deprecated_issue_templates()`](https://gilead-public.github.io/gsm.utils/dev/reference/remove_deprecated_issue_templates.md)
-- Installs/updates GitHub Actions workflows from the
-  [`fix-145b-public-actions` branch of this
-  repo](https://github.com/Gilead-Public/gsm.utils/tree/fix-145b-public-actions/workflow_templates)
+- Installs/updates GitHub Actions workflows from the [`actions-v1`
+  branch of this
+  repo](https://github.com/Gilead-Public/gsm.utils/tree/actions-v1/workflow_templates)
   with
   [`add_actions()`](https://gilead-public.github.io/gsm.utils/dev/reference/add_actions.md)
 - Removes deprecated issue templates with
@@ -74,8 +74,8 @@ update_gsm_package(strPackageDir = ".")
 
 ## GitHub Actions Workflows
 
-The [`fix-145b-public-actions` branch of this
-repo](https://github.com/Gilead-Public/gsm.utils/tree/fix-145b-public-actions/workflow_templates)
+The [`actions-v1` branch of this
+repo](https://github.com/Gilead-Public/gsm.utils/tree/actions-v1/workflow_templates)
 contains standardized GitHub Actions workflow templates for Gilead
 packages:
 

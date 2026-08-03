@@ -69,7 +69,7 @@ title: "My First Example"
 author: "[your.package] Example"
 description: "<<Fill in Example description here>>"
 index: 1
-date: "August 03, 2026 18:34:05 UTC"
+date: "August 03, 2026 18:37:52 UTC"
 output: html_document
 ---
 ```
@@ -146,8 +146,8 @@ Install the `pkgdown-all` workflow with
 `gsm.utils::add_action("pkgdown-all.yaml")`. The `pkgdown-all` workflow
 runs the same pipeline on every push and pull request via the shared
 composite action
-`gilead-public/gsm.utils/actions/pkgdown-deploy@fix-145b-public-actions`.
-To adopt it in a downstream package, run:
+`gilead-public/gsm.utils/actions/pkgdown-deploy@actions-v1`. To adopt it
+in a downstream package, run:
 
 ``` r
 
