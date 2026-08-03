@@ -19,7 +19,7 @@ test_that("add_actions adds each action in the manifest (#90)", {
         name = c("action1.yaml", "action2.yaml", "action3.yaml"),
         description = "This isn't used yet so I'm repeating",
         version = c("1.0.0", "2.2.0", "3.3.3"),
-        repo = "Gilead-BioStats/gsm.utils",
+        repo = "Gilead-Public/gsm.utils",
         ref = "actions-v1",
         path_extra = "workflow_templates"
       )
@@ -44,7 +44,7 @@ test_that("add_actions informs when nothing added (#90)", {
         name = c("action1.yaml", "action2.yaml", "action3.yaml"),
         description = "This isn't used yet so I'm repeating",
         version = c("1.0.0", "2.2.0", "3.3.3"),
-        repo = "Gilead-BioStats/gsm.utils",
+        repo = "Gilead-Public/gsm.utils",
         ref = "actions-v1",
         path_extra = "workflow_templates"
       )
@@ -78,39 +78,39 @@ test_that(".workflow_url constructs URLs correctly (#106)", {
   expect_equal(
     .workflow_url(
       "R-CMD-check.yaml",
-      repo = "Gilead-BioStats/gsm.utils",
+      repo = "Gilead-Public/gsm.utils",
       ref = "actions-v1",
       path_extra = "workflow_templates"
     ),
-    "https://raw.githubusercontent.com/Gilead-BioStats/gsm.utils/actions-v1/workflow_templates/R-CMD-check.yaml"
+    "https://raw.githubusercontent.com/Gilead-Public/gsm.utils/actions-v1/workflow_templates/R-CMD-check.yaml"
   )
   # without path_extra (NULL, NA, or empty string all omit it)
   expect_equal(
     .workflow_url(
       "qcthat.yaml",
-      repo = "Gilead-BioStats/qcthat",
+      repo = "Gilead-Public/qcthat",
       ref = "actions",
       path_extra = NULL
     ),
-    "https://raw.githubusercontent.com/Gilead-BioStats/qcthat/actions/qcthat.yaml"
+    "https://raw.githubusercontent.com/Gilead-Public/qcthat/actions/qcthat.yaml"
   )
   expect_equal(
     .workflow_url(
       "qcthat.yaml",
-      repo = "Gilead-BioStats/qcthat",
+      repo = "Gilead-Public/qcthat",
       ref = "actions",
       path_extra = NA
     ),
-    "https://raw.githubusercontent.com/Gilead-BioStats/qcthat/actions/qcthat.yaml"
+    "https://raw.githubusercontent.com/Gilead-Public/qcthat/actions/qcthat.yaml"
   )
   expect_equal(
     .workflow_url(
       "qcthat.yaml",
-      repo = "Gilead-BioStats/qcthat",
+      repo = "Gilead-Public/qcthat",
       ref = "actions",
       path_extra = ""
     ),
-    "https://raw.githubusercontent.com/Gilead-BioStats/qcthat/actions/qcthat.yaml"
+    "https://raw.githubusercontent.com/Gilead-Public/qcthat/actions/qcthat.yaml"
   )
 })
 
@@ -140,7 +140,7 @@ test_that(".read_workflow_template reads from correct URL (#106)", {
   )
   action1 <- .read_workflow_template(
     "action1.yaml",
-    repo = "Gilead-BioStats/gsm.utils",
+    repo = "Gilead-Public/gsm.utils",
     ref = "actions-v1",
     path_extra = "workflow_templates"
   )
@@ -162,7 +162,7 @@ test_that("add_action errors when workflow needs an update but overwrite is FALS
   add_action(
     "action1.yaml",
     "2.0.0",
-    repo = "Gilead-BioStats/gsm.utils",
+    repo = "Gilead-Public/gsm.utils",
     ref = "actions-v1",
     path_extra = "workflow_templates",
     workflows_path = test_path("fixtures/actions/installed_workflows"),
@@ -179,7 +179,7 @@ test_that("add_action returns an empty vector when workflow is already up-to-dat
     add_action(
       "action1.yaml",
       "2.0.0",
-      repo = "Gilead-BioStats/gsm.utils",
+      repo = "Gilead-Public/gsm.utils",
       ref = "actions-v1",
       workflows_path = test_path("fixtures/actions/installed_workflows")
     ),
@@ -195,7 +195,7 @@ test_that("add_action informs when verbose is TRUE (#90)", {
   add_action(
     "action1.yaml",
     "2.0.0",
-    repo = "Gilead-BioStats/gsm.utils",
+    repo = "Gilead-Public/gsm.utils",
     ref = "actions-v1",
     workflows_path = test_path("fixtures/actions/installed_workflows")
   ) |>
@@ -211,7 +211,7 @@ test_that("add_action updates when appropriate (#90)", {
   add_action(
     "action1.yaml",
     "2.0.0",
-    repo = "Gilead-BioStats/gsm.utils",
+    repo = "Gilead-Public/gsm.utils",
     ref = "actions-v1",
     workflows_path = workflows_path
   ) |>
