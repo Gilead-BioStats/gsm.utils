@@ -118,7 +118,7 @@
 </li>
 <li>Removes deprecated issue templates with <code><a href="reference/remove_deprecated_issue_templates.html">remove_deprecated_issue_templates()</a></code>
 </li>
-<li>Installs/updates GitHub Actions workflows from the <a href="https://github.com/Gilead-Public/gsm.utils/tree/actions-v1/workflow_templates" class="external-link"><code>actions-v1</code> branch of this repo</a> with <code><a href="reference/add_actions.html">add_actions()</a></code>
+<li>Installs/updates GitHub Actions workflows from the <a href="https://github.com/Gilead-Public/gsm.utils/tree/fix-145b-public-actions/workflow_templates" class="external-link"><code>fix-145b-public-actions</code> branch of this repo</a> with <code><a href="reference/add_actions.html">add_actions()</a></code>
 </li>
 <li>Removes deprecated issue templates with <code><a href="reference/remove_deprecated_actions.html">remove_deprecated_actions()</a></code>
 </li>
@@ -128,7 +128,7 @@
 <div class="section level2">
 <h2 id="github-actions-workflows">GitHub Actions Workflows<a class="anchor" aria-label="anchor" href="#github-actions-workflows"></a>
 </h2>
-<p>The <a href="https://github.com/Gilead-Public/gsm.utils/tree/actions-v1/workflow_templates" class="external-link"><code>actions-v1</code> branch of this repo</a> contains standardized GitHub Actions workflow templates for Gilead packages:</p>
+<p>The <a href="https://github.com/Gilead-Public/gsm.utils/tree/fix-145b-public-actions/workflow_templates" class="external-link"><code>fix-145b-public-actions</code> branch of this repo</a> contains standardized GitHub Actions workflow templates for Gilead packages:</p>
 <ul>
 <li><p><strong><code>R-CMD-check.yaml</code></strong>: Runs R package checks on PRs to ensure package integrity.</p></li>
 <li><p><strong><code>pkgdown-all.yaml</code></strong>: Builds and deploys pkgdown documentation sites with automatic menu addition and asset creation via <code><a href="reference/build_assets.html">gsm.utils::build_assets()</a></code>. Creates PR preview sites at <code>/pr/{number}</code> (or, depending on your pkgdown configuration, <code>/pr/{number}/dev</code>) and deletes such sites once the PR is closed, and deploys production and/or <code>/dev</code> sites on push to <code>main</code> or <code>dev</code>.</p></li>
