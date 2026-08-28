@@ -3,7 +3,7 @@ pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   pkgdown-assets: pkgdown-assets.html
-last_built: 2026-08-04T15:23Z
+last_built: 2026-08-28T16:12Z
 urls:
   reference: https://gilead-public.github.io/gsm.utils/reference
   article: https://gilead-public.github.io/gsm.utils/articles
